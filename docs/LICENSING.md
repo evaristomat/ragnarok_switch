@@ -1,5 +1,7 @@
 # Licenças, créditos e pendências
 
+Leia também o [aviso de projeto pessoal, independência e direitos](DISCLAIMER.md). O mantenedor não é o autor de Ragnarok Online. Não há afiliação com a Gravity ou a Nintendo, e o aviso não concede direitos sobre o conteúdo original.
+
 O projeto agrega componentes com licenças diferentes. O LICENSE da raiz contém GPLv3 e não substitui licenças permissivas, avisos, atribuições ou condições individuais. Nenhuma licença de código concede direitos sobre arquivos comerciais do jogo.
 
 | Componente | Referência preservada |

@@ -22,3 +22,17 @@ See docs/LICENSING.md and the client's docs/third-party-content.md.
 
 The public export uses a fresh Git history. Original notices, authorship
 information and source references remain in the source files.
+
+Personal, experimental project intended for non-commercial development and
+individual offline play. This describes the project purpose, not additional
+restrictions on existing open-source licenses.
+
+The maintainer is not the author of Ragnarok Online. Original game content,
+characters, trademarks, music and other third-party assets remain the property
+of Gravity Co., Ltd. and the respective rights holders. This project is not
+affiliated with, sponsored, approved or endorsed by Gravity, its licensees or
+Nintendo. No official support or third-party asset rights are granted here.
+
+Warranty/liability provisions are governed by applicable component licenses
+and law. This notice does not establish blanket immunity or resolve known
+upstream permission questions. See docs/DISCLAIMER.md and docs/LICENSING.md.

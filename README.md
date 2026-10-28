@@ -4,6 +4,18 @@ Ragnarok offline para Nintendo Switch, com servidor local, bots e interface para
 
 **Estado: 0.1.0-pre12, experimental, em teste manual.** A campanha completa e o desempenho no Switch ainda não foram certificados. O repositório fornece código; os arquivos comerciais do jogo devem ser fornecidos pelo jogador.
 
+## Projeto pessoal e não oficial
+
+**Este é um projeto pessoal, experimental e sem finalidade comercial, voltado a estudo, desenvolvimento e jogo offline individual. Não é uma edição oficial de Ragnarok Online.**
+
+O mantenedor **não é o autor de Ragnarok Online** e não reivindica a criação do jogo, de seu universo, personagens, marcas, músicas ou recursos originais. Esses direitos permanecem com a **Gravity Co., Ltd. e os demais titulares dos respectivos conteúdos**. O código dos projetos utilizados mantém suas próprias licenças, créditos e autoria.
+
+Este projeto **não possui vínculo, patrocínio, aprovação ou endosso da Gravity, de suas licenciadas/distribuidoras ou da Nintendo**. As referências a Ragnarok Online e Nintendo Switch identificam o jogo e a plataforma; não indicam uma parceria. O projeto não opera um serviço oficial, não oferece suporte em nome dessas empresas e não se apresenta como substituto dos serviços oficiais.
+
+A cópia pública não fornece o pacote comercial do jogo, GRFs ou saves pessoais. Os usuários devem obter e utilizar seus próprios recursos conforme as permissões e condições aplicáveis. A disponibilização deste código **não autoriza o uso ou a redistribuição de conteúdo de terceiros**.
+
+Leia o [aviso completo de independência, direitos e ausência de garantias](docs/DISCLAIMER.md). O caráter pessoal/offline e este aviso não substituem licenças ou autorizações nem garantem imunidade a reivindicações de terceiros.
+
 ## Recursos
 
 - Mecânicas pré-Renewal, Base até 99 e primeiras, segundas, transclasses e classes expandidas clássicas. Sem terceiras, quartas ou Doram.

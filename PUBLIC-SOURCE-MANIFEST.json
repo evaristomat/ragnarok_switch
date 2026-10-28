@@ -177,13 +177,13 @@
     },
     {
       "path": "NOTICE",
-      "bytes": 1323,
-      "sha256": "cbbd5bc4d7e502e2cfca8662cef2e9ce14e7150c5ce77f95c0272a956ec8b4e1"
+      "bytes": 2136,
+      "sha256": "841abb59f2a9e82b56294634f5e19d631611c4c947f2430cf07d4acd35c3bb38"
     },
     {
       "path": "README.md",
-      "bytes": 3767,
-      "sha256": "dc5203a30545676031d2c97b93a8f61d883729f5baf8e9dfe34498968d1b7ed1"
+      "bytes": 5283,
+      "sha256": "5d3cffefd33dc19e5f1d3ddca250dd95cefef29b20a740f716bbdd4ba1d3b5e4"
     },
     {
       "path": "campaign/pre-renewal/campaign.yml",
@@ -216,14 +216,19 @@
       "sha256": "6ee90389d6a4a53f29eed4d406f1a946b3fdcdd08924efb58fd16582675b506b"
     },
     {
+      "path": "docs/DISCLAIMER.md",
+      "bytes": 5861,
+      "sha256": "864916f537df2999b93b4b26c686d341e651cb870217b5795b217386993cad01"
+    },
+    {
       "path": "docs/INSTALLATION.md",
       "bytes": 1966,
       "sha256": "00961a3d086162269e3ddf3479f5cc331737bed979eeb12e92929c568e375969"
     },
     {
       "path": "docs/LICENSING.md",
-      "bytes": 3014,
-      "sha256": "e55ff014ea2a06ef860dc305c712511837c6ea46e4927d4cc507e4b2d2e2a1e0"
+      "bytes": 3259,
+      "sha256": "025959b4cb8eae05e6ccc3e163514ff794f03079918cbfbceb47e787ce84f84f"
     },
     {
       "path": "docs/PUBLISHING.md",
@@ -292,8 +297,8 @@
     },
     {
       "path": "scripts/github/check_repository.py",
-      "bytes": 5382,
-      "sha256": "5fc9e973390e138f0a25742e3e84e9b9b62caebb3090906920c271d7fcf6dc3e"
+      "bytes": 5404,
+      "sha256": "b2a94ba44c0564ff3b0a4b3bfbbdc425d450841556790f04b69e2be611e3e2e1"
     },
     {
       "path": "scripts/github/export_public.py",
@@ -116320,5 +116325,8 @@
       "bytes": 4836,
       "sha256": "c7c284474cc05d69989385c521943826ef70a86562acd2fa7dad809a8c48cfd6"
     }
-  ]
+  ],
+  "publication_requested_by_maintainer": true,
+  "rights_clearance_verified": false,
+  "publication_note": "Publication requested by maintainer; this is not confirmation of rights clearance. Known upstream permission questions remain documented."
 }

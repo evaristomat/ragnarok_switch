@@ -19,7 +19,7 @@ DOCS = [
     "README.md", "CONTRIBUTING.md", "CHANGELOG.md", "NOTICE", "LICENSE",
     "docs/BUILDING.md", "docs/INSTALLATION.md", "docs/ARCHITECTURE.md",
     "docs/ASSETS.md", "docs/TESTING.md", "docs/LICENSING.md",
-    "docs/PUBLISHING.md", "docs/STATUS.md", "scripts/README.md",
+    "docs/PUBLISHING.md", "docs/STATUS.md", "docs/DISCLAIMER.md", "scripts/README.md",
 ]
 TOKENS = re.compile(
     rb"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|"

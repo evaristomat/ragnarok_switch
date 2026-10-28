@@ -16,7 +16,7 @@ sys.path.insert(0, str(ROOT / "scripts/github"))
 from export_public import policy_reason
 
 DOCS = [
-    "README.md", "CONTRIBUTING.md", "CHANGELOG.md", "NOTICE", "LICENSE",
+    "README.md", "docs/README.pt-BR.md", "CONTRIBUTING.md", "CHANGELOG.md", "NOTICE", "LICENSE",
     "docs/BUILDING.md", "docs/INSTALLATION.md", "docs/ARCHITECTURE.md",
     "docs/ASSETS.md", "docs/TESTING.md", "docs/LICENSING.md",
     "docs/PUBLISHING.md", "docs/STATUS.md", "docs/DISCLAIMER.md", "scripts/README.md",

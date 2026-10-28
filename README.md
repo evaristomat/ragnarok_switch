@@ -1,63 +1,67 @@
 # RagSWITCH Pre-Renewal
 
-Ragnarok offline para Nintendo Switch, com servidor local, bots e interface para controle. Esta edição tem fontes, saves e manutenção independentes da edição Renewal.
+**English** | [Português brasileiro](docs/README.pt-BR.md)
 
-**Estado: 0.1.0-pre12, experimental, em teste manual.** A campanha completa e o desempenho no Switch ainda não foram certificados. O repositório fornece código; os arquivos comerciais do jogo devem ser fornecidos pelo jogador.
+An offline Ragnarok project for Nintendo Switch, with an embedded local server, bots, and a controller-focused interface. This edition has its own source tree, saves, and maintenance, independent of the Renewal edition.
 
-## Projeto pessoal e não oficial
+**Status: 0.1.0-pre12 — experimental, undergoing manual playtesting.** The full campaign and performance on Nintendo Switch have not yet been validated. This repository provides source code; players must supply their own game assets under the applicable permissions.
 
-**Este é um projeto pessoal, experimental e sem finalidade comercial, voltado a estudo, desenvolvimento e jogo offline individual. Não é uma edição oficial de Ragnarok Online.**
+## Personal, unofficial project
 
-O mantenedor **não é o autor de Ragnarok Online** e não reivindica a criação do jogo, de seu universo, personagens, marcas, músicas ou recursos originais. Esses direitos permanecem com a **Gravity Co., Ltd. e os demais titulares dos respectivos conteúdos**. O código dos projetos utilizados mantém suas próprias licenças, créditos e autoria.
+**This is a personal, experimental, non-commercial project intended for study, development, and individual offline play. It is not an official Ragnarok Online release.** These goals do not add non-commercial or offline-only restrictions to the existing software licenses.
 
-Este projeto **não possui vínculo, patrocínio, aprovação ou endosso da Gravity, de suas licenciadas/distribuidoras ou da Nintendo**. As referências a Ragnarok Online e Nintendo Switch identificam o jogo e a plataforma; não indicam uma parceria. O projeto não opera um serviço oficial, não oferece suporte em nome dessas empresas e não se apresenta como substituto dos serviços oficiais.
+The maintainer **is not the author of Ragnarok Online** and does not claim authorship or ownership of the original game, its universe, characters, trademarks, music, or assets. Those rights remain with **Gravity Co., Ltd. and the respective rights holders**. The source projects used here retain their own licenses, credits, and authorship.
 
-A cópia pública não fornece o pacote comercial do jogo, GRFs ou saves pessoais. Os usuários devem obter e utilizar seus próprios recursos conforme as permissões e condições aplicáveis. A disponibilização deste código **não autoriza o uso ou a redistribuição de conteúdo de terceiros**.
+This project **is not affiliated with, sponsored, approved, or endorsed by Gravity, its licensees/distributors, or Nintendo**. References to Ragnarok Online and Nintendo Switch identify the game and target platform; they do not imply a partnership. This project does not operate an official service, provide support on behalf of those companies, or present itself as a replacement for official services.
 
-Leia o [aviso completo de independência, direitos e ausência de garantias](docs/DISCLAIMER.md). O caráter pessoal/offline e este aviso não substituem licenças ou autorizações nem garantem imunidade a reivindicações de terceiros.
+The public source export does not provide the commercial game package, GRF archives, or personal saves. Users must obtain and use their own resources in accordance with the applicable permissions and terms. Publishing this source code **does not grant permission to use or redistribute third-party content**.
 
-## Recursos
+Read the [full independence, rights, and warranty disclaimer](docs/DISCLAIMER.md), which includes an English summary. The project's personal/offline nature and this notice do not replace licenses or permissions, or guarantee immunity from third-party claims.
 
-- Mecânicas pré-Renewal, Base até 99 e primeiras, segundas, transclasses e classes expandidas clássicas. Sem terceiras, quartas ou Doram.
-- EXP Base, EXP de classe e drops em 15x; custo de SP das habilidades em zero. Parâmetros em [edition.json](edition.json).
-- Campanha solo **Ecos de Rune-Midgard**, com 33 etapas, objetivos no HUD e orientação de rota. Usa mapas e conteúdo existentes. O Mestre das Classes reconhece a classe atual do personagem.
-- Bots com progressão acompanhando o jogador, comerciantes e conversas; configuração de 50 nas cidades, 20 nos campos e teto global de 50.
-- HUD própria, câmera no analógico direito e seleção de monstros por ZL/ZR. A mira de habilidades de chão tem confirmação própria.
-- Menu de viagens, Mestre das Classes e Asa de Mosca Infinita entregue no primeiro acesso de cada personagem, inclusive personagens existentes após atualização.
-- Interface e conteúdo em português brasileiro. A revisão de nomes de NPCs e do Campo dos Aprendizes foi ampliada na pre12; outros diálogos ainda podem exigir revisão.
+## Features
 
-O protocolo é 20250716 por compatibilidade com os recursos do cliente. Não representa um episódio oficial certificado; alguns mapas usam visuais modernos.
+- Pre-Renewal mechanics, a maximum Base Level of 99, and classic first, second, transcendent, and expanded classes. No third/fourth classes or Doram.
+- 15x Base EXP, Job EXP, and drop rates; zero SP cost for skills. Edition settings are recorded in [edition.json](edition.json).
+- **Echoes of Rune-Midgard** (in-game title: **Ecos de Rune-Midgard**), an original 33-stage solo campaign with HUD objectives and route guidance. It uses existing maps and content. The Job Changer accounts for the character's current class.
+- Bots whose progression follows the player, town merchants, and ambient conversations. Population settings: 50 in towns, 20 on hunting maps, with a global cap of 50.
+- A custom controller HUD, right-stick camera controls, and monster selection with ZL/ZR. Ground-targeted skills have a separate confirmation step.
+- A travel menu, Job Changer, and an Infinite Fly Wing granted when each character first enters a map, including existing characters after updating.
+- Brazilian Portuguese interface and game content. NPC names and the Novice Training Grounds received additional translation review in pre12; other dialogue may still need revision.
 
-## Começar
+The client protocol is 20250716 for asset compatibility. This is not a certified recreation of a specific official episode; some maps use modern visuals.
 
-| Objetivo | Guia |
+**Language note:** this README is in English. The in-game interface/content and most supporting guides are currently in Brazilian Portuguese.
+
+## Getting started
+
+| Goal | Guide |
 | --- | --- |
-| Instalar no Switch e preservar saves | [Instalação](docs/INSTALLATION.md) |
-| Compilar a partir dos fontes | [Compilação e toolchain](docs/BUILDING.md) |
-| Fornecer arquivos do jogo e traduções | [Assets e dados locais](docs/ASSETS.md) |
-| Entender cliente, servidor, bots e campanha | [Arquitetura](docs/ARCHITECTURE.md) |
-| Testar e reportar bugs | [Testes](docs/TESTING.md) e [contribuição](CONTRIBUTING.md) |
-| Conferir licenças e pendências | [Licenças e créditos](docs/LICENSING.md) |
-| Preparar ou publicar um fork | [GitHub e publicação](docs/PUBLISHING.md) |
-| Ver limitações e mudanças recentes | [Estado atual](docs/STATUS.md) e [CHANGELOG](CHANGELOG.md) |
+| Install on Switch and preserve saves | [Installation](docs/INSTALLATION.md) |
+| Build from source | [Build instructions and toolchain](docs/BUILDING.md) |
+| Supply game assets and translations | [Assets and local data](docs/ASSETS.md) |
+| Understand the client, server, bots, and campaign | [Architecture](docs/ARCHITECTURE.md) |
+| Test changes and report bugs | [Testing](docs/TESTING.md) and [contributing](CONTRIBUTING.md) |
+| Check licenses and unresolved questions | [Licenses and credits](docs/LICENSING.md) |
+| Prepare or publish a fork | [GitHub publishing](docs/PUBLISHING.md) |
+| Review limitations and recent changes | [Current status](docs/STATUS.md) and [changelog](CHANGELOG.md) |
 
-## Organização
+## Repository layout
 
 ~~~text
-config/       banco inicial em SQL, sem personagens ou dados pessoais
-campaign/     definição das etapas da campanha
-docs/         guias públicos e referências
-scripts/      compilação, verificações e ferramentas (scripts/README.md)
-source/       fontes independentes de cliente, servidor e runtime gráfico
-vendor/       dependências auxiliares; a exportação pública seleciona o conteúdo
-toolchain/    receita dos testes e identificação do ambiente
-.github/      verificações leves e modelos de contribuição
+config/       SQL seed database, with no characters or personal data
+campaign/     campaign stage definitions
+docs/         public guides and references
+scripts/      builds, checks, and tools (see scripts/README.md)
+source/       independent client, server, and graphics runtime sources
+vendor/       supporting dependencies; the export policy selects public content
+toolchain/    test environment recipes and environment identification
+.github/      lightweight checks and contribution templates
 ~~~
 
-Builds, arquivos do jogo, relatórios e saves ficam em build/, runtime/, outputs/ e evidence/. Essas pastas, as memórias de desenvolvimento e o histórico de criação local não fazem parte da exportação pública.
+Local builds, game assets, reports, and saves live in build/, runtime/, outputs/, and evidence/. Those directories, development memories, and private integration history are excluded from the public export.
 
-## Licença e origem
+## Licensing and provenance
 
-O texto GPLv3 está em [LICENSE](LICENSE). O projeto agrega componentes com licenças próprias, incluindo GPL, Apache, MIT e OFL: leia [NOTICE](NOTICE) e [o inventário](docs/LICENSING.md). Os avisos originais foram preservados. Não há autorização implícita para redistribuir arquivos comerciais do jogo.
+The GPLv3 text is provided in [LICENSE](LICENSE). This project combines components with their own licenses, including GPL, Apache, MIT, and OFL: see [NOTICE](NOTICE) and the [license inventory](docs/LICENSING.md). Original notices have been preserved. No permission to redistribute proprietary game assets is implied.
 
-Existe uma questão herdada sobre a permissão das tabelas de táticas derivadas de AzzyAI, documentada em [licenças](docs/LICENSING.md). A organização do repositório não resolve essa permissão; confira esse ponto antes de publicar.
+An inherited permission question concerning AzzyAI-derived default tactic tables remains documented in the [licensing guide](docs/LICENSING.md). Organizing or publishing this repository does not resolve that question; review it before redistributing the affected material.

@@ -182,8 +182,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 5283,
-      "sha256": "5d3cffefd33dc19e5f1d3ddca250dd95cefef29b20a740f716bbdd4ba1d3b5e4"
+      "bytes": 5790,
+      "sha256": "b8f2f27d6c40b601ec3d3289192e71fd41ce55afb5111d6c02af60cce07ccdfd"
     },
     {
       "path": "campaign/pre-renewal/campaign.yml",
@@ -234,6 +234,11 @@
       "path": "docs/PUBLISHING.md",
       "bytes": 2858,
       "sha256": "392e9b6b2a3366c1eba17a986abdae335ebf8dbc064d09c0ebd0379de22506c3"
+    },
+    {
+      "path": "docs/README.pt-BR.md",
+      "bytes": 5384,
+      "sha256": "fba784f9af7a0e3298d660205d8a0ef80b97aa5007ac03d439cafd368f4f87be"
     },
     {
       "path": "docs/STATUS.md",
@@ -297,8 +302,8 @@
     },
     {
       "path": "scripts/github/check_repository.py",
-      "bytes": 5404,
-      "sha256": "b2a94ba44c0564ff3b0a4b3bfbbdc425d450841556790f04b69e2be611e3e2e1"
+      "bytes": 5428,
+      "sha256": "26d4c3389a7dc95a1fb2918ab5bbcf2362519fe9370c2dcaa5b75838e5dcbb3e"
     },
     {
       "path": "scripts/github/export_public.py",

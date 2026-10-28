@@ -1,0 +1,117 @@
+use models::enums::effect_id::EffectId;
+
+pub fn consumable_use_effect(item_id: u32) -> Option<EffectId> {
+    let id = match item_id {
+        501 | 507 | 512 | 513 | 515 | 516 | 545 | 549 | 557 | 562 | 563 | 564 | 565 | 566 | 567
+        | 568 | 569 | 570 | 571 | 572 | 574 | 575 | 576 | 577 | 578 | 579 | 580 | 581 | 583
+        | 584 | 585 | 586 | 587 | 588 | 589 | 590 | 591 | 592 | 593 | 594 | 595 | 596 | 597
+        | 598 | 607 | 608 | 663 | 669 | 680 | 685 | 11505 | 11507 | 11508 | 11509 | 11510
+        | 11511 | 11512 | 11513 | 11514 | 11515 | 11516 | 11517 | 11519 | 11520 | 11521 | 11522
+        | 11525 | 11526 | 11527 | 11528 | 11529 | 11530 | 11531 | 11532 | 11533 | 11534 | 11536
+        | 11537 | 11538 | 11539 | 11540 | 11541 | 11542 | 11543 | 11544 | 11545 | 11546 | 11547
+        | 11550 | 11551 | 11552 | 11553 | 11554 | 11555 | 11567 | 11568 | 11570 | 11577 | 11578
+        | 11580 | 11581 | 11582 | 11588 | 11589 | 11590 | 11592 | 11596 | 11597 | 11598 | 11599
+        | 11600 | 11602 | 11605 | 11701 | 11702 | 11703 | 11704 | 11705 | 11706 | 11707 | 11708
+        | 11709 | 11710 | 11711 | 11712 | 11713 | 12021 | 12022 | 12046 | 12047 | 12048 | 12051
+        | 12052 | 12053 | 12056 | 12057 | 12058 | 12061 | 12063 | 12066 | 12067 | 12068 | 12101
+        | 12102 | 12131 | 12133 | 12188 | 12192 | 12195 | 12196 | 12197 | 12202 | 12203 | 12204
+        | 12205 | 12206 | 12207 | 12226 | 12227 | 12228 | 12229 | 12230 | 12231 | 12233 | 12234
+        | 12245 | 12257 | 12271 | 12274 | 12275 | 12292 | 12293 | 12331 | 12332 | 12335 | 12336
+        | 12337 | 12436 | 12601 | 12624 | 12704 | 12709 | 12711 | 12717 | 12718 | 12719 | 12720
+        | 12721 | 12722 | 12723 | 12724 | 12734 | 12735 | 12736 | 12737 | 12738 | 14522 | 14523
+        | 14524 | 14551 | 14552 | 14553 | 14575 | 14576 | 14577 | 14578 | 14579 | 14580 | 14672
+        | 14673 | 22567 | 22568 | 22624 | 22657 | 22658 | 22659 | 22686 | 22770 | 22771 | 22772
+        | 22773 | 22774 | 22775 | 22776 | 22985 => EffectId::Potion1,
+        502 | 582 | 599 | 11506 | 11569 => EffectId::Potion2,
+        503 | 508 | 546 | 11500 | 11523 | 11566 | 11574 | 11594 => EffectId::Potion3,
+        504 | 509 | 547 | 11501 | 11503 | 11524 | 11548 | 11557 | 11558 | 11565 | 11573 | 12428 => {
+            EffectId::Potion4
+        }
+        505 | 510 | 514 | 11502 | 11504 | 11518 | 11549 | 11572 | 11593 => EffectId::Potion5,
+        506 | 511 | 11571 | 11595 => EffectId::Potion6,
+        517 | 518 | 519 | 520 | 521 | 522 | 523 | 525 | 526 | 528 | 529 | 530 | 531 | 532 | 534
+        | 535 | 536 | 537 | 538 | 539 | 540 | 541 | 542 | 543 | 544 | 548 | 550 | 551 | 552
+        | 553 | 554 | 555 | 556 | 12017 | 12184 | 12185 | 12298 | 12404 | 12422 | 12423 | 12424
+        | 12425 | 12426 | 12427 | 12459 | 12460 | 12461 | 12462 | 12463 | 12464 | 12465 | 12515
+        | 12516 | 12517 | 12518 | 12519 | 12520 | 12521 | 12529 | 12531 | 12648 | 12676 | 12679
+        | 12680 | 12683 | 12684 | 12774 | 12831 | 14534 | 14535 | 14537 | 14541 | 14542 | 14543
+        | 14544 | 14600 | 14614 | 16254 | 16481 | 22546 => EffectId::Potion7,
+        533 => EffectId::Potion8,
+        645 | 12241 | 17263 | 22542 => EffectId::PotionCon,
+        656 | 12242 | 17264 | 22544 => EffectId::Potion,
+        657 | 12243 | 17265 | 22543 => EffectId::PotionBerserk,
+        558 | 559 | 560 | 561 | 573 | 11535 | 11583 | 11584 | 11585 | 11586 | 11587 | 12062
+        | 12322 | 22555 | 22556 | 22557 => EffectId::Vallentine,
+        12118 | 12119 | 12120 | 12121 | 12299 => EffectId::Mochi,
+        662 | 12262 => EffectId::Mapae,
+        12018 => EffectId::Itempokjuk,
+        12016 | 22545 => EffectId::Itemfast,
+        12028 => EffectId::ItemThunder,
+        12030 => EffectId::ItemCloud,
+        12031 => EffectId::ItemZzz,
+        12033 => EffectId::ItemRain,
+        12041 | 12042 | 12043 | 12044 | 12045 | 12071 | 12072 | 12073 | 12074 | 12075 => {
+            EffectId::Food01
+        }
+        12049 | 12050 | 12076 | 12077 | 12078 | 12079 | 12080 | 14554 | 14555 | 14556 => {
+            EffectId::Food02
+        }
+        12054 | 12055 | 12081 | 12082 | 12083 | 12084 | 12085 | 14557 | 14558 | 14559 => {
+            EffectId::Food03
+        }
+        12059 | 12060 | 12086 | 12087 | 12088 | 12089 | 12090 | 14560 | 14561 | 14562 => {
+            EffectId::Food04
+        }
+        12064 | 12065 | 12091 | 12092 | 12093 | 12094 | 12095 | 14563 | 14564 | 14565 => {
+            EffectId::Food05
+        }
+        12069 | 12070 | 12096 | 12097 | 12098 | 12099 | 12100 | 14566 | 14567 | 14568 => {
+            EffectId::Food06
+        }
+        12788 => EffectId::Hapgyeok,
+        14546 => EffectId::PokLove,
+        14547 => EffectId::PokWhite,
+        14548 => EffectId::PokValen,
+        14549 => EffectId::PokBirth,
+        14550 => EffectId::PokChristmas,
+        // Large Firecracker (12326) uses effect 709, which has no EffectId variant.
+        _ => return None,
+    };
+    Some(id)
+}
+
+/// Guild-issued potions consumed by the player but applied to the mercenary,
+/// so their use effect plays on the mercenary rather than the caster.
+pub fn is_mercenary_potion(item_id: u32) -> bool {
+    matches!(item_id, 12184 | 12185 | 12241 | 12242 | 12243)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn maps_representative_consumables_to_their_use_effect() {
+        assert_eq!(consumable_use_effect(501), Some(EffectId::Potion1));
+        assert_eq!(consumable_use_effect(502), Some(EffectId::Potion2));
+        assert_eq!(consumable_use_effect(508), Some(EffectId::Potion3));
+        assert_eq!(consumable_use_effect(517), Some(EffectId::Potion7));
+        assert_eq!(consumable_use_effect(645), Some(EffectId::PotionCon));
+        assert_eq!(consumable_use_effect(657), Some(EffectId::PotionBerserk));
+        assert_eq!(consumable_use_effect(12016), Some(EffectId::Itemfast));
+        assert_eq!(consumable_use_effect(558), Some(EffectId::Vallentine));
+        assert_eq!(consumable_use_effect(12041), Some(EffectId::Food01));
+        assert_eq!(consumable_use_effect(12018), Some(EffectId::Itempokjuk));
+        assert_eq!(consumable_use_effect(12326), None);
+        assert_eq!(consumable_use_effect(1), None);
+    }
+
+    #[test]
+    fn mercenary_potions_are_flagged_and_still_have_a_use_effect() {
+        assert!(is_mercenary_potion(12184));
+        assert!(is_mercenary_potion(12243));
+        assert!(!is_mercenary_potion(501));
+        assert_eq!(consumable_use_effect(12184), Some(EffectId::Potion7));
+        assert_eq!(consumable_use_effect(12243), Some(EffectId::PotionBerserk));
+    }
+}

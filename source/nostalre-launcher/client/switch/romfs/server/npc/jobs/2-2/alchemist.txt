@@ -1,0 +1,2006 @@
+//===== rAthena Script ======================================= 
+//= Alchemist Job Quest
+//===== By: ==================================================
+//= nestor_zulueta (Fusion), converted by Darkchild
+//===== Current Version: ===================================== 
+//= 3.1
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Job quest for Alchemist classes
+//===== Additional Comments: ================================= 
+//= 2.5 Rescripted to Aegis 10.3 stadards. [L0ne_W0lf]
+//=     No longer uses function "F_BlockHigh"
+//= 2.6 Corrected a bug in advanced class checking. [L0ne_W0lf]
+//= 2.7 Added missing checkweights. [L0ne_W0lf]
+//= 2.8 Fixed minor typo in test section. [L0ne_W0lf]
+//= 2.9 Added Quest Log commands. [Kisuka]
+//= 3.0 Removed the need for use of 'goto.' [L0ne_W0lf]
+//= 3.1 Added missing changequest commands. [Kisuka]
+//============================================================ 
+
+alde_alche,27,185,5	script	Alchemist Guildsman#am	744,{
+	mes "[Parmy Gianino]";
+	if (Upper == 1) {
+		mes "Bem-vindo à";
+		mes "União dos Alquimista--";
+		mes "I-Impossível! Como c-como";
+		mes "algo assim pode acontecer?";
+		next;
+		mes "[Parmy Gianino]";
+		mes "Espere, espere...";
+		mes "Sinto muito. Eu me confundi,";
+		mes "só isso. Você é muito parecido";
+		mes "com alguém que eu costumava conhecer.";
+		mes "Ainda assim, fico com um";
+		mes "sentimento estranho sobre você...";
+		close;
+	}
+	if (BaseJob != Job_Merchant) {
+		if (BaseJob == Job_Alchemist) {
+			mes "Bem-vindo," + strcharinfo(0) + ".";
+			mes "A União dos Alquimista";
+			mes "está ocupada hoje, como sempre.";
+			next;
+			mes "[Parmy Gianino]";
+			mes "Todos estão ocupados com suas";
+			mes "próprias pesquisas, mas recentemente, houve algum progresso no campo da biotecnologia.";
+			next;
+			mes "[Parmy Gianino]";
+			mes "Todos esperam que os estudos biotecnológicos tragam resultados positivos. Por falar nisso, imagino como estão os Alquimistas que trabalham com vida artificial...";
+			close;
+		}
+		else if (BaseClass == Job_Novice) {
+			mes "Bem-vindo à";
+			mes "União dos Alquimista.";
+			mes "Estamos recrutando";
+			mes "pessoas talentosas";
+			mes "com ideias inovadoras.";
+			next;
+			mes "[Parmy Gianino]";
+			mes "Se você tem interesse em trabalhar com química, visite-nos mais tarde quando tiver mais conhecimento.";
+			next;
+			mes "[Parmy Gianino]";
+			mes "Só uma coisa:";
+			mes "Você precisa ter";
+			mes "conhecimento sobre itens";
+			mes "como Mercador primeiro.";
+			close;
+		}
+		mes "Bem-vindo à";
+		mes "União dos Alquimista.";
+		mes "Estamos recrutando";
+		mes "pessoas talentosas";
+		mes "com ideias inovadoras.";
+		next;
+		mes "[Parmy Gianino]";
+		mes "Se você conhece algum Mercador excepcional, por favor, indique-o para nós. Esse tipo de pessoa tende a ter talento para Alquimia e experimentação~";
+		close;
+	}
+	if (ALCH_Q == 0) {
+		mes "Bem-vindo à";
+		mes "União dos Alquimista.";
+		mes "Como posso ajudar?";
+		next;
+		switch(select("Eu gostaria de aprender sobre os Alquimistas.:Eu quero me tornar um Alquimista.:Nada.")) {
+		case 1:
+			mes "[Parmy Gianino]";
+			mes "Alquimistas estudam e criam novas substâncias e itens a partir de materiais existentes. Nosso conhecimento nos permite alterar as propriedades dos produtos químicos em nível atômico.";
+			next;
+			mes "[Parmy Gianino]";
+			mes "A maioria das pessoas acha que nosso objetivo final";
+			mes "é criar ouro, mas isso não é toda a verdade. Também queremos criar coisas como medicamentos";
+			mes "e novos materiais.";
+			next;
+			mes "[Parmy Gianino]";
+			mes "Alguns de nós pesquisam a";
+			mes "criação de vida, embora muitos considerem isso um território divino. Esse campo é tão complexo, que a maioria de nós lida com projetos um pouco menos complicados de qualquer maneira.";
+			next;
+			mes "[Parmy Gianino]";
+			mes "Se você tem interesse em se tornar um Alquimista, recomendo que primeiro ganhe muita experiência como Mercador. Ser um Mercador é uma ótima oportunidade para aprender sobre materiais enquanto lida com eles.";
+			next;
+			mes "[Parmy Gianino]";
+			mes "Se você tentará ou não se tornar";
+			mes "um Alquimista é decisão sua. O caminho para se tornar um Alquimista é muito desafiador, e você precisará focar em experimentação e pesquisa, em vez de comércio.";
+			close;
+		case 2:
+			mes "[Parmy Gianino]";
+			mes "É mesmo?";
+			mes "Prazer em conhecê-lo.";
+			mes "Meu nome é Parmy Gianino";
+			mes "da União dos Alquimista.";
+			next;
+			mes "[Parmy Gianino]";
+			mes "Se você se juntar à nossa União e";
+			mes "concluir o treinamento, você";
+			mes "será oficialmente reconhecido";
+			mes "como um Alquimista e poderá";
+			mes "contribuir para nossas pesquisas.";
+			next;
+			mes "[Parmy Gianino]";
+			mes "Mas não aceitamos qualquer um.";
+			mes "Você precisa ter muita tenacidade";
+			mes "e devoção sincera ao explorar";
+			mes "os vários campos da ciência.";
+			next;
+			mes "[Parmy Gianino]";
+			mes "Existem alguns";
+			mes "requisitos para entrar na";
+			mes "União dos Alquimista, mas";
+			mes "discutiremos isso";
+			mes "depois que você se inscrever.";
+			next;
+			mes "[Parmy Gianino]";
+			mes "Bem, então, você";
+			mes "gostaria de solicitar";
+			mes "sua inscrição?";
+			next;
+			if (select("Eu gostaria de me inscrever.:Farei isso mais tarde.") == 1) {
+				if (JobLevel < 40) {
+					mes "[Parmy Gianino]";
+					mes "Hmmm...";
+					mes "Só um momento.";
+					mes "Sinto muito em dizer que";
+					mes "você não tem experiência";
+					mes "suficiente como Mercador para";
+					mes "se juntar a nós agora.";
+					next;
+					mes "[Parmy Gianino]";
+					mes "Você deve estar pelo menos";
+					mes "^551A8BNível de Classe 40^000000 para se tornar";
+					mes "um Alquimista. Volte";
+					mes "depois quando atingir o";
+					mes "requisito de Nível de Classe, tudo bem?";
+					close;
+				}
+				mes "[Parmy Gianino]";
+				mes "Certo, sua inscrição foi aceita. Agora, você deve pagar a taxa de inscrição de 50.000 Zeny e trazer alguns itens antes de poder começar seu treinamento formal.";
+				next;
+				mes "[Parmy Gianino]";
+				mes "Mas se você trouxer um ^551A8BLivro Antigo de Magia^000000 e um ^551A8BMartelo de Ferreiro^000000,";
+				mes "aceitaremos isso como um substituto para o requisito de itens.";
+				next;
+				mes "[Parmy Gianino]";
+				mes "Agora...";
+				mes "Por favor, assine";
+				mes "a inscrição.";
+				next;
+				select(strcharinfo(0));
+				mes "[Parmy Gianino]";
+				mes "Muito bem. Agora, se você tiver";
+				mes "o Zeny para a taxa de inscrição, direi quais itens você precisará trazer. Agora, preste atenção.";
+				next;
+				if (Zeny < 50000) {
+					mes "[Parmy Gianino]";
+					mes "Ah, não. Você não";
+					mes "parece ter Zeny suficiente.";
+					mes "Volte quando tiver 50.000 Zeny, caso contrário não poderemos processar sua inscrição.";
+					close;
+				}
+				set Zeny, Zeny-50000;
+				mes "[Parmy Gianino]";
+				mes "Vamos ver.";
+				mes "" + strcharinfo(0);
+				mes "precisa trazer...";
+				switch(rand(1,3)) {
+				case 1:
+					set ALCH_Q,1;
+					setquest 2028;
+					mes "^551A8B7 Poções de Fúria^000000.";
+					break;
+				case 2:
+					set ALCH_Q,2;
+					setquest 2029;
+					mes "^551A8B100 Mini Fornalhas^000000.";
+					break;
+				case 3:
+					set ALCH_Q,3;
+					setquest 2030;
+					mes "^551A8B7.500 Flechas de Fogo^000000.";
+				}
+				next;
+				mes "[Parmy Gianino]";
+				mes "Assim que você reunir";
+				mes "esses itens, volte";
+				mes "para mim e seu treinamento";
+				mes "como um Alquimista começará.";
+				mes "Até breve~";
+				close;
+			}
+			mes "[Parmy Gianino]";
+			mes "Mercadores talentosos";
+			mes "são sempre bem-vindos aqui.";
+			mes "Por favor, volte em breve.";
+			close;
+		case 3:
+			mes "[Parmy Gianino]";
+			mes "Humm...";
+			mes "Por favor, me avise";
+			mes "se precisar de algo.";
+			close;
+		}
+	}
+	else if (ALCH_Q >= 1 && ALCH_Q <= 3) {
+		if (countitem(1006) > 0 && countitem(1005) > 0) {
+			mes "Ora veja~!";
+			mes "Você trouxe um";
+			mes "Livro Antigo de Magia e";
+			mes "um Martelo de Ferreiro.";
+			mes "Faremos um bom uso";
+			mes "desses itens.";
+			next;
+			delitem 1006,1; //Old_Magic_Book
+			delitem 1005,1; //Hammer_Of_Blacksmith
+			mes "[Parmy Gianino]";
+			mes "Ok, agora você precisa aprender";
+			mes "o básico para ser um Alquimista e aprender os procedimentos para misturar produtos químicos e medicamentos.";
+			set ALCH_Q,4;
+			if(checkquest(2028) != -1) {
+				changequest 2028,2031;
+			}
+			else if(checkquest(2029) != -1) {
+				changequest 2029,2031;
+			}
+			else {
+				changequest 2030,2031;
+			}
+			next;
+			mes "[Parmy Gianino]";
+			mes "Mas antes de tudo isso, você precisa falar com Raspuchin. Não tenho certeza sobre o que você vai conversar com ele...";
+			next;
+			mes "[Parmy Gianino]";
+			mes "Não deve ser nada extraordinário, mas você ainda precisa falar com Raspuchin, já que aparentemente ele faz parte do processo de seleção de Alquimista.";
+			close;
+		}
+		switch(ALCH_Q) {
+		case 1: setarray .@items[0],657,7; break;
+		case 2: setarray .@items[0],612,100; break;
+		case 3: setarray .@items[0],1752,7500; break;
+		}
+		if (countitem(.@items[0]) >= .@items[1]) {
+			mes "Parece que";
+			mes "você está pronto.";
+			mes "A União fará";
+			mes "bom uso desses itens.";
+			next;
+			delitem .@items[0],.@items[1];
+			mes "[Parmy Gianino]";
+			mes "Certo, agora você precisa aprender";
+			mes "o básico para ser um Alquimista e aprender os procedimentos para misturar químicos e medicamentos.";
+			set ALCH_Q,4;
+			if(checkquest(2028) != -1) {
+				changequest 2028,2031;
+			}
+			else if(checkquest(2029) != -1) {
+				changequest 2029,2031;
+			}
+			else {
+				changequest 2030,2031;
+			}
+			next;
+			mes "[Parmy Gianino]";
+			mes "Mas antes de tudo isso, você precisa falar com Raspuchin. Não tenho certeza sobre o que você vai conversar com ele...";
+			next;
+			mes "[Parmy Gianino]";
+			mes "Não deve ser nada extraordinário, mas você ainda precisa falar com Raspuchin, já que aparentemente ele faz parte do processo de seleção de Alquimista.";
+			close;
+		}
+		mes "Você não está pronto?";
+		mes "Como eu disse antes,";
+		mes "você deve trazer";
+		mes "^551A8B"+callfunc("F_InsertPlural",.@items[1],getitemname(.@items[0]))+"^000000.";
+		next;
+		mes "[Parmy Gianino]";
+		mes "Volte quando você";
+		mes "tiver preparado os";
+		mes "itens necessários.";
+		close;
+	}
+	else if (ALCH_Q == 4) {
+		mes "Vá e fale com";
+		mes "o Sr. Raspuchin.";
+		mes "Ele está envolvido no";
+		mes "processo de seleção de Alquimista, seja lá o que isso signifique.";
+		next;
+		mes "[Parmy Gianino]";
+		mes "Espero que";
+		mes "não seja um grande";
+		mes "problema. Acho que ele só vai te entrevistar e fazer";
+		mes "algumas perguntas simples.";
+		close;
+	}
+	else {
+		mes "Ah, sinto muito, mas";
+		mes "estou ocupada agora~";
+		next;
+		mes "[Parmy Gianino]";
+		mes "Por que você não pergunta";
+		mes "a outra pessoa se não";
+		mes "tem certeza de quem";
+		mes "visitar? Boa sorte~";
+		close;
+	}
+}
+
+alde_alche,175,107,3	script	Fastidious Alchemist#am	749,{
+	mes "[Raspuchin Gregório]";
+	if (BaseJob != Job_Merchant) {
+		if (BaseJob == Job_Alchemist) {
+			mes "Heeheehee";
+			mes "keheheh~!";
+			mes "Hã? O que você quer?!";
+			next;
+			mes "[Raspuchin Gregório]";
+			mes "Você não veio aqui para roubar meus resultados experimentais ou plagiar meu trabalho, veio? Como ousa considerar roubo intelectual!";
+			next;
+			mes "[Raspuchin Gregório]";
+			mes "Você não veio, veio?";
+			mes "Bem, como colega,";
+			mes "deixe-me avisar";
+			mes "que tais truques não são";
+			mes "tolerados aqui na";
+			mes "União dos Alquimista!";
+			close;
+		}
+		else if (BaseClass == Job_Novice) {
+			mes "Heeheehee";
+			mes "keheheh~!";
+			mes "Que fofo, você veio";
+			mes "todo esse caminho só para brincar...";
+			next;
+			mes "[Raspuchin Gregório]";
+			mes "Vou deixar você";
+			mes "passar desta vez...";
+			mes "Mas da próxima vez, não";
+			mes "espere sair tão facilmente...";
+			close;
+		}
+		else {
+			mes "O que foi?!";
+			mes "Você está curioso";
+			mes "sobre o que estou fazendo?";
+			next;
+			mes "[Raspuchin Gregório]";
+			mes "Hihi";
+			mes "keheheh~!";
+			mes "Ora, estou ocupado";
+			mes "pesquisando,";
+			mes "é claro!";
+			next;
+			mes "[Raspuchin Gregório]";
+			mes "Assim que esta";
+			mes "poção estiver completa...";
+			mes "Você poderá usá-la para";
+			mes "dominar uma nação inteira!";
+			next;
+			mes "[Raspuchin Gregório]";
+			mes "Hee hee hee!";
+			mes "Algo tão";
+			mes "perigoso quanto isto";
+			mes "deve ser mantido em segredo!";
+			mes "Entendido?";
+			close;
+		}
+	}
+	if (ALCH_Q == 0) {
+		mes "Hihihi";
+		mes "keheheh~!";
+		mes "O que você";
+		mes "quer, garoto?";
+		next;
+		mes "[Raspuchin Gregório]";
+		mes "Um Mercador deveria ir montar uma loja e vender itens. Por que você está vagando em um lugar como este?";
+		next;
+		mes "[Raspuchin Gregório]";
+		mes "Heheheh~!";
+		mes "Vá vender em outro lugar!";
+		mes "E me deixe com meu";
+		mes "empreendimento sombrio!";
+		close;
+	}
+	else if (ALCH_Q >= 1 && ALCH_Q <= 3) {
+		mes "Hehehe";
+		mes "keheheh~!";
+		mes "O que você";
+		mes "quer, pirralho?";
+		next;
+		mes "[Raspuchin Gregório]";
+		mes "O quê...?";
+		mes "Aprender Alquimia?!";
+		mes "Nem ouse dizer";
+		mes "tal bobagem!";
+		next;
+		mes "[Raspuchin Gregório]";
+		mes "Mesmo que você tentasse estudar por mil anos, talvez até mais, seria inútil para você! Esqueça isso e preocupe-se apenas com a sua loja!";
+		close;
+	}
+	else if ((ALCH_Q == 4) || (ALCH_Q == 5)) {
+		if (ALCH_Q == 4) {
+			mes "Heeheehee";
+			mes "keheheh~!";
+			mes "O que você";
+			mes "quer, pirralho?";
+			next;
+			mes "[Raspuchin Gregório]";
+			mes "O quê...?";
+			mes "Entrar para a União!?";
+			mes "Eu não gosto disso...";
+			mes "Eu simplesmente não gosto...!";
+			next;
+			mes "[Raspuchin Gregório]";
+			mes "Hoje em dia, qualquer um acha que pode";
+			mes "ser Alquimista só por saber misturar algumas ervas. É por isso que minha entrevista é necessária.";
+			next;
+			mes "[Raspuchin Gregório]";
+			mes "Hehehe";
+			mes "keheheh~!";
+			mes "Eu planejo eliminar todos os idiotas e incompetentes, e expulsar";
+			mes "todos eles! Não precisamos de imbecis!";
+			next;
+			if (JobLevel == 50) {
+				mes "[Raspuchin Gregório]";
+				mes "Espere...";
+				mes "Talvez eu tenha";
+				mes "julgado mal você.";
+				if (Sex == SEX_MALE) {
+					mes "Você pode até parecer um rostinho bonito,";
+					mes "mas vejo pelos seus olhos";
+					mes "que você é inteligente.";
+				}
+				else {
+					mes "Huh. Você é um gracinha mesmo,";
+					mes "mas posso ver que tem cérebro.";
+				}
+				next;
+				mes "[Raspuchin Gregório]";
+				mes "Você não é apenas uma criança estúpida.";
+				mes "Posso dizer que você passou por poucas e boas como Mercador. Excelente. Keh heh heh~";
+				next;
+				mes "[Raspuchin Gregório]";
+				mes "Tudo bem, para não insultarmos a inteligência um do outro, vou deixar você passar na entrevista.";
+				next;
+				mes "[Raspuchin Gregório]";
+				mes "Então apresse-se, torne-se um Alquimista, faça uma boa pesquisa, e talvez você possa ser de alguma ajuda para mim. Hahahahahaha~!";
+				next;
+				mes "[Raspuchin Gregório]";
+				mes "Agora vá até Darwin!";
+				mes "Ele vai te ensinar como fazer os experimentos. Apenas diga a ele que";
+				mes "eu te enviei.";
+				set ALCH_Q,6;
+				changequest 2031,2032;
+				close;
+			}
+			else {
+				mes "[Raspuchin Gregório]";
+				mes "Surpreso, não está?";
+				mes "Keheheh~ Se você pensou que";
+				mes "se tornar um Alquimista era";
+				mes "apenas uma questão de trocar";
+				mes "de roupa, então você está";
+				mes "tristemente enganado.";
+				next;
+				mes "[Raspuchin Gregório]";
+				mes "Agora, tente resolver";
+				mes "todos esses problemas.";
+				mes "Vamos ver o quão inteligente";
+				mes "você realmente é.";
+			}
+		}
+		else if (ALCH_Q == 5) {
+			mes "O quê...?!";
+			mes "Você quer fazer";
+			mes "o teste novamente?!";
+			mes "Achei que tinha lhe dito";
+			mes "para ir embora!";
+			next;
+			mes "[Raspuchin Gregório]";
+			mes "Eu não gosto disso...";
+			mes "Eu não gosto disso!";
+			next;
+			mes "[Raspuchin Gregório]";
+			mes "Tudo bem...";
+			mes "Vou tentar relevar seu desempenho lamentável da última vez e lhe dar";
+			mes "outra chance. Não estrague";
+			mes "tudo de novo, entendeu?";
+			next;
+			mes "[Raspuchin Gregório]";
+			mes "Agora, então,";
+			mes "me dê todas as";
+			mes "^551A8Brespostas corretas^000000";
+			mes "desta vez.";
+		}
+		next;
+		switch(rand(1,3)) {
+		case 1:
+			mes "[Raspuchin Gregório]";
+			mes "12 + 23 + 34 + 45 = ?";
+			next;
+			input .@input;
+			if (.@input != 114) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "1000 - 36 - 227 - 348 = ?";
+			next;
+			input .@input;
+			if (.@input != 389) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "14 * 17 * 3 = ?";
+			next;
+			input .@input;
+			if (.@input != 714) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "9765 / 3 / 5 / 7 = ?";
+			next;
+			input .@input;
+			if (.@input != 93) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "(47 * 28) - (1376 / 4) = ?";
+			next;
+			input .@input;
+			if (.@input != 972) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "(2646 / 7) + (13 * 28) = ?";
+			next;
+			input .@input;
+			if (.@input != 742) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "Quanto custam";
+			mes "12 Poções Vermelhas,";
+			mes "1 Asa de Borboleta";
+			mes "e 5 Asas de Mosca";
+			mes "após um desconto de 24%?";
+			next;
+			input .@input;
+			if (.@input != 909) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "Qual é o";
+			mes "peso total de";
+			mes "3 Cimitarras, 2 Elmos";
+			mes "e 1 Casaco Comprido?";
+			next;
+			input .@input;
+			if (.@input != 450) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "Qual é a";
+			mes "defesa total de";
+			mes "uma Bireta, Manto,";
+			mes "Máscara de Ópera, Laço,";
+			mes "Cachecol, Botas e";
+			mes "Protetores de Ouvido?";
+			next;
+			input .@input;
+			if (.@input != 20) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "Se você comprar 5 Elmos";
+			mes "com 24% de desconto";
+			mes "e vendê-los por 20";
+			mes "quanto de lucro";
+			mes "você ganha?";
+			next;
+			input .@input;
+			if (.@input != 8800) set .@w_point,.@w_point+1;
+			break;
+		case 2:
+			mes "[Raspuchin Gregório]";
+			mes "13 + 25 + 37 + 48 = ?";
+			next;
+			input .@input;
+			if (.@input != 123) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "1000 - 58 - 214 - 416 = ?";
+			next;
+			input .@input;
+			if (.@input != 312) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "12 * 24 * 3 = ?";
+			next;
+			input .@input;
+			if (.@input != 864) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "10530 / 3 / 5 / 2 = ?";
+			next;
+			input .@input;
+			if (.@input != 351) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "(35 * 19) - (1792 / 7) = ?";
+			next;
+			input .@input;
+			if (.@input != 409) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "(2368 / 8) + (24 * 17) = ?";
+			next;
+			input .@input;
+			if (.@input != 704) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "(2646 / 7) + (13 * 28) = ?";
+			next;
+			input .@input;
+			if (.@input != 742) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "Qual é o";
+			mes "preço total de";
+			mes "15 Poções Verdes,";
+			mes "6 Lupas e";
+			mes "4 Armadilhas após";
+			mes "um desconto de 24%?";
+			next;
+			input .@input;
+			if (.@input != 934) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "Qual é o";
+			mes "peso total de";
+			mes "3 Sabres,";
+			mes "4 Capacetes e 2 Botas?";
+			next;
+			input .@input;
+			if (.@input != 550) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "Qual é a";
+			mes "defesa total de";
+			mes "um Broquel, Casaco Comprido,";
+			mes "Máscara de Gás, Laço Grande,";
+			mes "Laço Fofo, Sakkat,";
+			mes "e Óculos?";
+			next;
+			input .@input;
+			if (.@input != 16) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "Quanto de lucro você";
+			mes "faz se comprar Malhas";
+			mes "com 24% de desconto e";
+			mes "vendê-las por 20% do";
+			mes "preço normal?";
+			next;
+			input .@input;
+			if (.@input != 8520) set .@w_point,.@w_point+1;
+			break;
+		case 3:
+			mes "[Raspuchin Gregório]";
+			mes "12 + 23 + 34 + 45 = ?";
+			next;
+			input .@input;
+			if (.@input != 114) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "1000 - 58 - 214 - 416 = ?";
+			next;
+			input .@input;
+			if (.@input != 312) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "14 * 17 * 3 = ?";
+			next;
+			input .@input;
+			if (.@input != 714) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "10530 / 3 / 5 / 2 = ?";
+			next;
+			input .@input;
+			if (.@input != 351) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "(47 * 28) - (1376 / 4) = ?";
+			next;
+			input .@input;
+			if (.@input != 972) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "(2646 / 7) + (13 * 28) = ?";
+			next;
+			input .@input;
+			if (.@input != 742) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "Qual é o";
+			mes "custo total de";
+			mes "6 Poções Vermelhas,";
+			mes "7 Poções Verdes,";
+			mes "e 8 Asas de Mosca";
+			mes "após um desconto de 24%?";
+			next;
+			input .@input;
+			if (.@input != 798) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "Qual é o";
+			mes "peso total de";
+			mes "2 Sabres,";
+			mes "3 Capacetes e 3 botas?";
+			next;
+			input .@input;
+			if (.@input != 480) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "Qual é a";
+			mes "defesa total de";
+			mes "um Escudo Espelhado, Sr. Sorriso, Jaqueta de Couro, Robe de Seda, Véu de Noiva, Cachecol e Tapa-Olho?";
+			next;
+			input .@input;
+			if (.@input != 12) set .@w_point,.@w_point+1;
+			mes "[Raspuchin Gregório]";
+			mes "Se você comprar 4 Armaduras Acolchoadas";
+			mes "com 24% de desconto e as vender";
+			mes "por 20% do preço original,";
+			mes "quanto de lucro você";
+			mes "ganharia com essa venda?";
+			next;
+			input .@input;
+			if (.@input != 7680) set .@w_point,.@w_point+1;
+		}
+		if (.@w_point == 0) {
+			mes "[Raspuchin Gregório]";
+			mes "Ooh...";
+			mes "Excelente! Ótimo!";
+			mes "Você acertou todas!?";
+			mes "Keheheh, não tenho escolha a não ser reconhecer você...";
+			next;
+		}
+		else if (.@w_point == 1) {
+			mes "[Raspuchin Gregório]";
+			mes "Você errou uma!";
+			mes "Mas vou deixar passar.";
+			mes "Você passou na entrevista!";
+			next;
+		}
+		else if (.@w_point == 2 && ALCH_Q == 5) {
+			mes "[Raspuchin Gregório]";
+			mes "Você tem sérias";
+			mes "fraquezas em matemática,";
+			mes "mas vou te deixar ir desta vez...";
+			next;
+		}
+		else {
+			set ALCH_Q,5;
+			mes "[Raspuchin Gregório]";
+			mes "Keheheh! Idiota!";
+			mes "Só de ouvir as suas";
+			mes "respostas já me sinto";
+			mes "mais estúpido! Você deveria";
+			mes "ter errado todas!";
+			next;
+			mes "[Raspuchin Gregório]";
+			mes "Como alguém que";
+			mes "não consegue nem responder todas";
+			mes "essas perguntas simples pode pensar";
+			mes "em se tornar um Alquimista?!";
+			next;
+			mes "[Raspuchin Gregório]";
+			mes "Hm...?";
+			mes "Você acertou";
+			mes "alguma?";
+			next;
+			mes "[Raspuchin Gregório]";
+			mes "Tolo! Mesmo se você cometer um pequeno erro, tudo dá errado";
+			mes "na Alquimia! Agora saia daqui!";
+			mes "Você me dá nojo!";
+			close;
+		}
+		mes "[Raspuchin Gregório]";
+		mes "Então apresse-se, torne-se um Alquimista, faça uma boa pesquisa, e você pode acabar sendo de alguma ajuda para mim. Hahahahahaha~!";
+		next;
+		mes "[Raspuchin Gregório]";
+		mes "Agora vá até Darwin!";
+		mes "Ele vai te ensinar como fazer os experimentos. Apenas diga a ele que";
+		mes "fui eu quem te mandou.";
+		set ALCH_Q,6;
+		changequest 2031,2032;
+		close;
+	}
+	else if (ALCH_Q == 6) {
+		mes "O que você está fazendo?";
+		mes "Vá e encontre Darwin agora.";
+		next;
+		mes "[Raspuchin Gregório]";
+		mes "Keheheheheheheheh~";
+		mes "Não pense que este é o fim!";
+		close;
+	}
+	mes "Keheheheheheheheh~";
+	mes "Não pense que isso acaba aqui!";
+	close;
+}
+
+alde_alche,13,15,7	script	Studying Man#am	750,{
+	if (checkweight(1201,1) == 0) {
+		mes "- Espere um minuto! -";
+		mes "- Atualmente você está carregando -";
+		mes "- itens demais. -";
+		mes "- Por favor, volte novamente -";
+		mes "- após armazenar alguns itens no armazém da Kafra. -";
+		close;
+	}
+	mes "[Darwin]";
+	if (BaseJob != Job_Merchant) {
+		if (BaseJob == Job_Alchemist) {
+			mes "Ah...";
+			mes "Você...";
+			mes "Você se tornou";
+			mes "um Alquimista.";
+			next;
+			mes "[Darwin]";
+			mes "Lembre-se...";
+			mes "Em sua busca";
+			mes "para realizar seus";
+			mes "sonhos,";
+			mes "não perca aquilo";
+			mes "que você valoriza.";
+			next;
+			mes "[Darwin]";
+			mes "Ah...";
+			mes "Harmona...";
+			mes "Meu amor...";
+			close;
+		}
+		else {
+			mes "Quando você tem";
+			mes "seus sonhos, você";
+			mes "tem tudo.";
+			mes "Sem eles, você não tem";
+			mes "mais nada a perder.";
+			next;
+			mes "[Darwin]";
+			mes "Estes olhos amaldiçoados...";
+			mes "Eles perderam a visão dos";
+			mes "meus sonhos há muito tempo.";
+			mes "Ha ha ha ha...";
+			next;
+			mes "[Darwin]";
+			mes "Será que o paraíso";
+			mes "realmente existe...?";
+			mes "Não sem meu amor...";
+			mes "Não sem Harmona...";
+			close;
+		}
+	}
+	if (ALCH_Q == 6) {
+		mes "...";
+		next;
+		mes "[Darwin]";
+		mes "...";
+		mes "......";
+		next;
+		mes "[Darwin]";
+		mes "...";
+		mes "......";
+		mes "Quem está aí...?";
+		next;
+		monster "alde_alche",13,15,"Wolf",1013,1;
+		killmonsterall "alde_alche";
+		mes "[Darwin]";
+		mes "Um lobo?";
+		mes "Ou um humano?";
+		mes "Você deve estar buscando";
+		mes "algo, não está?";
+		next;
+		mes "[Darwin]";
+		mes "Afinal...";
+		mes "Todos têm desejos";
+		mes "para realizar. Tenha cuidado.";
+		mes "Não seja como o lobo";
+		mes "selvagem atraído pelas flores.";
+		next;
+		mes "[Darwin]";
+		mes "Em seus esforços para ganhar algo mais, você pode acabar sacrificando algo precioso para você.";
+		next;
+		mes "[Darwin]";
+		mes "Cultivar alegria e felicidade";
+		mes "é muito parecido com cultivar flores.";
+		mes "Se algo está faltando, a";
+		mes "flor irá murchar...";
+		next;
+		mes "[Darwin]";
+		mes "O que traz você";
+		mes "a este tipo de lugar?";
+		next;
+		switch(select("Eu quero aprender a experimentar.:Me conte mais sobre flores.:Nada.")) {
+		case 1:
+			mes "[Darwin]";
+			mes "Você deseja";
+			mes "aprender Alquimia?";
+			mes "Tudo o que sei,";
+			mes "aprendi pelo";
+			mes "objetivo de tornar meu";
+			mes "sonho realidade...";
+			next;
+			mes "[Darwin]";
+			mes "Eu vou lhe ensinar";
+			mes "o básico...";
+			mes "Mas tudo o que";
+			mes "você aprender depois deve";
+			mes "ser direcionado através";
+			mes "de suas próprias motivações.";
+			next;
+			mes "[Darwin]";
+			mes "Eu vou ensinar você";
+			mes "a fazer um remédio";
+			mes "simples. Então, por favor,";
+			mes "traga os seguintes";
+			mes "materiais imediatamente.";
+			next;
+			mes "[Darwin]";
+			mes "^551A8B3 Tigelas de Remédio^000000,";
+			mes "^551A8B3 Garrafas Vazias^000000,";
+			mes "^551A8B1 Erva Vermelha^000000,";
+			mes "^551A8B1 Erva Amarela^000000 e";
+			mes "^551A8B1 Erva Branca^000000.";
+			set ALCH_Q,7;
+			changequest 2032,2033;
+			next;
+			mes "[Darwin]";
+			mes "Assim que você tiver";
+			mes "preparado tudo,";
+			mes "volte para mim.";
+			close;
+		case 2:
+			mes "[Darwin]";
+			mes "Flores...?";
+			mes "Nos recessos mais sombrios";
+			mes "da minha mente,";
+			mes "há uma flor";
+			mes "da qual me lembro vagamente...";
+			next;
+			mes "[Darwin]";
+			mes "Pela pessoa que";
+			mes "eu amo, coloquei todos";
+			mes "os meus esforços em";
+			mes "pesquisar aquela única coisa.";
+			next;
+			mes "[Darwin]";
+			mes "Não vou lhe contar os detalhes,";
+			mes "mas eu estava basicamente pesquisando";
+			mes "a relação entre";
+			mes "lobos e flores.";
+			next;
+			mes "[Darwin]";
+			mes "Mas sim...";
+			mes "Era uma flor.";
+			mes "Com seu brilho, diziam";
+			mes "que ela permitia ver o paraíso.";
+			mes "A ^551A8BFlor da Ilusão^000000...";
+			next;
+			mes "[Darwin]";
+			mes "Eu até fiz";
+			mes "um Homunculus,";
+			mes "mas ninguém acreditou que eu pudesse criar uma nova vida a partir de uma flor...";
+			next;
+			mes "[Darwin]";
+			mes "Então...";
+			mes "Bem, algumas outras coisas aconteceram, e agora não me resta nada. O tempo não tem mais qualquer significado para mim.";
+			next;
+			mes "[Darwin]";
+			mes "Ahh...";
+			mes "Harmona...";
+			mes "Para onde você foi?";
+			mes "Espero que você esteja em um campo";
+			mes "de belas flores...";
+			close;
+		case 3:
+			mes "[Darwin]";
+			mes "Considere o que";
+			mes "é mais precioso";
+			mes "para você. Não pode";
+			mes "ser protegido se você";
+			mes "não reconhecê-lo.";
+			close;
+		}
+	}
+	else if (ALCH_Q == 7) {
+		mes "...";
+		mes "......";
+		next;
+		mes "[Darwin]";
+		mes "...";
+		mes "......";
+		mes "Quem está aí...?";
+		next;
+		mes "[Darwin]";
+		mes "Ah...";
+		mes "Você é aquele que";
+		mes "deseja aprender Alquimia.";
+		mes "Você preparou tudo?";
+		next;
+		if (countitem(710) > 0) {
+			mes "[Darwin]";
+			mes "Espere.";
+			mes "Aquela Flor da Ilusão.";
+			mes "Como você conseguiu isso?";
+			next;
+			mes "[Darwin]";
+			mes "Onde você a encontrou?!";
+			mes "A flor que lentamente";
+			mes "floresce sob o";
+			mes "luar?";
+			mes "Ela é linda...!";
+			next;
+			mes "[Darwin]";
+			mes "A-Aquela flor...";
+			mes "Por favor, deixe-me vê-la.";
+			mes "A Flor da Ilusão!";
+			mes "Uwaaaaaaah!!";
+			next;
+			mes "[Darwin]";
+			mes "Você seria gentil o suficiente";
+			mes "para me deixar ficar com esta flor?";
+			mes "Tenho certeza de que esta é a Flor do Luar que eu estive buscando!";
+			next;
+			if (select("Desculpe, não posso dá-la a você.:Eu a trouxe para lhe dar.") == 1) {
+				mes "[Darwin]";
+				mes "Eu entendo.";
+				mes "Você não pode dar";
+				mes "uma flor tão preciosa";
+				mes "para qualquer um.";
+				mes "Bem... Tudo bem.";
+				next;
+				mes "[Darwin]";
+				mes "Isso apenas trouxe de volta velhas memórias. Eu não deveria ter pedido em primeiro lugar. De qualquer forma, por favor, traga o que é necessário para o experimento.";
+				next;
+				mes "[Darwin]";
+				mes "Por favor, deixe essa flor";
+				mes "em outro lugar. Ela traz";
+				mes "memórias demais à tona...";
+				close;
+			}
+			mes "[Darwin]";
+			mes "Você está";
+			mes "falando sério?!";
+			mes "Obrigado!";
+			mes "Uma flor tão preciosa.";
+			mes "Ah, Harmona, meu amor...";
+			next;
+			mes "[Darwin]";
+			mes "Sim...";
+			mes "Eu retribuirei por isso.";
+			mes "Vou plantar todo o meu conhecimento de Alquimia diretamente em sua mente...";
+			next;
+			mes "[Darwin]";
+			mes "Abra bem os olhos,";
+			mes "e olhe dentro dos meus!!";
+			mes "Não pare até o fim!!";
+			next;
+			mes "Lorem ipsum dolor sit amet,";
+			next;
+			mes "Lorem ipsum dolor sit amet,";
+			mes "consectetuer adipiscing elit.";
+			next;
+			mes "Lorem ipsum dolor sit amet,";
+			mes "consectetuer adipiscing elit.";
+			mes "Aenean fermentum ullamcorper.";
+			next;
+			mes "Lorem ipsum dolor sit amet,";
+			mes "consectetuer adipiscing elit.";
+			mes "Aenean fermentum ullamcorper.";
+			mes "Vestibulum ante ipsum primis in";
+			next;
+			mes "Lorem ipsum dolor sit amet,";
+			mes "consectetuer adipiscing elit.";
+			mes "Aenean fermentum ullamcorper.";
+			mes "Vestibulum ante ipsum primis in";
+			mes "faucibus orci luctus et ultrices";
+			next;
+			mes "Lorem ipsum dolor sit amet,";
+			mes "consectetuer adipiscing elit.";
+			mes "Aenean fermentum ullamcorper.";
+			mes "Vestibulum ante ipsum primis in";
+			mes "faucibus orci luctus et ultrices";
+			mes "posuere cubilia Curae; Morbi";
+			next;
+			mes "Lorem ipsum dolor sit amet,";
+			mes "consectetuer adipiscing elit.";
+			mes "Aenean fermentum ullamcorper.";
+			mes "Vestibulum ante ipsum primis in";
+			mes "faucibus orci luctus et ultrices";
+			mes "posuere cubilia Curae; Morbi";
+			mes "massa, fermentum vitae...";
+			next;
+			delitem 710,1; //Illusion_Flower
+			mes "[Darwin]";
+			mes "^666666*Ofegante...*^000000";
+			mes "Você agora é";
+			mes "um Alquimista!!";
+			mes "Vá para a União";
+			mes "e desfaça-se dos últimos";
+			mes "vestígios da vida de Mercador!!";
+			set ALCH_Q,40;
+			changequest 2033,2034;
+			close;
+		}
+		else if (countitem(7134) > 2 && countitem(713) > 2 && countitem(507) > 0 && countitem(508) > 0 && countitem(509) > 0) {
+			mes "[Darwin]";
+			mes "Parece que você tem tudo pronto. Como prometido, vou lhe ensinar a fazer remédios simples.";
+			next;
+			mes "[Darwin]";
+			mes "Primeiro, prepare a Tigela de Medicina. Então, você coloca as Ervas dentro, assim, e as amassa lentamente.";
+			next;
+			mes "[Darwin]";
+			mes "Despeje pequenas quantidades";
+			mes "de água limpa e misture";
+			mes "até engrossar.";
+			mes "Depois, adicione mais algumas Ervas.";
+			next;
+			mes "[Darwin]";
+			mes "É assim que se faz. Se achar que tem o suficiente, despeje a mistura suavemente em uma garrafa vazia.";
+			delitem 7134,3; //Medicine_Bowl
+			delitem 713,3; //Empty_Bottle
+			delitem 507,1; //Red_Herb
+			delitem 508,1; //Yellow_Herb
+			delitem 509,1; //White_Herb
+			next;
+			mes "[Darwin]";
+			mes "Pronto,";
+			mes "está completo.";
+			mes "Agora, faça alguns remédios";
+			mes "usando o procedimento simples";
+			mes "que acabei de lhe explicar.";
+			next;
+			switch(select("Preparar a Tigela de Medicina.:Colocar a Tigela de Medicina na cabeça.:Chutar a Tigela de Medicina.")) {
+			case 1:
+				break;
+			case 2:
+				set .@w_point,.@w_point+1;
+				mes "[Darwin]";
+				mes "O quê...?";
+				next;
+				break;
+			case 3:
+				set .@w_point,.@w_point+1;
+				mes "[Darwin]";
+				mes "Não!";
+				next;
+				break;
+			}
+			switch(select("Colocar terra na Tigela de Medicina.:Colocar Ervas na Tigela de Medicina.:Colocar uma Harpa na Tigela de Medicina.")) {
+			case 1:
+				set .@w_point,.@w_point+1;
+				mes "[Darwin]";
+				mes "...Eh!?";
+				mes "Isso não é";
+				mes "remédio!";
+				next;
+				break;
+			case 2:
+				break;
+			case 3:
+				set .@w_point,.@w_point+1;
+				mes "[Darwin]";
+				mes "Uma Harpa?";
+				mes "E como você";
+				mes "faria isso?";
+				next;
+				break;
+			}
+			switch(select("Amassar as Ervas.:Amassar a Tigela de Medicina.:Amassar o pé do Darwin.")) {
+			case 1:
+				break;
+			case 2:
+				set .@w_point,.@w_point+1;
+				mes "[Darwin]";
+				mes "O-O que você";
+				mes "está fazendo!?";
+				next;
+				break;
+			case 3:
+				set .@w_point,.@w_point+1;
+				mes "[Darwin]";
+				mes "Argh...!";
+				mes "O que você";
+				mes "pensa que está";
+				mes "fazendo?!";
+				next;
+				break;
+			}
+			switch(select("Borrifar água limpa.:Beber água limpa.:Despejar água limpa.")) {
+			case 1:
+				set .@w_point,.@w_point+1;
+				mes "[Darwin]";
+				mes "Hein?";
+				mes "O que você está fazendo?";
+				next;
+				break;
+			case 2:
+				set .@w_point,.@w_point+1;
+				mes "[Darwin]";
+				mes "E-espera...";
+				mes "Você está";
+				mes "fazendo uma pausa?";
+				next;
+				break;
+			case 3:
+				break;
+			}
+			switch(select("Continuar amassando as Ervas.:Continuar comendo as Ervas.:Continuar dançando e cantando.")) {
+			case 1:
+				break;
+			case 2:
+				set .@w_point,.@w_point+1;
+				mes "[Darwin]";
+				mes "Comer as Ervas?";
+				mes "Acho que você precisa";
+				mes "se concentrar na";
+				mes "tarefa em mãos...";
+				next;
+				break;
+			case 3:
+				set .@w_point,.@w_point+1;
+				mes "[Darwin]";
+				mes "Cantar e";
+				mes "dançar? Alquimistas";
+				mes "não fazem isso, você";
+				mes "ficou maluco?";
+				next;
+				break;
+			}
+			switch(select("Colocar macarrão e fritar.:Despejar em uma garrafa vazia.:Segurar a Tigela de Medicina e beber.")) {
+			case 1:
+				set .@w_point,.@w_point+1;
+				mes "[Darwin]";
+				mes "Somos Alquimistas,";
+				mes "não cozinheiros de restaurante.";
+				next;
+				break;
+			case 2:
+				break;
+			case 3:
+				set .@w_point,.@w_point+1;
+				mes "[Darwin]";
+				mes "Hmm...";
+				mes "Bem desleixado...";
+				next;
+				break;
+			}
+			if (.@w_point > 0) {
+				mes "[Darwin]";
+				mes "...";
+				mes "......";
+				next;
+				mes "[Darwin]";
+				mes "Você estragou a mistura";
+				mes "porque não seguiu o procedimento! Consiga mais ingredientes para que possa tentar";
+				mes "de novo até acertar.";
+				close;
+			}
+			getitem 501,1; //Red_Potion
+			getitem 503,1; //Yellow_Potion
+			getitem 504,1; //White_Potion
+			mes "[Darwin]";
+			mes "Bom trabalho.";
+			mes "Ficou muito bom, considerando que é sua primeira vez. Vá em frente e fique com os remédios que acabou de fazer.";
+			set ALCH_Q,8;
+			changequest 2033,2035;
+			next;
+			mes "[Darwin]";
+			mes "Agora, vá para a próxima sala";
+			mes "e fale com Van Helmont para";
+			mes "continuar seu treinamento.";
+			next;
+			mes "[Darwin]";
+			mes "Nunca se esqueça...";
+			mes "Você deve sempre proteger";
+			mes "o que é mais precioso para você.";
+			close;
+		}
+		else {
+			mes "[Darwin]";
+			mes "Você esqueceu";
+			mes "do que precisa trazer?";
+			mes "Deixe-me lembrá-lo mais";
+			mes "uma vez. Você deve voltar";
+			mes "com...";
+			next;
+			mes "[Darwin]";
+			mes "^551A8B3 Tigelas de Medicina^000000,";
+			mes "^551A8B3 Garrafas Vazias^000000,";
+			mes "^551A8B1 Erva Vermelha^000000,";
+			mes "^551A8B1 Erva Amarela^000000 e";
+			mes "^551A8B1 Erva Branca^000000.";
+			next;
+			mes "[Darwin]";
+			mes "Volte";
+			mes "quando estiver";
+			mes "pronto...";
+			close;
+		}
+	}
+	else if (ALCH_Q == 8) {
+		mes "Eu disse para ir";
+		mes "até Van Helmont.";
+		mes "Eu gostaria de te ensinar";
+		mes "mais, mas não posso.";
+		next;
+		mes "[Darwin]";
+		mes "Aah...";
+		mes "Harmona, meu amor.";
+		mes "Eu nem consigo mais ver a flor. Minha alma também";
+		mes "definha silenciosamente...";
+		close;
+	}
+	else if (ALCH_Q == 40) {
+		mes "Eu já te passei todo o meu conhecimento e não tenho mais nada";
+		mes "para te ensinar.";
+		next;
+		mes "[Darwin]";
+		mes "Vá ao segundo andar e fale com nosso Líder da União. Quando";
+		mes "fizer isso, sua vida como Alquimista começará.";
+		close;
+	}
+	else {
+		mes "Quando você tem";
+		mes "seus sonhos, você";
+		mes "tem tudo.";
+		mes "Sem eles, você não tem";
+		mes "mais nada a perder.";
+		next;
+		mes "[Darwin]";
+		mes "Estes olhos malditos...";
+		mes "Eles perderam a visão dos";
+		mes "meus sonhos há muito tempo.";
+		mes "Ha ha ha ha...";
+		next;
+		mes "[Darwin]";
+		mes "Será que o paraíso";
+		mes "realmente existe...?";
+		mes "Não sem o meu amor...";
+		mes "Não sem Harmona...";
+		close;
+	}
+}
+
+alde_alche,79,19,5	script	Experiment Expert#am	748,{
+	mes "[Van Helmont]";
+	if (BaseJob != Job_Merchant) {
+		if (BaseJob == Job_Alchemist) {
+			mes "O que você quer?";
+			mes "Estou ocupado!! Não";
+			mes "me amole e siga";
+			mes "seu caminho.";
+			next;
+			mes "[Van Helmont]";
+			mes "Agora, vamos lá...";
+			mes "Você nunca terminará";
+			mes "nenhuma pesquisa se ficar de preguiça. Saia e aprenda tudo o que puder.";
+			next;
+			mes "[Van Helmont]";
+			mes "Ler diários científicos e realizar experimentos. É disso que trata a Alquimia. Agora, deixe-me voltar ao trabalho!";
+			close;
+		}
+		else {
+			mes "Só um pouco...";
+			mes "Só mais um pouquinho...";
+			mes "Nããão! Só mais um";
+			mes "pouquinho e teria";
+			mes "dado certo!";
+			next;
+			mes "[Van Helmont]";
+			mes "Por que...?!";
+			mes "Por que outra falha?!";
+			mes "Meus cálculos estavam";
+			mes "todos corretos! E-Espere...!";
+			next;
+			mes "[Van Helmont]";
+			mes "Talvez, se eu capacitasse o fluxo térmico usando o gradiente neutrônico, poderia funcionar...!";
+			close;
+		}
+	}
+	if (ALCH_Q == 8) {
+		mes "Arrrgh...!";
+		mes "Por que esta fórmula não está funcionando? O que há de errado? Na teoria, está tudo correto, mas deve haver um erro na fórmula em algum lugar...";
+		next;
+		mes "[Van Helmont]";
+		mes "Eu despejo aqui, e deveria parar. Espere, esta é a solução errada! Como eu pude cometer um";
+		mes "erro tão estúpido?! Quando eles";
+		mes "foram trocados?!";
+		next;
+		mes "[Van Helmont]";
+		mes "Ok, ok...";
+		mes "Eu só preciso consertar esta parte.";
+		mes "Não preciso começar do zero. Só";
+		mes "preciso consertar... Mas espere. Espere...";
+		next;
+		mes "[Van Helmont]";
+		mes ".................";
+		next;
+		mes "[Van Helmont]";
+		mes "Hum...";
+		mes "Quem é você?";
+		next;
+		if (select("Eu quero me tornar um Alquimista.:.......") == 2) {
+			mes "[Van Helmont]";
+			mes "Hmm...?";
+			mes "O que foi, você só queria observar? Tudo bem, tudo bem, mas faça isso em silêncio e vá embora assim que terminar.";
+			next;
+			mes "[Van Helmont]";
+			mes "Saia do meu caminho e não saia tocando nas coisas. Pode haver materiais voláteis, então seria perigoso ter qualquer acidente.";
+			close;
+		}
+		mes "[Van Helmont]";
+		mes "Você...?";
+		mes "Um Alquimista?";
+		mes "Que Mercador engraçado.";
+		next;
+		mes "[Van Helmont]";
+		mes "Bem, isso é legal, mas tenho experimentos muito urgentes que requerem";
+		mes "minha atenção, então não fique";
+		mes "no caminho.";
+		next;
+		if (select("Ensine-me algo.:...") == 1) {
+			mes "[Van Helmont]";
+			mes "Argh...!";
+			mes "Eu não acabei de te dizer para não me incomodar? O que é tão difícil de entender nisso?";
+			next;
+			mes "[Van Helmont]";
+			mes "Tudo bem, tudo bem. Vou te dar uma tarefa. Aprenda algo";
+			mes "novo e volte. Vamos ver.";
+			mes "O que seria bom...";
+			next;
+			mes "[Van Helmont]";
+			mes "Ok, entendi.";
+			mes "Vá aprender a fazer";
+			mes "um Contraveneno e uma Mistura";
+			mes "com Molgenstein.";
+			next;
+			mes "[Van Helmont]";
+			mes "Você não precisa trazer nada. Apenas observe-o trabalhando e peça para ele te contar como ele faz essas soluções. Entendeu?";
+			next;
+			mes "[Van Helmont]";
+			set ALCH_Q,9;
+			changequest 2035,2036;
+			mes "Bem, então, até logo.";
+			mes "É melhor você ir assim";
+			mes "que puder.";
+			close;
+		}
+		mes "[Van Helmont]";
+		mes "...";
+		next;
+		mes "[Van Helmont]";
+		mes "...";
+		mes "......";
+		next;
+		mes "[Van Helmont]";
+		mes "...";
+		mes "......";
+		next;
+		mes "[Van Helmont]";
+		mes "Então, se eu recalibrar a taxa de combustão deste composto, isso deve anular quaisquer tendências de coesão neste fluxo de partículas...";
+		next;
+		mes "[Van Helmont]";
+		mes "Mas o que vou fazer";
+		mes "com toda essa";
+		mes "cristalização espontânea?! Não posso simplesmente remover esta matriz, preciso dela para o catalisador atingir o ponto triplo.";
+		next;
+		mes "[Van Helmont]";
+		mes "Droga!";
+		mes "O que";
+		mes "eu vou fazer?!";
+		close;
+	}
+	else if (ALCH_Q == 9) {
+		mes "Certo, se eu fizer uma incisão aqui no Tentáculo, e adicionar uma solução de Geléia Real e Muco Pegajoso no... Onde diabos foi parar minha Tigela de Medicina?";
+		next;
+		mes "[Van Helmont]";
+		mes "Será que usei todas em um momento como este?! Imagino se Nicholas ainda tem alguma. Ugh, que dor de cabeça. Espere. Espere um minuto...";
+		next;
+		mes "[Van Helmont]";
+		mes "...";
+		next;
+		mes "[Van Helmont]";
+		mes "...";
+		mes "......";
+		mes "Quem é você?";
+		next;
+		if (select("Eu quero me tornar um Alquimista?:.......") == 2) {
+			mes "[Van Helmont]";
+			mes "Hum...?";
+			mes "O quê, você só queria observar? Tudo bem, tudo bem, mas faça isso em silêncio e vá embora assim que terminar.";
+			next;
+			mes "[Van Helmont]";
+			mes "Fique fora do meu caminho e não saia tocando em nada. Pode haver materiais voláteis, então seria perigoso ter qualquer acidente.";
+			close;
+		}
+		mes "[Van Helmont]";
+		mes "Ah, claro. O Mercador de antes. Então, o que você aprendeu com Molgenstein? Eu não te mandei lá por diversão, sabe.";
+		next;
+		mes "[Van Helmont]";
+		mes "Deixe-me fazer";
+		mes "algumas perguntas para";
+		mes "verificar o que você";
+		mes "aprendeu.";
+		next;
+		if(MISC_QUEST & 4) {
+			mes "[Van Helmont]";
+			mes "Qual item não é";
+			mes "necessário para fazer";
+			mes "um Contraveneno?";
+			next;
+			if (select("Karvodailnirol:Detrimindexta:Álcool") != 1) set .@w_point,.@w_point+1;
+			mes "[Van Helmont]";
+			mes "Qual item não é";
+			mes "necessário para fazer";
+			mes "uma Mistura?";
+			next;
+			if (select("Karvodailnirol:Detrimindexta:Álcool") != 2) set .@w_point,.@w_point+1;
+			if (.@w_point > 0) {
+				mes "[Van Helmont]";
+				mes "Você não estava ouvindo o Molgenstein? Talvez você";
+				mes "precise vê-lo fazer isso de novo.";
+				next;
+				mes "[Van Helmont]";
+				mes "Se você não consegue dizer exatamente quais itens precisa em um experimento,";
+				mes "você pode acabar se machucando!";
+				close;
+			}
+			mes "[Van Helmont]";
+			mes "Bom, você aprendeu bem.";
+			mes "Certo, agora você sabe algo sobre experimentação. Você terminou aqui, então agora posso continuar com meus experimentos.";
+			next;
+			mes "[Van Helmont]";
+			mes "Vá lá fora e encontre a sala ao";
+			mes "lado desta e fale com Nicholas. Ele continuará seu treinamento.";
+			next;
+			set ALCH_Q,20;
+			changequest 2036,2037;
+			mes "[Van Helmont]";
+			mes "O que você";
+			mes "ainda está fazendo aqui?";
+			mes "Vá! Nós dois temos";
+			mes "coisas mais importantes";
+			mes "para fazer!";
+			close;
+		}
+		else {
+			mes "[Van Helmont]";
+			mes "Qual item você";
+			mes "precisa para fazer";
+			mes "um Contraveneno?";
+			next;
+			select("Pena:Muco Pegajoso:Sangue de Animal");
+			mes "[Van Helmont]";
+			mes "Qual item você";
+			mes "precisa para fazer";
+			mes "uma Mistura?";
+			next;
+			select("Ração para Monstros:Lábios Ancestrais:Bandagem Estragada");
+			mes "[Van Helmont]";
+			mes "Seja honesto. Você não sabe, sabe?! Eu não disse para ir ao Molgenstein e pedir para ele te ensinar?!";
+			next;
+			mes "[Van Helmont]";
+			mes "Nem pense em voltar até falar com ele! Agora pare de me incomodar e saia daqui!";
+			close;
+		}
+	}
+	else if (ALCH_Q == 20) {
+		mes "O quê...?";
+		mes "Eu não disse para você";
+		mes "falar com o Nicholas na sala ao lado?";
+		next;
+		mes "[Van Helmont]";
+		mes "Eu preciso continuar minha pesquisa,";
+		mes "e você precisa terminar de se tornar um Alquimista. Vamos, se mexa!";
+		close;
+	}
+	else {
+		mes "Só mais um pouco...";
+		mes "Um pouquinho mais...";
+		mes "Nãooo! Só mais um pouquinho";
+		mes "e teria";
+		mes "dado certo!";
+		next;
+		mes "[Van Helmont]";
+		mes "Por que...?!";
+		mes "Por que, outra falha?!";
+		mes "Meus cálculos estavam";
+		mes "todos corretos! Espere...";
+		next;
+		mes "[Van Helmont]";
+		mes "Talvez, se eu capacitasse o fluxo térmico usando o gradiente neutrônico, poderia funcionar...";
+		close;
+	}
+}
+
+alde_alche,101,184,4	script	Master Alchemist#am	122,{
+	cutin "job_alche_vincent",2;
+	mes "[Vincent Carsciallo]";
+	if (Upper == 1) {
+		mes "Você transcendeu...";
+		mes "Excelente, excelente.";
+		next;
+		mes "[Vincent Carsciallo]";
+		mes "Você não pertence a este lugar.";
+		mes "Vá e explore o vasto mundo, meu amigo.";
+		close2;
+		cutin "",255;
+		end;
+	}
+	if (BaseJob != Job_Merchant) {
+		if (BaseJob == Job_Alchemist) {
+			mes "Bem-vindo!";
+			mes "Como está sua";
+			mes "pesquisa?";
+			next;
+			mes "[Vincent Carsciallo]";
+			mes "Às vezes você obtém resultados inesperados em um experimento. Embora possam ser contratempos em sua pesquisa, tais resultados também podem levar a novas descobertas.";
+			next;
+			mes "[Vincent Carsciallo]";
+			mes "Se você descobrir algo novo,";
+			mes "venha nos contar. Não se esqueça de que todos nós estamos trabalhando juntos para desvendar os mistérios da ciência!";
+		}
+		else if (BaseClass == Job_Novice) {
+			mes "Humm...";
+			mes "Um Aprendiz?";
+			mes "Você não deveria";
+			mes "estar brincando em um lugar";
+			mes "como este.";
+			next;
+			mes "[Vincent Carsciallo]";
+			mes "Há muitos produtos químicos voláteis e materiais";
+			mes "perigosos neste prédio. Seria muito melhor se você fosse brincar lá fora.";
+		}
+		else {
+			mes "Hmm...?";
+			mes "O que um aventureiro";
+			mes "está fazendo aqui na";
+			mes "União dos Alquimista?";
+			next;
+			mes "[Vincent Carsciallo]";
+			mes "Receio que não haja";
+			mes "muito que possamos oferecer";
+			mes "a você aqui se você não";
+			mes "for um membro da nossa União.";
+		}
+		close2;
+		cutin "",255;
+		end;
+	}
+	if (ALCH_Q == 0) {
+		mes "Hmm...?";
+		mes "Um Mercador?";
+		mes "Você tem interesse";
+		mes "em aprender Alquimia?";
+		next;
+		mes "[Vincent Carsciallo]";
+		mes "Esta é a União dos Alquimista.";
+		mes "Nós pesquisamos e experimentamos com muitas substâncias diferentes para criar novos materiais sem usar magia.";
+		next;
+		mes "[Vincent Carsciallo]";
+		mes "Um dia, esperamos desvendar";
+		mes "o segredo da vida, assim como outros mistérios da ciência.";
+		next;
+		mes "[Vincent Carsciallo]";
+		mes "Depois de viajar como Mercador por um longo tempo, você deve ter desenvolvido alguma curiosidade científica. Se gostaria de aprender Alquimia, por que não tenta se juntar à União dos Alquimista?";
+		close2;
+		cutin "",255;
+		end;
+	}
+	else if (ALCH_Q == 40) {
+		if (JobLevel < 40) {
+			set ALCH_Q,0;
+			mes "Hmm... você não parece qualificado ainda.";
+			mes "Lembre-se, você deve atingir pelo menos o nível de classe 40 para se tornar um Alquimista.";
+			close2;
+			cutin "",255;
+			end;
+		}
+		if (SkillPoint) {
+			mes "Ah, você está quase";
+			mes "pronto para se tornar um";
+			mes "Alquimista, mas você deve";
+			mes "primeiro distribuir seus";
+			mes "Pontos de Habilidade não utilizados.";
+			next;
+			mes "[Vincent Carsciallo]";
+			mes "Fale comigo novamente";
+			mes "assim que você tiver";
+			mes "gasto todos os seus";
+			mes "Pontos de Habilidade extras.";
+			close2;
+			cutin "",255;
+			end;
+		}
+		if (checkquest(2039) != -1) {
+			changequest 2039,2040;
+		}
+		if (checkquest(2034) != -1) {
+			changequest 2034,2040;
+		}
+		mes "Ah, muito bem.";
+		mes "Vejo que você";
+		mes "aprendeu todos os";
+		mes "fundamentos da Alquimia.";
+		next;
+		set ALCH_Q,0;
+		completequest 2040;
+		set .@jlevel,JobLevel;
+		callfunc "Job_Change",Job_Alchemist;
+		callfunc "F_ClearJobVar";
+		mes "[Vincent Carsciallo]";
+		mes "De agora em diante,";
+		mes "você é um membro da";
+		mes "nossa ilustre União.";
+		mes "Espero que aprenda muito...";
+		next;
+		if (.@jlevel == 50) {
+			getitem 7133,1; //Slim_Potion_Create_Book
+			mes "[Vincent Carsciallo]";
+			mes "Deixe-me lhe dar";
+			mes "algo especial.";
+			mes "Você pode usar isto para";
+			mes "começar sua vida";
+			mes "de pesquisas.";
+		}
+		else {
+			switch(rand(1,6)) {
+			case 1:
+				getitem 7127,1; //Alcol_Create_Book
+				break;
+			case 2:
+				getitem 7128,1; //FireBottle_Create_Book
+				break;
+			case 3:
+				getitem 7129,1; //Acid_Create_Book
+				break;
+			case 4:
+				getitem 7130,1; //Plant_Create_Book
+				break;
+			case 5:
+				getitem 7131,1; //Mine_Create_Book
+				break;
+			case 6:
+				getitem 7144,1; //Normal_Potion_Book
+			}
+			mes "[Vincent Carsciallo]";
+			mes "E...";
+			mes "Aqui está algo";
+			mes "para lhe ajudar a";
+			mes "começar suas";
+			mes "pesquisas.";
+		}
+		next;
+		mes "[Vincent Carsciallo]";
+		mes "Nos veremos";
+		mes "mais tarde então...";
+		mes "Lembre-se de se portar";
+		mes "com orgulho";
+		mes "como um Alquimista!";
+		close2;
+		cutin "",255;
+		end;
+	}
+	else {
+		mes "Ah...";
+		mes "Acredito que você";
+		mes "já tenha se registrado";
+		mes "para o treinamento para se tornar";
+		mes "um Alquimista.";
+		next;
+		mes "[Vincent Carsciallo]";
+		mes "Por favor, ouça os";
+		mes "outros Alquimistas e siga as instruções deles atentamente. Você aprenderá muito com eles.";
+		close2;
+		cutin "",255;
+		end;
+	}
+}
+
+alde_alche,145,19,1	script	Chief Researcher#am	57,{
+	if (checkweight(1201,1) == 0) {
+		mes "- Espere um minuto! -";
+		mes "- Atualmente você está carregando -";
+		mes "- itens demais. -";
+		mes "- Por favor, volte novamente -";
+		mes "- após armazenar alguns itens no armazém da Kafra. -";
+		close;
+	}
+	if (ALCH_Q > 19 && ALCH_Q < 22) {
+		if (ALCH_Q == 20) {
+			mes "[Nicolau Flamel]";
+			mes "Oh...";
+			mes "Você é o novato";
+			mes "Mercador que quer";
+			mes "se tornar um Alquimista?";
+			next;
+			mes "[Nicolau Flamel]";
+			mes "Nem qualquer um pode se tornar um Alquimista, sabe. Você precisa ter motivação, objetivos claros e um forte senso de foco.";
+			next;
+			mes "[Nicolau Flamel]";
+			mes "Alquimistas precisam memorizar muitas equações químicas, leis científicas e muitas outras informações. É bem difícil, na verdade.";
+			next;
+			mes "[Nicolau Flamel]";
+			mes "Se você não conseguir se concentrar, ficará confuso depois ao olhar as tabelas de Alquimia. Meu teste julgará sua habilidade de fazer exatamente isso.";
+			next;
+		}
+		mes "[Nicolau Flamel]";
+		mes "Encontre as palavras escondidas";
+		mes "no grupo de letras que lhe darei. Elas podem ser formadas usando algumas";
+		mes "ou todas as letras.";
+		next;
+		mes "[Nicolau Flamel]";
+		mes "Você passa se";
+		mes "escolher a palavra";
+		mes "que está ^551A8BEM^000000 o quebra-cabeça.";
+		next;
+		switch(rand(1,3)) {
+		case 1:
+			mes "t m y a n y e o b n e g p r i";
+			next;
+			if (select("Freio:Latão:Inseto:Quebrado:Brigan?") == 5) set .@alch_t,.@alch_t+10;
+			mes "o n c u t a p j l e r s v m u";
+			next;
+			if (select("vendedor:armazém:arma:simples:lojinha") == 1) set .@alch_t,.@alch_t+10;
+			mes "t v a r m e g p h e u b o y l";
+			next;
+			if (select("melaço:grupo:líder:doces:melaço") == 2) set .@alch_t,.@alch_t+10;
+			mes "q z a h n a i n b r d p t n c";
+			next;
+			if (select("partidário:partizan:pato:paros:pacote") == 2) set .@alch_t,.@alch_t+10;
+			break;
+		case 2:
+			mes "m p d i c f a r o g n k w a s";
+			next;
+			if (select("packman:raio de sol:ragnarok:país das maravilhas:geada") == 1) set .@alch_t,.@alch_t+10;
+			mes "g b n o p r e f a r e t a s k";
+			next;
+			if (select("roxo:fumante:ragnarok:relâmpago:madeira queimada") == 3) set .@alch_t,.@alch_t+10;
+			mes "u g n i s j e k c e o g n d p";
+			next;
+			if (select("crosta:parentesco:doar:fonte:abertura") == 5) set .@alch_t,.@alch_t+10;
+			mes "r o e h n r o m c a i n p t t";
+			next;
+			if (select("mercador de forja:mercador de poções:mercador de desconto:mercador de venda:mercador de batalha") == 2) set .@alch_t,.@alch_t+10;
+			break;
+		case 3:
+			mes "s m i e x b w u n e t a g l r";
+			next;
+			if (select("tigre:lobo:abóbora:tropeçou:rasgou") == 1) set .@alch_t,.@alch_t+10;
+			mes "n i e g b o p d s o a u w r v";
+			next;
+			if (select("impacto explosivo:provocar:vigor:atordoar:abracadabra") == 3) set .@alch_t,.@alch_t+10;
+			mes "l r m g r e x t a v i n e d e";
+			next;
+			if (select("Alberta:latifoliado:carmesim:bordo:sempre-verde") == 5) set .@alch_t,.@alch_t+10;
+			mes "r o e h n r o m c a i n p t t";
+			next;
+			if (select("mercador forjador:mercador de poções:mercador de desconto:mercador de venda:mercador de batalha") == 2) set .@alch_t,.@alch_t+10;
+			break;
+		}
+		mes "[Nicolau Flamel]";
+		mes "Ah, você terminou.";
+		mes "Agora, vejamos...";
+		if (.@alch_t > 30) {
+			set ALCH_Q,22;
+			mes "Excelente trabalho!";
+			next;
+			mes "[Nicolau Flamel]";
+			mes "Ótimo, você encontrou todas aquelas palavras ocultas. Com esse nível de concentração, você não deve ter problemas para memorizar informações.";
+			next;
+			mes "[Nicolau Flamel]";
+			mes "Volte daqui a pouco enquanto";
+			mes "eu preparo a próxima tarefa";
+			mes "para o seu treinamento.";
+			next;
+			mes "[Nicolau Flamel]";
+			mes "Ah, e antes de falar";
+			mes "comigo novamente, certifique-se de que";
+			mes "^551A8Btenha bastante espaço no seu inventário^000000.";
+			close;
+		}
+		else {
+			set ALCH_Q,21;
+			mes "^666666*Ofegante!*^000000 H-horrível!";
+			next;
+			mes "[Nicolau Flamel]";
+			mes "Julgando por esses resultados, você obviamente tem um problema com concentração.";
+			next;
+			mes "[Nicolau Flamel]";
+			mes "Se você nem consegue resolver esses quebra-cabeças de palavras fáceis, como vai conseguir acompanhar seus experimentos e pesquisas?";
+			next;
+			mes "[Nicolau Flamel]";
+			mes "Por que você não relaxa";
+			mes "e descansa um pouco antes";
+			mes "de fazer o teste novamente?";
+			close;
+
+		}
+	}
+	else if (ALCH_Q == 22) {
+		if (MaxWeight - Weight < 1370) {
+			mes "[Nicolau Flamel]";
+			mes "Uau...";
+			mes "Você está carregando coisas demais! Primeiro, guarde alguns de seus pertences no Armazém da Kafra.";
+			close;
+		}
+		mes "[Nicolau Flamel]";
+		mes "Muito bem...";
+		mes "Para sua próxima";
+		mes "tarefa, você precisará";
+		mes "viajar para ^551A8BJuno^000000.";
+		next;
+		mes "[Nicolau Flamel]";
+		mes "Lá, você precisará falar com ^551A8BBain^000000 e ^551A8BBajin^000000. Esses dois estão fazendo pesquisas de Alquimia com os Sábios";
+		mes "em Juno. Você aprenderá algo ao ajudá-los com o projeto deles.";
+		next;
+		mes "[Nicolau Flamel]";
+		mes "Volte aqui para mim depois que";
+		mes "ajudá-los. Eles precisarão de todos esses itens para continuar seus experimentos.";
+		next;
+		set ALCH_Q,23;
+		changequest 2037,2038;
+		mes "[Nicolau Flamel]";
+		mes "1 Mistura,";
+		mes "5 Tronco Queimado,";
+		mes "5 Areia Fina,";
+		mes "3 Oridecon Bruto";
+		mes "e 3 Elunium Bruto.";
+		getitem 974,1; //Mixture
+		getitem 7068,5; //Burn_Tree
+		getitem 7043,5; //Fine_Sand
+		getitem 756,3; //Oridecon_Stone
+		getitem 757,3; //Elunium_Stone
+		next;
+		mes "[Nicolau Flamel]";
+		mes "Certo.";
+		mes "Tenha uma viagem segura";
+		mes "e volte inteiro";
+		mes "para mim.";
+		close;
+	}
+	else if (ALCH_Q == 23) {
+		mes "[Nicolau Flamel]";
+		mes "Eu não disse para";
+		mes "ir a Juno e ajudar";
+		mes "Bain e Bajin com";
+		mes "as pesquisas de Alquimia deles?";
+		close;
+	}
+	else if (ALCH_Q == 24) {
+		set ALCH_Q,40;
+		changequest 2038,2039;
+		mes "[Nicolau Flamel]";
+		mes "Ah, você voltou!";
+		mes "Acabei de receber uma mensagem de Bain";
+		mes "e Bajin. Eles me avisaram que ficaram muito felizes com a sua ajuda.";
+		next;
+		mes "[Nicolau Flamel]";
+		mes "Se você foi bom o suficiente";
+		mes "para ajudar aqueles irmãos,";
+		mes "você definitivamente está qualificado para ser";
+		mes "um Alquimista.";
+		next;
+		mes "[Nicolau Flamel]";
+		mes "Bom trabalho!";
+		mes "Tudo o que você precisa fazer agora é falar com o Líder da União no 2º andar! Parabéns, você se tornará um Alquimista muito em breve!";
+		close;
+	}
+	else if (ALCH_Q == 40 && BaseJob == Job_Merchant) {
+		mes "[Nicolau Flamel]";
+		mes "Tudo o que você precisa fazer agora é falar com o Líder da União no 2º andar! Parabéns, você se tornará um Alquimista muito em breve!";
+		close;
+	}
+	else {
+		mes "[Nicolau Flamel]";
+		mes "Lorem ipsum dolor sit amet,";
+		mes "consectetuer adipiscing elit.";
+		mes "Vivamus sem. Sed metus";
+		mes "lacus, viverra id, rutrum eget,";
+		mes "rhoncus sit amet, lectus.";
+		next;
+		mes "[Nicolau Flamel]";
+		mes "Suspendisse sit amet urna in";
+		mes "nisl fringilla faucibus. Nulla scelerisque eros...";
+		mes "^666666*Murmura Murmura*^000000";
+		close;
+	}
+}
+
+//============================================================ 
+// Old changelog
+//============================================================ 
+//= 1.0 Working.
+//=     npc/quests/counteragent_mixture.txt Also Needed
+//=     npc/quests/quests_yuno.txt Also Needed [Darkchild]
+//= 1.1 Fixed some minor bugs.  Optimized some lines. Re-organized the script a bit. 
+//=     Giving Parmry NPC, Hammer and Old Book now waves the 50000 fee. (based of mRO website)
+//=     Having a joblvl of 50 allows you to skip Rasputin's test. (based of mRO website) [kobra_k88]
+//= 1.2 fixed a few typos (have to hunt more) [Lupus]
+//= 1.3 Added Baby Class Support [Lupus]
+//= 1.6 Added a func which prevent advanced classes passing
+//=     2nd Job Quests again. It also guides adv classes where
+//=     to go. [Lupus]
+//= 1.6a fixed some wrong answers, thanks to zlider for info [Lupus]
+//= 2.0 Changed numbers to constants. [Vicious]
+//= 2.2 Got rid of 'al_morgen' var. Now uses (MISC_QUEST & 4) [Lupus]
+//= 2.3 Optimized, changed job numbers to constants. Fixed some spelling [Lupus]
+//= 2.4 Added alternative prizes according to JobLevel [Lupus]
+//= 2.4a Fixed 2 wrong answers in Rasputin's test [Lupus]
+//============================================================ 

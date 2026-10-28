@@ -1,0 +1,22 @@
+[package]
+name = "nostalre-ui-component"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+nostalre-ui = { workspace = true }
+nostalre-resources = { workspace = true }
+nostalre-game = { workspace = true }
+nostalre-ai = { workspace = true }
+nostalre-renderer = { workspace = true }
+
+[dev-dependencies]
+nostalre-ui = { workspace = true, features = ["test-support"] }
+models = { workspace = true }
+nostalre-formats = { workspace = true }
+winit = { workspace = true }
+wgpu = { workspace = true }
+image = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+libloading = { workspace = true }

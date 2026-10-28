@@ -1,0 +1,19 @@
+// One gift per character, for both first entry and existing classic saves.
+-	script	ClassicStarterGift	-1,{
+OnPCLoginEvent:
+	if (RS_FlyWingGift) end;
+	if (countitem(12887) > 0) {
+		RS_FlyWingGift = 1;
+		end;
+	}
+	if (!checkweight(12887,1)) {
+		dispbottom "Libere um espaco no inventario e entre novamente para receber sua Asa de Mosca Infinita.";
+		end;
+	}
+	getitem 12887,1;
+	if (countitem(12887) > 0) {
+		RS_FlyWingGift = 1;
+		dispbottom "Voce recebeu uma Asa de Mosca Infinita. Ela nao e consumida e nao tem prazo de validade.";
+	}
+	end;
+}

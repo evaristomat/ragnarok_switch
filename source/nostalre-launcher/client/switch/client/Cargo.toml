@@ -1,0 +1,41 @@
+[package]
+name = "nostalre-switch"
+version = "0.1.0"
+edition = "2024"
+build = "build.rs"
+
+[[bin]]
+name = "nostalre"
+path = "../../client/src/main.rs"
+
+[dependencies]
+nostalre-formats = { workspace = true }
+nostalre-resources = { workspace = true }
+nostalre-renderer = { workspace = true }
+nostalre-game = { workspace = true }
+nostalre-ai = { workspace = true }
+nostalre-network = { workspace = true }
+nostalre-profiling = { workspace = true }
+nostalre-ui = { workspace = true }
+nostalre-ui-component = { workspace = true }
+nostalre-audio = { workspace = true }
+models = { workspace = true }
+glam = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+winit = { workspace = true }
+tokio = { workspace = true }
+
+[target.'cfg(target_os = "android")'.dependencies]
+winit = { workspace = true, features = ["android-native-activity"] }
+
+[dev-dependencies]
+nostalre-ui = { workspace = true, features = ["test-support"] }
+
+[features]
+profiling = ["nostalre-profiling/profiling", "nostalre-profiling/puffin"]
+
+[build-dependencies]
+cc = "1"

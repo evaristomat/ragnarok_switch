@@ -1,0 +1,408 @@
+use crate::App;
+use crate::input;
+use crate::sprite::cart::direction_offset;
+use nostalre_formats::act::{MotionType, SpriteAnimationState};
+use nostalre_game::cursor::{RenderEntry, RenderEntryKind};
+use nostalre_game::entity::EntityState;
+use nostalre_game::movement::direction_from_delta;
+use nostalre_game::sprite_loader;
+use nostalre_game::sprite_path::falcon_sprite_path;
+use nostalre_renderer::{EntitySprite, build_entity_sprite_cached};
+use std::rc::Rc;
+
+const FALCON_ACTION_HOVER: usize = 0;
+const FALCON_ACTION_FLY: usize = 0;
+const FALCON_ACTION_ATTACK: usize = 1;
+
+/// Trail distance behind the owner, in cells.
+const FALCON_ORBIT_DISTANCE: f32 = 1.5;
+
+/// Full wing-flap cycle, in ms. The ACT delays differ per camera direction, so
+/// a fixed cycle prevents the flap speed changing with camera rotation.
+const FALCON_FLAP_MS: f32 = 500.0;
+
+/// Hover height above the terrain, in world units (subtracted; −Y is up).
+const FALCON_HOVER_HEIGHT: f32 = 25.0;
+
+const FALCON_FOLLOW_RATE: f32 = 3.0;
+
+/// The dive onto a skill target, in seconds: the blow lands as it arrives.
+pub(crate) const FALCON_FLIGHT_OUT_SECS: f32 = 0.42;
+
+/// Then it carries on past the target and climbs, in seconds, before flying home (kRO, by eye).
+const FALCON_CLIMB_SECS: f32 = 0.4;
+
+/// How low the dive strikes, above the target's feet, in world units.
+const FALCON_STRIKE_HEIGHT: f32 = 6.0;
+
+/// How far past the target the climb carries it, as a share of the dive's run along the ground.
+const FALCON_CLIMB_RUN: f32 = 0.6;
+
+/// How high the climb ends, above the target's feet, in world units: above its hover.
+const FALCON_CLIMB_HEIGHT: f32 = FALCON_HOVER_HEIGHT + 15.0;
+
+/// Snap threshold, in world units — beyond this the falcon teleports rather than easing.
+const FALCON_SNAP_DISTANCE: f32 = 60.0;
+
+/// After a dive it flies home however far it went; past this many seconds a remaining gap is an owner who moved
+/// away for real (a teleport), and it snaps.
+const FALCON_RETURN_SECS: f32 = 2.5;
+
+/// Home, in world units: the return is over.
+const FALCON_HOME_DISTANCE: f32 = 2.0;
+
+pub struct FalconFlight {
+    start: [f32; 3],
+    target: [f32; 3],
+    elapsed: f32,
+}
+
+impl FalconFlight {
+    /// Diving onto the target, speeding up (−Y is up), then carrying on past it and climbing, slowing.
+    fn position(&self) -> [f32; 3] {
+        let lerp = |a: [f32; 3], b: [f32; 3], t: f32| {
+            [0, 1, 2].map(|i| a[i] + (b[i] - a[i]) * t.clamp(0.0, 1.0))
+        };
+        let strike = [
+            self.target[0],
+            self.target[1] - FALCON_STRIKE_HEIGHT,
+            self.target[2],
+        ];
+        if self.elapsed < FALCON_FLIGHT_OUT_SECS {
+            let t = self.elapsed / FALCON_FLIGHT_OUT_SECS;
+            return lerp(self.start, strike, t * t);
+        }
+        let exit = [
+            strike[0] + (strike[0] - self.start[0]) * FALCON_CLIMB_RUN,
+            self.target[1] - FALCON_CLIMB_HEIGHT,
+            strike[2] + (strike[2] - self.start[2]) * FALCON_CLIMB_RUN,
+        ];
+        let t = (self.elapsed - FALCON_FLIGHT_OUT_SECS) / FALCON_CLIMB_SECS;
+        lerp(strike, exit, 1.0 - (1.0 - t.clamp(0.0, 1.0)).powi(2))
+    }
+}
+
+pub struct FalconMotion {
+    pub pos: [f32; 3],
+    pub direction: u8,
+    pub flight: Option<FalconFlight>,
+    /// Seconds left of the flight home after a dive, while it may not snap
+    returning: f32,
+}
+
+impl FalconMotion {
+    pub fn new(pos: [f32; 3], direction: u8) -> Self {
+        Self {
+            pos,
+            direction,
+            flight: None,
+            returning: 0.0,
+        }
+    }
+
+    pub fn start_flight(&mut self, target: [f32; 3]) {
+        self.flight = Some(FalconFlight {
+            start: self.pos,
+            target,
+            elapsed: 0.0,
+        });
+    }
+
+    pub fn advance(
+        &mut self,
+        delta: f32,
+        orbit: Option<[f32; 3]>,
+        owner_moving: bool,
+    ) -> (usize, MotionType) {
+        let prev = self.pos;
+        let result = match &mut self.flight {
+            Some(flight) => {
+                flight.elapsed += delta;
+                self.pos = flight.position();
+                if flight.elapsed >= FALCON_FLIGHT_OUT_SECS + FALCON_CLIMB_SECS {
+                    self.flight = None;
+                    self.returning = FALCON_RETURN_SECS;
+                }
+                (FALCON_ACTION_ATTACK, MotionType::Loop)
+            }
+            None => {
+                if let Some(target) = orbit {
+                    let gap = (target[0] - self.pos[0]).hypot(target[2] - self.pos[2]);
+                    self.returning = if gap <= FALCON_HOME_DISTANCE {
+                        0.0
+                    } else {
+                        (self.returning - delta).max(0.0)
+                    };
+                    if gap > FALCON_SNAP_DISTANCE && self.returning <= 0.0 {
+                        // Owner teleported / changed map: snap home rather than
+                        // streaking the bird across the world.
+                        self.pos = target;
+                    } else {
+                        let k = 1.0 - (-FALCON_FOLLOW_RATE * delta).exp();
+                        for i in 0..3 {
+                            self.pos[i] += (target[i] - self.pos[i]) * k;
+                        }
+                    }
+                }
+                if owner_moving {
+                    (FALCON_ACTION_FLY, MotionType::Loop)
+                } else {
+                    (FALCON_ACTION_HOVER, MotionType::Loop)
+                }
+            }
+        };
+        if let Some(dir) = direction_from_delta(self.pos[0] - prev[0], self.pos[2] - prev[2]) {
+            self.direction = dir;
+        }
+        result
+    }
+}
+
+pub struct FalconVisual {
+    pub sprite: Rc<EntitySprite>,
+    pub animation: SpriteAnimationState,
+    pub motion: FalconMotion,
+}
+
+impl App {
+    fn falcon_orbit_target(&self, owner_gid: u32) -> Option<[f32; 3]> {
+        let coords = self.game.session.map_coords.as_ref()?;
+        let entity = self.game.world.entities.get(owner_gid)?;
+        let (px, py) = entity.movement.position();
+        let (ox, oy) = direction_offset(entity.direction);
+        let (cx, cy) = (
+            px - ox * FALCON_ORBIT_DISTANCE,
+            py - oy * FALCON_ORBIT_DISTANCE,
+        );
+        let (wx, _, wz) = coords.cell_to_world(cx + 0.5, cy + 0.5);
+        let ground = self
+            .game
+            .session
+            .gat
+            .as_ref()
+            .map_or(0.0, |gat| gat.get_height(cx + 0.5, cy + 0.5));
+        Some([wx, ground - FALCON_HOVER_HEIGHT, wz])
+    }
+
+    pub(crate) fn spawn_falcon_visual(&mut self, owner_gid: u32) {
+        if self.game.sprite_caches.falcons.contains_key(&owner_gid) {
+            return;
+        }
+        let job = self
+            .game
+            .world
+            .entities
+            .get(owner_gid)
+            .map(|e| e.job)
+            .unwrap_or(0);
+        let (grf, renderer) = match (&self.grf, &self.renderer) {
+            (Some(g), Some(r)) => (g, r),
+            _ => return,
+        };
+        let base = falcon_sprite_path(job);
+        let body = match sprite_loader::load_sprite_data(
+            grf,
+            &format!("{base}.spr"),
+            &format!("{base}.act"),
+        ) {
+            Some(d) => d,
+            None => {
+                tracing::warn!("falcon sprite not found: {base}");
+                return;
+            }
+        };
+        let sprite = Rc::new(build_entity_sprite_cached(
+            &renderer.device.device,
+            &renderer.device.queue,
+            &renderer.texture_cache,
+            body,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+        ));
+        let direction = self
+            .game
+            .world
+            .entities
+            .get(owner_gid)
+            .map(|e| e.direction)
+            .unwrap_or(0);
+        let pos = self
+            .falcon_orbit_target(owner_gid)
+            .or_else(|| self.entity_world_pos(owner_gid))
+            .unwrap_or([0.0; 3]);
+        self.game.sprite_caches.falcons.insert(
+            owner_gid,
+            FalconVisual {
+                sprite,
+                animation: SpriteAnimationState::new(direction),
+                motion: FalconMotion::new(pos, direction),
+            },
+        );
+    }
+
+    pub(crate) fn despawn_falcon_visual(&mut self, owner_gid: u32) {
+        self.game.sprite_caches.falcons.remove(&owner_gid);
+    }
+
+    pub(crate) fn start_falcon_flight(&mut self, owner_gid: u32, target: [f32; 3]) {
+        if let Some(falcon) = self.game.sprite_caches.falcons.get_mut(&owner_gid) {
+            falcon.motion.start_flight(target);
+        }
+    }
+
+    pub(crate) fn update_falcon_visuals(&mut self, delta: f32) {
+        let camera_dir = self
+            .renderer
+            .as_ref()
+            .map(|r| r.camera.direction_index())
+            .unwrap_or(0);
+        let owners: Vec<u32> = self.game.sprite_caches.falcons.keys().copied().collect();
+        for gid in owners {
+            if self.game.world.entities.get(gid).is_none() {
+                self.game.sprite_caches.falcons.remove(&gid);
+                continue;
+            }
+            let orbit = self.falcon_orbit_target(gid);
+            let owner_moving = self
+                .game
+                .world
+                .entities
+                .get(gid)
+                .is_some_and(|e| e.state() == EntityState::Moving);
+            let Some(falcon) = self.game.sprite_caches.falcons.get_mut(&gid) else {
+                continue;
+            };
+            let (action, motion) = falcon.motion.advance(delta, orbit, owner_moving);
+            let direction = falcon.motion.direction;
+            falcon
+                .animation
+                .set_action_clamped(action, motion, &falcon.sprite.body_act);
+            falcon.animation.set_direction(direction);
+            // Pin the flap to a fixed cycle time so it doesn't speed up/slow down
+            // as the camera rotates through the sprite's uneven per-direction delays.
+            falcon
+                .animation
+                .set_motion_speed_override(Some(FALCON_FLAP_MS));
+            falcon
+                .animation
+                .update(delta, &falcon.sprite.body_act, camera_dir);
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn eases_toward_orbit_then_snaps_when_owner_teleports() {
+        let orbit = [100.0, 0.0, 100.0];
+        let mut m = FalconMotion::new([90.0, 0.0, 100.0], 0);
+
+        // A normal follow step eases partway toward the orbit (not all the way).
+        let (action, _) = m.advance(0.1, Some(orbit), false);
+        assert_eq!(action, FALCON_ACTION_HOVER);
+        assert!(
+            m.pos[0] > 90.0 && m.pos[0] < 100.0,
+            "eased partway: {}",
+            m.pos[0]
+        );
+
+        // Walking owner plays the flapping flight action.
+        let (action, _) = m.advance(0.1, Some(orbit), true);
+        assert_eq!(action, FALCON_ACTION_FLY);
+
+        // A huge jump (owner teleported) snaps the bird home in one frame.
+        let far_orbit = [1000.0, 0.0, 1000.0];
+        m.advance(0.016, Some(far_orbit), false);
+        assert_eq!(m.pos, far_orbit);
+    }
+
+    #[test]
+    fn flight_dives_onto_the_target_then_climbs_on_past_it_then_follows() {
+        // perched 25 up (−Y is up), the target on the ground 40 along x
+        let mut m = FalconMotion::new([0.0, -FALCON_HOVER_HEIGHT, 0.0], 0);
+        let target = [40.0, 0.0, 0.0];
+        m.start_flight(target);
+
+        // the dive: toward the target and lower than the perch
+        let (action, _) = m.advance(FALCON_FLIGHT_OUT_SECS * 0.5, None, false);
+        assert_eq!(action, FALCON_ACTION_ATTACK);
+        assert!(m.pos[0] > 0.0 && m.pos[0] < 40.0, "advancing: {}", m.pos[0]);
+        assert!(m.pos[1] > -FALCON_HOVER_HEIGHT, "descending: {}", m.pos[1]);
+
+        // the strike, low over the target
+        m.advance(FALCON_FLIGHT_OUT_SECS * 0.5, None, false);
+        assert!((m.pos[0] - 40.0).abs() < 0.5, "at the target: {}", m.pos[0]);
+        assert!(
+            (m.pos[1] + FALCON_STRIKE_HEIGHT).abs() < 1.0,
+            "low: {}",
+            m.pos[1]
+        );
+
+        // the climb carries it on past the target and above its perch, then it flies home
+        m.advance(FALCON_CLIMB_SECS, None, false);
+        assert!(m.pos[0] > 40.0, "past the target: {}", m.pos[0]);
+        assert!(m.pos[1] < -FALCON_HOVER_HEIGHT, "climbed: {}", m.pos[1]);
+        assert!(m.flight.is_none());
+        let (action, _) = m.advance(0.016, None, false);
+        assert_eq!(action, FALCON_ACTION_HOVER);
+    }
+
+    #[test]
+    fn after_a_far_dive_it_flies_home_instead_of_snapping() {
+        let home = [0.0, -FALCON_HOVER_HEIGHT, 0.0];
+        let mut m = FalconMotion::new(home, 0);
+        m.start_flight([200.0, 0.0, 0.0]);
+        m.advance(
+            FALCON_FLIGHT_OUT_SECS + FALCON_CLIMB_SECS,
+            Some(home),
+            false,
+        );
+        assert!(m.pos[0] > FALCON_SNAP_DISTANCE, "far out: {}", m.pos[0]);
+        let far = m.pos[0];
+        m.advance(0.016, Some(home), false);
+        assert!(
+            m.pos[0] < far && m.pos[0] > 0.0,
+            "on its way, not snapped: {}",
+            m.pos[0]
+        );
+        // still far once the return time is up: the owner went away for real
+        m.advance(FALCON_RETURN_SECS, Some([5000.0, 0.0, 0.0]), false);
+        m.advance(0.016, Some([5000.0, 0.0, 0.0]), false);
+        assert_eq!(m.pos[0], 5000.0, "snapped");
+    }
+}
+
+impl App {
+    pub(crate) fn compute_falcon_render_list(&self) -> Vec<RenderEntry> {
+        let mut render_list = Vec::new();
+        if let Some((renderer, coords, screen_w, screen_h)) = self.screen_dims() {
+            for (gid, falcon) in self.game.sprite_caches.falcons.iter() {
+                let projected = input::project_world_screen(
+                    falcon.motion.pos,
+                    coords,
+                    &renderer.camera,
+                    screen_w,
+                    screen_h,
+                );
+                Self::push_projected(
+                    &mut render_list,
+                    RenderEntryKind::Falcon,
+                    *gid,
+                    projected,
+                    None,
+                    None,
+                    |_, _, _, _| ([0.0; 4], 0.0),
+                );
+            }
+        }
+        render_list
+    }
+}

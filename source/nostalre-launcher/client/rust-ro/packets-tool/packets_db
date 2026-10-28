@@ -1,0 +1,8128 @@
+0x64
+struct PACKET_CA_LOGIN {
+  short PacketId
+  unsigned long Version
+  unsigned char ID[24]
+  unsigned char Passwd[24]
+  unsigned char clientType
+ }
+0x0065
+struct PACKET_CH_ENTER {
+  short PacketId
+  unsigned long AID
+  int AuthCode
+  unsigned long userLevel
+  unsigned short clientType
+  unsigned char Sex
+ }
+0x0066
+struct PACKET_CH_SELECT_CHAR {
+  short PacketId
+  unsigned char CharNum
+ }
+0x0067
+struct PACKET_CH_MAKE_CHAR {
+  short PacketId
+  unsigned char name[24]
+  unsigned char Str
+  unsigned char Agi
+  unsigned char Vit
+  unsigned char Int
+  unsigned char Dex
+  unsigned char Luk
+  unsigned char CharNum
+  short headPal
+  short head
+ }
+0x0970
+struct PACKET_CH_MAKE_CHAR2 {
+  short PacketId
+  unsigned char name[24]
+  unsigned char CharNum
+  short headPal
+  short head
+ }
+0x0068
+struct PACKET_CH_DELETE_CHAR {
+  short PacketId
+  unsigned long GID
+  char key[40]
+ }
+0x0069
+struct PACKET_AC_ACCEPT_LOGIN {
+  short PacketId
+  short PacketLength
+  int AuthCode
+  unsigned long AID
+  unsigned long userLevel
+  unsigned long lastLoginIP
+  char lastLoginTime[26]
+  unsigned char Sex
+  struct SERVER_ADDR ServerList[...] { // Size 32
+  unsigned long ip
+  short port
+  unsigned char name[20]
+  unsigned short userCount
+  unsigned short state
+  unsigned short property
+  }
+ }
+0x0ac4
+struct PACKET_AC_ACCEPT_LOGIN2 {
+  short PacketId
+  short PacketLength
+  int AuthCode
+  unsigned long AID
+  unsigned long userLevel
+  unsigned long lastLoginIP
+  char lastLoginTime[26]
+  unsigned char Sex
+  char twitterAuthToken[16]
+  unsigned char twitterFlag
+  struct SERVER_ADDR2 ServerList[...] { // Size 160
+  unsigned long ip
+  short port
+  unsigned char name[20]
+  unsigned short userCount
+  unsigned short state
+  unsigned short property
+  char unknown2[128]
+  }
+ }
+0x006a
+struct PACKET_AC_REFUSE_LOGIN {
+  short PacketId
+  unsigned char ErrorCode
+  char blockDate[20]
+ }
+0x006b
+struct PACKET_HC_ACCEPT_ENTER_NEO_UNION {
+  short PacketId
+  short PacketLength
+#V GTE 20100413 unsigned char TotalSlotNum
+#V GTE 20100413 unsigned char PremiumStartSlot
+#V GTE 20100413 unsigned char PremiumEndSlot
+  char dummy1_beginbilling
+  unsigned long code
+  unsigned long time1
+  unsigned long time2
+  char dummy2_endbilling[7]
+  struct CHARACTER_INFO_NEO_UNION charInfo[...] { // Size 155
+  unsigned long GID
+#V GTE 20170830 unsigned int64 exp_64
+#V LT 20170830 unsigned int exp
+  unsigned int money
+#V GTE 20170830 unsigned int64 jobexp_64
+#V LT 20170830 unsigned int jobexp
+  unsigned int joblevel
+  unsigned int bodystate
+  unsigned int healthstate
+  int effectstate
+  int virtue
+  int honor
+  unsigned short statusPoint
+#V RANGE 20081218 20220330 unsigned int hp
+#V GTE 20220330 int64 hp_64
+#V LTE 20081217 unsigned short hp_16
+#V RANGE 20081218 20220330 unsigned int maxhp
+#V GTE 20220330 int64 maxhp_64
+#V LTE 20081217 unsigned short maxhp_16
+#V LT 20220330 unsigned short sp
+#V GTE 20220330 int64 sp_64
+#V LT 20220330 unsigned short maxsp
+#V GTE 20220330 int64 maxsp_64
+  unsigned short speed
+  unsigned short class
+  unsigned short head
+#V GTE 20141022 unsigned short body
+  unsigned short weapon
+  unsigned short level
+  unsigned short skillPoint
+  unsigned short headBottom
+  unsigned short shield
+  unsigned short headTop
+  unsigned short headMid
+  unsigned short hairColor
+  unsigned short bodyColor
+  unsigned char name[24]
+  unsigned char Str
+  unsigned char Agi
+  unsigned char Vit
+  unsigned char Int
+  unsigned char Dex
+  unsigned char Luk
+  char CharNum
+  unsigned char haircolor
+  unsigned short bIsChangedCharName
+#V GTE 20100720  unsigned char lastMap[16]
+#V GTE 20100803 unsigned int DeleteDate
+#V GTE 20110111 unsigned int Robe
+#V GTE 20110928 unsigned int SlotAddon
+#V GTE 20111025 unsigned int RenameAddon
+#V GTE 20141016 unsigned char sex
+  }
+ }
+0x006c
+struct PACKET_HC_REFUSE_ENTER {
+  short PacketId
+  unsigned char ErrorCode
+ }
+0x006d, 0x0b6f:20201007
+struct PACKET_HC_ACCEPT_MAKECHAR_NEO_UNION {
+  short PacketId
+  struct CHARACTER_INFO_NEO_UNION charinfo {
+
+  }
+ }
+0x006e
+struct PACKET_HC_REFUSE_MAKECHAR {
+  short PacketId
+  unsigned char ErrorCode
+ }
+0x006f
+struct PACKET_HC_ACCEPT_DELETECHAR {
+  short PacketId
+ }
+0x0070
+struct PACKET_HC_REFUSE_DELETECHAR {
+  short PacketId
+  unsigned char ErrorCode
+ }
+0x0071
+struct PACKET_HC_NOTIFY_ZONESVR {
+  short PacketId
+  unsigned long GID
+  unsigned char mapName[16]
+  struct ZSERVER_ADDR addr {
+  unsigned long ip
+  short port
+  }
+ }
+0x0072
+struct PACKET_CZ_ENTER {
+  short PacketId
+  unsigned long AID
+  unsigned long GID
+  int AuthCode
+  unsigned long clientTime
+  unsigned char Sex
+ }
+0x0073
+struct PACKET_ZC_ACCEPT_ENTER {
+  short PacketId
+  unsigned long startTime
+  unsigned byte PosDir[3]
+  unsigned char xSize
+  unsigned char ySize
+ }
+0x0074
+struct PACKET_ZC_REFUSE_ENTER {
+  short PacketId
+  unsigned char ErrorCode
+ }
+0x0075
+struct PACKET_ZC_NOTIFY_INITCHAR {
+  short PacketId
+  short PacketLength
+  unsigned long GID
+  short Style
+  unsigned char Item
+ }
+0x0076
+struct PACKET_ZC_NOTIFY_UPDATECHAR {
+  short PacketId
+  unsigned long GID
+  short Style
+  unsigned char Item
+ }
+0x0077
+struct PACKET_ZC_NOTIFY_UPDATEPLAYER {
+  short PacketId
+  short Style
+  unsigned char Item
+ }
+0x0078
+struct PACKET_ZC_NOTIFY_STANDENTRY {
+  short PacketId
+  unsigned char objecttype
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  short effectState
+  short job
+  short head
+  short weapon
+  short accessory
+  short shield
+  short accessory2
+  short accessory3
+  short headpalette
+  short bodypalette
+  short headDir
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  short virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte PosDir[3]
+  unsigned char xSize
+  unsigned char ySize
+  unsigned char state
+  short clevel
+ }
+0x0079
+struct PACKET_ZC_NOTIFY_NEWENTRY {
+  short PacketId
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  short effectState
+  short job
+  short head
+  short weapon
+  short accessory
+  short shield
+  short accessory2
+  short accessory3
+  short headpalette
+  short bodypalette
+  short headDir
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  short virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte PosDir[3]
+  unsigned char xSize
+  unsigned char ySize
+  short clevel
+ }
+0x7a
+struct PACKET_ZC_NOTIFY_ACTENTRY {
+  short PacketId
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  short effectState
+  short job
+  short head
+  short weapon
+  short accessory
+  short shield
+  short accessory2
+  short accessory3
+  short headpalette
+  short bodypalette
+  short headDir
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  short virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte PosDir[3]
+  unsigned char xSize
+  unsigned char ySize
+  unsigned char action
+  unsigned long actStartTime
+  short clevel
+ }
+0x7b
+struct PACKET_ZC_NOTIFY_MOVEENTRY {
+  short PacketId
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  short effectState
+  short job
+  short head
+  short weapon
+  short accessory
+  unsigned long moveStartTime
+  short shield
+  short accessory2
+  short accessory3
+  short headpalette
+  short bodypalette
+  short headDir
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  short virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte MoveData[6]
+  unsigned char xSize
+  unsigned char ySize
+  short clevel
+ }
+0x7c
+struct PACKET_ZC_NOTIFY_STANDENTRY_NPC {
+  short PacketId
+  unsigned char objecttype
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  short effectState
+  short head
+  short weapon
+  short accessory
+  short job
+  short shield
+  short accessory2
+  short accessory3
+  short headpalette
+  short bodypalette
+  short headDir
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte PosDir[3]
+  unsigned char xSize
+  unsigned char ySize
+ }
+0x7d
+struct PACKET_CZ_NOTIFY_ACTORINIT {
+  short PacketId
+ }
+0x0887, 0x007e:20040705, 0x00f7:20040726, 0x0116:20040906, 0x0089:20041129, 0x0360:20101124, 0x0817:20111005, 0x0887:20120307, 0x0360:20180308
+struct PACKET_CZ_REQUEST_TIME {
+  short PacketId
+  #V RANGE 20040726 20040809 unsigned byte p0[4]
+  #V RANGE 20040809 20040906 unsigned byte p1[7]
+  #V RANGE 20040906 20040920 unsigned byte p2[5]
+  #V RANGE 20040920 20041005 unsigned byte p3[8]
+  #V RANGE 20041005 20041025 unsigned byte p4[4]
+  #V RANGE 20041025 20041129 unsigned byte p5[3]
+  #V RANGE 20041129 20050110 unsigned byte p6[1]
+  #V RANGE 20050110 20050509 unsigned byte p7[3]
+  #V RANGE 20050509 20050628 unsigned byte p8[2]
+  #V RANGE 20050628 20050718 unsigned byte p9[7]
+  #V RANGE 20050718 20050719 unsigned byte p10[1]
+  #V RANGE 20050719 20070108 unsigned byte p11[7]
+  #V RANGE 20070108 20070212 unsigned byte p12[5]
+  #V RANGE 20070212 20090408 unsigned byte p13[2]
+  #V RANGE 20090408 20101124 unsigned byte p14[5]
+  unsigned long clientTime
+ }
+0x7f
+struct PACKET_ZC_NOTIFY_TIME {
+  short PacketId
+  unsigned long time
+ }
+0x80
+struct PACKET_ZC_NOTIFY_VANISH {
+  short PacketId
+  unsigned long GID
+  unsigned char type
+ }
+0x81
+struct PACKET_SC_NOTIFY_BAN {
+  short PacketId
+  unsigned char ErrorCode
+ }
+0x82
+struct PACKET_CZ_REQUEST_QUIT {
+  short PacketId
+ }
+0x83
+struct PACKET_ZC_ACCEPT_QUIT {
+  short PacketId
+ }
+0x84
+struct PACKET_ZC_REFUSE_QUIT {
+  short PacketId
+ }
+0x0437, 0x0085:20040705, 0x009b:20040726, 0x0089:20040906, 0x00a7:20041129, 0x035f:20101124, 0x0364:20111005, 0x0437:20120307, 0x035f:20180308
+struct PACKET_CZ_REQUEST_MOVE {
+  short PacketId
+  #V RANGE 20040705 20040713 unsigned byte pad0[3]
+  #V RANGE 20040713 20040726 unsigned byte pad1[4]
+  #V RANGE 20040726 20040809 unsigned byte pad2[1]
+  #V RANGE 20040809 20040906 unsigned byte pad3[10]
+  #V RANGE 20040906 20040920 unsigned byte pad4[4]
+  #V RANGE 20040920 20041005 unsigned byte pad5[9]
+  #V RANGE 20041005 20041129 unsigned byte pad6[1]
+  #V RANGE 20041129 20050110 unsigned byte pad7[2]
+  #V RANGE 20050110 20050509 unsigned byte pad8[8]
+  #V RANGE 20050509 20050628 unsigned byte pad9[3]
+  #V RANGE 20050628 20050718 unsigned byte pad10[6]
+  #V RANGE 20050718 20050719 unsigned byte pad11[10]
+  #V RANGE 20050719 20060327 unsigned byte pad12[6]
+  #V RANGE 20060327 20070108 unsigned byte pad13[10]
+  #V RANGE 20070108 20090408 unsigned byte pad14[3]
+  #V RANGE 20090408 20101124 unsigned byte pad15[4]
+  unsigned byte dest[3]
+ }
+0x86
+struct PACKET_ZC_NOTIFY_MOVE {
+  short PacketId
+  unsigned long GID
+  unsigned byte MoveData[6]
+  unsigned long moveStartTime
+ }
+0x87
+struct PACKET_ZC_NOTIFY_PLAYERMOVE {
+  short PacketId
+  unsigned long moveStartTime
+  unsigned byte MoveData[6]
+ }
+0x88
+struct PACKET_ZC_STOPMOVE {
+  short PacketId
+  unsigned long AID
+  short xPos
+  short yPos
+ }
+0x8d2
+struct PACKET_ZC_FASTMOVE {
+  short PacketId
+  unsigned long AID
+  short xPos
+  short yPos
+ }
+0x0885, 0x0089:20040705, 0x0193:20040726, 0x0085:20040906, 0x009f:20041129, 0x0190:20050110, 0x0437:20080910, 0x08aa:20111102, 0x0885:20120307, 0x0437:20180308
+struct PACKET_CZ_REQUEST_ACT {
+  short PacketId
+  #V RANGE 20040726 20040809 unsigned byte a0[1]
+  #V RANGE 20040809 20040906 unsigned byte a1[5]
+  #V RANGE 20040906 20040920 unsigned byte a2[7]
+  #V RANGE 20040920 20041025 unsigned byte a3[1]
+  #V RANGE 20041025 20041129 unsigned byte a4[2]
+  #V RANGE 20041129 20050110 unsigned byte a5[4]
+  #V RANGE 20050110 20050509 unsigned byte a6[7]
+  #V RANGE 20050509 20050628 unsigned byte a7[3]
+  #V RANGE 20050628 20050718 unsigned byte a8[9]
+  #V RANGE 20050718 20050719 unsigned byte a9[3]
+  #V RANGE 20050719 20060327 unsigned byte a10[9]
+  #V RANGE 20060327 20070108 unsigned byte a11[5]
+  #V RANGE 20070108 20070212 unsigned byte a12[2]
+  #V RANGE 20070212 20080827 unsigned byte a13[3]
+  #V RANGE 20080827 20080910 unsigned byte a14[7]
+  unsigned long targetGID
+  #V RANGE 20040726 20040809 unsigned byte b0[1]
+  #V RANGE 20040809 20040906 unsigned byte b1[6]
+  #V RANGE 20040906 20040920 unsigned byte b2[9]
+  #V RANGE 20040920 20041025 unsigned byte b3[1]
+  #V RANGE 20041025 20041129 unsigned byte b4[6]
+  #V RANGE 20041129 20050110 unsigned byte b5[7]
+  #V RANGE 20050110 20050509 unsigned byte b6[6]
+  #V RANGE 20050509 20050628 unsigned byte b7[9]
+  #V RANGE 20050628 20050718 unsigned byte b8[8]
+  #V RANGE 20050718 20050719 unsigned byte b9[11]
+  #V RANGE 20050719 20060327 unsigned byte b10[8]
+  #V RANGE 20060327 20070108 unsigned byte b11[6]
+  #V RANGE 20070108 20070212 unsigned byte b12[1]
+  #V RANGE 20070212 20080827 unsigned byte b13[9]
+  #V RANGE 20080827 20080910 unsigned byte b14[9]
+  unsigned char action
+ }
+0x8a
+struct PACKET_ZC_NOTIFY_ACT {
+  short PacketId
+  unsigned long GID
+  unsigned long targetGID
+  unsigned long startTime
+  int attackMT
+  int attackedMT
+  short damage
+  short count
+  unsigned char action
+  short leftDamage
+ }
+0x8b
+struct PACKET_ZC_NOTIFY_ACT_POSITION {
+  short PacketId
+  unsigned long GID
+  unsigned long targetGID
+  unsigned long startTime
+  short xPos
+  short yPos
+  short damage
+  short count
+  unsigned char action
+ }
+0x8c
+struct PACKET_CZ_REQUEST_CHAT {
+  short PacketId
+  short PacketLength
+  char msg[...]
+ }
+0x8d
+struct PACKET_ZC_NOTIFY_CHAT {
+  short PacketId
+  short PacketLength
+  unsigned long GID
+  char msg[...]
+ }
+0x8e
+struct PACKET_ZC_NOTIFY_PLAYERCHAT {
+  short PacketId
+  short PacketLength
+  char msg[...]
+ }
+0x8f
+struct PACKET_SERVER_ENTRY_ACK {
+  short Header
+  int AID
+ }
+0x90
+struct PACKET_CZ_CONTACTNPC {
+  short PacketId
+  unsigned long NAID
+  unsigned char type
+ }
+0x91
+struct PACKET_ZC_NPCACK_MAPMOVE {
+  short PacketId
+  char mapName[16]
+  short xPos
+  short yPos
+ }
+0x92, 0x0ac7:20170315
+struct PACKET_ZC_NPCACK_SERVERMOVE {
+  short PacketId
+  char mapName[16]
+  short xPos
+  short yPos
+  struct ZSERVER_ADDR addr {
+  unsigned long ip
+  short port
+  }
+  #V GTE 20170315 char domain[128]
+ }
+0x93
+struct PACKET_ZC_NPCACK_ENABLE {
+  short PacketId
+ }
+0x096a, 0x0094:20040705, 0x0089:20040726, 0x009b:20040906, 0x008c:20041129, 0x0368:20101124, 0x088a:20111005, 0x096a:20120307, 0x0368:20180308
+struct PACKET_CZ_REQNAME {
+  short PacketId
+  #V RANGE 20040726 20040809 unsigned byte p0[9]
+  #V RANGE 20040809 20040906 unsigned byte p1[6]
+  #V RANGE 20040906 20040920 unsigned byte p2[8]
+  #V RANGE 20040920 20041005 unsigned byte p3[4]
+  #V RANGE 20041005 20041025 unsigned byte p4[9]
+  #V RANGE 20041025 20041129 unsigned byte p5[4]
+  #V RANGE 20041129 20050110 unsigned byte p6[7]
+  #V RANGE 20050110 20050509 unsigned byte p7[2]
+  #V RANGE 20050509 20050628 unsigned byte p8[5]
+  #V RANGE 20050628 20050718 unsigned byte p9[2]
+  #V RANGE 20050718 20050719 unsigned byte p10[5]
+  #V RANGE 20050719 20060327 unsigned byte p11[2]
+  #V RANGE 20060327 20070108 unsigned byte p12[6]
+  #V RANGE 20070108 20070212 unsigned byte p13[11]
+  #V RANGE 20070212 20090408 unsigned byte p14[5]
+  #V RANGE 20090408 20101124 unsigned byte p15[8]
+  unsigned long AID
+ }
+0x95
+struct PACKET_ZC_ACK_REQNAME {
+  short PacketId
+  unsigned long AID
+  char CName[24]
+ }
+0x96
+struct PACKET_CZ_WHISPER {
+  short PacketId
+  short PacketLength
+  char receiver[24]
+  char msg[...]
+ }
+0x97, 0x09de:20131204
+struct PACKET_ZC_WHISPER {
+  short PacketId
+  short PacketLength
+  #V GTE 20131204 unsigned int senderGID
+  char sender[24]
+  #V RANGE 20091104 20131204 unsigned int isAdmin
+  #V GTE 20131204 unsigned char isAdmin_8
+  char msg[...]
+ }
+0x98, 0x09df:20131223
+struct PACKET_ZC_ACK_WHISPER {
+  short PacketId
+  unsigned char result
+  #V GTE 20131223 unsigned int CID
+ }
+0x99
+struct PACKET_CZ_BROADCAST {
+  short PacketId
+  short PacketLength
+  char msg[...]
+ }
+0x9a
+struct PACKET_ZC_BROADCAST {
+  short PacketId
+  short PacketLength
+  char msg[...]
+ }
+0x0890, 0x009b:20040705, 0x009f:20040726, 0x00f3:20040906, 0x0085:20050110, 0x0361:20101124, 0x0366:20111005, 0x0890:20120307, 0x0361:20180308
+struct PACKET_CZ_CHANGE_DIRECTION {
+  short PacketId
+  #V RANGE 20040713 20040809 unsigned byte a0[3]
+  #V RANGE 20040809 20040906 unsigned byte a1[5]
+  #V RANGE 20040906 20040920 unsigned byte a2[2]
+  #V RANGE 20040920 20041005 unsigned byte a3[6]
+  #V RANGE 20041005 20041025 unsigned byte a4[3]
+  #V RANGE 20041025 20041129 unsigned byte a5[4]
+  #V RANGE 20041129 20050110 unsigned byte a6[1]
+  #V RANGE 20050110 20050509 unsigned byte a7[10]
+  #V RANGE 20050509 20050628 unsigned byte a8[5]
+  #V RANGE 20050628 20050718 unsigned byte a9[6]
+  #V RANGE 20050718 20050719 unsigned byte a10[4]
+  #V RANGE 20050719 20060327 unsigned byte a11[6]
+  #V RANGE 20060327 20070108 unsigned byte a12[5]
+  #V RANGE 20070108 20070212 unsigned byte a13[8]
+  #V RANGE 20070212 20090408 unsigned byte a14[5]
+  #V RANGE 20090408 20101124 unsigned byte a15[2]
+  short headDir
+  #V RANGE 20040713 20040809 unsigned byte b0[5]
+  #V RANGE 20040809 20040906 unsigned byte b1[2]
+  #V RANGE 20040906 20040920 unsigned byte b2[3]
+  #V RANGE 20040920 20041005 unsigned byte b3[7]
+  #V RANGE 20041005 20041025 unsigned byte b4[5]
+  #V RANGE 20041025 20041129 unsigned byte b5[6]
+  #V RANGE 20041129 20050110 unsigned byte b6[2]
+  #V RANGE 20050110 20050509 unsigned byte b7[8]
+  #V RANGE 20050509 20050628 unsigned byte b8[1]
+  #V RANGE 20050628 20050718 unsigned byte b9[6]
+  #V RANGE 20050718 20050719 unsigned byte b10[2]
+  #V RANGE 20050719 20060327 unsigned byte b11[6]
+  #V RANGE 20060327 20070108 unsigned byte b12[2]
+  #V RANGE 20070108 20090408 unsigned byte b13[1]
+  #V RANGE 20090408 20101124 unsigned byte b14[3]
+  unsigned char dir
+ }
+0x9c
+struct PACKET_ZC_CHANGE_DIRECTION {
+  short PacketId
+  unsigned long AID
+  short headDir
+  unsigned char dir
+ }
+0x9d
+struct PACKET_ZC_ITEM_ENTRY {
+  short PacketId
+  unsigned long ITAID
+  #V LT 20181121 unsigned short ITID
+  #V GTE 20181121 unsigned long ITID_32
+  bool IsIdentified
+  short xPos
+  short yPos
+  short count
+  unsigned char subX
+  unsigned char subY
+ }
+0x9e
+struct PACKET_ZC_ITEM_FALL_ENTRY {
+  short PacketId
+  unsigned long ITAID
+  unsigned short ITID
+  bool IsIdentified
+  short xPos
+  short yPos
+  unsigned char subX
+  unsigned char subY
+  short count
+ }
+0x0865, 0x009f:20040705, 0x0094:20040726, 0x0113:20040906, 0x00a2:20041129, 0x00f5:20050110, 0x0362:20101124, 0x0815:20111005, 0x0865:20120307, 0x0362:20180308
+struct PACKET_CZ_ITEM_PICKUP {
+  short PacketId
+  #V RANGE 20040713 20040809 unsigned byte p0[4]
+  #V RANGE 20040809 20040906 unsigned byte p1[7]
+  #V RANGE 20040906 20040920 unsigned byte p2[5]
+  #V RANGE 20040920 20041005 unsigned byte p3[8]
+  #V RANGE 20041005 20041025 unsigned byte p4[4]
+  #V RANGE 20041025 20041129 unsigned byte p5[3]
+  #V RANGE 20041129 20050110 unsigned byte p6[1]
+  #V RANGE 20050110 20050509 unsigned byte p7[3]
+  #V RANGE 20050509 20050628 unsigned byte p8[2]
+  #V RANGE 20050628 20050718 unsigned byte p9[7]
+  #V RANGE 20050718 20050719 unsigned byte p10[1]
+  #V RANGE 20050719 20070108 unsigned byte p11[7]
+  #V RANGE 20070108 20070212 unsigned byte p12[5]
+  #V RANGE 20070212 20090408 unsigned byte p13[2]
+  #V RANGE 20090408 20101124 unsigned byte p14[5]
+  unsigned long ITAID
+ }
+0xa0
+struct PACKET_ZC_ITEM_PICKUP_ACK {
+  short PacketId
+  unsigned short Index
+  unsigned short count
+  unsigned short ITID
+  bool IsIdentified
+  bool IsDamaged
+  unsigned char refiningLevel
+  struct EQUIPSLOTINFO slot {
+  #V LT 20181121 unsigned short card1
+  #V LT 20181121 unsigned short card2
+  #V LT 20181121 unsigned short card3
+  #V LT 20181121 unsigned short card4
+  #V GTE 20181121 unsigned long card1_32
+  #V GTE 20181121 unsigned long card2_32
+  #V GTE 20181121 unsigned long card3_32
+  #V GTE 20181121 unsigned long card4_32
+  }
+  unsigned short location
+  unsigned char type
+  unsigned char result
+ }
+0xa1
+struct PACKET_ZC_ITEM_DISAPPEAR {
+  short PacketId
+  unsigned long ITAID
+ }
+0x02c4, 0x00a2:20040705, 0x0072:20040726, 0x0094:20040906, 0x0116:20041129, 0x0363:20101124, 0x0885:20111005, 0x02c4:20120307, 0x0363:20180308
+struct PACKET_CZ_ITEM_THROW {
+  short PacketId
+  #V RANGE 20040726 20040809 unsigned byte a0[3]
+  #V RANGE 20040809 20040906 unsigned byte a1[6]
+  #V RANGE 20040906 20040920 unsigned byte a2[4]
+  #V RANGE 20040920 20041005 unsigned byte a3[10]
+  #V RANGE 20041005 20041025 unsigned byte a4[3]
+  #V RANGE 20041025 20041129 unsigned byte a5[4]
+  #V RANGE 20041129 20050110 unsigned byte a6[2]
+  #V RANGE 20050110 20050509 unsigned byte a7[13]
+  #V RANGE 20050509 20050628 unsigned byte a8[3]
+  #V RANGE 20050628 20050718 unsigned byte a9[1]
+  #V RANGE 20050718 20050719 unsigned byte a10[4]
+  #V RANGE 20050719 20060327 unsigned byte a11[1]
+  #V RANGE 20060327 20070108 unsigned byte a12[6]
+  #V RANGE 20070108 20070212 unsigned byte a13[9]
+  #V RANGE 20070212 20090408 unsigned byte a14[3]
+  #V RANGE 20090408 20101124 unsigned byte a15[4]
+  unsigned short Index
+  #V RANGE 20040726 20040809 unsigned byte b0[5]
+  #V RANGE 20040809 20040906 unsigned byte b1[5]
+  #V RANGE 20040906 20040920 unsigned byte b2[7]
+  #V RANGE 20040920 20041005 unsigned byte b3[3]
+  #V RANGE 20041005 20041025 unsigned byte b4[5]
+  #V RANGE 20041025 20041129 unsigned byte b5[2]
+  #V RANGE 20041129 20050110 unsigned byte b6[4]
+  #V RANGE 20050110 20050509 unsigned byte b7[1]
+  #V RANGE 20050509 20050628 unsigned byte b8[1]
+  #V RANGE 20050628 20050718 unsigned byte b9[5]
+  #V RANGE 20050718 20050719 unsigned byte b10[2]
+  #V RANGE 20050719 20060327 unsigned byte b11[5]
+  #V RANGE 20060327 20070108 unsigned byte b12[5]
+  #V RANGE 20070108 20070212 unsigned byte b13[4]
+  #V RANGE 20070212 20090408 unsigned byte b14[1]
+  #V RANGE 20090408 20101124 unsigned byte b15[7]
+  short count
+ }
+
+0xa3
+struct PACKET_ZC_NORMAL_ITEMLIST {
+  short PacketId
+  short PacketLength
+  struct NORMALITEM_EXTRAINFO itemInfo[...] { // Size 10
+  short index
+  unsigned short ITID
+  unsigned char type
+  bool IsIdentified
+  short count
+  unsigned short WearState
+  }
+ }
+0xa4
+struct PACKET_ZC_EQUIPMENT_ITEMLIST {
+  short PacketId
+  short PacketLength
+  struct EQUIPMENTITEM_EXTRAINFO itemInfo[...] { // Size 20
+  short index
+  unsigned short ITID
+  unsigned char type
+  bool IsIdentified
+  unsigned short location
+  unsigned short WearState
+  bool IsDamaged
+  unsigned char RefiningLevel
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  }
+ }
+0xa5
+struct PACKET_ZC_STORE_NORMAL_ITEMLIST {
+  short PacketId
+  short PacketLength
+  struct NORMALITEM_EXTRAINFO itemInfo[...] { // Size 10
+  short index
+  unsigned short ITID
+  unsigned char type
+  bool IsIdentified
+  short count
+  unsigned short WearState
+  }
+ }
+0xa6
+struct PACKET_ZC_STORE_EQUIPMENT_ITEMLIST {
+  short PacketId
+  short PacketLength
+  struct EQUIPMENTITEM_EXTRAINFO itemInfo[...] { // Size 20
+  short index
+  unsigned short ITID
+  unsigned char type
+  bool IsIdentified
+  unsigned short location
+  unsigned short WearState
+  bool IsDamaged
+  unsigned char RefiningLevel
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  }
+ }
+0x0439, 0x00a7:20040705, 0x00f5:20040726, 0x0072:20040906, 0x0190:20041129, 0x009f:20050110, 0x0439:20080910, 0x0439:20120307
+struct PACKET_CZ_USE_ITEM {
+  short PacketId
+  #V RANGE 20040705 20040713 unsigned byte a0[3]
+  #V RANGE 20040713 20040809 unsigned byte a1[4]
+  #V RANGE 20040809 20040920 unsigned byte a2[7]
+  #V RANGE 20040920 20041005 unsigned byte a3[8]
+  #V RANGE 20041005 20041025 unsigned byte a4[4]
+  #V RANGE 20041025 20041129 unsigned byte a5[3]
+  #V RANGE 20041129 20050110 unsigned byte a6[1]
+  #V RANGE 20050110 20050509 unsigned byte a7[3]
+  #V RANGE 20050509 20050628 unsigned byte a8[2]
+  #V RANGE 20050628 20050718 unsigned byte a9[7]
+  #V RANGE 20050718 20050719 unsigned byte a10[1]
+  #V RANGE 20050719 20070108 unsigned byte a11[7]
+  #V RANGE 20070108 20070212 unsigned byte a12[5]
+  #V RANGE 20070212 20080827 unsigned byte a13[2]
+  #V RANGE 20080827 20080910 unsigned byte a14[5]
+  unsigned short index
+  #V RANGE 20040705 20040713 unsigned byte b0[2]
+  #V RANGE 20040713 20040726 unsigned byte b1[5]
+  #V RANGE 20040726 20040809 unsigned byte b2[4]
+  #V RANGE 20040809 20040920 unsigned byte b3[9]
+  #V RANGE 20040920 20041005 unsigned byte b4[2]
+  #V RANGE 20041005 20041025 unsigned byte b5[5]
+  #V RANGE 20041025 20041129 unsigned byte b6[2]
+  #V RANGE 20041129 20050509 unsigned byte b7[6]
+  #V RANGE 20050509 20050718 unsigned byte b8[4]
+  #V RANGE 20050718 20050719 unsigned byte b9[3]
+  #V RANGE 20050719 20060327 unsigned byte b10[4]
+  #V RANGE 20060327 20070108 unsigned byte b11[9]
+  #V RANGE 20070108 20070212 unsigned byte b12[8]
+  #V RANGE 20070212 20080827 unsigned byte b13[4]
+  #V RANGE 20080827 20080910 unsigned byte b14[11]
+  unsigned long AID
+ }
+0xa8
+struct PACKET_ZC_USE_ITEM_ACK {
+  short PacketId
+  unsigned short index
+  short count
+  bool result
+ }
+0xa9, 0x0998:20120925
+struct PACKET_CZ_REQ_WEAR_EQUIP {
+  short PacketId
+  unsigned short index
+#V LT 20120925 unsigned short wearLocation
+#V GTE 20120925 unsigned long wearLocation_32
+ }
+0xaa
+struct PACKET_ZC_REQ_WEAR_EQUIP_ACK {
+  short PacketId
+  unsigned short index
+  unsigned short wearLocation
+  #V GTE 20101123 unsigned short viewId
+  unsigned char result
+ }
+0x08d0
+struct PACKET_ZC_REQ_WEAR_EQUIP_ACK2 {
+  short PacketId
+  unsigned short index
+  unsigned short wearLocation
+  unsigned short viewId
+  unsigned char result
+ }
+0xab
+struct PACKET_CZ_REQ_TAKEOFF_EQUIP {
+  short PacketId
+  unsigned short index
+ }
+0xac
+struct PACKET_ZC_REQ_TAKEOFF_EQUIP_ACK {
+  short PacketId
+  unsigned short index
+  unsigned short wearLocation
+  unsigned char result
+ }
+0x08d1
+struct PACKET_ZC_REQ_TAKEOFF_EQUIP_ACK2 {
+  short PacketId
+  unsigned short index
+  unsigned short wearLocation
+  unsigned char result
+ }
+0xaf
+struct PACKET_ZC_ITEM_THROW_ACK {
+  short PacketId
+  unsigned short Index
+  short count
+ }
+0xb0
+struct PACKET_ZC_PAR_CHANGE {
+  short PacketId
+  unsigned short varID
+  int count
+ }
+0xb1
+struct PACKET_ZC_LONGPAR_CHANGE {
+  short PacketId
+  unsigned short varID
+  int amount
+ }
+0x0acb
+struct PACKET_ZC_LONGLONGPAR_CHANGE {
+  short PacketId
+  unsigned short varID
+  int64 amount
+ }
+0xb2
+struct PACKET_CZ_RESTART {
+  short PacketId
+  unsigned char type
+ }
+0xb3
+struct PACKET_ZC_RESTART_ACK {
+  short PacketId
+  unsigned char type
+ }
+0xb4
+struct PACKET_ZC_SAY_DIALOG {
+  short PacketId
+  short PacketLength
+  unsigned long NAID
+  char msg[...]
+ }
+0xb5
+struct PACKET_ZC_WAIT_DIALOG {
+  short PacketId
+  unsigned long NAID
+ }
+0xb6
+struct PACKET_ZC_CLOSE_DIALOG {
+  short PacketId
+  unsigned long NAID
+ }
+0xb7
+struct PACKET_ZC_MENU_LIST {
+  short PacketId
+  short PacketLength
+  unsigned long NAID
+  char msg[...]
+ }
+0xb8
+struct PACKET_CZ_CHOOSE_MENU {
+  short PacketId
+  unsigned long NAID
+  unsigned char num
+ }
+0xb9
+struct PACKET_CZ_REQ_NEXT_SCRIPT {
+  short PacketId
+  unsigned long NAID
+ }
+0xba
+struct PACKET_CZ_REQ_STATUS {
+  short PacketId
+ }
+0xbb
+struct PACKET_CZ_STATUS_CHANGE {
+  short PacketId
+  unsigned short statusID
+  unsigned char changeAmount
+ }
+0xbc
+struct PACKET_ZC_STATUS_CHANGE_ACK {
+  short PacketId
+  unsigned short statusID
+  bool result
+  unsigned char value
+ }
+0xbd
+struct PACKET_ZC_STATUS {
+  short PacketId
+  short point
+  unsigned char str
+  unsigned char standardStr
+  unsigned char agi
+  unsigned char standardAgi
+  unsigned char vit
+  unsigned char standardVit
+  unsigned char Int
+  unsigned char standardInt
+  unsigned char dex
+  unsigned char standardDex
+  unsigned char luk
+  unsigned char standardLuk
+  short attPower
+  short refiningPower
+  short max_mattPower
+  short min_mattPower
+  short itemdefPower
+  short plusdefPower
+  short mdefPower
+  short plusmdefPower
+  short hitSuccessValue
+  short avoidSuccessValue
+  short plusAvoidSuccessValue
+  short criticalSuccessValue
+  short ASPD
+  short plusASPD
+ }
+0xbe
+struct PACKET_ZC_STATUS_CHANGE {
+  short PacketId
+  unsigned short statusID
+  unsigned char value
+ }
+0xbf
+struct PACKET_CZ_REQ_EMOTION {
+  short PacketId
+  unsigned char type
+ }
+0xc0
+struct PACKET_ZC_EMOTION {
+  short PacketId
+  unsigned long GID
+  unsigned char type
+ }
+0xc1
+struct PACKET_CZ_REQ_USER_COUNT {
+  short PacketId
+ }
+0xc2
+struct PACKET_ZC_USER_COUNT {
+  short PacketId
+  int count
+ }
+0xc3
+struct PACKET_ZC_SPRITE_CHANGE {
+  short PacketId
+  unsigned long GID
+  unsigned char type
+  unsigned char value
+ }
+0xc4
+struct PACKET_ZC_SELECT_DEALTYPE {
+  short PacketId
+  unsigned long NAID
+ }
+0xc5
+struct PACKET_CZ_ACK_SELECT_DEALTYPE {
+  short PacketId
+  unsigned long NAID
+  unsigned char type
+ }
+0xc6
+struct PACKET_ZC_PC_PURCHASE_ITEMLIST {
+  short PacketId
+  short PacketLength
+  struct PURCHASE_ITEM itemList[...] { // Size 11
+  int price
+  int discountprice
+  unsigned char type
+  unsigned short ITID
+  }
+ }
+0xc7
+struct PACKET_ZC_PC_SELL_ITEMLIST {
+  short PacketId
+  short PacketLength
+  struct SELL_ITEM itemList[...] { // Size 10
+  short index
+  int price
+  int overchargeprice
+  }
+ }
+0xc8
+struct PACKET_CZ_PC_PURCHASE_ITEMLIST {
+  short PacketId
+  short PacketLength
+  struct CZ_PURCHASE_ITEM itemList[...] { // Size 4
+  short count
+  #V LT 20181121 unsigned short ITID
+  #V GTE 20181121 unsigned long ITID_32
+  }
+ }
+0xc9
+struct PACKET_CZ_PC_SELL_ITEMLIST {
+  short PacketId
+  short PacketLength
+  struct CZ_SELL_ITEM itemList[...] { // Size 4
+  short index
+  short count
+  }
+ }
+0xca
+struct PACKET_ZC_PC_PURCHASE_RESULT {
+  short PacketId
+  unsigned char result
+ }
+0xcb
+struct PACKET_ZC_PC_SELL_RESULT {
+  short PacketId
+  unsigned char result
+ }
+0xcc
+struct PACKET_CZ_DISCONNECT_CHARACTER {
+  short PacketId
+  unsigned long AID
+ }
+0xcd
+struct PACKET_ZC_ACK_DISCONNECT_CHARACTER {
+  short PacketId
+  unsigned char result
+ }
+0xce
+struct PACKET_CZ_DISCONNECT_ALL_CHARACTER {
+  short PacketId
+ }
+0xcf
+struct PACKET_CZ_SETTING_WHISPER_PC {
+  short PacketId
+  char name[24]
+  unsigned char type
+ }
+0xd0
+struct PACKET_CZ_SETTING_WHISPER_STATE {
+  short PacketId
+  unsigned char type
+ }
+0xd1
+struct PACKET_ZC_SETTING_WHISPER_PC {
+  short PacketId
+  unsigned char type
+  unsigned char result
+ }
+0xd2
+struct PACKET_ZC_SETTING_WHISPER_STATE {
+  short PacketId
+  unsigned char type
+  unsigned char result
+ }
+0xd3
+struct PACKET_CZ_REQ_WHISPER_LIST {
+  short PacketId
+ }
+0xd4
+struct PACKET_ZC_WHISPER_LIST {
+  short PacketId
+  short PacketLength
+  struct WHISPER_ITEM wisperList[...] { // Size 24
+  char name[24]
+  }
+ }
+0xd5
+struct PACKET_CZ_CREATE_CHATROOM {
+  short PacketId
+  short PacketLength
+  short size
+  unsigned char type
+  char passwd[8]
+  char title[...]
+ }
+0xd6
+struct PACKET_ZC_ACK_CREATE_CHATROOM {
+  short PacketId
+  unsigned char result
+ }
+0xd7
+struct PACKET_ZC_ROOM_NEWENTRY {
+  short PacketId
+  short PacketLength
+  unsigned long AID
+  unsigned long roomID
+  short maxcount
+  short curcount
+  unsigned char type
+  char title[...]
+ }
+0xd8
+struct PACKET_ZC_DESTROY_ROOM {
+  short PacketId
+  unsigned long roomID
+ }
+0xd9
+struct PACKET_CZ_REQ_ENTER_ROOM {
+  short PacketId
+  unsigned long roomID
+  char passwd[8]
+ }
+0xda
+struct PACKET_ZC_REFUSE_ENTER_ROOM {
+  short PacketId
+  unsigned char result
+ }
+0xdb
+struct PACKET_ZC_ENTER_ROOM {
+  short PacketId
+  short PacketLength
+  unsigned long roomID
+  struct ROOM_MEMBER memberList[...] { // Size 28
+  unsigned long role
+  char name[24]
+  }
+ }
+0xdc
+struct PACKET_ZC_MEMBER_NEWENTRY {
+  short PacketId
+  short curcount
+  char name[24]
+ }
+0xdd
+struct PACKET_ZC_MEMBER_EXIT {
+  short PacketId
+  short curcount
+  char name[24]
+  unsigned char type
+ }
+0xde
+struct PACKET_CZ_CHANGE_CHATROOM {
+  short PacketId
+  short PacketLength
+  short size
+  unsigned char type
+  char passwd[8]
+  char title[...]
+ }
+0xdf
+struct PACKET_ZC_CHANGE_CHATROOM {
+  short PacketId
+  short PacketLength
+  unsigned long AID
+  unsigned long roomID
+  short maxcount
+  short curcount
+  unsigned char type
+  char title[...]
+ }
+0xe0
+struct PACKET_CZ_REQ_ROLE_CHANGE {
+  short PacketId
+  unsigned long role
+  char name[24]
+ }
+0xe1
+struct PACKET_ZC_ROLE_CHANGE {
+  short PacketId
+  unsigned long role
+  char name[24]
+ }
+0xe2
+struct PACKET_CZ_REQ_EXPEL_MEMBER {
+  short PacketId
+  char name[24]
+ }
+0xe3
+struct PACKET_CZ_EXIT_ROOM {
+  short PacketId
+ }
+0xe4
+struct PACKET_CZ_REQ_EXCHANGE_ITEM {
+  short PacketId
+  unsigned long AID
+ }
+0xe5
+struct PACKET_ZC_REQ_EXCHANGE_ITEM {
+  short PacketId
+  char name[24]
+ }
+0xe6
+struct PACKET_CZ_ACK_EXCHANGE_ITEM {
+  short PacketId
+  unsigned char result
+ }
+0xe7
+struct PACKET_ZC_ACK_EXCHANGE_ITEM {
+  short PacketId
+  unsigned char result
+ }
+0xe8
+struct PACKET_CZ_ADD_EXCHANGE_ITEM {
+  short PacketId
+  short index
+  int count
+ }
+0xe9
+struct PACKET_ZC_ADD_EXCHANGE_ITEM {
+  short PacketId
+  int count
+  unsigned short ITID
+  bool IsIdentified
+  bool IsDamaged
+  unsigned char refiningLevel
+  struct EQUIPSLOTINFO slot {
+  #V LT 20181121 unsigned short card1
+  #V LT 20181121 unsigned short card2
+  #V LT 20181121 unsigned short card3
+  #V LT 20181121 unsigned short card4
+  #V GTE 20181121 unsigned long card1_32
+  #V GTE 20181121 unsigned long card2_32
+  #V GTE 20181121 unsigned long card3_32
+  #V GTE 20181121 unsigned long card4_32
+  }
+ }
+0xea
+struct PACKET_ZC_ACK_ADD_EXCHANGE_ITEM {
+  short PacketId
+  short Index
+  unsigned char result
+ }
+0xeb
+struct PACKET_CZ_CONCLUDE_EXCHANGE_ITEM {
+  short PacketId
+ }
+0xec
+struct PACKET_ZC_CONCLUDE_EXCHANGE_ITEM {
+  short PacketId
+  unsigned char who
+ }
+0xed
+struct PACKET_CZ_CANCEL_EXCHANGE_ITEM {
+  short PacketId
+ }
+0xee
+struct PACKET_ZC_CANCEL_EXCHANGE_ITEM {
+  short PacketId
+ }
+0xef
+struct PACKET_CZ_EXEC_EXCHANGE_ITEM {
+  short PacketId
+ }
+0xf0
+struct PACKET_ZC_EXEC_EXCHANGE_ITEM {
+  short PacketId
+  unsigned char result
+ }
+0xf1
+struct PACKET_ZC_EXCHANGEITEM_UNDO {
+  short PacketId
+ }
+0xf2
+struct PACKET_ZC_NOTIFY_STOREITEM_COUNTINFO {
+  short PacketId
+  short curCount
+  short maxCount
+ }
+0x00f3, 0x008c:20040705, 0x00f3:20040726, 0x009f:20040906, 0x0085:20041129, 0x00f3:20050110
+struct PACKET_CZ_PLAYER_CHAT {
+  short PacketId
+  short PacketLength
+  char msg[...]
+ }
+0xf4
+struct PACKET_ZC_ADD_ITEM_TO_STORE {
+  short PacketId
+  short index
+  int count
+  unsigned short ITID
+  bool IsIdentified
+  bool IsDamaged
+  unsigned char refiningLevel
+  struct EQUIPSLOTINFO slot {
+  #V LT 20181121 unsigned short card1
+  #V LT 20181121 unsigned short card2
+  #V LT 20181121 unsigned short card3
+  #V LT 20181121 unsigned short card4
+  #V GTE 20181121 unsigned long card1_32
+  #V GTE 20181121 unsigned long card2_32
+  #V GTE 20181121 unsigned long card3_32
+  #V GTE 20181121 unsigned long card4_32
+  }
+ }
+0x0963, 0x00f5:20040705, 0x0190:20040726, 0x0193:20040906, 0x00f7:20050110, 0x0365:20101124, 0x0897:20111005, 0x0963:20120307, 0x0365:20180308
+struct PACKET_CZ_MOVE_ITEM_FROM_STORE_TO_BODY {
+  short PacketId
+  #V RANGE 20040726 20040809 unsigned byte a0[8]
+  #V RANGE 20040809 20040906 unsigned byte a1[9]
+  #V RANGE 20040906 20040920 unsigned byte a2[1]
+  #V RANGE 20040920 20041005 unsigned byte a3[2]
+  #V RANGE 20041005 20041025 unsigned byte a4[8]
+  #V RANGE 20041025 20041129 unsigned byte a5[10]
+  #V RANGE 20041129 20050110 unsigned byte a6[2]
+  #V RANGE 20050110 20050509 unsigned byte a7[9]
+  #V RANGE 20050509 20050628 unsigned byte a8[12]
+  #V RANGE 20050628 20050718 unsigned byte a9[9]
+  #V RANGE 20050718 20050719 unsigned byte a10[3]
+  #V RANGE 20050719 20070108 unsigned byte a11[9]
+  #V RANGE 20070108 20070212 unsigned byte a12[1]
+  #V RANGE 20070212 20090408 unsigned byte a13[12]
+  #V RANGE 20090408 20101124 unsigned byte a14[1]
+  short index
+  #V RANGE 20040726 20040809 unsigned byte b0[10]
+  #V RANGE 20040809 20040906 unsigned byte b1[9]
+  #V RANGE 20040906 20040920 unsigned byte b2[8]
+  #V RANGE 20040920 20041005 unsigned byte b3[2]
+  #V RANGE 20041005 20041025 unsigned byte b4[10]
+  #V RANGE 20041025 20041129 unsigned byte b5[4]
+  #V RANGE 20041129 20050110 unsigned byte b6[11]
+  #V RANGE 20050110 20050509 unsigned byte b7[4]
+  #V RANGE 20050509 20050628 unsigned byte b8[2]
+  #V RANGE 20050628 20050718 unsigned byte b9[1]
+  #V RANGE 20050718 20050719 unsigned byte b10[2]
+  #V RANGE 20050719 20060327 unsigned byte b11[1]
+  #V RANGE 20060327 20070108 unsigned byte b12[9]
+  #V RANGE 20070108 20070212 unsigned byte b13[6]
+  #V RANGE 20070212 20090408 unsigned byte b14[2]
+  #V RANGE 20090408 20101124 unsigned byte b15[8]
+  int count
+ }
+0x093b, 0x00f3:20040705, 0x0113:20040726, 0x007e:20040906, 0x0094:20041129, 0x0364:20101124, 0x0893:20111005, 0x093b:20120307, 0x0364:20180308
+struct PACKET_CZ_MOVE_ITEM_FROM_BODY_TO_STORE {
+  short PacketId
+  #V RANGE 20040726 20040809 unsigned byte a0[3]
+  #V RANGE 20040809 20040906 unsigned byte a1[3]
+  #V RANGE 20040906 20040920 unsigned byte a2[1]
+  #V RANGE 20040920 20041005 unsigned byte a3[4]
+  #V RANGE 20041005 20041025 unsigned byte a4[3]
+  #V RANGE 20041025 20041129 unsigned byte a5[4]
+  #V RANGE 20041129 20050110 unsigned byte a6[2]
+  #V RANGE 20050110 20050509 unsigned byte a7[8]
+  #V RANGE 20050509 20050628 unsigned byte a8[5]
+  #V RANGE 20050628 20050718 unsigned byte a9[14]
+  #V RANGE 20050718 20050719 unsigned byte a10[10]
+  #V RANGE 20050719 20060327 unsigned byte a11[14]
+  #V RANGE 20060327 20070108 unsigned byte a12[3]
+  #V RANGE 20070108 20070212 unsigned byte a13[2]
+  #V RANGE 20070212 20090408 unsigned byte a14[5]
+  #V RANGE 20090408 20101124 unsigned byte a15[1]
+  short index
+  #V RANGE 20040726 20040809 unsigned byte b0[5]
+  #V RANGE 20040809 20040906 unsigned byte b1[12]
+  #V RANGE 20040906 20040920 unsigned byte b2[10]
+  #V RANGE 20040920 20041005 unsigned byte b3[13]
+  #V RANGE 20041005 20041025 unsigned byte b4[5]
+  #V RANGE 20041025 20041129 unsigned byte b5[1]
+  #V RANGE 20041129 20050110 unsigned byte b6[4]
+  #V RANGE 20050110 20050509 unsigned byte b7[4]
+  #V RANGE 20050509 20050628 unsigned byte b8[1]
+  #V RANGE 20050628 20050718 unsigned byte b9[9]
+  #V RANGE 20050718 20050719 unsigned byte b10[3]
+  #V RANGE 20050719 20060327 unsigned byte b11[9]
+  #V RANGE 20060327 20070108 unsigned byte b12[12]
+  #V RANGE 20070108 20070212 unsigned byte b13[7]
+  #V RANGE 20070212 20090408 unsigned byte b14[1]
+  #V RANGE 20090408 20101124 unsigned byte b15[10]
+  int count
+ }
+0xf6
+struct PACKET_ZC_DELETE_ITEM_FROM_STORE {
+  short PacketId
+  short index
+  int count
+ }
+0x0193, 0x0116:20040726, 0x00f7:20040906, 0x009b:20041129, 0x0193:20050110, 0x0193:20120307
+struct PACKET_CZ_CLOSE_STORE {
+  short PacketId
+ }
+0xf8
+struct PACKET_ZC_CLOSE_STORE {
+  short PacketId
+ }
+0xf9
+struct PACKET_CZ_MAKE_GROUP {
+  short PacketId
+  char groupName[24]
+ }
+0xfa
+struct PACKET_ZC_ACK_MAKE_GROUP {
+  short PacketId
+  unsigned char result
+ }
+0xfb, 0x0a44:20170524, 0x0ae5:20171207
+struct PACKET_ZC_GROUP_LIST {
+  short PacketId
+  short PacketLength
+  char groupName[24]
+  struct GROUPMEMBER_INFO groupInfo[...] {
+  unsigned long AID
+  #V GTE 20171207 unsigned long GID
+  char characterName[24]
+  char mapName[16]
+  unsigned char role
+  unsigned char state
+  #V GTE 20170524 short class
+  #V GTE 20170524 short baseLevel
+  }
+ }
+0xfc
+struct PACKET_CZ_REQ_JOIN_GROUP {
+  short PacketId
+  unsigned long AID
+ }
+0xfd
+struct PACKET_ZC_ACK_REQ_JOIN_GROUP {
+  short PacketId
+  char characterName[24]
+  unsigned char answer
+ }
+0xfe
+struct PACKET_ZC_REQ_JOIN_GROUP {
+  short PacketId
+  unsigned long GRID
+  char groupName[24]
+ }
+0xff
+struct PACKET_CZ_JOIN_GROUP {
+  short PacketId
+  unsigned long GRID
+  int answer
+ }
+0x100
+struct PACKET_CZ_REQ_LEAVE_GROUP {
+  short PacketId
+ }
+0x101
+struct PACKET_ZC_GROUPINFO_CHANGE {
+  short PacketId
+  unsigned long expOption
+ }
+0x102
+struct PACKET_CZ_CHANGE_GROUPEXPOPTION {
+  short PacketId
+  unsigned long expOption
+ }
+0x103
+struct PACKET_CZ_REQ_EXPEL_GROUP_MEMBER {
+  short PacketId
+  unsigned long AID
+  char characterName[24]
+ }
+0x104
+struct PACKET_ZC_ADD_MEMBER_TO_GROUP {
+  short PacketId
+  unsigned long AID
+  unsigned long Role
+  short xPos
+  short yPos
+  unsigned char state
+  char groupName[24]
+  char characterName[24]
+  char mapName[16]
+ }
+0x105
+struct PACKET_ZC_DELETE_MEMBER_FROM_GROUP {
+  short PacketId
+  unsigned long AID
+  char characterName[24]
+  unsigned char result
+ }
+0x106
+struct PACKET_ZC_NOTIFY_HP_TO_GROUPM {
+  short PacketId
+  unsigned long AID
+  short hp
+  short maxhp
+ }
+0x107
+struct PACKET_ZC_NOTIFY_POSITION_TO_GROUPM {
+  short PacketId
+  unsigned long AID
+  short xPos
+  short yPos
+ }
+0x108
+struct PACKET_CZ_REQUEST_CHAT_PARTY {
+  short PacketId
+  short PacketLength
+  char msg[...]
+ }
+0x109
+struct PACKET_ZC_NOTIFY_CHAT_PARTY {
+  short PacketId
+  short PacketLength
+  unsigned long AID
+  char msg[...]
+ }
+0x10a
+struct PACKET_ZC_MVP_GETTING_ITEM {
+  short PacketId
+  #V LT 20181121 unsigned short ITID
+  #V GTE 20181121 unsigned long ITID_32
+ }
+0x10b
+struct PACKET_ZC_MVP_GETTING_SPECIAL_EXP {
+  short PacketId
+  unsigned long exp
+ }
+0x10c
+struct PACKET_ZC_MVP {
+  short PacketId
+  unsigned long AID
+ }
+0x10d
+struct PACKET_ZC_THROW_MVPITEM {
+  short PacketId
+ }
+0x10e
+struct PACKET_ZC_SKILLINFO_UPDATE {
+  short PacketId
+  unsigned short SKID
+  short level
+  short spcost
+  short attackRange
+  bool upgradable
+ }
+0x10f
+struct PACKET_ZC_SKILLINFO_LIST {
+  short PacketId
+  short PacketLength
+  struct SKILLINFO skillList[...] { // Size 37
+  short SKID
+  int type
+  short level
+  short spcost
+  short attackRange
+  unsigned char skillName[24]
+  char upgradable
+  }
+ }
+0x110
+struct PACKET_ZC_ACK_TOUSESKILL {
+  short PacketId
+  unsigned short SKID
+  unsigned long NUM
+#V GTE 20181121 unsigned long ITID
+  bool result
+  unsigned char cause
+ }
+0x111
+struct PACKET_ZC_ADD_SKILL {
+  short PacketId
+  struct SKILLINFO data { // Size 37
+  unsigned short SKID
+  int type
+  short level
+  short spcost
+  short attackRange
+  char skillName[24]
+  bool upgradable
+  }
+ }
+0x112
+struct PACKET_CZ_UPGRADE_SKILLLEVEL {
+  short PacketId
+  unsigned short SKID
+ }
+0x0889, 0x0113:20040705, 0x0085:20040726, 0x0190:20040906, 0x0072:20041129, 0x0438:20080910, 0x02c4:20111102, 0x0889:20120307, 0x0438:20180308
+struct PACKET_CZ_USE_SKILL {
+  short PacketId
+  #V RANGE 20040705 20040713 unsigned byte a0[2]
+  #V RANGE 20040713 20040726 unsigned byte a1[5]
+  #V RANGE 20040726 20040809 unsigned byte a2[5]
+  #V RANGE 20040809 20040906 unsigned byte a3[9]
+  #V RANGE 20040906 20040920 unsigned byte a4[7]
+  #V RANGE 20040920 20041005 unsigned byte a5[2]
+  #V RANGE 20041005 20041025 unsigned byte a6[5]
+  #V RANGE 20041025 20041129 unsigned byte a7[2]
+  #V RANGE 20041129 20050110 unsigned byte a8[6]
+  #V RANGE 20050110 20050509 unsigned byte a9[6]
+  #V RANGE 20050509 20050628 unsigned byte a10[4]
+  #V RANGE 20050628 20050718 unsigned byte a11[4]
+  #V RANGE 20050718 20050719 unsigned byte a12[3]
+  #V RANGE 20050719 20060327 unsigned byte a13[4]
+  #V RANGE 20060327 20070108 unsigned byte a14[9]
+  #V RANGE 20070108 20070212 unsigned byte a15[8]
+  #V RANGE 20070212 20080827 unsigned byte a16[4]
+  #V RANGE 20080827 20080910 unsigned byte a17[7]
+  short selectedLevel
+  #V RANGE 20040705 20040713 unsigned byte b0[3]
+  #V RANGE 20040726 20040809 unsigned byte b2[3]
+  #V RANGE 20040809 20040906 unsigned byte b3[5]
+  #V RANGE 20040906 20040920 unsigned byte b4[4]
+  #V RANGE 20040920 20041005 unsigned byte b5[1]
+  #V RANGE 20041005 20041025 unsigned byte b6[3]
+  #V RANGE 20041025 20041129 unsigned byte b7[4]
+  #V RANGE 20041129 20050110 unsigned byte b8[2]
+  #V RANGE 20050110 20050509 unsigned byte b9[6]
+  #V RANGE 20050509 20050628 unsigned byte b10[2]
+  #V RANGE 20050628 20050718 unsigned byte b11[9]
+  #V RANGE 20050718 20050719 unsigned byte b12[4]
+  #V RANGE 20050719 20060327 unsigned byte b13[9]
+  #V RANGE 20060327 20070108 unsigned byte b14[5]
+  #V RANGE 20070108 20070212 unsigned byte b15[2]
+  #V RANGE 20070212 20080827 unsigned byte b16[2]
+  #V RANGE 20080827 20080910 unsigned byte b17[4]
+  unsigned short SKID
+  #V RANGE 20040713 20040726 unsigned byte c1[4]
+  #V RANGE 20040726 20040809 unsigned byte c2[2]
+  #V RANGE 20040809 20040906 unsigned byte c3[2]
+  #V RANGE 20040906 20040920 unsigned byte c4[1]
+  #V RANGE 20040920 20041005 unsigned byte c5[1]
+  #V RANGE 20041005 20041025 unsigned byte c6[2]
+  #V RANGE 20041025 20041129 unsigned byte c7[10]
+  #V RANGE 20041129 20050110 unsigned byte c8[4]
+  #V RANGE 20050110 20050509 unsigned byte c9[4]
+  #V RANGE 20050509 20050628 unsigned byte c10[9]
+  #V RANGE 20050628 20050718 unsigned byte c11[11]
+  #V RANGE 20050718 20050719 unsigned byte c12[2]
+  #V RANGE 20050719 20060327 unsigned byte c13[11]
+  #V RANGE 20060327 20070108 unsigned byte c14[2]
+  #V RANGE 20070108 20070212 unsigned byte c15[10]
+  #V RANGE 20070212 20080827 unsigned byte c16[9]
+  #V RANGE 20080827 20080910 unsigned byte c17[1]
+  unsigned long targetID
+ }
+0x114
+struct PACKET_ZC_NOTIFY_SKILL {
+  short PacketId
+  unsigned short SKID
+  unsigned long AID
+  unsigned long targetID
+  unsigned long startTime
+  int attackMT
+  int attackedMT
+  short damage
+  short level
+  short count
+  unsigned char action
+ }
+0x115
+struct PACKET_ZC_NOTIFY_SKILL_POSITION {
+  short PacketId
+  unsigned short SKID
+  unsigned long AID
+  unsigned long targetID
+  unsigned long startTime
+  int attackMT
+  int attackedMT
+  short xPos
+  short yPos
+  short damage
+  short level
+  short count
+  unsigned char action
+ }
+0x0438, 0x0116:20040705, 0x008c:20040726, 0x00a7:20040906, 0x007e:20041129, 0x0113:20050110, 0x0366:20101124, 0x0369:20111005, 0x0438:20120307, 0x0366:20180308
+struct PACKET_CZ_USE_SKILL_TOGROUND {
+  short PacketId
+  #V RANGE 20040705 20040713 unsigned byte a0[2]
+  #V RANGE 20040713 20040726 unsigned byte a1[5]
+  #V RANGE 20040726 20040809 unsigned byte a2[1]
+  #V RANGE 20040809 20040906 unsigned byte a3[3]
+  #V RANGE 20040906 20040920 unsigned byte a4[8]
+  #V RANGE 20040920 20041005 unsigned byte a5[4]
+  #V RANGE 20041005 20041025 unsigned byte a6[1]
+  #V RANGE 20041025 20041129 unsigned byte a7[4]
+  #V RANGE 20041129 20050110 unsigned byte a8[2]
+  #V RANGE 20050110 20050509 unsigned byte a9[8]
+  #V RANGE 20050509 20050628 unsigned byte a10[3]
+  #V RANGE 20050628 20050718 unsigned byte a11[10]
+  #V RANGE 20050718 20050719 unsigned byte a12[7]
+  #V RANGE 20050719 20060327 unsigned byte a13[10]
+  #V RANGE 20060327 20070108 unsigned byte a14[3]
+  #V RANGE 20070108 20070212 unsigned byte a15[8]
+  #V RANGE 20070212 20090408 unsigned byte a16[3]
+  #V RANGE 20090408 20101124 unsigned byte a17[8]
+  short selectedLevel
+  #V RANGE 20040705 20040713 unsigned byte b0[3]
+  #V RANGE 20040726 20040809 unsigned byte b2[1]
+  #V RANGE 20040809 20040906 unsigned byte b3[8]
+  #V RANGE 20040906 20040920 unsigned byte b4[2]
+  #V RANGE 20040920 20041005 unsigned byte b5[12]
+  #V RANGE 20041005 20041025 unsigned byte b6[1]
+  #V RANGE 20041025 20041129 unsigned byte b7[1]
+  #V RANGE 20041129 20050110 unsigned byte b8[3]
+  #V RANGE 20050110 20050509 unsigned byte b9[6]
+  #V RANGE 20050509 20050628 unsigned byte b10[2]
+  #V RANGE 20050628 20050718 unsigned byte b11[1]
+  #V RANGE 20050718 20050719 unsigned byte b12[4]
+  #V RANGE 20050719 20060327 unsigned byte b13[1]
+  #V RANGE 20060327 20070108 unsigned byte b14[8]
+  #V RANGE 20070108 20070212 unsigned byte b15[7]
+  #V RANGE 20070212 20090408 unsigned byte b16[2]
+  #V RANGE 20090408 20101124 unsigned byte b17[2]
+  unsigned short SKID
+  #V RANGE 20040713 20040726 unsigned byte c1[4]
+  #V RANGE 20040726 20040809 unsigned byte c2[9]
+  #V RANGE 20040809 20040906 unsigned byte c3[12]
+  #V RANGE 20040906 20040920 unsigned byte c4[2]
+  #V RANGE 20040920 20041005 unsigned byte c5[1]
+  #V RANGE 20041005 20041025 unsigned byte c6[9]
+  #V RANGE 20041025 20041129 unsigned byte c7[12]
+  #V RANGE 20041129 20050110 unsigned byte c8[11]
+  #V RANGE 20050110 20050509 unsigned byte c9[2]
+  #V RANGE 20050509 20050628 unsigned byte c10[1]
+  #V RANGE 20050628 20050718 unsigned byte c11[1]
+  #V RANGE 20050718 20050719 unsigned byte c12[6]
+  #V RANGE 20050719 20060327 unsigned byte c13[1]
+  #V RANGE 20060327 20070108 unsigned byte c14[12]
+  #V RANGE 20070108 20070212 unsigned byte c15[2]
+  #V RANGE 20070212 20090408 unsigned byte c16[1]
+  #V RANGE 20090408 20101124 unsigned byte c17[2]
+  short xPos
+  #V RANGE 20040726 20040809 unsigned byte d2[2]
+  #V RANGE 20040809 20040906 unsigned byte d3[7]
+  #V RANGE 20040906 20040920 unsigned byte d4[3]
+  #V RANGE 20040920 20041005 unsigned byte d5[2]
+  #V RANGE 20041005 20041025 unsigned byte d6[2]
+  #V RANGE 20041025 20041129 unsigned byte d7[1]
+  #V RANGE 20041129 20050110 unsigned byte d8[4]
+  #V RANGE 20050110 20050509 unsigned byte d9[8]
+  #V RANGE 20050509 20050628 unsigned byte d10[6]
+  #V RANGE 20050628 20050718 unsigned byte d11[11]
+  #V RANGE 20050718 20050719 unsigned byte d12[3]
+  #V RANGE 20050719 20060327 unsigned byte d13[11]
+  #V RANGE 20060327 20070108 unsigned byte d14[7]
+  #V RANGE 20070108 20070212 unsigned byte d15[13]
+  #V RANGE 20070212 20090408 unsigned byte d16[6]
+  #V RANGE 20090408 20101124 unsigned byte d17[3]
+  short yPos
+ }
+0x117
+struct PACKET_ZC_NOTIFY_GROUNDSKILL {
+  short PacketId
+  unsigned short SKID
+  unsigned long AID
+  short level
+  short xPos
+  short yPos
+  unsigned long startTime
+ }
+0x118
+struct PACKET_CZ_CANCEL_LOCKON {
+  short PacketId
+ }
+0x119
+struct PACKET_ZC_STATE_CHANGE {
+  short PacketId
+  unsigned long AID
+  short bodyState
+  short healthState
+  short effectState
+  bool isPKModeON
+ }
+0x11a, 0x09cb:20130731
+struct PACKET_ZC_USE_SKILL {
+  short PacketId
+  unsigned short SKID
+#V LT 20130731 short level
+#V GTE 20130731 int level_32
+  unsigned long targetAID
+  unsigned long srcAID
+  bool result
+ }
+0x11b
+struct PACKET_CZ_SELECT_WARPPOINT {
+  short PacketId
+  unsigned short SKID
+  char mapName[16]
+ }
+0x11c
+struct PACKET_ZC_WARPLIST {
+  short PacketId
+  unsigned short SKID
+  char mapName[64]
+ }
+0xabe
+struct PACKET_ZC_WARPLIST2 {
+  short PacketId
+  short PacketLength
+  unsigned short SKID
+   struct PACKET_ZC_WARPLIST_SUB maps[...] { // Size 16
+  char map[16]
+  }
+ }
+0x11d
+struct PACKET_CZ_REMEMBER_WARPPOINT {
+  short PacketId
+ }
+0x11e
+struct PACKET_ZC_ACK_REMEMBER_WARPPOINT {
+  short PacketId
+  unsigned char errorCode
+ }
+0x11f
+struct PACKET_ZC_SKILL_ENTRY {
+  short PacketId
+  unsigned long AID
+  unsigned long creatorAID
+  short xPos
+  short yPos
+  unsigned char job
+  bool isVisible
+ }
+0x09ca
+struct PACKET_ZC_SKILL_ENTRY5 {
+  short PacketId
+  short PacketLength
+  unsigned long AID
+  unsigned long creatorAID
+  short xPos
+  short yPos
+  unsigned long job
+  unsigned char RadiusRange
+  bool isVisible
+  unsigned char level
+ }
+0x120
+struct PACKET_ZC_SKILL_DISAPPEAR {
+  short PacketId
+  unsigned long AID
+ }
+0x121
+struct PACKET_ZC_NOTIFY_CARTITEM_COUNTINFO {
+  short PacketId
+  short curCount
+  short maxCount
+  int curWeight
+  int maxWeight
+ }
+0x122
+struct PACKET_ZC_CART_EQUIPMENT_ITEMLIST {
+  short PacketId
+  short PacketLength
+  struct EQUIPMENTITEM_EXTRAINFO itemInfo[...] { // Size 20
+  short index
+  unsigned short ITID
+  unsigned char type
+  bool IsIdentified
+  unsigned short location
+  unsigned short WearState
+  bool IsDamaged
+  unsigned char RefiningLevel
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  }
+ }
+0x123
+struct PACKET_ZC_CART_NORMAL_ITEMLIST {
+  short PacketId
+  short PacketLength
+  struct NORMALITEM_EXTRAINFO itemInfo[...] { // Size 10
+  short index
+  unsigned short ITID
+  unsigned char type
+  bool IsIdentified
+  short count
+  unsigned short WearState
+  }
+ }
+0x124
+struct PACKET_ZC_ADD_ITEM_TO_CART {
+  short PacketId
+  short index
+  int count
+  unsigned short ITID
+  bool IsIdentified
+  bool IsDamaged
+  unsigned char refiningLevel
+  struct EQUIPSLOTINFO slot {
+  #V LT 20181121 unsigned short card1
+  #V LT 20181121 unsigned short card2
+  #V LT 20181121 unsigned short card3
+  #V LT 20181121 unsigned short card4
+  #V GTE 20181121 unsigned long card1_32
+  #V GTE 20181121 unsigned long card2_32
+  #V GTE 20181121 unsigned long card3_32
+  #V GTE 20181121 unsigned long card4_32
+  }
+ }
+0x125
+struct PACKET_ZC_DELETE_ITEM_FROM_CART {
+  short PacketId
+  short index
+  int count
+ }
+0x126
+struct PACKET_CZ_MOVE_ITEM_FROM_BODY_TO_CART {
+  short PacketId
+  short index
+  int count
+ }
+0x127
+struct PACKET_CZ_MOVE_ITEM_FROM_CART_TO_BODY {
+  short PacketId
+  short index
+  int count
+ }
+0x128
+struct PACKET_CZ_MOVE_ITEM_FROM_STORE_TO_CART {
+  short PacketId
+  short index
+  int count
+ }
+0x129
+struct PACKET_CZ_MOVE_ITEM_FROM_CART_TO_STORE {
+  short PacketId
+  short index
+  int count
+ }
+0x12a, 0x0b35:20190703
+struct PACKET_CZ_REQ_CARTOFF {
+  short PacketId
+#V GTE 20190703 unsigned char InstallationKind
+ }
+0x12b
+struct PACKET_ZC_CARTOFF {
+  short PacketId
+ }
+0x12c
+struct PACKET_ZC_ACK_ADDITEM_TO_CART {
+  short PacketId
+  unsigned char result
+ }
+0x12d
+struct PACKET_ZC_OPENSTORE {
+  short PacketId
+  short itemcount
+ }
+0xa28
+struct PACKET_ZC_ACK_OPENSTORE2 {
+  short PacketId
+  unsigned char result
+ }
+0x12e
+struct PACKET_CZ_REQ_CLOSESTORE {
+  short PacketId
+ }
+0x12f
+struct PACKET_CZ_REQ_OPENSTORE {
+  short PacketId
+  short PacketLength
+  char storeName[80]
+  struct STORE_ITEM storeList[...] { // Size 8
+  short index
+  short count
+  int Price
+  }
+ }
+0x130
+struct PACKET_CZ_REQ_BUY_FROMMC {
+  short PacketId
+  unsigned long AID
+ }
+0x131
+struct PACKET_ZC_STORE_ENTRY {
+  short PacketId
+  unsigned long makerAID
+  char storeName[80]
+ }
+0x132
+struct PACKET_ZC_DISAPPEAR_ENTRY {
+  short PacketId
+  unsigned long makerAID
+ }
+0x133
+struct PACKET_ZC_PC_PURCHASE_ITEMLIST_FROMMC {
+  short PacketId
+  short PacketLength
+  unsigned long AID
+  struct PURCHASE_ITEM_FROMMC itemList[...] { // Size 22
+  int price
+  short count
+  short index
+  unsigned char type
+  unsigned short ITID
+  unsigned char IsIdentified
+  unsigned char IsDamaged
+  unsigned char refiningLevel
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  }
+ }
+0x134
+struct PACKET_CZ_PC_PURCHASE_ITEMLIST_FROMMC {
+  short PacketId
+  short PacketLength
+  unsigned long AID
+  struct CZ_PURCHASE_ITEM_FROMMC itemList[...] { // Size 4
+  short count
+  short index
+  }
+ }
+0x135
+struct PACKET_ZC_PC_PURCHASE_RESULT_FROMMC {
+  short PacketId
+  short index
+  short curcount
+  unsigned char result
+ }
+0x136
+struct PACKET_ZC_PC_PURCHASE_MYITEMLIST {
+  short PacketId
+  short PacketLength
+  unsigned long AID
+  struct PURCHASE_MYITEM itemList[...] { // Size 22
+  int price
+  short index
+  short count
+  unsigned char type
+  unsigned short ITID
+  unsigned char IsIdentified
+  unsigned char IsDamaged
+  unsigned char refiningLevel
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  }
+ }
+0x137
+struct PACKET_ZC_DELETEITEM_FROM_MCSTORE {
+  short PacketId
+  short index
+  short count
+ }
+0x138
+struct PACKET_CZ_PKMODE_CHANGE {
+  short PacketId
+  bool isTurnOn
+ }
+0x139
+struct PACKET_ZC_ATTACK_FAILURE_FOR_DISTANCE {
+  short PacketId
+  unsigned long targetAID
+  short targetXPos
+  short targetYPos
+  short xPos
+  short yPos
+  short currentAttRange
+ }
+0x013a
+struct PACKET_ZC_ATTACK_RANGE {
+  short PacketId
+  short currentAttRange
+ }
+0x13b
+struct PACKET_ZC_ACTION_FAILURE {
+  short PacketId
+  short errorCode
+ }
+0x13c
+struct PACKET_ZC_EQUIP_ARROW {
+  short PacketId
+  short index
+ }
+0x13d, 0x0a27:20141022
+struct PACKET_ZC_RECOVERY {
+  short PacketId
+  short varID
+#V LT 20141022 short amount
+#V GTE 20141022 int amount_32
+ }
+0x13e
+struct PACKET_ZC_USESKILL_ACK {
+  short PacketId
+  unsigned long AID
+  unsigned long targetID
+  short xPos
+  short yPos
+  unsigned short SKID
+  unsigned long property
+  unsigned long delayTime
+ }
+0x013f
+struct PACKET_CZ_ITEM_CREATE {
+  short PacketId
+  char itemName[24]
+ }
+0x0140
+struct PACKET_CZ_MOVETO_MAP {
+  short PacketId
+  char mapName[16]
+  short xPos
+  short yPos
+ }
+0x0141
+struct PACKET_ZC_STATUS_VALUES {
+  short PacketId
+  unsigned long statusType
+  int defaultStatus
+  int plusStatus
+ }
+0x0142
+struct PACKET_ZC_OPEN_EDITDLG {
+  short PacketId
+  unsigned long NAID
+ }
+0x0143
+struct PACKET_CZ_INPUT_EDITDLG {
+  short PacketId
+  unsigned long NAID
+  int value
+ }
+0x0144
+struct PACKET_ZC_COMPASS {
+  short PacketId
+  unsigned long NAID
+  int type
+  int xPos
+  int yPos
+  unsigned char id
+  unsigned long color
+ }
+0x0145
+struct PACKET_ZC_SHOW_IMAGE {
+  short PacketId
+  char imageName[16]
+  unsigned char type
+ }
+0x0146
+struct PACKET_CZ_CLOSE_DIALOG {
+  short PacketId
+  unsigned long NAID
+ }
+0x0147
+struct PACKET_ZC_AUTORUN_SKILL {
+  short PacketId
+  struct SKILLINFO data {
+  unsigned short SKID
+  int type
+  short level
+  short spcost
+  short attackRange
+  char skillName[24]
+  bool upgradable
+  }
+ }
+0x0148
+struct PACKET_ZC_RESURRECTION {
+  short PacketId
+  unsigned long AID
+  short type
+ }
+0x0149
+struct PACKET_CZ_REQ_GIVE_MANNER_POINT {
+  short PacketId
+  unsigned long otherAID
+  unsigned char type
+  short point
+ }
+0x014a
+struct PACKET_ZC_ACK_GIVE_MANNER_POINT {
+  short PacketId
+  unsigned long result
+ }
+0x014b
+struct PACKET_ZC_NOTIFY_MANNER_POINT_GIVEN {
+  short PacketId
+  unsigned char type
+  char otherCharName[24]
+ }
+0x014c
+struct PACKET_ZC_MYGUILD_BASIC_INFO {
+  short PacketId
+  short PacketLength
+  struct RELATED_GUILD relatedGuildList[...] { // Size 32
+  int GDID
+  int relation
+  char GuildName[24]
+  }
+ }
+0x14d
+struct PACKET_CZ_REQ_GUILD_MENUINTERFACE {
+  short PacketId
+ }
+0x14e
+struct PACKET_ZC_ACK_GUILD_MENUINTERFACE {
+  short PacketId
+  int guildMemuFlag
+ }
+0x14f
+struct PACKET_CZ_REQ_GUILD_MENU {
+  short PacketId
+  int Type
+ }
+0x150
+struct PACKET_ZC_GUILD_INFO {
+  short PacketId
+  int GDID
+  int level
+  int userNum
+  int maxUserNum
+  int userAverageLevel
+  int exp
+  int maxExp
+  int point
+  int honor
+  int virtue
+  int emblemVersion
+  char guildname[24]
+  char masterName[24]
+  char manageLand[16]
+ }
+0x151
+struct PACKET_CZ_REQ_GUILD_EMBLEM_IMG {
+  short PacketId
+  int GDID
+ }
+0x152
+struct PACKET_ZC_GUILD_EMBLEM_IMG {
+  short PacketId
+  short PacketLength
+  int GDID
+  int emblemVersion
+  unsigned char img[...]
+ }
+0x153
+struct PACKET_CZ_REGISTER_GUILD_EMBLEM_IMG {
+  short PacketId
+  short PacketLength
+  unsigned char img[...]
+ }
+0x154, 0x0aa5:20161214, 0x0b7d:20200902
+struct PACKET_ZC_MEMBERMGR_INFO {
+  short PacketId
+  short PacketLength
+  struct GUILD_MEMBERMGR_INFO memberInfo[...] {
+  unsigned long AID
+  unsigned long GID
+  short HeadType
+  short HeadPalette
+  short Sex
+  short Job
+  short Level
+  int MemberExp
+  int CurrentState
+  int GPositionID
+  #V LT 20161214 char Memo[50]
+  #V LT 20161214 char CharName[24]
+  #V GTE 20161214 unsigned long lastLoginTime
+  #V GTE 20200902 char CharName2[24]
+  }
+ }
+0x155
+struct PACKET_CZ_REQ_CHANGE_MEMBERPOS {
+  short PacketId
+  short PacketLength
+  struct MEMBER_POSITION_INFO memberInfo[...] { // Size 12
+  int AID
+  int GID
+  int positionID
+  }
+ }
+0x156
+struct PACKET_ZC_ACK_REQ_CHANGE_MEMBERS {
+  short PacketId
+  short PacketLength
+  struct MEMBER_POSITION_INFO memberInfo[...] { // Size 12
+  int AID
+  int GID
+  int positionID
+  }
+ }
+0x157
+struct PACKET_CZ_REQ_OPEN_MEMBER_INFO {
+  short PacketId
+  int AID
+ }
+0x158
+struct PACKET_ZC_ACK_OPEN_MEMBER_INFO {
+  short PacketId
+ }
+0x159
+struct PACKET_CZ_REQ_LEAVE_GUILD {
+  short PacketId
+  unsigned long GDID
+  int AID
+  int GID
+  char reasonDesc[40]
+ }
+0x15a, 0x0a83:20161019
+struct PACKET_ZC_ACK_LEAVE_GUILD {
+  short PacketId
+  #V GTE 20161019 unsigned long GID
+  #V LT 20161019 char charName[24]
+  char reasonDesc[40]
+ }
+0x15b
+struct PACKET_CZ_REQ_BAN_GUILD {
+  short PacketId
+  unsigned long GDID
+  int AID
+  int GID
+  char reasonDesc[40]
+ }
+0x15c
+struct PACKET_ZC_ACK_BAN_GUILD {
+  short PacketId
+  char charName[24]
+  char reasonDesc[40]
+  char account[24]
+ }
+0x15d
+struct PACKET_CZ_REQ_DISORGANIZE_GUILD {
+  short PacketId
+  char key[40]
+ }
+0x15e
+struct PACKET_ZC_ACK_DISORGANIZE_GUILD_RESULT {
+  short PacketId
+  int reason
+ }
+0x15f
+struct PACKET_ZC_ACK_DISORGANIZE_GUILD {
+  short PacketId
+  char reasonDesc[40]
+ }
+0x160
+struct PACKET_ZC_POSITION_INFO {
+  short PacketId
+  short PacketLength
+  struct GUILD_MEMBER_POSITION_INFO memberInfo[...] { // Size 16
+  int positionID
+  int right
+  int ranking
+  int payRate
+  }
+ }
+0x161
+struct PACKET_CZ_REG_CHANGE_GUILD_POSITIONINFO {
+  short PacketId
+  short PacketLength
+  struct GUILD_REG_POSITION_INFO memberList[...] { // Size 40
+  int positionID
+  int right
+  int ranking
+  int payRate
+  char posName[24]
+  }
+ }
+0x162
+struct PACKET_ZC_GUILD_SKILLINFO {
+  short PacketId
+  short PacketLength
+  short skillPoint
+  struct SKILLINFO skillList[...] { // Size 37
+  unsigned short SKID
+  int type
+  short level
+  short spcost
+  short attackRange
+  char skillName[24]
+  char upgradable
+  }
+ }
+0x163, 0x0a87:20161019, 0x0b7c:20200902
+struct PACKET_ZC_BAN_LIST {
+  short PacketId
+  short PacketLength
+  struct GUILD_BAN_INFO banList[...] {
+  #V GTE 20161019 int charId
+  #V LT 20161019 char charname[24]
+  #V LT 20100803 char account[24]
+  char reason[40]
+  #V GTE 20200902 char charname2[24]
+  }
+ }
+0x164
+struct PACKET_ZC_OTHER_GUILD_LIST {
+  short PacketId
+  short PacketLength
+  struct OTHER_GUILD_INFO guildList[...] { // Size 36
+  char guildname[24]
+  int guildLevel
+  int guildMemberSize
+  int guildRanking
+  }
+ }
+0x165
+struct PACKET_CZ_REQ_MAKE_GUILD {
+  short PacketId
+  unsigned long GID
+  char GName[24]
+ }
+0x166
+struct PACKET_ZC_POSITION_ID_NAME_INFO {
+  short PacketId
+  short PacketLength
+  struct MEMBER_POSITION_ID_NAME_INFO memberList[...] { // Size 28
+  int positionID
+  char posName[24]
+  }
+ }
+0x167
+struct PACKET_ZC_RESULT_MAKE_GUILD {
+  short PacketId
+  unsigned char result
+ }
+0x168
+struct PACKET_CZ_REQ_JOIN_GUILD {
+  short PacketId
+  unsigned long AID
+  unsigned long MyAID
+  unsigned long MyGID
+ }
+0x169
+struct PACKET_ZC_ACK_REQ_JOIN_GUILD {
+  short PacketId
+  unsigned char answer
+ }
+0x16a
+struct PACKET_ZC_REQ_JOIN_GUILD {
+  short PacketId
+  unsigned long GDID
+  char guildName[24]
+ }
+0x16b
+struct PACKET_CZ_JOIN_GUILD {
+  short PacketId
+  unsigned long GDID
+  int answer
+ }
+0x16c, 0x02f7:20220216
+struct PACKET_ZC_UPDATE_GDID {
+  short PacketId
+  unsigned long GDID
+  int emblemVersion
+  int right
+  bool isMaster
+  int InterSID
+  char GName[24]
+  #V GTE 20220216 unsigned long masterGID
+ }
+0x16d
+struct PACKET_ZC_UPDATE_CHARSTAT {
+  short PacketId
+  unsigned long AID
+  unsigned long GID
+  int status
+ }
+0x16e
+struct PACKET_CZ_GUILD_NOTICE {
+  short PacketId
+  unsigned long GDID
+  char subject[60]
+  char notice[120]
+ }
+0x16f
+struct PACKET_ZC_GUILD_NOTICE {
+  short PacketId
+  char subject[60]
+  char notice[120]
+ }
+0x170
+struct PACKET_CZ_REQ_ALLY_GUILD {
+  short PacketId
+  unsigned long AID
+  unsigned long MyAID
+  unsigned long MyGID
+ }
+0x171
+struct PACKET_ZC_REQ_ALLY_GUILD {
+  short PacketId
+  unsigned long otherAID
+  char guildName[24]
+ }
+0x172
+struct PACKET_CZ_ALLY_GUILD {
+  short PacketId
+  unsigned long otherAID
+  int answer
+ }
+0x173
+struct PACKET_ZC_ACK_REQ_ALLY_GUILD {
+  short PacketId
+  unsigned char answer
+ }
+0x174
+struct PACKET_ZC_ACK_CHANGE_GUILD_POSITIONINFO {
+  short PacketId
+  short PacketLength
+  struct GUILD_REG_POSITION_INFO memberList[...] { // Size 30
+  int positionID
+  int right
+  int ranking
+  int payRate
+  char posName[24]
+  }
+ }
+0x175
+struct PACKET_CZ_REQ_GUILD_MEMBER_INFO {
+  short PacketId
+  int GID
+ }
+0x176
+struct PACKET_ZC_ACK_GUILD_MEMBER_INFO {
+  short PacketId
+  struct GUILD_MEMBER_INFO Info {
+  int AID
+  int GID
+  short head
+  short headPalette
+  short sex
+  short job
+  short level
+  int contributionExp
+  int currentState
+  int positionID
+  char intro[50]
+  char charname[24]
+  }
+ }
+0x177
+struct PACKET_ZC_ITEMIDENTIFY_LIST {
+  short PacketId
+  short PacketLength
+  unsigned short ITIDList[...]
+ }
+0x178
+struct PACKET_CZ_REQ_ITEMIDENTIFY {
+  short PacketId
+  short index
+ }
+0x179
+struct PACKET_ZC_ACK_ITEMIDENTIFY {
+  short PacketId
+  short index
+  unsigned char result
+ }
+0x17a
+struct PACKET_CZ_REQ_ITEMCOMPOSITION_LIST {
+  short PacketId
+  short cardIndex
+ }
+0x17b
+struct PACKET_ZC_ITEMCOMPOSITION_LIST {
+  short PacketId
+  short PacketLength
+  unsigned short ITIDList[...]
+ }
+0x17c
+struct PACKET_CZ_REQ_ITEMCOMPOSITION {
+  short PacketId
+  short cardIndex
+  short equipIndex
+ }
+0x17d
+struct PACKET_ZC_ACK_ITEMCOMPOSITION {
+  short PacketId
+  short equipIndex
+  short cardIndex
+  unsigned char result
+ }
+0x17e
+struct PACKET_CZ_GUILD_CHAT {
+  short PacketId
+  short PacketLength
+  char msg[...]
+ }
+0x17f
+struct PACKET_ZC_GUILD_CHAT {
+  short PacketId
+  short PacketLength
+  char msg[...]
+ }
+0x180
+struct PACKET_CZ_REQ_HOSTILE_GUILD {
+  short PacketId
+  unsigned long AID
+ }
+0x181
+struct PACKET_ZC_ACK_REQ_HOSTILE_GUILD {
+  short PacketId
+  unsigned char result
+ }
+0x182
+struct PACKET_ZC_MEMBER_ADD {
+  short PacketId
+  struct GUILD_MEMBER_INFO Info {
+  int AID
+  int GID
+  short head
+  short headPalette
+  short sex
+  short job
+  short level
+  int contributionExp
+  int currentState
+  int positionID
+  char intro[50]
+  char charname[24]
+  }
+ }
+0x183
+struct PACKET_CZ_REQ_DELETE_RELATED_GUILD {
+  short PacketId
+  unsigned long OpponentGDID
+  int Relation
+ }
+0x184
+struct PACKET_ZC_DELETE_RELATED_GUILD {
+  short PacketId
+  unsigned long OpponentGDID
+  int Relation
+ }
+0x185
+struct PACKET_ZC_ADD_RELATED_GUILD {
+  short PacketId
+  struct RELATED_GUILD_INFO Info {
+  int relation
+  int GDID
+  char guildname[24]
+  }
+ }
+0x186
+struct PACKET_COLLECTORDEAD {
+  short PacketId
+  unsigned long ServerID
+ }
+0x187
+struct PACKET_PING {
+  short PacketId
+  unsigned long AID
+ }
+0x188
+struct PACKET_ZC_ACK_ITEMREFINING {
+  short PacketId
+  short result
+  short itemIndex
+  short refiningLevel
+ }
+0x189
+struct PACKET_ZC_NOTIFY_MAPINFO {
+  short PacketId
+  short type
+ }
+0x18a
+struct PACKET_CZ_REQ_DISCONNECT {
+  short PacketId
+  short type
+ }
+0x18b
+struct PACKET_ZC_ACK_REQ_DISCONNECT {
+  short PacketId
+  short result
+ }
+0x18c
+struct PACKET_ZC_MONSTER_INFO {
+  short PacketId
+  short job
+  short level
+  short size
+  int hp
+  short def
+  short raceType
+  short mdefPower
+  short property
+   struct MONSTER_INFO_ELEMENT propertyTable {
+  unsigned char water
+  unsigned char earth
+  unsigned char fire
+  unsigned char wind
+  unsigned char poison
+  unsigned char saint
+  unsigned char dark
+  unsigned char mental
+  unsigned char undead
+  }
+ }
+0x18d
+struct PACKET_ZC_MAKABLEITEMLIST {
+  short PacketId
+  short PacketLength
+  struct MAKABLEITEM_INFO info[...] { // Size 8
+  #V LT 20181121 unsigned short ITID
+  #V GTE 20181121 unsigned long ITID_32
+  #V LT 20181121 unsigned short materialID[3]
+  #V GTE 20181121 unsigned long materialID_32[3]
+  }
+ }
+0x18e
+struct PACKET_CZ_REQMAKINGITEM {
+  short PacketId
+  struct MAKABLEITEM_INFO info {
+  #V LT 20181121 unsigned short ITID
+  #V GTE 20181121 unsigned long ITID_32
+  #V LT 20181121 unsigned short materialID[3]
+  #V GTE 20181121 unsigned long materialID_32[3]
+  }
+ }
+0x18f
+struct PACKET_ZC_ACK_REQMAKINGITEM {
+  short PacketId
+  short result
+  #V LT 20181121 unsigned short ITID
+  #V GTE 20181121 unsigned long ITID_32
+ }
+0x0366, 0x00a2:20040726, 0x008c:20040906, 0x0113:20041129, 0x007e:20050110, 0x0367:20101124, 0x08ad:20111005, 0x0366:20120307, 0x0367:20180308
+struct PACKET_CZ_USE_SKILL_TOGROUND_WITHTALKBOX {
+  short PacketId
+  short selectedLevel
+  unsigned short SKID
+  short xPos
+  short yPos
+#V LT 20190904 char contents[80]
+#V GTE 20190904 char contents_21[21]
+ }
+0x191
+struct PACKET_ZC_TALKBOX_CHATCONTENTS {
+  short PacketId
+  unsigned long AID
+#V LT 20190904 char contents[80]
+#V GTE 20190904 char contents_21[21]
+ }
+0x192
+struct PACKET_ZC_UPDATE_MAPINFO {
+  short PacketId
+  short xPos
+  short yPos
+  short type
+  char mapName[16]
+ }
+0x0368, 0x0193:20040705, 0x00a7:20040726, 0x00a2:20040906, 0x00f7:20041129, 0x00a2:20050110, 0x0369:20101124, 0x0838:20111005, 0x0368:20120307, 0x0369:20180308
+struct PACKET_CZ_REQNAME_BYGID {
+  short PacketId
+  #V RANGE 20040726 20040809 unsigned byte p0[6]
+  #V RANGE 20040809 20040906 unsigned byte p1[5]
+  #V RANGE 20040906 20040920 unsigned byte p2[8]
+  #V RANGE 20040920 20041005 unsigned byte p3[4]
+  #V RANGE 20041005 20041025 unsigned byte p4[6]
+  #V RANGE 20041025 20041129 unsigned byte p5[10]
+  #V RANGE 20041129 20050110 unsigned byte p6[8]
+  #V RANGE 20050110 20050509 unsigned byte p7[5]
+  #V RANGE 20050509 20050628 unsigned byte p8[9]
+  #V RANGE 20050628 20050718 unsigned byte p9[3]
+  #V RANGE 20050718 20050719 unsigned byte p10[12]
+  #V RANGE 20050719 20060327 unsigned byte p11[3]
+  #V RANGE 20060327 20070108 unsigned byte p12[5]
+  #V RANGE 20070108 20070212 unsigned byte p13[4]
+  #V RANGE 20070212 20090408 unsigned byte p14[9]
+  #V RANGE 20090408 20101124 unsigned byte p15[8]
+  unsigned long GID
+ }
+0x194, 0x0af7:20180221
+struct PACKET_ZC_ACK_REQNAME_BYGID {
+  short PacketId
+#V GTE 20180221 unsigned short flag
+  unsigned long GID
+  char CName[24]
+ }
+0x195
+struct PACKET_ZC_ACK_REQNAMEALL {
+  short PacketId
+  unsigned long AID
+  char CName[24]
+  char PName[24]
+  char GName[24]
+  char RName[24]
+ }
+0x196
+struct PACKET_ZC_MSG_STATE_CHANGE {
+  short PacketId
+  short index
+  unsigned long AID
+  bool state
+ }
+0x197
+struct PACKET_CZ_RESET {
+  short PacketId
+  short type
+ }
+0x198
+struct PACKET_CZ_CHANGE_MAPTYPE {
+  short PacketId
+  short xPos
+  short yPos
+  short type
+ }
+0x199
+struct PACKET_ZC_NOTIFY_MAPPROPERTY {
+  short PacketId
+  short type
+ }
+0x19a
+struct PACKET_ZC_NOTIFY_RANKING {
+  short PacketId
+  unsigned long AID
+  int ranking
+  int total
+ }
+0x19b
+struct PACKET_ZC_NOTIFY_EFFECT {
+  short PacketId
+  unsigned long AID
+  int effectID
+ }
+0x19d
+struct PACKET_CZ_CHANGE_EFFECTSTATE {
+  short PacketId
+  int EffectState
+ }
+0x19e
+struct PACKET_ZC_START_CAPTURE {
+  short PacketId
+ }
+0x19f
+struct PACKET_CZ_TRYCAPTURE_MONSTER {
+  short PacketId
+  unsigned long targetAID
+ }
+0x1a0
+struct PACKET_ZC_TRYCAPTURE_MONSTER {
+  short PacketId
+  unsigned char result
+ }
+0x1a1
+struct PACKET_CZ_COMMAND_PET {
+  short PacketId
+  char cSub
+ }
+0x1a2
+struct PACKET_ZC_PROPERTY_PET {
+  short PacketId
+  char szName[24]
+  unsigned char bModified
+  short nLevel
+  short nFullness
+  short nRelationship
+  unsigned short ITID
+  #V GTE 20081126 short job
+ }
+0x1a3
+struct PACKET_ZC_FEED_PET {
+  short PacketId
+  char cRet
+  #V LT 20181121 unsigned short ITID
+  #V GTE 20181121 unsigned long ITID_32
+ }
+0x1a4
+struct PACKET_ZC_CHANGESTATE_PET {
+  short PacketId
+  char type
+  int GID
+  int data
+ }
+0x1a5
+struct PACKET_CZ_RENAME_PET {
+  short PacketId
+  char szName[24]
+ }
+0x1a6
+struct PACKET_ZC_PETEGG_LIST {
+  short PacketId
+  short PacketLength
+  struct PETEGGITEM_INFO eggList[...] { // Size 2
+  short index
+  }
+ }
+0x1a7
+struct PACKET_CZ_SELECT_PETEGG {
+  short PacketId
+  short index
+ }
+0x1a8
+struct PACKET_CZ_PETEGG_INFO {
+  short PacketId
+  short index
+ }
+0x1a9
+struct PACKET_CZ_PET_ACT {
+  short PacketId
+  int data
+ }
+0x1aa
+struct PACKET_ZC_PET_ACT {
+  short PacketId
+  int GID
+  int data
+ }
+0x1ab
+struct PACKET_ZC_PAR_CHANGE_USER {
+  short PacketId
+  unsigned long AID
+  unsigned short varID
+  int count
+ }
+0x1ac
+struct PACKET_ZC_SKILL_UPDATE {
+  short PacketId
+  unsigned long AID
+ }
+0x1ad
+struct PACKET_ZC_MAKINGARROW_LIST {
+  short PacketId
+  short PacketLength
+  struct ARROWITEM_INFO arrowList[...] { // Size 2
+  #V LT 20181121 short index
+  #V GTE 20181121 unsigned long ITID_32
+  }
+ }
+0x1ae
+struct PACKET_CZ_REQ_MAKINGARROW {
+  short PacketId
+#V LT 20181121 unsigned short id
+#V GTE 20181121 unsigned long id_32
+ }
+0x1af
+struct PACKET_CZ_REQ_CHANGECART {
+  short PacketId
+  short num
+ }
+0x1b0
+struct PACKET_ZC_NPCSPRITE_CHANGE {
+  short PacketId
+  unsigned long GID
+  unsigned char type
+  unsigned long value
+ }
+0x1b1
+struct PACKET_ZC_SHOWDIGIT {
+  short PacketId
+  unsigned char type
+  int value
+ }
+0x1b2
+struct PACKET_CZ_REQ_OPENSTORE2 {
+  short PacketId
+  short PacketLength
+  char storeName[80]
+  bool result
+  struct STORE_ITEM storeList[...] { // Size 8
+  short index
+  short count
+  int Price
+  }
+ }
+0x1b3
+struct PACKET_ZC_SHOW_IMAGE2 {
+  short PacketId
+  char imageName[64]
+  unsigned char type
+ }
+0x1b4, 0x0b1f:20190703, 0x0b47:20190807
+struct PACKET_ZC_CHANGE_GUILD {
+  short PacketId
+  #V LT 20190703 unsigned long AID
+  unsigned long GDID
+  #V LT 20190703 short emblemVersion
+  #V GTE 20190703 unsigned long emblemId
+  #V GTE 20190703 unsigned long unitAID
+ }
+0x1b5
+struct PACKET_SC_BILLING_INFO {
+  short PacketId
+  unsigned long dwAmountRemain
+  unsigned long dwQuantityRemain
+  unsigned long dwReserved1
+  unsigned long dwReserved2
+ }
+0x1b6, 0x0a84:20161019, 0x0b7b:20200902
+struct PACKET_ZC_GUILD_INFO2 {
+  short PacketId
+  int GDID
+  int level
+  int userNum
+  int maxUserNum
+  int userAverageLevel
+  int exp
+  int maxExp
+  int point
+  int honor
+  int virtue
+  int emblemVersion
+  char guildname[24]
+  #V LT 20161019 char masterName[24]
+  char manageLand[16]
+  int zeny
+  #V GTE 20161019 int masterGID
+  #V GTE 20200902 char masterName2[24]
+ }
+0x1b7
+struct PACKET_CZ_GUILD_ZENY {
+  short PacketId
+  int zeny
+ }
+0x1b8
+struct PACKET_ZC_GUILD_ZENY_ACK {
+  short PacketId
+  unsigned char ret
+ }
+0x1b9
+struct PACKET_ZC_DISPEL {
+  short PacketId
+  unsigned long AID
+ }
+0x1ba
+struct PACKET_CZ_REMOVE_AID {
+  short PacketId
+  char AccountName[24]
+ }
+0x1bb
+struct PACKET_CZ_SHIFT {
+  short PacketId
+  char CharacterName[24]
+ }
+0x1bc
+struct PACKET_CZ_RECALL {
+  short PacketId
+  char AccountName[24]
+ }
+0x1bd
+struct PACKET_CZ_RECALL_GID {
+  short PacketId
+  char CharacterName[24]
+ }
+0x1be
+struct PACKET_AC_ASK_PNGAMEROOM {
+  short PacketId
+ }
+0x1bf
+struct PACKET_CA_REPLY_PNGAMEROOM {
+  short PacketId
+  unsigned char Permission
+ }
+0x1c0
+struct PACKET_CZ_REQ_REMAINTIME {
+  short PacketId
+ }
+0x1c1
+struct PACKET_ZC_REPLY_REMAINTIME {
+  short PacketId
+  int Result
+  int ExpirationDate
+  int RemainTime
+ }
+0x1c2
+struct PACKET_ZC_INFO_REMAINTIME {
+  short PacketId
+  int Type
+  int RemainTime
+ }
+0x1c3
+struct PACKET_ZC_BROADCAST2 {
+  short PacketId
+  short PacketLength
+  unsigned long fontColor
+  short fontType
+  short fontSize
+  short fontAlign
+  short fontY
+  char msg[...]
+ }
+0x1c4
+struct PACKET_ZC_ADD_ITEM_TO_STORE2 {
+  short PacketId
+  short index
+  int count
+  unsigned short ITID
+  unsigned char type
+  bool IsIdentified
+  bool IsDamaged
+  unsigned char refiningLevel
+  struct EQUIPSLOTINFO slot {
+  #V LT 20181121 unsigned short card1
+  #V LT 20181121 unsigned short card2
+  #V LT 20181121 unsigned short card3
+  #V LT 20181121 unsigned short card4
+  #V GTE 20181121 unsigned long card1_32
+  #V GTE 20181121 unsigned long card2_32
+  #V GTE 20181121 unsigned long card3_32
+  #V GTE 20181121 unsigned long card4_32
+  }
+ }
+0x1c5
+struct PACKET_ZC_ADD_ITEM_TO_CART2 {
+  short PacketId
+  short index
+  int count
+  unsigned short ITID
+  unsigned char type
+  bool IsIdentified
+  bool IsDamaged
+  unsigned char refiningLevel
+  struct EQUIPSLOTINFO slot {
+  #V LT 20181121 unsigned short card1
+  #V LT 20181121 unsigned short card2
+  #V LT 20181121 unsigned short card3
+  #V LT 20181121 unsigned short card4
+  #V GTE 20181121 unsigned long card1_32
+  #V GTE 20181121 unsigned long card2_32
+  #V GTE 20181121 unsigned long card3_32
+  #V GTE 20181121 unsigned long card4_32
+  }
+ }
+0x1c6
+struct PACKET_CS_REQ_ENCRYPTION {
+  short PacketId
+  char encCount
+  char decCount
+ }
+0x1c7
+struct PACKET_SC_ACK_ENCRYPTION {
+  short PacketId
+ }
+0x01c8
+struct PACKET_ZC_USE_ITEM_ACK2 {
+  short PacketId
+  unsigned short index
+#V LT 20181121 unsigned short id
+#V GTE 20181121 unsigned long id_32
+  unsigned long AID
+  short count
+  bool result
+ }
+0x1c9
+struct PACKET_ZC_SKILL_ENTRY2 {
+  short PacketId
+  unsigned long AID
+  unsigned long creatorAID
+  short xPos
+  short yPos
+  unsigned char job
+  bool isVisible
+  bool isContens
+  char msg[80]
+ }
+0x1ca
+struct PACKET_CZ_REQMAKINGHOMUN {
+  short PacketId
+  bool result
+ }
+0x1cb
+struct PACKET_CZ_MONSTER_TALK {
+  short PacketId
+  unsigned long GID
+  unsigned char stateId
+  unsigned char skillId
+  unsigned char arg1
+ }
+0x1cc
+struct PACKET_ZC_MONSTER_TALK {
+  short PacketId
+  unsigned long GID
+  unsigned char stateId
+  unsigned char skillId
+  unsigned char arg1
+ }
+0x1cd
+struct PACKET_ZC_AUTOSPELLLIST {
+  short PacketId
+  int SKID[7]
+ }
+0x0afb
+struct PACKET_ZC_AUTOSPELLLIST2 {
+  short PacketId
+  short PacketLength
+  int SKID[...]
+ }
+0x1ce
+struct PACKET_CZ_SELECTAUTOSPELL {
+  short PacketId
+  int SKID
+ }
+0x1cf
+struct PACKET_ZC_DEVOTIONLIST {
+  short PacketId
+  unsigned long myAID
+  unsigned long AID[5]
+  short range
+ }
+0x1d0
+struct PACKET_ZC_SPIRITS {
+  short PacketId
+  unsigned long AID
+  short num
+ }
+0x1d1
+struct PACKET_ZC_BLADESTOP {
+  short PacketId
+  unsigned long srcAID
+  unsigned long destAID
+  int flag
+ }
+0x1d2
+struct PACKET_ZC_COMBODELAY {
+  short PacketId
+  unsigned long AID
+  unsigned long delayTime
+ }
+0x1d3
+struct PACKET_ZC_SOUND {
+  short PacketId
+  char fileName[24]
+  unsigned char act
+  unsigned long term
+  unsigned long NAID
+ }
+0x1d4
+struct PACKET_ZC_OPEN_EDITDLGSTR {
+  short PacketId
+  unsigned long NAID
+ }
+0x1d5
+struct PACKET_CZ_INPUT_EDITDLGSTR {
+  short PacketId
+  short PacketLength
+  unsigned long NAID
+  char msg[...]
+ }
+0x1d6
+struct PACKET_ZC_NOTIFY_MAPTYPEPROPERTY2 {
+  short PacketId
+  short type
+ }
+0x01d7
+struct PACKET_ZC_SPRITE_CHANGE2 {
+  short PacketId
+  unsigned long GID
+  unsigned char type
+#V LT 20181121 unsigned short value
+#V LT 20181121 unsigned short value2
+#V GTE 20181121 unsigned long value_32
+#V GTE 20181121 unsigned long value2_32
+ }
+0x1d8
+struct PACKET_ZC_NOTIFY_STANDENTRY2 {
+  short PacketId
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  short effectState
+  short job
+  short head
+  int weapon
+  short accessory
+  short accessory2
+  short accessory3
+  short headpalette
+  short bodypalette
+  short headDir
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  short virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte PosDir[3]
+  unsigned char xSize
+  unsigned char ySize
+  unsigned char state
+  short clevel
+ }
+0x1d9
+struct PACKET_ZC_NOTIFY_NEWENTRY2 {
+  short PacketId
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  short effectState
+  short job
+  short head
+  int weapon
+  short accessory
+  short accessory2
+  short accessory3
+  short headpalette
+  short bodypalette
+  short headDir
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  short virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte PosDir[3]
+  unsigned char xSize
+  unsigned char ySize
+  short clevel
+ }
+0x1da
+struct PACKET_ZC_NOTIFY_MOVEENTRY2 {
+  short PacketId
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  short effectState
+  short job
+  short head
+  int weapon
+  short accessory
+  unsigned long moveStartTime
+  short accessory2
+  short accessory3
+  short headpalette
+  short bodypalette
+  short headDir
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  short virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte MoveData[6]
+  unsigned char xSize
+  unsigned char ySize
+  short clevel
+ }
+0x1db
+struct PACKET_CA_REQ_HASH {
+  short PacketId
+ }
+0x1dc
+struct PACKET_AC_ACK_HASH {
+  short PacketId
+  short PacketLength
+  unsigned char secret[...]
+ }
+0x1dd
+struct PACKET_CA_LOGIN2 {
+  short PacketId
+  unsigned long Version
+  unsigned char ID[24]
+  unsigned char PasswdMD5[16]
+  unsigned char clienttype
+ }
+0x1de
+struct PACKET_ZC_NOTIFY_SKILL2 {
+  short PacketId
+  unsigned short SKID
+  unsigned long AID
+  unsigned long targetID
+  unsigned long startTime
+  int attackMT
+  int attackedMT
+  int damage
+  short level
+  short count
+  unsigned char action
+ }
+0x1df
+struct PACKET_CZ_REQ_ACCOUNTNAME {
+  short PacketId
+  unsigned long AID
+ }
+0x1e0
+struct PACKET_ZC_ACK_ACCOUNTNAME {
+  short PacketId
+  unsigned long AID
+  char name[24]
+ }
+0x1e1
+struct PACKET_ZC_SPIRITS2 {
+  short PacketId
+  unsigned long AID
+  short num
+ }
+0x1e2
+struct PACKET_ZC_REQ_COUPLE {
+  short PacketId
+  unsigned long AID
+  unsigned long GID
+  char name[24]
+ }
+0x1e3
+struct PACKET_CZ_JOIN_COUPLE {
+  short PacketId
+  unsigned long AID
+  unsigned long GID
+  int answer
+ }
+0x1e4
+struct PACKET_ZC_START_COUPLE {
+  short PacketId
+ }
+0x1e5
+struct PACKET_CZ_REQ_JOIN_COUPLE {
+  short PacketId
+  unsigned long AID
+ }
+0x1e6
+struct PACKET_ZC_COUPLENAME {
+  short PacketId
+  char CoupleName[24]
+ }
+0x1e7
+struct PACKET_CZ_DORIDORI {
+  short PacketId
+ }
+0x1e8
+struct PACKET_CZ_MAKE_GROUP2 {
+  short PacketId
+  char groupName[24]
+  unsigned char ItemPickupRule
+  unsigned char ItemDivisionRule
+ }
+0x1e9, 0x0a43:20170524, 0x0ae4:20171207
+struct PACKET_ZC_ADD_MEMBER_TO_GROUP2 {
+  short PacketId
+  unsigned long AID
+  #V GTE 20171207 unsigned long GID
+  unsigned long Role
+  #V GTE 20170524 short class
+  #V GTE 20170524 short baseLevel
+  short xPos
+  short yPos
+  unsigned char state
+  char groupName[24]
+  char characterName[24]
+  char mapName[16]
+  unsigned char ItemPickupRule
+  unsigned char ItemDivisionRule
+ }
+0x1ea
+struct PACKET_ZC_CONGRATULATION {
+  short PacketId
+  unsigned long AID
+ }
+0x1eb
+struct PACKET_ZC_NOTIFY_POSITION_TO_GUILDM {
+  short PacketId
+  unsigned long AID
+  short xPos
+  short yPos
+ }
+0x1ec
+struct PACKET_ZC_GUILD_MEMBER_MAP_CHANGE {
+  short PacketId
+  unsigned long GDID
+  unsigned long AID
+  char mapName[16]
+ }
+0x1ed
+struct PACKET_CZ_CHOPOKGI {
+  short PacketId
+ }
+0x1ee
+struct PACKET_ZC_NORMAL_ITEMLIST2 {
+  short PacketId
+  short PacketLength
+  struct NORMALITEM_EXTRAINFO2 ItemInfo[...] { // Size 18
+  short index
+  unsigned short ITID
+  unsigned char type
+  bool IsIdentified
+  short count
+  unsigned short WearState
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  }
+ }
+0x1ef
+struct PACKET_ZC_CART_NORMAL_ITEMLIST2 {
+  short PacketId
+  short PacketLength
+  struct NORMALITEM_EXTRAINFO2 ItemInfo[...] { // Size 18
+  short index
+  unsigned short ITID
+  unsigned char type
+  bool IsIdentified
+  short count
+  unsigned short WearState
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  }
+ }
+0x1f0
+struct PACKET_ZC_STORE_NORMAL_ITEMLIST2 {
+  short PacketId
+  short PacketLength
+  struct NORMALITEM_EXTRAINFO2 ItemInfo[...] { // Size 18
+  short index
+  unsigned short ITID
+  unsigned char type
+  bool IsIdentified
+  short count
+  unsigned short WearState
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  }
+ }
+0x1f1
+struct PACKET_AC_NOTIFY_ERROR {
+  short PacketId
+  short PacketLength
+  char msg[...]
+ }
+0x1f2
+struct PACKET_ZC_UPDATE_CHARSTAT2 {
+  short PacketId
+  unsigned long AID
+  unsigned long GID
+  int status
+  short sex
+  short head
+  short headPalette
+ }
+0x1f3
+struct PACKET_ZC_NOTIFY_EFFECT2 {
+  short PacketId
+  unsigned long AID
+  int effectID
+ }
+0x1f4
+struct PACKET_ZC_REQ_EXCHANGE_ITEM2 {
+  short PacketId
+  char name[24]
+  unsigned long GID
+  short level
+ }
+0x1f5
+struct PACKET_ZC_ACK_EXCHANGE_ITEM2 {
+  short PacketId
+  unsigned char result
+  unsigned long GID
+  short level
+ }
+0x1f6
+struct PACKET_ZC_REQ_BABY {
+  short PacketId
+  unsigned long AID
+  unsigned long GID
+  char name[24]
+ }
+0x1f7
+struct PACKET_CZ_JOIN_BABY {
+  short PacketId
+  unsigned long AID
+  unsigned long GID
+  int answer
+ }
+0x1f8
+struct PACKET_ZC_START_BABY {
+  short PacketId
+ }
+0x1f9
+struct PACKET_CZ_REQ_JOIN_BABY {
+  short PacketId
+  unsigned long AID
+ }
+0x1fa
+struct PACKET_CA_LOGIN3 {
+  short PacketId
+  unsigned long Version
+  unsigned char ID[24]
+  unsigned char PasswdMD5[16]
+  unsigned char clienttype
+  unsigned char ClientInfo
+ }
+0x1fb
+struct PACKET_CH_DELETE_CHAR2 {
+  short PacketId
+  unsigned long GID
+  char key[50]
+ }
+0x1fc
+struct PACKET_ZC_REPAIRITEMLIST {
+  short PacketId
+  short PacketLength
+  struct REPAIRITEM_INFO itemList[...] { // Size 13
+  short index
+  #V LT 20181121 unsigned short ITID
+  #V GTE 20181121 unsigned long ITID_32
+  unsigned char refiningLevel
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  }
+ }
+0x1fd
+struct PACKET_CZ_REQ_ITEMREPAIR {
+  short PacketId
+  struct REPAIRITEM_INFO TargetItemInfo {
+  short index
+  #V LT 20181121 unsigned short ITID
+  #V GTE 20181121 unsigned long ITID_32
+  unsigned char refiningLevel
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  }
+ }
+0x1fe
+struct PACKET_ZC_ACK_ITEMREPAIR {
+  short PacketId
+  short index
+  unsigned char result
+ }
+0x1ff
+struct PACKET_ZC_HIGHJUMP {
+  short PacketId
+  unsigned long AID
+  short xPos
+  short yPos
+ }
+0x200
+struct PACKET_CA_CONNECT_INFO_CHANGED {
+  short PacketId
+  unsigned char ID[24]
+ }
+0x201
+struct PACKET_ZC_FRIENDS_LIST {
+  short PacketId
+  short PacketLength
+  struct FRIEND friendList[...] { // Size 32
+  unsigned long AID
+  unsigned long GID
+  char Name[24]
+  }
+ }
+0x0369, 0x0436:20111102, 0x0369:20120307, 0x0202:20180308
+struct PACKET_CZ_ADD_FRIENDS {
+  short PacketId
+  char name[24]
+ }
+0x203
+struct PACKET_CZ_DELETE_FRIENDS {
+  short PacketId
+  unsigned long AID
+  unsigned long GID
+ }
+0x204
+struct PACKET_CA_EXE_HASHCHECK {
+  short PacketId
+  unsigned char HashValue[16]
+ }
+0x205
+struct PACKET_ZC_DIVORCE {
+  short PacketId
+  char name[24]
+ }
+0x206
+struct PACKET_ZC_FRIENDS_STATE {
+  short PacketId
+  unsigned long AID
+  unsigned long GID
+  bool State
+#V GTE 20180307 char Name[24]
+ }
+0x207
+struct PACKET_ZC_REQ_ADD_FRIENDS {
+  short PacketId
+  unsigned long ReqAID
+  unsigned long ReqGID
+  char Name[24]
+ }
+0x208
+struct PACKET_CZ_ACK_REQ_ADD_FRIENDS {
+  short PacketId
+  unsigned long ReqAID
+  unsigned long ReqGID
+  int Result
+ }
+0x209
+struct PACKET_ZC_ADD_FRIENDS_LIST {
+  short PacketId
+  short Result
+  unsigned long AID
+  unsigned long GID
+  char Name[24]
+ }
+0x20a
+struct PACKET_ZC_DELETE_FRIENDS {
+  short PacketId
+  unsigned long AID
+  unsigned long GID
+ }
+0x020b
+struct PACKET_AC_REFUSE_LOGIN_R3 {
+  short PacketId
+  unsigned int ErrorCode
+  char blockDate[20]
+ }
+0x20c
+struct PACKET_CZ_EXE_HASHCHECK {
+  short PacketId
+  unsigned char ClientType
+  unsigned char HashValue[16]
+ }
+0x20d
+struct PACKET_HC_BLOCK_CHARACTER {
+  short PacketId
+  short PacketLength
+  struct TAG_CHARACTER_BLOCK_INFO characterList[...] { // Size 24
+  unsigned long GID
+  char szExpireDate[20]
+  }
+ }
+0x20e
+struct PACKET_ZC_STARSKILL {
+  short PacketId
+  char mapName[24]
+  int monsterID
+  unsigned char star
+  unsigned char result
+ }
+0x20f
+struct PACKET_CZ_REQ_PVPPOINT {
+  short PacketId
+  unsigned long AID
+  unsigned long GID
+ }
+0x210
+struct PACKET_ZC_ACK_PVPPOINT {
+  short PacketId
+  unsigned long AID
+  unsigned long GID
+  struct PVPINFO PVP {
+  int WinPoint
+  int LosePoint
+  int Point
+  }
+ }
+0x211
+struct PACKET_ZH_MOVE_PVPWORLD {
+  short PacketId
+  unsigned long GID
+ }
+0x212
+struct PACKET_CZ_REQ_GIVE_MANNER_BYNAME {
+  short PacketId
+  char CharName[24]
+ }
+0x213
+struct PACKET_CZ_REQ_STATUS_GM {
+  short PacketId
+  char CharName[24]
+ }
+0x214
+struct PACKET_ZC_ACK_STATUS_GM {
+  short PacketId
+  unsigned char str
+  unsigned char standardStr
+  unsigned char agi
+  unsigned char standardAgi
+  unsigned char vit
+  unsigned char standardVit
+  unsigned char Int
+  unsigned char standardInt
+  unsigned char dex
+  unsigned char standardDex
+  unsigned char luk
+  unsigned char standardLuk
+  short attPower
+  short refiningPower
+  short max_mattPower
+  short min_mattPower
+  short itemdefPower
+  short plusdefPower
+  short mdefPower
+  short plusmdefPower
+  short hitSuccessValue
+  short avoidSuccessValue
+  short plusAvoidSuccessValue
+  short criticalSuccessValue
+  short ASPD
+  short plusASPD
+ }
+0x215
+struct PACKET_ZC_SKILLMSG {
+  short PacketId
+  int MsgNo
+ }
+0x216
+struct PACKET_ZC_BABYMSG {
+  short PacketId
+  int MsgNo
+ }
+0x217
+struct PACKET_CZ_BLACKSMITH_RANK {
+  short PacketId
+ }
+0x218
+struct PACKET_CZ_ALCHEMIST_RANK {
+  short PacketId
+ }
+0x219
+struct PACKET_ZC_BLACKSMITH_RANK {
+  short PacketId
+  char Name[240]
+  int Point[10]
+ }
+0x21a
+struct PACKET_ZC_ALCHEMIST_RANK {
+  short PacketId
+  char Name[240]
+  int Point[10]
+ }
+0x21b
+struct PACKET_ZC_BLACKSMITH_POINT {
+  short PacketId
+  int Point
+  int TotalPoint
+ }
+0x21c
+struct PACKET_ZC_ALCHEMIST_POINT {
+  short PacketId
+  int Point
+  int TotalPoint
+ }
+0x21d
+struct PACKET_CZ_LESSEFFECT {
+  short PacketId
+  int isLess
+ }
+0x21e
+struct PACKET_ZC_LESSEFFECT {
+  short PacketId
+  int isLess
+ }
+0x21f
+struct PACKET_ZC_NOTIFY_PKINFO {
+  short PacketId
+  int winPoint
+  int losePoint
+  char killName[24]
+  char killedName[24]
+  struct _FILETIME expireTime {
+  unsigned long dwLowDateTime
+  unsigned long dwHighDateTime
+  }
+ }
+0x220
+struct PACKET_ZC_NOTIFY_CRAZYKILLER {
+  short PacketId
+  unsigned long AID
+  int isCrazyKiller
+ }
+0x221
+struct PACKET_ZC_NOTIFY_WEAPONITEMLIST {
+  short PacketId
+  short PacketLength
+  struct REPAIRITEM_INFO itemList[...] { // Size 13
+  short index
+  #V LT 20181121 unsigned short ITID
+  #V GTE 20181121 unsigned long ITID_32
+  unsigned char refiningLevel
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  }
+ }
+0x222
+struct PACKET_CZ_REQ_WEAPONREFINE {
+  short PacketId
+  int Index
+ }
+0x223
+struct PACKET_ZC_ACK_WEAPONREFINE {
+  short PacketId
+  int msg
+  #V LT 20181121 unsigned short ITID
+  #V GTE 20181121 unsigned long ITID_32
+ }
+0x224
+struct PACKET_ZC_TAEKWON_POINT {
+  short PacketId
+  int Point
+  int TotalPoint
+ }
+0x225
+struct PACKET_CZ_TAEKWON_RANK {
+  short PacketId
+ }
+0x226
+struct PACKET_ZC_TAEKWON_RANK {
+  short PacketId
+  char Name[240]
+  int Point[10]
+ }
+0x227
+struct PACKET_ZC_GAME_GUARD {
+  short PacketId
+  unsigned long AuthData[4]
+ }
+0x228
+struct PACKET_CZ_ACK_GAME_GUARD {
+  short PacketId
+  unsigned long AuthData[4]
+ }
+0x229
+struct PACKET_ZC_STATE_CHANGE3 {
+  short PacketId
+  unsigned long AID
+  short bodyState
+  short healthState
+  int effectState
+  bool isPKModeON
+ }
+0x22a
+struct PACKET_ZC_NOTIFY_STANDENTRY3 {
+  short PacketId
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  int effectState
+  short job
+  short head
+  int weapon
+  short accessory
+  short accessory2
+  short accessory3
+  short headpalette
+  short bodypalette
+  short headDir
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  int virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte PosDir[3]
+  unsigned char xSize
+  unsigned char ySize
+  unsigned char state
+  short clevel
+ }
+0x22b
+struct PACKET_ZC_NOTIFY_NEWENTRY3 {
+  short PacketId
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  int effectState
+  short job
+  short head
+  int weapon
+  short accessory
+  short accessory2
+  short accessory3
+  short headpalette
+  short bodypalette
+  short headDir
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  int virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte PosDir[3]
+  unsigned char xSize
+  unsigned char ySize
+  short clevel
+ }
+0x22c
+struct PACKET_ZC_NOTIFY_MOVEENTRY3 {
+  short PacketId
+  #V GTE 20071106 unsigned char objecttype
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  int effectState
+  short job
+  short head
+  int weapon
+  short accessory
+  unsigned long moveStartTime
+  short accessory2
+  short accessory3
+  short headpalette
+  short bodypalette
+  short headDir
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  int virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte MoveData[6]
+  unsigned char xSize
+  unsigned char ySize
+  short clevel
+ }
+0x22d
+struct PACKET_CZ_COMMAND_MER {
+  short PacketId
+  short type
+  char command
+ }
+0x22e, 0x09f7:20131230, 0x0b2f:20190619, 0x0b76:20200819, 0x0ba4:20210303
+struct PACKET_ZC_PROPERTY_HOMUN {
+  short PacketId
+  char szName[24]
+  unsigned char bModified
+  short nLevel
+  short nFullness
+  short nRelationship
+  #V LT 20181121 unsigned short ITID
+  #V RANGE 20181121 20190619 unsigned long ITID_32
+  short atk
+  short Matk
+  short hit
+  short critical
+  short def
+  short Mdef
+  short flee
+  short aspd
+  #V LT 20131230 short hp
+  #V GTE 20131230 unsigned long hp_32
+  #V LT 20131230 short maxHP
+  #V GTE 20131230 unsigned long maxHP_32
+  #V LT 20200819 short sp
+  #V GTE 20200819 unsigned long sp_32
+  #V LT 20200819 short maxSP
+  #V GTE 20200819 unsigned long maxSP_32
+  #V LT 20210303 int exp
+  #V GTE 20210303 int64 exp_64
+  #V LT 20210303 int maxEXP
+  #V GTE 20210303 int64 maxEXP_64
+  short SKPoint
+  short ATKRange
+ }
+0x22f
+struct PACKET_ZC_FEED_MER {
+  short PacketId
+  char cRet
+  #V LT 20181121 unsigned short ITID
+  #V GTE 20181121 unsigned long ITID_32
+ }
+0x230
+struct PACKET_ZC_CHANGESTATE_MER {
+  short PacketId
+  char type
+  char state
+  int GID
+  int data
+ }
+0x231
+struct PACKET_CZ_RENAME_MER {
+  short PacketId
+  char name[24]
+ }
+0x232
+struct PACKET_CZ_REQUEST_MOVENPC {
+  short PacketId
+  unsigned long GID
+  unsigned byte dest[3]
+ }
+0x233
+struct PACKET_CZ_REQUEST_ACTNPC {
+  short PacketId
+  unsigned long GID
+  unsigned long targetGID
+  unsigned char action
+ }
+0x234
+struct PACKET_CZ_REQUEST_MOVETOOWNER {
+  short PacketId
+  unsigned long GID
+ }
+0x235
+struct PACKET_ZC_HOSKILLINFO_LIST {
+  short PacketId
+  short PacketLength
+  struct SKILLINFO skillList[...] { // Size 37
+  short SKID
+  int type
+  short level
+  short spcost
+  short attackRange
+  unsigned char skillName[24]
+  char upgradable
+  }
+ }
+0x239
+struct PACKET_ZC_HOSKILLINFO_UPDATE {
+  short PacketId
+  unsigned short SKID
+  short level
+  short spcost
+  short attackRange
+  bool upgradable
+ }
+0x23a
+struct PACKET_ZC_REQ_STORE_PASSWORD {
+  short PacketId
+  short Info
+ }
+0x0861, 0x023b:20050530, 0x0281:20111102, 0x0861:20120307, 0x023b:20180308
+struct PACKET_CZ_ACK_STORE_PASSWORD {
+  short PacketId
+  short Type
+  unsigned char Password[16]
+  unsigned char NewPassword[16]
+ }
+0x23c
+struct PACKET_ZC_RESULT_STORE_PASSWORD {
+  short PacketId
+  short Result
+  short ErrorCount
+ }
+0x23d
+struct PACKET_AC_EVENT_RESULT {
+  short PacketId
+  unsigned long EventItemCount
+ }
+0x23e
+struct PACKET_HC_REQUEST_CHARACTER_PASSWORD {
+  short PacketId
+  short Result
+  unsigned long dummyValue
+ }
+0x23f
+struct PACKET_CZ_MAIL_GET_LIST {
+  short PacketId
+ }
+0x240
+struct PACKET_ZC_MAIL_REQ_GET_LIST {
+  short PacketId
+  short PacketLength
+  int MailNumber
+  struct MAIL_LIST mailList[...] { // Size 73
+  unsigned long MailID
+  char HEADER[40]
+  char isOpen
+  char FromName[24]
+  long DeleteTime
+  }
+ }
+0x241
+struct PACKET_CZ_MAIL_OPEN {
+  short PacketId
+  int MailID
+ }
+0x242
+struct PACKET_ZC_MAIL_REQ_OPEN {
+  short PacketId
+  short PacketLength
+  int MailID
+  char Header[40]
+  char FromName[24]
+  long DeleteTime
+  unsigned long Money
+  int count
+  unsigned short ITID
+  unsigned short Type
+  bool IsIdentified
+  bool IsDamaged
+  unsigned char refiningLevel
+  struct EQUIPSLOTINFO slot {
+  #V LT 20181121 unsigned short card1
+  #V LT 20181121 unsigned short card2
+  #V LT 20181121 unsigned short card3
+  #V LT 20181121 unsigned short card4
+  #V GTE 20181121 unsigned long card1_32
+  #V GTE 20181121 unsigned long card2_32
+  #V GTE 20181121 unsigned long card3_32
+  #V GTE 20181121 unsigned long card4_32
+  }
+  unsigned char msg_len
+  char msg[...]
+ }
+0x243
+struct PACKET_CZ_MAIL_DELETE {
+  short PacketId
+  int MailID
+ }
+0x244
+struct PACKET_CZ_MAIL_GET_ITEM {
+  short PacketId
+  int MailID
+ }
+0x245
+struct PACKET_ZC_MAIL_REQ_GET_ITEM {
+  short PacketId
+  char Result
+ }
+0x246
+struct PACKET_CZ_MAIL_RESET_ITEM {
+  short PacketId
+  short Type
+ }
+0x247
+struct PACKET_CZ_MAIL_ADD_ITEM {
+  short PacketId
+  short index
+  int count
+ }
+0x248
+struct PACKET_CZ_MAIL_SEND {
+  short PacketId
+  short PacketLength
+  char ReceiveName[24]
+  char Header[40]
+  unsigned long msg_len
+  char msg[...]
+ }
+0x249
+struct PACKET_ZC_MAIL_REQ_SEND {
+  short PacketId
+  char Result
+ }
+0x24a
+struct PACKET_ZC_MAIL_RECEIVE {
+  short PacketId
+  unsigned long MailID
+  char Header[40]
+  char FromName[24]
+ }
+0x24b
+struct PACKET_CZ_AUCTION_CREATE {
+  short PacketId
+  short Type
+ }
+0x24c
+struct PACKET_CZ_AUCTION_ADD_ITEM {
+  short PacketId
+  short index
+  int count
+ }
+0x24d
+struct PACKET_CZ_AUCTION_ADD {
+  short PacketId
+  unsigned long NowMoney
+  unsigned long MaxMoney
+  short DeleteHour
+ }
+0x24e
+struct PACKET_CZ_AUCTION_ADD_CANCEL {
+  short PacketId
+  unsigned long AuctionID
+ }
+0x24f
+struct PACKET_CZ_AUCTION_BUY {
+  short PacketId
+  unsigned long AuctionID
+  unsigned long Money
+ }
+0x250
+struct PACKET_ZC_AUCTION_RESULT {
+  short PacketId
+  char Result
+ }
+0x251
+struct PACKET_CZ_AUCTION_ITEM_SEARCH {
+  short PacketId
+  short Type
+  unsigned long AuctionID
+  char Name[24]
+  unsigned short Page
+ }
+0x252
+struct PACKET_ZC_AUCTION_ITEM_REQ_SEARCH {
+  short PacketId
+  short PacketLength
+  int MaxPage
+  int Number
+  struct AUCTION_ITEM_SEARCH_INFO auctionItemList[...] { // Size 83
+  unsigned long AuctionID
+  char SellerName[24]
+  unsigned short ITID
+  int Type
+  short count
+  bool IsIdentified
+  bool IsDamaged
+  unsigned char refiningLevel
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  int NowPrice
+  int MaxPrice
+  char BuyerName[24]
+  long DeleteTime
+  }
+ }
+0x253
+struct PACKET_ZC_STARPLACE {
+  short PacketId
+  char which
+ }
+0x254
+struct PACKET_CZ_AGREE_STARPLACE {
+  short PacketId
+  char which
+ }
+0x255
+struct PACKET_ZC_ACK_MAIL_ADD_ITEM {
+  short PacketId
+  short Index
+  unsigned char result
+ }
+0x256
+struct PACKET_ZC_ACK_AUCTION_ADD_ITEM {
+  short PacketId
+  short Index
+  unsigned char result
+ }
+0x257
+struct PACKET_ZC_ACK_MAIL_DELETE {
+  short PacketId
+  int MailID
+  unsigned short Result
+ }
+0x258
+struct PACKET_CA_REQ_GAME_GUARD_CHECK {
+  short PacketId
+ }
+0x259
+struct PACKET_AC_ACK_GAME_GUARD {
+  short PacketId
+  unsigned char ucAnswer
+ }
+0x25a
+struct PACKET_ZC_MAKINGITEM_LIST {
+  short PacketId
+  short PacketLength
+  unsigned short makeItem
+  struct MAKINGITEM_INFO items[...] {
+  #V LT 20181121 unsigned short ITID
+  #V GTE 20181121 unsigned long ITID_32
+  }
+ }
+0x25b
+struct PACKET_CZ_REQ_MAKINGITEM {
+  short PacketId
+  short mkType
+  #V LT 20181121 unsigned short id
+  #V GTE 20181121 unsigned long id_32
+ }
+0x25c
+struct PACKET_CZ_AUCTION_REQ_MY_INFO {
+  short PacketId
+  short Type
+ }
+0x25d
+struct PACKET_CZ_AUCTION_REQ_MY_SELL_STOP {
+  short PacketId
+  unsigned long AuctionID
+ }
+0x25e
+struct PACKET_ZC_AUCTION_ACK_MY_SELL_STOP {
+  short PacketId
+  short Result
+ }
+0x25f
+struct PACKET_ZC_AUCTION_WINDOWS {
+  short PacketId
+  int Type
+ }
+0x260
+struct PACKET_ZC_MAIL_WINDOWS {
+  short PacketId
+  int Type
+ }
+0x261
+struct PACKET_AC_REQ_LOGIN_OLDEKEY {
+  short PacketId
+  char mSeedValue[9]
+ }
+0x262
+struct PACKET_AC_REQ_LOGIN_NEWEKEY {
+  short PacketId
+  char mSeedValue[9]
+ }
+0x263
+struct PACKET_AC_REQ_LOGIN_CARDPASS {
+  short PacketId
+  char mSeedValue[9]
+ }
+0x264
+struct PACKET_CA_ACK_LOGIN_OLDEKEY {
+  short PacketId
+  char mSeedValue[9]
+  char mEKey[9]
+ }
+0x265
+struct PACKET_CA_ACK_LOGIN_NEWEKEY {
+  short PacketId
+  char mSeedValue[9]
+  char mEKey[9]
+ }
+0x266
+struct PACKET_CA_ACK_LOGIN_CARDPASS {
+  short PacketId
+  char mcardPass[28]
+ }
+0x267
+struct PACKET_AC_ACK_EKEY_FAIL_NOTEXIST {
+  short PacketId
+  short errorCode
+ }
+0x268
+struct PACKET_AC_ACK_EKEY_FAIL_NOTUSESEKEY {
+  short PacketId
+  short errorCode
+ }
+0x269
+struct PACKET_AC_ACK_EKEY_FAIL_NOTUSEDEKEY {
+  short PacketId
+  short errorCode
+ }
+0x26a
+struct PACKET_AC_ACK_EKEY_FAIL_AUTHREFUSE {
+  short PacketId
+  short errorCode
+ }
+0x26b
+struct PACKET_AC_ACK_EKEY_FAIL_INPUTEKEY {
+  short PacketId
+  short errorCode
+ }
+0x26c
+struct PACKET_AC_ACK_EKEY_FAIL_NOTICE {
+  short PacketId
+  short errorCode
+ }
+0x26d
+struct PACKET_AC_ACK_EKEY_FAIL_NEEDCARDPASS {
+  short PacketId
+  short errorCode
+ }
+0x26e
+struct PACKET_AC_ACK_AUTHEKEY_FAIL_NOTMATCHCARDPASS {
+  short PacketId
+  short errorCode
+ }
+0x26f
+struct PACKET_AC_ACK_FIRST_LOGIN {
+  short PacketId
+ }
+0x270
+struct PACKET_AC_REQ_LOGIN_ACCOUNT_INFO {
+  short PacketId
+ }
+0x271
+struct PACKET_CA_ACK_LOGIN_ACCOUNT_INFO {
+  short PacketId
+  short sex
+  short bPoint
+  char Email[34]
+ }
+0x272
+struct PACKET_AC_ACK_PT_ID_INFO {
+  short PacketId
+  char szPTID[21]
+  char szPTNumID[21]
+ }
+0x273
+struct PACKET_CZ_REQ_MAIL_RETURN {
+  short PacketId
+  int MailID
+  char ReceiveName[24]
+ }
+0x274
+struct PACKET_ZC_ACK_MAIL_RETURN {
+  short PacketId
+  int MailID
+  short Result
+ }
+0x275
+struct PACKET_CH_ENTER2 {
+  short PacketId
+  unsigned long AID
+  int AuthCode
+  unsigned long userLevel
+  unsigned short clientType
+  unsigned char Sex
+  char macData[16]
+  int iAccountSID
+ }
+0x276
+struct PACKET_CA_ACCEPT_LOGIN2 {
+  short PacketId
+  short PacketLength
+  int AuthCode
+  unsigned long AID
+  unsigned long userLevel
+  unsigned long lastLoginIP
+  char lastLoginTime[26]
+  unsigned char Sex
+  int iAccountSID
+ }
+0x277
+struct PACKET_CA_LOGIN_PCBANG {
+  short PacketId
+  unsigned long Version
+  unsigned char ID[24]
+  unsigned char Passwd[24]
+  unsigned char clienttype
+  char IP[16]
+  unsigned char MacAdress[13]
+ }
+0x278
+struct PACKET_ZC_NOTIFY_PCBANG {
+  short PacketId
+ }
+0x279
+struct PACKET_CZ_HUNTINGLIST {
+  short PacketId
+ }
+0x27a
+struct PACKET_ZC_HUNTINGLIST {
+  short PacketId
+  short PacketLength
+   struct PACKET_MOB_HUNTING HuntingList[...] { // Size 12
+  unsigned long questID
+  unsigned long mobGID
+  short maxCount
+  short count
+  }
+ }
+0x27b
+struct PACKET_ZC_PCBANG_EFFECT {
+  short PacketId
+  int ExpFactor
+  int ExpFactor2
+  int DropFactor
+ }
+0x27c
+struct PACKET_CA_LOGIN4 {
+  short PacketId
+  unsigned long Version
+  unsigned char ID[24]
+  unsigned char PasswdMD5[16]
+  unsigned char clienttype
+  char macData[13]
+ }
+0x27d
+struct PACKET_ZC_PROPERTY_MERCE {
+  short PacketId
+  char name[24]
+  short level
+  short faith
+  short summonCount
+  short atk
+  short Matk
+  short hit
+  short critical
+  short def
+  short Mdef
+  short flee
+  short aspd
+  short hp
+  short maxHP
+  short sp
+  short maxSP
+  short ATKRange
+  int exp
+ }
+0x27e
+struct PACKET_ZC_SHANDA_PROTECT {
+  short PacketId
+  short PacketLength
+  short CodeLen
+  unsigned char Code[...]
+ }
+0x27f
+struct PACKET_CA_CLIENT_TYPE {
+  short PacketId
+  short ClientType
+  int nVer
+ }
+0x280
+struct PACKET_ZC_GANGSI_POINT {
+  short PacketId
+  int Point
+  int TotalPoint
+  short PacketSwitch
+ }
+0x281
+struct PACKET_CZ_GANGSI_RANK {
+  short PacketId
+  short PacketSwitch
+ }
+0x282
+struct PACKET_ZC_GANGSI_RANK {
+  short PacketId
+  char Name[240]
+  int Point[10]
+  short PacketSwitch
+ }
+0x283
+struct PACKET_ZC_AID {
+  short PacketId
+  unsigned long AID
+ }
+0x284
+struct PACKET_ZC_NOTIFY_EFFECT3 {
+  short PacketId
+  unsigned long AID
+  int effectID
+  int numdata
+ }
+0x285
+struct PACKET_ZC_DEATH_QUESTION {
+  short PacketId
+  short Qcategory
+  short Qnum
+ }
+0x286
+struct PACKET_CZ_DEATH_QUESTION {
+  short PacketId
+  short Qanswer
+ }
+0x287
+struct PACKET_ZC_PC_CASH_POINT_ITEMLIST {
+  short PacketId
+  short PacketLength
+  unsigned long CashPoint
+  struct PURCHASE_ITEM itemList[...] { // Size 11
+  int price
+  int discountprice
+  unsigned char type
+  unsigned short ITID
+  }
+ }
+0x288
+struct PACKET_CZ_PC_BUY_CASH_POINT_ITEM {
+  short PacketId
+  unsigned short ITID
+  short count
+ }
+0x289
+struct PACKET_ZC_PC_CASH_POINT_UPDATE {
+  short PacketId
+  unsigned long CashPoint
+  short Error
+ }
+0x28a
+struct PACKET_ZC_NPC_SHOWEFST_UPDATE {
+  short PacketId
+  unsigned long AID
+  int effectState
+  int clevel
+  int showEFST
+ }
+0x28c
+struct PACKET_CH_SELECT_CHAR_GOINGTOBEUSED {
+  short PacketId
+  unsigned long dwAID
+  int nCountSelectedChar
+  unsigned long ardwSelectedGID[9]
+ }
+0x28d
+struct PACKET_CH_REQ_IS_VALID_CHARNAME {
+  short PacketId
+  unsigned long dwAID
+  unsigned long dwGID
+  char szCharName[24]
+ }
+0x28e
+struct PACKET_HC_ACK_IS_VALID_CHARNAME {
+  short PacketId
+  short sResult
+ }
+0x28f
+struct PACKET_CH_REQ_CHANGE_CHARNAME {
+  short PacketId
+  unsigned long dwGID
+ }
+0x290
+struct PACKET_HC_ACK_CHANGE_CHARNAME {
+  short PacketId
+  short sResult
+ }
+0x291
+struct PACKET_ZC_MSG {
+  short PacketId
+  unsigned short msg
+ }
+0x292
+struct PACKET_CZ_STANDING_RESURRECTION {
+  short PacketId
+ }
+0x293
+struct PACKET_ZC_BOSS_INFO {
+  short PacketId
+  unsigned char infoType
+  int xPos
+  int yPos
+  unsigned short minHour
+  unsigned short minMinute
+  unsigned short maxHour
+  unsigned short maxMinute
+  char name[51]
+ }
+0x294
+struct PACKET_ZC_READ_BOOK {
+  short PacketId
+  unsigned long bookID
+  unsigned long page
+ }
+0x295
+struct PACKET_ZC_EQUIPMENT_ITEMLIST2 {
+  short PacketId
+  short PacketLength
+  struct EQUIPMENTITEM_EXTRAINFO2 ItemInfo[...] { // Size 24
+  short index
+  unsigned short ITID
+  unsigned char type
+  bool IsIdentified
+  unsigned short location
+  unsigned short WearState
+  bool IsDamaged
+  unsigned char RefiningLevel
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  long HireExpireDate
+  }
+ }
+0x296
+struct PACKET_ZC_STORE_EQUIPMENT_ITEMLIST2 {
+  short PacketId
+  short PacketLength
+  struct EQUIPMENTITEM_EXTRAINFO2 ItemInfo[...] { // Size 24
+  short index
+  unsigned short ITID
+  unsigned char type
+  bool IsIdentified
+  unsigned short location
+  unsigned short WearState
+  bool IsDamaged
+  unsigned char RefiningLevel
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  long HireExpireDate
+  }
+ }
+0x297
+struct PACKET_ZC_CART_EQUIPMENT_ITEMLIST2 {
+  short PacketId
+  short PacketLength
+  struct EQUIPMENTITEM_EXTRAINFO2 ItemInfo[...] { // Size 24
+  short index
+  unsigned short ITID
+  unsigned char type
+  bool IsIdentified
+  unsigned short location
+  unsigned short WearState
+  bool IsDamaged
+  unsigned char RefiningLevel
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  long HireExpireDate
+  }
+ }
+0x298
+struct PACKET_ZC_CASH_TIME_COUNTER {
+  short PacketId
+  unsigned short ITID
+  unsigned long RemainSecond
+ }
+0x299
+struct PACKET_ZC_CASH_ITEM_DELETE {
+  short PacketId
+  short index
+  unsigned short ITID
+ }
+0x29a
+struct PACKET_ZC_ITEM_PICKUP_ACK2 {
+  short PacketId
+  unsigned short Index
+  unsigned short count
+  unsigned short ITID
+  bool IsIdentified
+  bool IsDamaged
+  unsigned char refiningLevel
+  struct EQUIPSLOTINFO slot {
+  #V LT 20181121 unsigned short card1
+  #V LT 20181121 unsigned short card2
+  #V LT 20181121 unsigned short card3
+  #V LT 20181121 unsigned short card4
+  #V GTE 20181121 unsigned long card1_32
+  #V GTE 20181121 unsigned long card2_32
+  #V GTE 20181121 unsigned long card3_32
+  #V GTE 20181121 unsigned long card4_32
+  }
+  unsigned short location
+  unsigned char type
+  unsigned char result
+  long HireExpireDate
+ }
+0x29b
+struct PACKET_ZC_MER_INIT {
+  short PacketId
+  int AID
+  short atk
+  short Matk
+  short hit
+  short critical
+  short def
+  short Mdef
+  short flee
+  short aspd
+  char name[24]
+  short level
+  int hp
+  int maxHP
+  int sp
+  int maxSP
+  long ExpireDate
+  short faith
+  #V GTE 20071106 int toal_call_num
+  #V GTE 20071106 int approval_monster_kill_counter
+  short ATKRange
+ }
+0x29c
+struct PACKET_ZC_MER_PROPERTY {
+  short PacketId
+  short atk
+  short Matk
+  short hit
+  short critical
+  short def
+  short Mdef
+  short flee
+  short aspd
+  char name[24]
+  short level
+  short hp
+  short maxHP
+  short sp
+  short maxSP
+  long ExpireDate
+  short faith
+  int toal_call_num
+  int approval_monster_kill_counter
+ }
+0x29d
+struct PACKET_ZC_MER_SKILLINFO_LIST {
+  short PacketId
+  short PacketLength
+  struct SKILLINFO skillList[...] { // Size 37
+  short SKID
+  int type
+  short level
+  short spcost
+  short attackRange
+  unsigned char skillName[24]
+  char upgradable
+  }
+ }
+0x29e
+struct PACKET_ZC_MER_SKILLINFO_UPDATE {
+  short PacketId
+  unsigned short SKID
+  short level
+  short spcost
+  short attackRange
+  bool upgradable
+ }
+0x29f
+struct PACKET_CZ_MER_COMMAND {
+  short PacketId
+  char command
+ }
+0x2a0
+struct UNUSED_PACKET_CZ_MER_USE_SKILL {
+
+  short PacketId
+  short selectedLevel
+  unsigned short SKID
+  unsigned long targetID
+ }
+0x2a1
+struct UNUSED_PACKET_CZ_MER_UPGRADE_SKILLLEVEL {
+
+  short PacketId
+  unsigned short SKID
+ }
+0x2a2
+struct PACKET_ZC_MER_PAR_CHANGE {
+  short PacketId
+  unsigned short var
+  int value
+ }
+0x2a3
+struct PACKET_ZC_GAMEGUARD_LINGO_KEY {
+  short PacketId
+  struct PGG_LINGO_KEY_TEMP lingoKey {
+  unsigned long dwAlgNum
+  unsigned long dwAlgKey1
+  unsigned long dwAlgKey2
+  unsigned long dwSeed
+  }
+ }
+0x2a5
+struct PACKET_CZ_KSY_EVENT {
+  short PacketId
+  short index
+  int count
+ }
+0x2aa
+struct PACKET_ZC_REQ_CASH_PASSWORD {
+  short PacketId
+  short Info
+ }
+0x2ab
+struct PACKET_CZ_ACK_CASH_PASSWORD {
+  short PacketId
+  short Type
+  unsigned char Password[16]
+  unsigned char NewPassword[16]
+ }
+0x2ac
+struct PACKET_ZC_RESULT_CASH_PASSWORD {
+  short PacketId
+  short Result
+  short ErrorCount
+ }
+0x2ad
+struct PACKET_AC_REQUEST_SECOND_PASSWORD {
+  short PacketId
+  short Result
+  unsigned long dwSeed
+ }
+0x2b0
+struct PACKET_CA_LOGIN_HAN {
+  short PacketId
+  unsigned long Version
+  unsigned char ID[24]
+  unsigned char Passwd[24]
+  unsigned char clienttype
+  char m_szIP[16]
+  unsigned char m_szMacAddr[13]
+  unsigned char isHanGameUser
+ }
+0x2b1
+struct PACKET_ZC_ALL_QUEST_LIST {
+  short PacketId
+  short PacketLength
+  int questCount
+   struct PACKET_ZC_QUEST_INFO QuestList[...] { // Size 5
+  unsigned long questID
+  bool active
+  }
+ }
+0x2b2
+struct PACKET_ZC_ALL_QUEST_MISSION {
+  short PacketId
+  short PacketLength
+  int count
+   struct PACKET_ZC_QUEST_MISSION_INFO QuestMissionList[...] { // Size 104
+  unsigned long questID
+  long quest_svrTime
+  long quest_endTime
+  short count
+  struct PACKET_ZC_MISSION_HUNT hunt[3] { // Size 30
+   unsigned long mobGID
+   short huntCount
+   char mobName[24]
+   }
+  }
+ }
+0x2b3, 0x09f9:20150513
+struct PACKET_ZC_ADD_QUEST {
+  short PacketId
+  unsigned long questID
+  bool active
+  long quest_svrTime
+  long quest_endTime
+  short count
+   struct PACKET_ZC_MISSION_HUNT_EX hunt[3] {
+  #V GTE 20150513 unsigned long huntIdent
+  #V GTE 20150513 unsigned long mobType
+  unsigned long mobGID
+  #V GTE 20150513 short minLevel
+  #V GTE 20150513 short maxLevel
+  short huntCount
+  char mobName[24]
+  }
+ }
+0x2b4
+struct PACKET_ZC_DEL_QUEST {
+  short PacketId
+  unsigned long questID
+ }
+0x2b5, 0x09fa:20150513
+struct PACKET_ZC_UPDATE_MISSION_HUNT {
+  short PacketId
+  short PacketLength
+  short count
+   struct PACKET_MOB_HUNTING_EX MobHuntList[...] {
+  unsigned long questID
+  #V LT 20150513 unsigned long mobGID
+  #V GTE 20150513 unsigned long huntIdent
+  short maxCount
+  short count
+  }
+ }
+0xa23
+struct PACKET_ZC_ALL_ACH_LIST {
+  short PacketId
+  short PacketLength
+  int count
+  int totalScore
+  short level
+  int exp
+  int expToNext
+   struct ACH_INFO achievements[...] { // Size 50
+  unsigned long achievementId
+  bool completed
+  int objectives[10]
+  unsigned long completedAt
+  bool rewarded
+  }
+ }
+0xa24
+struct PACKET_ZC_ACH_UPDATE {
+  short PacketId
+  int totalScore
+  short level
+  int exp
+  int expToNext
+  unsigned long achievementId
+  bool completed
+  int objectives[10]
+  unsigned long completedAt
+  bool rewarded
+ }
+0xa9b
+struct PACKET_ZC_EQUIPSWITCH_LIST {
+  short PacketId
+  short PacketLength
+   struct EQUIPSWITCH_ITEM items[...] { // Size 6
+  short index
+  unsigned long position
+  }
+ }
+0xb8d
+struct PACKET_ZC_REPUTE_INFO {
+  short PacketId
+  short PacketLength
+  bool success
+   struct REPUTE_INFO list[...] { // Size 16
+  int64 type
+  int64 points
+  }
+ }
+0x8e2
+struct PACKET_ZC_NAVIGATION_ACTIVE {
+  short PacketId
+  unsigned char type
+  unsigned char flag
+  unsigned char hideWindow
+  char mapName[16]
+  short xPos
+  short yPos
+  unsigned short mobId
+ }
+0x8d6
+struct PACKET_ZC_CLEAR_DIALOG {
+  short PacketId
+  unsigned long GID
+ }
+0xba1
+struct PACKET_ZC_DIALOG_TEXT_ALIGN {
+  short PacketId
+  unsigned char align
+ }
+0x97c
+struct PACKET_CZ_REQ_RANKING {
+  short PacketId
+  short rankingType
+ }
+0xaf6
+struct PACKET_ZC_ACK_RANKING2 {
+  short PacketId
+  short rankingType
+  unsigned long CIDs[10]
+  int points[10]
+  int myPoints
+ }
+0x97e
+struct PACKET_ZC_UPDATE_RANKING_POINT {
+  short PacketId
+  short rankingType
+  int points
+  int pointsTotal
+ }
+0x9f8
+struct PACKET_ZC_ALL_QUEST_LIST3 {
+  short PacketId
+  short PacketLength
+  int questCount
+  unsigned char questData[...]
+ }
+0x8fe
+struct PACKET_ZC_HUNTING_QUEST_INFO {
+  short PacketId
+  short PacketLength
+   struct PACKET_HUNTING_QUEST_INFO huntList[...] { // Size 12
+  unsigned long huntIdent
+  unsigned long mobGID
+  short maxCount
+  short count
+  }
+ }
+0x2b6
+struct PACKET_CZ_ACTIVE_QUEST {
+  short PacketId
+  unsigned long questID
+  bool active
+ }
+0x2b7
+struct PACKET_ZC_ACTIVE_QUEST {
+  short PacketId
+  unsigned long questID
+  bool active
+ }
+0x2b8, 0x0b67:20200916
+struct PACKET_ZC_ITEM_PICKUP_PARTY {
+  short PacketId
+  unsigned long accountID
+  #V LT 20181121 unsigned short ITID
+  #V GTE 20181121 unsigned long ITID_32
+  bool IsIdentified
+  bool IsDamaged
+  #V LT 20200916 unsigned char refiningLevel
+  struct EQUIPSLOTINFO slot {
+  #V LT 20181121 unsigned short card1
+  #V LT 20181121 unsigned short card2
+  #V LT 20181121 unsigned short card3
+  #V LT 20181121 unsigned short card4
+  #V GTE 20181121 unsigned long card1_32
+  #V GTE 20181121 unsigned long card2_32
+  #V GTE 20181121 unsigned long card3_32
+  #V GTE 20181121 unsigned long card4_32
+  }
+  unsigned short location
+  unsigned char type
+  #V GTE 20200916 unsigned char refiningLevel2
+  #V GTE 20200916 unsigned char grade
+ }
+0x2b9
+struct PACKET_ZC_SHORTCUT_KEY_LIST {
+  short PacketId
+  struct ShortCutKey ShortCutKey[27] { // Size 7
+  char isSkill
+  unsigned long ID
+  short count
+  }
+ }
+0x2ba, 0x0b21:20190522
+struct PACKET_CZ_SHORTCUT_KEY_CHANGE {
+  short PacketId
+#V GTE 20190522 unsigned short tab
+  unsigned short Index
+  struct ShortCutKey ShortCutKey {
+  char isSkill
+  unsigned long ID
+  short count
+  }
+ }
+0x2bb
+struct PACKET_ZC_EQUIPITEM_DAMAGED {
+  short PacketId
+  unsigned short wearLocation
+  unsigned long accountID
+ }
+0x2bc
+struct PACKET_ZC_NOTIFY_PCBANG_PLAYING_TIME {
+  short PacketId
+  int TimeMinute
+ }
+0x2bf
+struct PACKET_ZC_SRPACKETR2_INIT {
+  short PacketId
+  unsigned short ProtectFactor
+  unsigned int DeformSeedFactor
+  unsigned int DeformAddFactor
+ }
+0x2c0
+struct PACKET_CZ_SRPACKETR2_START {
+  short PacketId
+  unsigned short ProtectFactor
+ }
+0x02c1
+struct PACKET_ZC_NPC_CHAT {
+  short PacketId
+  short PacketLength
+  unsigned long accountID
+  unsigned long color
+  char msg[...]
+ }
+0x2c2
+struct PACKET_ZC_FORMATSTRING_MSG {
+  short PacketId
+  short PacketLength
+  unsigned short msg
+  char value[...]
+ }
+
+0x2c4, 0x088d:20111102, 0x0929:20120307, 0x091c:20120410, 0x0802:20120418, 0x086d:20130320, 0x02c4:20180308
+struct PACKET_CZ_PARTY_JOIN_REQ {
+  short PacketId
+  char characterName[24]
+ }
+0x2c5
+struct PACKET_ZC_PARTY_JOIN_REQ_ACK {
+  short PacketId
+  char characterName[24]
+  long answer
+ }
+0x2c6
+struct PACKET_ZC_PARTY_JOIN_REQ {
+  short PacketId
+  unsigned long GRID
+  char groupName[24]
+ }
+0x2c7
+struct PACKET_CZ_PARTY_JOIN_REQ_ACK {
+  short PacketId
+  unsigned long GRID
+  bool bAccept
+ }
+0x2c8
+struct PACKET_CZ_PARTY_CONFIG {
+  short PacketId
+  bool bRefuseJoinMsg
+ }
+0x2c9
+struct PACKET_ZC_PARTY_CONFIG {
+  short PacketId
+  bool bRefuseJoinMsg
+ }
+0x2ca
+struct PACKET_HC_REFUSE_SELECTCHAR {
+  short PacketId
+  unsigned char ErrorCode
+ }
+0x2cb
+struct PACKET_ZC_MEMORIALDUNGEON_SUBSCRIPTION_INFO {
+  short PacketId
+  char MemorialDungeonName[61]
+  short PriorityOrderNum
+ }
+0x2cc
+struct PACKET_ZC_MEMORIALDUNGEON_SUBSCRIPTION_NOTIFY {
+  short PacketId
+  short PriorityOrderNum
+ }
+0x2cd
+struct PACKET_ZC_MEMORIALDUNGEON_INFO {
+  short PacketId
+  char MemorialDungeonName[61]
+  unsigned long DestroyDate
+  unsigned long EnterTimeOutDate
+ }
+0x2ce
+struct PACKET_ZC_MEMORIALDUNGEON_NOTIFY {
+  short PacketId
+  long Type
+  unsigned long EnterLimitDate
+ }
+0x2cf
+struct PACKET_CZ_MEMORIALDUNGEON_COMMAND {
+  short PacketId
+  long Command
+ }
+0x02d0
+struct PACKET_ZC_EQUIPMENT_ITEMLIST3 {
+  short PacketId
+  short PacketLength
+  struct EQUIPMENTITEM_EXTRAINFO301 ItemInfo[...] { // Size 28
+  short index
+  unsigned short ITID
+  unsigned char type
+  bool IsIdentified
+  unsigned short location
+  unsigned short WearState
+  bool IsDamaged
+  unsigned char RefiningLevel
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  long HireExpireDate
+  unsigned short bindOnEquipType
+  unsigned short wItemSpriteNumber
+  }
+ }
+0x02d1
+struct PACKET_ZC_STORE_EQUIPMENT_ITEMLIST3 {
+  short PacketId
+  short PacketLength
+  struct EQUIPMENTITEM_EXTRAINFO301 ItemInfo[...] { // Size 28
+  short index
+  unsigned short ITID
+  unsigned char type
+  bool IsIdentified
+  unsigned short location
+  unsigned short WearState
+  bool IsDamaged
+  unsigned char RefiningLevel
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  long HireExpireDate
+  unsigned short bindOnEquipType
+  unsigned short wItemSpriteNumber
+  }
+ }
+0x02d2
+struct PACKET_ZC_CART_EQUIPMENT_ITEMLIST3 {
+  short PacketId
+  short PacketLength
+  struct EQUIPMENTITEM_EXTRAINFO301 ItemInfo[...] { // Size 28
+  short index
+  unsigned short ITID
+  unsigned char type
+  bool IsIdentified
+  unsigned short location
+  unsigned short WearState
+  bool IsDamaged
+  unsigned char RefiningLevel
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  long HireExpireDate
+  unsigned short bindOnEquipType
+  unsigned short wItemSpriteNumber
+  }
+ }
+0x02d3
+struct PACKET_ZC_NOTIFY_BIND_ON_EQUIP {
+  short PacketId
+  unsigned short index
+ }
+0x02d4
+struct PACKET_ZC_ITEM_PICKUP_ACK3 {
+  short PacketId
+  unsigned short Index
+  unsigned short count
+  unsigned short ITID
+  bool IsIdentified
+  bool IsDamaged
+  unsigned char refiningLevel
+  struct EQUIPSLOTINFO slot {
+  #V LT 20181121 unsigned short card1
+  #V LT 20181121 unsigned short card2
+  #V LT 20181121 unsigned short card3
+  #V LT 20181121 unsigned short card4
+  #V GTE 20181121 unsigned long card1_32
+  #V GTE 20181121 unsigned long card2_32
+  #V GTE 20181121 unsigned long card3_32
+  #V GTE 20181121 unsigned long card4_32
+  }
+  unsigned short location
+  unsigned char type
+  unsigned char result
+  long HireExpireDate
+  unsigned short bindOnEquipType
+ }
+0x2d5
+struct PACKET_ZC_ISVR_DISCONNECT {
+  short PacketId
+ }
+0x2d6
+struct PACKET_CZ_EQUIPWIN_MICROSCOPE {
+  short PacketId
+  unsigned long AID
+ }
+0x2d7
+struct PACKET_ZC_EQUIPWIN_MICROSCOPE {
+  short PacketId
+  short PacketLength
+  char characterName[24]
+  short job
+  short head
+  short accessory
+  short accessory2
+  short accessory3
+  short headpalette
+  short bodypalette
+  unsigned char sex
+  struct EQUIPMENTITEM_EXTRAINFO301 ItemInfo[...] { // Size 28
+  short index
+  unsigned short ITID
+  unsigned char type
+  bool IsIdentified
+  unsigned short location
+  unsigned short WearState
+  bool IsDamaged
+  unsigned char RefiningLevel
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  long HireExpireDate
+  unsigned short bindOnEquipType
+  unsigned short wItemSpriteNumber
+  }
+ }
+0x2d8
+struct PACKET_CZ_CONFIG {
+  short PacketId
+  long Config
+  int Value
+ }
+0x2d9
+struct PACKET_ZC_CONFIG {
+  short PacketId
+  long Config
+  int Value
+ }
+0x2da
+struct PACKET_ZC_CONFIG_NOTIFY {
+  short PacketId
+  bool bOpenEquipmentWin
+ }
+0x2db
+struct PACKET_CZ_BATTLEFIELD_CHAT {
+  short PacketId
+  short PacketLength
+  char msg[...]
+ }
+0x2dc
+struct PACKET_ZC_BATTLEFIELD_CHAT {
+  short PacketId
+  short PacketLength
+  unsigned long accountID
+  char name[24]
+  char msg[...]
+ }
+0x2dd
+struct PACKET_ZC_BATTLEFIELD_NOTIFY_CAMPINFO {
+  short PacketId
+  unsigned long accountID
+  char name[24]
+  short camp
+ }
+0x2de
+struct PACKET_ZC_BATTLEFIELD_NOTIFY_POINT {
+  short PacketId
+  short pointCampA
+  short pointCampB
+ }
+0x2df
+struct PACKET_ZC_BATTLEFIELD_NOTIFY_POSITION {
+  short PacketId
+  unsigned long accountID
+  char name[24]
+  unsigned short job
+  short x
+  short y
+ }
+0x2e0
+struct PACKET_ZC_BATTLEFIELD_NOTIFY_HP {
+  short PacketId
+  unsigned long accountID
+  char name[24]
+  short hp
+  short maxHp
+ }
+0x2e1
+struct PACKET_ZC_NOTIFY_ACT2 {
+  short PacketId
+  unsigned long GID
+  unsigned long targetGID
+  unsigned long startTime
+  int attackMT
+  int attackedMT
+  int damage
+  short count
+  unsigned char action
+  int leftDamage
+ }
+0x2e6
+struct PACKET_CZ_BOT_CHECK {
+  short PacketId
+  int IsBot
+ }
+0x2e7
+struct PACKET_ZC_MAPPROPERTY {
+  short PacketId
+  short PacketLength
+  short type
+  int mapInfoTable[...]
+ }
+0x02e8
+struct PACKET_ZC_NORMAL_ITEMLIST3 {
+  short PacketId
+  short PacketLength
+  struct NORMALITEM_EXTRAINFO3 ItemInfo[...] { // Size 22
+  short index
+  unsigned short ITID
+  unsigned char type
+  bool IsIdentified
+  short count
+  unsigned short WearState
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  long HireExpireDate
+  }
+ }
+0x02e9
+struct PACKET_ZC_CART_NORMAL_ITEMLIST3 {
+  short PacketId
+  short PacketLength
+  struct NORMALITEM_EXTRAINFO3 ItemInfo[...] { // Size 22
+  short index
+  unsigned short ITID
+  unsigned char type
+  bool IsIdentified
+  short count
+  unsigned short WearState
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  long HireExpireDate
+  }
+ }
+0x02ea
+struct PACKET_ZC_STORE_NORMAL_ITEMLIST3 {
+  short PacketId
+  short PacketLength
+  struct NORMALITEM_EXTRAINFO3 ItemInfo[...] { // Size 22
+  short index
+  unsigned short ITID
+  unsigned char type
+  bool IsIdentified
+  short count
+  unsigned short WearState
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  long HireExpireDate
+  }
+ }
+0x02eb
+struct PACKET_ZC_ACCEPT_ENTER2 {
+  short PacketId
+  unsigned long startTime
+  unsigned byte PosDir[3]
+  unsigned char xSize
+  unsigned char ySize
+  short font
+ }
+0x02ec
+struct PACKET_ZC_NOTIFY_MOVEENTRY4 {
+  short PacketId
+  unsigned char objecttype
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  int effectState
+  short job
+  short head
+  int weapon
+  short accessory
+  unsigned long moveStartTime
+  short accessory2
+  short accessory3
+  short headpalette
+  short bodypalette
+  short headDir
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  int virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte MoveData[6]
+  unsigned char xSize
+  unsigned char ySize
+  short clevel
+  short font
+ }
+0x02ed
+struct PACKET_ZC_NOTIFY_NEWENTRY4 {
+  short PacketId
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  int effectState
+  short job
+  short head
+  int weapon
+  short accessory
+  short accessory2
+  short accessory3
+  short headpalette
+  short bodypalette
+  short headDir
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  int virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte PosDir[3]
+  unsigned char xSize
+  unsigned char ySize
+  short clevel
+  short font
+ }
+0x02ee
+struct PACKET_ZC_NOTIFY_STANDENTRY4 {
+  short PacketId
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  int effectState
+  short job
+  short head
+  int weapon
+  short accessory
+  short accessory2
+  short accessory3
+  short headpalette
+  short bodypalette
+  short headDir
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  int virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte PosDir[3]
+  unsigned char xSize
+  unsigned char ySize
+  unsigned char state
+  short clevel
+  short font
+ }
+0x02ef
+struct PACKET_ZC_NOTIFY_FONT {
+  short PacketId
+  unsigned long AID
+  short font
+ }
+0x2f0
+struct PACKET_ZC_PROGRESS {
+  short PacketId
+  unsigned long color
+  unsigned long time
+ }
+0x2f1
+struct PACKET_CZ_PROGRESS {
+  short PacketId
+ }
+0x2f2
+struct PACKET_ZC_PROGRESS_CANCEL {
+  short PacketId
+ }
+0x35c
+struct PACKET_CZ_OPEN_SIMPLE_CASHSHOP_ITEMLIST {
+  short PacketId
+ }
+0x35d
+struct PACKET_ZC_SIMPLE_CASHSHOP_POINT_ITEMLIST {
+  short PacketId
+  short PacketLength
+  unsigned long CashPoint
+  short md_itemcount
+  short md_itemSize
+  short best_itemcount
+  short best_itemsize
+  struct PURCHASE_ITEM ItemList[...] { // Size 11
+  int price
+  int discountprice
+  unsigned char type
+  unsigned short ITID
+  }
+ }
+0x35e
+struct PACKET_CZ_CLOSE_WINDOW {
+  short PacketId
+ }
+0x3dd
+struct PACKET_AHC_GAME_GUARD {
+  short PacketId
+  unsigned long AuthData[4]
+ }
+0x3de
+struct PACKET_CAH_ACK_GAME_GUARD {
+  short PacketId
+  unsigned long AuthData[4]
+ }
+0x086a, 0x0072:20040705, 0x007e:20040726, 0x00f5:20040906, 0x009b:20050110, 0x0436:20080910, 0x083c:20111102, 0x086a:20120307, 0x0436:20180308
+struct PACKET_CZ_ENTER2 {
+  short PacketId
+  #V RANGE 20040705 20040713 unsigned byte a0[3]
+  #V RANGE 20040713 20040809 unsigned byte a1[10]
+  #V RANGE 20040809 20040906 unsigned byte a2[7]
+  #V RANGE 20040906 20040920 unsigned byte a3[5]
+  #V RANGE 20040920 20041005 unsigned byte a4[8]
+  #V RANGE 20041005 20041025 unsigned byte a5[10]
+  #V RANGE 20041025 20041129 unsigned byte a6[3]
+  #V RANGE 20041129 20050509 unsigned byte a7[1]
+  #V RANGE 20050509 20050628 unsigned byte a8[2]
+  #V RANGE 20050628 20050718 unsigned byte a9[7]
+  #V RANGE 20050718 20050719 unsigned byte a10[1]
+  #V RANGE 20050719 20070108 unsigned byte a11[7]
+  #V RANGE 20070108 20070212 unsigned byte a12[5]
+  #V RANGE 20070212 20080827 unsigned byte a13[2]
+  #V RANGE 20080827 20080910 unsigned byte a14[5]
+  unsigned long AID
+  #V RANGE 20040713 20040726 unsigned byte b1[6]
+  #V RANGE 20040726 20040809 unsigned byte b2[2]
+  #V RANGE 20040809 20040906 unsigned byte b3[8]
+  #V RANGE 20040906 20040920 unsigned byte b4[4]
+  #V RANGE 20040920 20041005 unsigned byte b5[3]
+  #V RANGE 20041005 20041025 unsigned byte b6[2]
+  #V RANGE 20041025 20041129 unsigned byte b7[5]
+  #V RANGE 20041129 20050110 unsigned byte b8[3]
+  #V RANGE 20050110 20050509 unsigned byte b9[5]
+  #V RANGE 20050509 20050628 unsigned byte b10[1]
+  #V RANGE 20050628 20050718 unsigned byte b11[2]
+  #V RANGE 20050718 20050719 unsigned byte b12[6]
+  #V RANGE 20050719 20060327 unsigned byte b13[2]
+  #V RANGE 20060327 20070108 unsigned byte b14[8]
+  #V RANGE 20070108 20070212 unsigned byte b15[10]
+  #V RANGE 20070212 20080827 unsigned byte b16[1]
+  #V RANGE 20080827 20080910 unsigned byte b17[4]
+  unsigned long GID
+  #V RANGE 20040713 20040726 unsigned byte c1[4]
+  #V RANGE 20040726 20040809 unsigned byte c2[2]
+  #V RANGE 20040809 20040906 unsigned byte c3[3]
+  #V RANGE 20040906 20040920 unsigned byte c4[6]
+  #V RANGE 20040920 20041025 unsigned byte c5[2]
+  #V RANGE 20041025 20041129 unsigned byte c6[2]
+  #V RANGE 20041129 20050110 unsigned byte c7[6]
+  #V RANGE 20050110 20050509 unsigned byte c8[7]
+  #V RANGE 20050509 20050718 unsigned byte c9[4]
+  #V RANGE 20050718 20050719 unsigned byte c10[5]
+  #V RANGE 20050719 20060327 unsigned byte c11[4]
+  #V RANGE 20060327 20070108 unsigned byte c12[3]
+  #V RANGE 20070108 20070212 unsigned byte c13[1]
+  #V RANGE 20070212 20080827 unsigned byte c14[4]
+  #V RANGE 20080827 20080910 unsigned byte c15[6]
+  int AuthCode
+  unsigned long clientTime
+#V GTE 20220330 unsigned byte unknown[4]
+  unsigned char Sex
+ }
+0x438
+struct PACKET_CZ_USE_SKILL2 {
+  short PacketId
+  short selectedLevel
+  unsigned short SKID
+  unsigned long targetID
+ }
+0x439
+struct PACKET_CZ_USE_ITEM2 {
+  short PacketId
+  unsigned short index
+  unsigned long AID
+ }
+0x43d
+struct PACKET_ZC_SKILL_POSTDELAY {
+  short PacketId
+  unsigned short SKID
+  unsigned long DelayTM
+ }
+0x43e
+struct PACKET_ZC_SKILL_POSTDELAY_LIST {
+  short PacketId
+  short PacketLength
+  struct SKILL_POSTDELAY delayList[...] { // Size 6
+  unsigned short SKID
+  unsigned long DelayTM
+  }
+ }
+0x43f, 0x0983:20120618
+struct PACKET_ZC_MSG_STATE_CHANGE2 {
+  short PacketId
+  short index
+  unsigned long AID
+  bool state
+#V GTE 20120618 unsigned long TotalMS
+  unsigned long RemainMS
+  int val1
+  int val2
+  int val3
+ }
+0x0984
+struct PACKET_ZC_EFST_SET_ENTER2 {
+  short PacketId
+  unsigned long targetID
+  unsigned short type
+  unsigned long TotalMS
+  unsigned long RemainMS
+  int val1
+  int val2
+  int val3
+ }
+0x440
+struct PACKET_ZC_MILLENNIUMSHIELD {
+  short PacketId
+  unsigned long AID
+  short num
+  short state
+ }
+0x441
+struct PACKET_ZC_SKILLINFO_DELETE {
+  short PacketId
+  unsigned short SKID
+ }
+0x442
+struct PACKET_ZC_SKILL_SELECT_REQUEST {
+  short PacketId
+  short PacketLength
+  long why
+  unsigned short SKIDList[...]
+ }
+0x443
+struct PACKET_CZ_SKILL_SELECT_RESPONSE {
+  short PacketId
+  long why
+  unsigned short SKID
+ }
+0x444
+struct PACKET_ZC_SIMPLE_CASH_POINT_ITEMLIST {
+  short PacketId
+  short PacketLength
+  unsigned long CashPoint
+  struct PURCHASE_ITEM ItemList[...] { // Size 11
+  int price
+  int discountprice
+  unsigned char type
+  unsigned short ITID
+  }
+ }
+0x445
+struct PACKET_CZ_SIMPLE_BUY_CASH_POINT_ITEM {
+  short PacketId
+  unsigned short ITID
+  short count
+ }
+0x446
+struct PACKET_ZC_QUEST_NOTIFY_EFFECT {
+  short PacketId
+  unsigned long npcID
+  short xPos
+  short yPos
+  short effect
+  short type
+ }
+0x448
+struct PACKET_HC_CHARACTER_LIST {
+  short PacketId
+  short PacketLength
+  struct CHARACTER_LIST CharacterList[...] { // Size 5
+  unsigned long dwGID
+  unsigned char SlotIdx
+  }
+ }
+0x449
+struct PACKET_ZC_HACKSH_ERROR_MSG {
+  short PacketId
+  short ErrorID
+ }
+0x44a
+struct PACKET_CZ_CLIENT_VERSION {
+  short PacketId
+  long clientVer
+ }
+0x44b
+struct PACKET_CZ_CLOSE_SIMPLECASH_SHOP {
+  short PacketId
+ }
+0x7d0
+struct PACKET_ZC_ES_RESULT {
+  short PacketId
+  short esNo
+  short esMsg
+ }
+0x7d1
+struct PACKET_CZ_ES_GET_LIST {
+  short PacketId
+ }
+0x7d2
+struct PACKET_ZC_ES_LIST {
+  short PacketId
+  short PacketLength
+  short Count
+ }
+0x7d3
+struct PACKET_CZ_ES_CHOOSE {
+  short PacketId
+  short esNo
+ }
+0x7d4
+struct PACKET_CZ_ES_CANCEL {
+  short PacketId
+  short esNo
+ }
+0x7d5
+struct PACKET_ZC_ES_READY {
+  short PacketId
+  short esNo
+ }
+0x7d6
+struct PACKET_ZC_ES_GOTO {
+  short PacketId
+  short esNo
+ }
+0x7d7
+struct PACKET_CZ_GROUPINFO_CHANGE_V2 {
+  short PacketId
+  unsigned long expOption
+  unsigned char ItemPickupRule
+  unsigned char ItemDivisionRule
+ }
+0x7d8
+struct PACKET_ZC_REQ_GROUPINFO_CHANGE_V2 {
+  short PacketId
+  unsigned long expOption
+  unsigned char ItemPickupRule
+  unsigned char ItemDivisionRule
+ }
+0x7d9, 0x0a00:20141022, 0x0b20:20190522
+struct PACKET_ZC_SHORTCUT_KEY_LIST_V2 {
+  short PacketId
+#V GTE 20141022 char rotate
+#V GTE 20190522 short tab
+  struct ShortCutKey ShortCutKey[38] { // Size 7
+  char isSkill
+  unsigned long ID
+  short count
+  }
+ }
+0x7da
+struct PACKET_CZ_CHANGE_GROUP_MASTER {
+  short PacketId
+  unsigned long AID
+ }
+0x7db, 0x0ba5:20210000
+struct PACKET_ZC_HO_PAR_CHANGE {
+  short PacketId
+  unsigned short var
+  #V LT 20210000 int value
+  #V GTE 20210000 unsigned int64 value_64
+ }
+0x7dc
+struct PACKET_CZ_SEEK_PARTY {
+  short PacketId
+  unsigned long Option
+ }
+0x7dd
+struct PACKET_ZC_SEEK_PARTY {
+  short PacketId
+  char Name[24]
+  unsigned long Job
+  unsigned long Level
+  char mapName[16]
+  unsigned long Option
+ }
+0x7de
+struct PACKET_CZ_SEEK_PARTY_MEMBER {
+  short PacketId
+  unsigned long Job
+  unsigned long Level
+  char mapName[16]
+  unsigned long Option
+ }
+0x7df
+struct PACKET_ZC_SEEK_PARTY_MEMBER {
+  short PacketId
+  char Name[24]
+  unsigned long Job
+  unsigned long Level
+  char mapName[16]
+  unsigned long Option
+ }
+0x7e0
+struct PACKET_ZC_ES_NOTI_MYINFO {
+  short PacketId
+  short esNo
+  char esname[54]
+ }
+0x7e1
+struct PACKET_ZC_SKILLINFO_UPDATE2 {
+  short PacketId
+  unsigned short SKID
+  int type
+  short level
+  short spcost
+  short attackRange
+  bool upgradable
+ }
+0x7e2
+struct PACKET_ZC_MSG_VALUE {
+  short PacketId
+  unsigned short msg
+  int value
+ }
+0x7e3
+struct PACKET_ZC_ITEMLISTWIN_OPEN {
+  short PacketId
+  long Type
+ }
+0x7e4
+struct PACKET_CZ_ITEMLISTWIN_RES {
+  short PacketId
+  short PacketLength
+  long Type
+  long Action
+   struct PACKET_CZ_ITEMLISTWIN_RES_SUB MaterialList[...] { // Size 4
+  unsigned short index
+  unsigned short count
+  }
+ }
+0x7e5
+struct PACKET_CH_ENTER_CHECKBOT {
+  short PacketId
+  short PacketLength
+  unsigned long dwAID
+  char szStringInfo[...]
+ }
+0x7e6
+struct PACKET_ZC_MSG_SKILL {
+  short PacketId
+  unsigned short SKID
+  int MSGID
+ }
+0x7e7
+struct PACKET_CH_CHECKBOT {
+  short PacketId
+  short PacketLength
+  unsigned long dwAID
+  char szStringInfo[24]
+ }
+0x7e8
+struct PACKET_HC_CHECKBOT {
+  short PacketId
+  short PacketLength
+  unsigned char img[...]
+ }
+0x7e9
+struct PACKET_HC_CHECKBOT_RESULT {
+  short PacketId
+  short PacketLength
+  unsigned char Result
+ }
+0x7ea
+struct PACKET_CZ_BATTLE_FIELD_LIST {
+  short PacketId
+ }
+0x7eb
+struct PACKET_ZC_BATTLE_FIELD_LIST {
+  short PacketId
+  short PacketLength
+  short Count
+  short ack_type
+  struct BATTLE_FIELD_INFO InfoList[...] { // Size 62
+  unsigned long BFNO
+  char BattleFieldName[56]
+  short JoinTeam
+  }
+ }
+0x7ec
+struct PACKET_CZ_JOIN_BATTLE_FIELD {
+  short PacketId
+  unsigned long BFNO
+  short JoinTeam
+ }
+0x7ed
+struct PACKET_ZC_JOIN_BATTLE_FIELD {
+  short PacketId
+  unsigned long BFNO
+  short JoinTeam
+  short Result
+ }
+0x7ee
+struct PACKET_CZ_CANCEL_BATTLE_FIELD {
+  short PacketId
+  unsigned long BFNO
+ }
+0x7ef
+struct PACKET_ZC_CANCEL_BATTLE_FIELD {
+  short PacketId
+  unsigned long BFNO
+  short Result
+ }
+0x7f0
+struct PACKET_CZ_REQ_BATTLE_STATE_MONITOR {
+  short PacketId
+  unsigned long BFNO
+  short PowerSwitch
+ }
+0x7f1
+struct PACKET_ZC_ACK_BATTLE_STATE_MONITOR {
+  short PacketId
+  unsigned long BFNO
+  short PlayCount
+  short BattleState
+  short TeamCountA
+  short TeamCountB
+  short MyCount
+  short JoinTeam
+ }
+0x7f2
+struct PACKET_ZC_BATTLE_NOTI_START_STEP {
+  short PacketId
+  unsigned long BFNO
+  short Result
+ }
+0x7f3
+struct PACKET_ZC_BATTLE_JOIN_NOTI_DEFER {
+  short PacketId
+  unsigned long BFNO
+ }
+0x7f4
+struct PACKET_ZC_BATTLE_JOIN_DISABLE_STATE {
+  short PacketId
+  bool Enable
+ }
+0x7f5
+struct PACKET_CZ_GM_FULLSTRIP {
+  short PacketId
+  unsigned long TargetAID
+ }
+0x7f6, 0x0acc:20170830
+struct PACKET_ZC_NOTIFY_EXP {
+  short PacketId
+  unsigned long AID
+#V LT 20170830 int amount
+#V GTE 20170830 int64 amount_64
+  unsigned short varID
+  short expType
+ }
+0x0856, 0x07f7:20091103, 0x0856:20101124
+struct PACKET_ZC_NOTIFY_MOVEENTRY7 {
+  short PacketId
+  short PacketLength
+  unsigned char objecttype
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  int effectState
+  short job
+  short head
+  int weapon
+  short accessory
+  unsigned long moveStartTime
+  short accessory2
+  short accessory3
+  short headpalette
+  short bodypalette
+  short headDir
+  #V GTE 20101124 unsigned short robe
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  int virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte MoveData[6]
+  unsigned char xSize
+  unsigned char ySize
+  short clevel
+  short font
+ }
+0x0858, 0x07f8:20091103, 0x0858:20101124
+struct PACKET_ZC_NOTIFY_NEWENTRY5 {
+  short PacketId
+  short PacketLength
+  unsigned char objecttype
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  int effectState
+  short job
+  short head
+  int weapon
+  short accessory
+  short accessory2
+  short accessory3
+  short headpalette
+  short bodypalette
+  short headDir
+  #V GTE 20101124 unsigned short robe
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  int virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte PosDir[3]
+  unsigned char xSize
+  unsigned char ySize
+  short clevel
+  short font
+ }
+0x0857, 0x07f9:20091103, 0x0857:20101124
+struct PACKET_ZC_NOTIFY_STANDENTRY5 {
+  short PacketId
+  short PacketLength
+  unsigned char objecttype
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  int effectState
+  short job
+  short head
+  int weapon
+  short accessory
+  short accessory2
+  short accessory3
+  short headpalette
+  short bodypalette
+  short headDir
+  #V GTE 20101124 unsigned short robe
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  int virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte PosDir[3]
+  unsigned char xSize
+  unsigned char ySize
+  unsigned char state
+  short clevel
+  short font
+ }
+0x7fa
+struct PACKET_ZC_DELETE_ITEM_FROM_BODY {
+  short PacketId
+  short DeleteType
+  unsigned short Index
+  short Count
+ }
+0x7fb, 0x0b1a:20181212
+struct PACKET_ZC_USESKILL_ACK2 {
+  short PacketId
+  unsigned long AID
+  unsigned long targetID
+  short xPos
+  short yPos
+  unsigned short SKID
+  unsigned long property
+  unsigned long delayTime
+  bool isDisposable
+#V GTE 20181212 unsigned long attackMT
+ }
+0x7fc
+struct PACKET_ZC_CHANGE_GROUP_MASTER {
+  short PacketId
+  unsigned long OldMasterAID
+  unsigned long NewMasterAID
+ }
+0x7fe
+struct PACKET_ZC_PLAY_NPC_BGM {
+  short PacketId
+  char Bgm[24]
+ }
+0x7ff
+struct PACKET_ZC_DEFINE_CHECK {
+  short PacketId
+  short PacketLength
+  int Result
+ }
+0x800
+struct PACKET_ZC_PC_PURCHASE_ITEMLIST_FROMMC2 {
+  short PacketId
+  short PacketLength
+  unsigned long AID
+  unsigned long UniqueID
+  struct PURCHASE_ITEM_FROMMC itemList[...] { // Size 22
+  int price
+  short count
+  short index
+  unsigned char type
+  unsigned short ITID
+  unsigned char IsIdentified
+  unsigned char IsDamaged
+  unsigned char refiningLevel
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  }
+ }
+0x801
+struct PACKET_CZ_PC_PURCHASE_ITEMLIST_FROMMC2 {
+  short PacketId
+  short PacketLength
+  unsigned long AID
+  unsigned long UniqueID
+  struct CZ_PURCHASE_ITEM_FROMMC itemList[...] { // Size 4
+  short count
+  short index
+  }
+ }
+0x0365, 0x08a5:20111102, 0x0365:20120307
+struct PACKET_CZ_PARTY_BOOKING_REQ_REGISTER {
+  short PacketId
+  struct PARTY_BOOKING_DETAIL RegisterInfo {
+  short Level
+  short MapID
+  short Job[6]
+  }
+ }
+0x803
+struct PACKET_ZC_PARTY_BOOKING_ACK_REGISTER {
+  short PacketId
+  short Result
+ }
+0x804
+struct PACKET_CZ_PARTY_BOOKING_REQ_SEARCH {
+  short PacketId
+  short Level
+  short MapID
+  short Job
+  unsigned long LastIndex
+  short ResultCount
+ }
+0x805
+struct PACKET_ZC_PARTY_BOOKING_ACK_SEARCH {
+  short PacketId
+  short PacketLength
+  bool IsExistMoreResult
+  struct PARTY_BOOKING_AD_INFO Info[...] { // Size 48
+  unsigned long Index
+  char CharName[24]
+  long ExpireTime
+  struct PARTY_BOOKING_DETAIL Detail {
+   short Level
+   short MapID
+   short Job[6]
+   }
+  }
+ }
+0x806
+struct PACKET_CZ_PARTY_BOOKING_REQ_DELETE {
+  short PacketId
+ }
+0x807
+struct PACKET_ZC_PARTY_BOOKING_ACK_DELETE {
+  short PacketId
+  short Result
+ }
+0x808
+struct PACKET_CZ_PARTY_BOOKING_REQ_UPDATE {
+  short PacketId
+  short Job[6]
+ }
+0x809
+struct PACKET_ZC_PARTY_BOOKING_NOTIFY_INSERT {
+  short PacketId
+  struct PARTY_BOOKING_AD_INFO Info {
+  unsigned long Index
+  char CharName[24]
+  long ExpireTime
+  struct PARTY_BOOKING_DETAIL Detail {
+   short Level
+   short MapID
+   short Job1
+   short Job2
+   short Job3
+   short Job4
+   short Job5
+   short Job6
+   }
+  }
+ }
+0x80a
+struct PACKET_ZC_PARTY_BOOKING_NOTIFY_UPDATE {
+  short PacketId
+  unsigned long Index
+  short Job1
+  short Job2
+  short Job3
+  short Job4
+  short Job5
+  short Job6
+ }
+0x80b
+struct PACKET_ZC_PARTY_BOOKING_NOTIFY_DELETE {
+  short PacketId
+  unsigned long Index
+ }
+0x80c
+struct PACKET_CZ_SIMPLE_CASH_BTNSHOW {
+  short PacketId
+ }
+0x80d
+struct PACKET_ZC_SIMPLE_CASH_BTNSHOW {
+  short PacketId
+  bool show
+ }
+0x080e
+struct PACKET_ZC_NOTIFY_HP_TO_GROUPM_R2 {
+  short PacketId
+  unsigned long AID
+  int hp
+  int maxhp
+ }
+0x80f
+struct PACKET_ZC_ADD_EXCHANGE_ITEM2 {
+  short PacketId
+  unsigned short ITID
+  unsigned char type
+  int count
+  bool IsIdentified
+  bool IsDamaged
+  unsigned char refiningLevel
+  struct EQUIPSLOTINFO slot {
+  #V LT 20181121 unsigned short card1
+  #V LT 20181121 unsigned short card2
+  #V LT 20181121 unsigned short card3
+  #V LT 20181121 unsigned short card4
+  #V GTE 20181121 unsigned long card1_32
+  #V GTE 20181121 unsigned long card2_32
+  #V GTE 20181121 unsigned long card3_32
+  #V GTE 20181121 unsigned long card4_32
+  }
+ }
+0x810
+struct PACKET_ZC_OPEN_BUYING_STORE {
+  short PacketId
+  unsigned char count
+ }
+0x0815, 0x0835:20111102, 0x0815:20120307, 0x0811:20180308
+struct PACKET_CZ_REQ_OPEN_BUYING_STORE {
+  short PacketId
+  short PacketLength
+  unsigned long LimitZeny
+  unsigned char result
+  char storeName[80]
+  struct PRODUCTINFO_IN_BUYING_STORE ItemList[...] { // Size 8
+  unsigned short ITID
+  short count
+  int price
+  }
+ }
+0x812
+struct PACKET_ZC_FAILED_OPEN_BUYING_STORE_TO_BUYER {
+  short PacketId
+  short Result
+  int total_weight
+ }
+0x813
+struct PACKET_ZC_MYITEMLIST_BUYING_STORE {
+  short PacketId
+  short PacketLength
+  unsigned long AID
+  int limitZeny
+  struct BUYING_STORE_ITEMLIST ItemList[...] { // Size 9
+  int price
+  short count
+  unsigned char type
+  unsigned short ITID
+  }
+ }
+0x814
+struct PACKET_ZC_BUYING_STORE_ENTRY {
+  short PacketId
+  unsigned long makerAID
+  char storeName[80]
+ }
+0x0817, 0x089b:20111102, 0x0817:20120307, 0x0815:20180308
+struct PACKET_CZ_REQ_CLOSE_BUYING_STORE {
+  short PacketId
+ }
+0x816
+struct PACKET_ZC_DISAPPEAR_BUYING_STORE_ENTRY {
+  short PacketId
+  unsigned long makerAID
+ }
+0x0360, 0x08a1:20111102, 0x0360:20120307, 0x0817:20180308
+struct PACKET_CZ_REQ_CLICK_TO_BUYING_STORE {
+  short PacketId
+  unsigned long makerAID
+ }
+0x818
+struct PACKET_ZC_ACK_ITEMLIST_BUYING_STORE {
+  short PacketId
+  short PacketLength
+  unsigned long makerAID
+  unsigned long StoreID
+  int limitZeny
+  struct BUYING_STORE_ITEMLIST ItemList[...] { // Size 9
+  int price
+  short count
+  unsigned char type
+  unsigned short ITID
+  }
+ }
+0x0811, 0x089e:20111102, 0x0811:20120307, 0x0819:20180308
+struct PACKET_CZ_REQ_TRADE_BUYING_STORE {
+  short PacketId
+  short PacketLength
+  unsigned long makerAID
+  unsigned long StoreID
+  struct TRADE_ITEM_BUYING_STORE ItemList[...] { // Size 6
+  unsigned short index
+  unsigned short ITID
+  short count
+  }
+ }
+0x81a
+struct PACKET_ZC_FAILED_TRADE_BUYING_STORE_TO_BUYER {
+  short PacketId
+  short Result
+ }
+0x81b
+struct PACKET_ZC_UPDATE_ITEM_FROM_BUYING_STORE {
+  short PacketId
+  unsigned short ITID
+  short count
+  int limitZeny
+ }
+0x81c
+struct PACKET_ZC_ITEM_DELETE_BUYING_STORE {
+  short PacketId
+  short index
+  short count
+  int zeny
+ }
+0x81d
+struct PACKET_ZC_EL_INIT {
+  short PacketId
+  int AID
+  int hp
+  int maxHP
+  int sp
+  int maxSP
+ }
+0x81e
+struct PACKET_ZC_EL_PAR_CHANGE {
+  short PacketId
+  unsigned short var
+  int value
+ }
+0x81f
+struct PACKET_ZC_BROADCAST4 {
+  short PakcetType
+  short PacketLength
+  unsigned char Msgtype
+  unsigned long ColorRGB
+  char msg[...]
+ }
+0x820
+struct PACKET_ZC_COSTUME_SPRITE_CHANGE {
+  short PacketId
+  unsigned long GID
+  unsigned char type
+  int value
+ }
+0x821
+struct PACKET_AC_OTP_USER {
+  short PacketId
+ }
+0x822
+struct PACKET_CA_OTP_AUTH_REQ {
+  short PacketId
+  char OTPCode[7]
+ }
+0x823
+struct PACKET_AC_OTP_AUTH_ACK {
+  short PacketId
+  short PacketLength
+  unsigned short LoginResult
+ }
+0x824
+struct PACKET_ZC_FAILED_TRADE_BUYING_STORE_TO_SELLER {
+  short PacketId
+  short Result
+  unsigned short ITID
+ }
+0x825a
+struct PACKET_CA_SSO_LOGIN_REQa {
+  short PacketId
+  short PacketLength
+  unsigned long Version
+  unsigned char clienttype
+  char ID[24]
+  char MacAddr[17]
+  char IpAddr[15]
+  char t1[...]
+ }
+0x825
+struct PACKET_CA_SSO_LOGIN_REQ {
+  short PacketId
+  short PacketLength
+  unsigned long Version
+  unsigned char clienttype
+  unsigned char ID[24]
+  unsigned char Passwd[27]
+  char MacAdress[17]
+  char IP[15]
+  char t1[...]
+ }
+0x826
+struct PACKET_AC_SSO_LOGIN_ACK {
+  short PacketId
+  unsigned short Result
+ }
+0x827
+struct PACKET_CH_DELETE_CHAR3_RESERVED {
+  short PacketId
+  unsigned long GID
+ }
+0x828
+struct PACKET_HC_DELETE_CHAR3_RESERVED {
+  short PacketId
+  unsigned long GID
+  int Result
+  long DeleteReservedDate
+ }
+0x829
+struct PACKET_CH_DELETE_CHAR3 {
+  short PacketId
+  unsigned long GID
+  char Birth[6]
+ }
+0x82a
+struct PACKET_HC_DELETE_CHAR3 {
+  short PacketId
+  unsigned long GID
+  int Result
+ }
+0x82b
+struct PACKET_CH_DELETE_CHAR3_CANCEL {
+  short PacketId
+  unsigned long GID
+ }
+0x82c
+struct PACKET_HC_DELETE_CHAR3_CANCEL {
+  short PacketId
+  unsigned long GID
+  int Result
+ }
+0x0884, 0x08ab:20111102, 0x0884:20120307, 0x0835:20180308
+struct PACKET_CZ_SEARCH_STORE_INFO {
+  short PacketId
+  short PacketLength
+  unsigned char StoreType
+  unsigned long maxPrice
+  unsigned long minPrice
+  unsigned char ItemIDListSize
+  unsigned char CardIDListSize
+  struct PACKET_CZ_SEARCH_STORE_INFO_item items[...] { // Size 4
+  #V LT 20180704 unsigned short itemId
+  #V GTE 20180704 unsigned long itemId_32
+  }
+ }
+0x836
+struct PACKET_ZC_SEARCH_STORE_INFO_ACK {
+  short PacketId
+  short PacketLength
+  bool IsFirstPage
+  bool IsNexPage
+  unsigned char RemainedSearchCnt
+  struct ResultItemInfo SSIList[...] { // Size 106
+  unsigned int SSIID
+  unsigned int AID
+  char StoreName[80]
+  unsigned short ITID
+  unsigned char ItemType
+  int price
+  unsigned short count
+  unsigned char refiningLevel
+  unsigned short card1
+  unsigned short card2
+  unsigned short card3
+  unsigned short card4
+  }
+ }
+0x837
+struct PACKET_ZC_SEARCH_STORE_INFO_FAILED {
+  short PacketId
+  unsigned char Reason
+ }
+0x0835, 0x088b:20111102, 0x0835:20120307, 0x0838:20180308
+struct PACKET_CZ_SEARCH_STORE_INFO_NEXT_PAGE {
+  short PacketId
+ }
+0x839, 0x0a82:20161019
+struct PACKET_ZC_ACK_BAN_GUILD_SSO {
+  short PacketId
+  #V LT 20161019 char charName[24]
+  char reasonDesc[40]
+  #V GTE 20161019 unsigned long GID
+ }
+0x83a
+struct PACKET_ZC_OPEN_SEARCH_STORE_INFO {
+  short PacketId
+  short OpenType
+  unsigned char SearchCntMax
+ }
+0x83b
+struct PACKET_CZ_CLOSE_SEARCH_STORE_INFO {
+  short PacketId
+ }
+0x83c
+struct PACKET_CZ_SSILIST_ITEM_CLICK {
+  short PacketId
+  unsigned long AID
+  unsigned long SSIID
+  unsigned short ITID
+ }
+0x83d
+struct PACKET_ZC_SSILIST_ITEM_CLICK_ACK {
+  short PacketId
+  short x
+  short y
+ }
+0x083e
+struct PACKET_AC_REFUSE_LOGIN_R2 {
+  short PacketId
+  unsigned int ErrorCode
+  char blockDate[20]
+ }
+0x841
+struct PACKET_CH_SELECT_ACCESSIBLE_MAPNAME {
+  short PacketId
+  unsigned char CharNum
+  unsigned char mapListNum
+ }
+0x840
+struct PACKET_HC_NOTIFY_ACCESSIBLE_MAPNAME {
+  short PacketId
+  short PacketLength
+  struct ACCESSIBLE_MAPNAME_INFO maps[...] { // Size 20
+  unsigned int status
+  char mapName[16]
+  }
+ }
+0x035f
+struct PACKET_CZ_REQUEST_MOVE2 {
+ short PacketId
+ unsigned short dest[3]
+}
+0x0ac5
+struct PACKET_CH_SEND_MAP_INFO {
+  short PacketId
+  unsigned long GID
+  char mapName[16]
+  unsigned long mapServerIp
+  short mapServerPort
+  char dnsHost[128]
+}
+0x082d
+struct PACKET_HC_ACCEPT_ENTER_NEO_UNION_HEADER {
+  short PacketId
+  short PacketLen
+  unsigned char normalSlot
+  unsigned char premiumSlot
+  unsigned char billingSlot
+  unsigned char producibleSlot
+  unsigned char validSlot
+  char emptyBuffer[20]
+ }
+0x0187
+struct PACKET_CZ_PING {
+   short PacketId
+   unsigned long AID
+ }
+0x0187
+struct PACKET_ZC_AID2 {
+   short PacketId
+   unsigned long AID
+ }
+0x0283
+struct PACKET_MAP_CONNECTION {
+   short PacketId
+   unsigned long AID
+ }
+0x08b9
+struct PACKET_PINCODE_LOGINSTATE {
+  short PacketId
+  int pincodeSeed
+  unsigned long AID
+  short response
+}
+
+0x0a39
+struct PACKET_CH_MAKE_CHAR3 {
+  short PacketId
+  unsigned char name[24]
+  unsigned char CharNum
+  short headPal
+  short head
+  int class
+  unsigned char sex
+ }
+
+0x0827
+struct PACKET_CH_DELETE_CHAR4_RESERVED {
+  short PacketId
+  unsigned long GID
+ }
+0x0828
+struct PACKET_HC_DELETE_CHAR4_RESERVED {
+  short PacketId
+  unsigned long GID
+  int Result
+  long DeleteReservedDate
+}
+0x0b18
+struct PACKET_ZC_INVENTORY_EXPANSION_INFO {
+  short PacketId
+  short expansionSize
+}
+0x0ade
+struct PACKET_ZC_OVERWEIGHT_PERCENT {
+  short PacketId
+  int percent
+}
+0x018a
+struct PACKET_CZ_REQ_DISCONNECT2 {
+  short PacketId
+  short empty
+}
+0x018b
+struct PACKET_ZC_REQ_DISCONNECT_ACK2 {
+  short PacketId
+  short empty
+}
+0x0368
+struct PACKET_CZ_REQNAMEALL2 {
+  short PacketId
+  unsigned long GID
+}
+0x0a30
+struct PACKET_ZC_ACK_REQNAMEALL2 {
+  short PacketId
+  unsigned long GID
+  unsigned char name[24]
+  unsigned char party_name[24]
+  unsigned char guild_name[24]
+  unsigned char position_name[24]
+  int titleId
+}
+
+0x0360
+struct PACKET_CZ_REQUEST_TIME2 {
+  short PacketId
+  unsigned long clientTime
+ }
+0x09cd
+struct PACKET_ZC_MSG_COLOR {
+  short PacketId
+  unsigned short msgId
+  unsigned int msgColor
+}
+0x099b
+struct PACKET_ZC_NOTIFY_MAPPROPERTY2 {
+  short PacketId
+  short type
+  unsigned int flags
+ }
+0x0a3b
+struct PACKET_ZC_HAT_EFFECT {
+  short PacketId
+  short len
+  unsigned long AID
+  unsigned byte status
+  unsigned short effect[...]
+}
+0x0447
+struct PACKET_CZ_BLOCKING_PLAY_CANCEL {
+  short PacketId
+}
+0x0B1B
+struct PACKET_ZC_LOAD_CONFIRM {
+  short PacketId
+}
+0x09ff
+struct PACKET_ZC_NOTIFY_STANDENTRY6 {
+  short PacketId
+  short PacketLength
+  unsigned char objecttype
+  unsigned long AID
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  int effectState
+  short job
+  short head
+  unsigned long weapon
+  unsigned long shield
+  unsigned short accessory
+  unsigned short accessory2
+  unsigned short accessory3
+  unsigned short headpalette
+  unsigned short bodypalette
+  unsigned short headDir
+  unsigned short robe
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  int virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte PosDir[3]
+  unsigned char xSize
+  unsigned char ySize
+  unsigned char state
+  short clevel
+  short font
+  unsigned long maxHP
+  unsigned long hp
+  bool isBoss
+  short body
+  unsigned char name[24]
+ }
+
+0x0915
+struct PACKET_ZC_NOTIFY_STANDENTRY_7 {
+  short PacketId
+#V GTE 20091103 short PacketLength
+#V GTE 20091103  unsigned char objecttype
+#V GTE 20131223  unsigned long AID
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  int effectState
+  short job
+  short head
+  unsigned long weapon
+  unsigned short accessory
+#V GTE 20181121 unsigned long shield
+  unsigned short accessory2
+  unsigned short accessory3
+  unsigned short headpalette
+  unsigned short bodypalette
+  unsigned short headDir
+#V GTE 20101124 unsigned short robe
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  int virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte PosDir[3]
+  unsigned char xSize
+  unsigned char ySize
+  unsigned char state
+  short clevel
+#V GTE 20080102 short font
+#V GTE 20120221 unsigned long maxHP
+#V GTE 20120221 unsigned long hp
+#V GTE 20120221 bool isBoss
+#V GTE 20150513 short body
+ }
+
+0x090f
+struct PACKET_ZC_NOTIFY_NEWENTRY7 {
+  short PacketId
+#V GTE 20091103 short PacketLength
+#V GTE 20091103  unsigned char objecttype
+#V GTE 20131223  unsigned long AID
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  int effectState
+  short job
+  short head
+  unsigned long weapon
+  unsigned short accessory
+#V GTE 20181121 unsigned long shield
+  unsigned short accessory2
+  unsigned short accessory3
+  unsigned short headpalette
+  unsigned short bodypalette
+  unsigned short headDir
+#V GTE 20101124 unsigned short robe
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  int virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte PosDir[3]
+  unsigned char xSize
+  unsigned char ySize
+  short clevel
+#V GTE 20080102 short font
+#V GTE 20120221 unsigned long maxHP
+#V GTE 20120221 unsigned long hp
+#V GTE 20120221 bool isBoss
+#V GTE 20150513 short body
+ }
+
+0x09fd
+struct PACKET_ZC_NOTIFY_MOVEENTRY8 {
+  short PacketId
+  short PacketLength
+  unsigned char objecttype
+  unsigned long AID
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  int effectState
+  short job
+  short head
+  unsigned long weapon
+  unsigned long shield
+  unsigned short accessory
+  unsigned int moveStartTime
+  unsigned short accessory2
+  unsigned short accessory3
+  unsigned short headpalette
+  unsigned short bodypalette
+  unsigned short headDir
+  unsigned short robe
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  int virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte MoveData[6]
+  unsigned char xSize
+  unsigned char ySize
+  short clevel
+  short font
+  unsigned long maxHP
+  unsigned long hp
+  bool isBoss
+  short body
+  unsigned char name[24]
+}
+
+0x0914
+struct PACKET_ZC_NOTIFY_MOVEENTRY9 {
+  short PacketId
+  short PacketLength
+  unsigned char objecttype
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  int effectState
+  short job
+  short head
+  unsigned long weapon
+  short accessory
+  unsigned long moveStartTime
+  short accessory2
+  short accessory3
+  short headpalette
+  short bodypalette
+  short headDir
+  short robe
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  int virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte MoveData[6]
+  unsigned char xSize
+  unsigned char ySize
+  short clevel
+  short font
+  unsigned long hp
+  unsigned long maxHP
+  bool isBoss
+ }
+
+0x08c8
+struct PACKET_ZC_NOTIFY_ACT3 {
+  short PacketId
+  unsigned long GID
+  unsigned long targetGID
+  unsigned long startTime
+  int attackMT
+  int attackedMT
+  int damage
+  bool isSpDamaged
+  short count
+  unsigned char action
+  int leftDamage
+ }
+0x09fe
+struct PACKET_ZC_NOTIFY_NEWENTRY8 {
+  short PacketId
+  short PacketLength
+  unsigned char objecttype
+  unsigned long AID
+  unsigned long GID
+  short speed
+  short bodyState
+  short healthState
+  int effectState
+  short job
+  short head
+  unsigned long weapon
+  unsigned long shield
+  unsigned short accessory
+  unsigned short accessory2
+  unsigned short accessory3
+  unsigned short headpalette
+  unsigned short bodypalette
+  unsigned short headDir
+  unsigned short robe
+  unsigned long GUID
+  short GEmblemVer
+  short honor
+  int virtue
+  bool isPKModeON
+  unsigned char sex
+  unsigned byte PosDir[3]
+  unsigned char xSize
+  unsigned char ySize
+  short clevel
+  short font
+  unsigned long maxHP
+  unsigned long hp
+  bool isBoss
+  short body
+  unsigned char name[24]
+ }
+0x09a0
+struct PACKET_HC_CHARLIST_NOTIFY {
+  short PacketId
+  unsigned long TotalCnt
+ }
+0x0adf
+struct PACKET_ZC_ACK_REQNAMEALL_NPC {
+  short PacketId
+  unsigned long GID
+  int groupId
+  unsigned char name[24]
+  unsigned char title[24]
+ }
+0x0b1d
+struct PACKET_ZC_PING_LIVE {
+  short PacketId
+ }
+0x0b08
+struct PACKET_ZC_INVENTORY_START {
+  short PacketId
+  short PacketLength
+  unsigned char invType
+  char name[...]
+ }
+0x0b09
+struct PACKET_ZC_INVENTORY_ITEMLIST_NORMAL {
+  short PacketId
+  short PacketLength
+  unsigned char invType
+  struct NORMALITEM_INFO ItemInfo[...] { // Size 34
+  short index
+  unsigned long ITID
+  unsigned char type
+  short count
+  unsigned long WearState
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  long HireExpireDate
+  unsigned char Flag
+  }
+ }
+0x0b39
+struct PACKET_ZC_INVENTORY_ITEMLIST_EQUIP {
+  short PacketId
+  short PacketLength
+  unsigned char invType
+  struct EQUIPITEM_INFO ItemInfo[...] { // Size 68
+  short index
+  unsigned long ITID
+  unsigned char type
+  unsigned long location
+  unsigned long WearState
+  struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  long HireExpireDate
+  unsigned short bindOnEquipType
+  unsigned short wItemSpriteNumber
+  unsigned char option_count
+  unsigned byte option_data[25]
+  unsigned char RefiningLevel
+  unsigned char grade
+  unsigned char Flag
+  }
+ }
+0x0b0b
+struct PACKET_ZC_INVENTORY_END {
+  short PacketId
+  unsigned char invType
+  char flag
+ }
+0x0b41
+struct PACKET_ZC_ITEM_PICKUP_ACK_V7 {
+  short PacketId
+  unsigned short Index
+  unsigned short count
+  unsigned long ITID
+  unsigned char IsIdentified
+  unsigned char IsDamaged
+  struct EQUIPSLOTINFO slot {
+  #V LT 20181121 unsigned short card1
+  #V LT 20181121 unsigned short card2
+  #V LT 20181121 unsigned short card3
+  #V LT 20181121 unsigned short card4
+  #V GTE 20181121 unsigned long card1_32
+  #V GTE 20181121 unsigned long card2_32
+  #V GTE 20181121 unsigned long card3_32
+  #V GTE 20181121 unsigned long card4_32
+  }
+  unsigned long location
+  unsigned char type
+  unsigned char result
+  long HireExpireDate
+  unsigned short bindOnEquipType
+  unsigned byte option_data[25]
+  unsigned char favorite
+  unsigned short look
+  unsigned char refiningLevel
+  unsigned char grade
+ }
+0x0add
+struct PACKET_ZC_ITEM_FALL_ENTRY_V5 {
+  short PacketId
+  unsigned long ITAID
+  unsigned long ITID
+  unsigned short type
+  unsigned char IsIdentified
+  short xPos
+  short yPos
+  unsigned char subX
+  unsigned char subY
+  short count
+  unsigned char showdropeffect
+  unsigned short dropeffectmode
+ }
+0x0999
+struct PACKET_ZC_REQ_WEAR_EQUIP_ACK_V5 {
+  short PacketId
+  unsigned short index
+  unsigned long wearLocation
+  unsigned short wItemSpriteNumber
+  unsigned char result
+ }
+0x099a
+struct PACKET_ZC_REQ_TAKEOFF_EQUIP_ACK_V5 {
+  short PacketId
+  unsigned short index
+  unsigned long wearLocation
+  unsigned char flag
+ }
+0x0b44
+struct PACKET_ZC_ADD_ITEM_TO_STORE_V3 {
+  short PacketId
+  short index
+  long amount
+  unsigned long ITID
+  unsigned char type
+  unsigned char IsIdentified
+  unsigned char IsDamaged
+  struct EQUIPSLOTINFO slot {
+  #V LT 20181121 unsigned short card1
+  #V LT 20181121 unsigned short card2
+  #V LT 20181121 unsigned short card3
+  #V LT 20181121 unsigned short card4
+  #V GTE 20181121 unsigned long card1_32
+  #V GTE 20181121 unsigned long card2_32
+  #V GTE 20181121 unsigned long card3_32
+  #V GTE 20181121 unsigned long card4_32
+  }
+  unsigned byte option_data[25]
+  unsigned char refiningLevel
+  unsigned char grade
+ }
+0x0b45
+struct PACKET_ZC_ADD_ITEM_TO_CART_V3 {
+  short PacketId
+  short index
+  long amount
+  unsigned long ITID
+  unsigned char type
+  unsigned char IsIdentified
+  unsigned char IsDamaged
+  struct EQUIPSLOTINFO slot {
+  #V LT 20181121 unsigned short card1
+  #V LT 20181121 unsigned short card2
+  #V LT 20181121 unsigned short card3
+  #V LT 20181121 unsigned short card4
+  #V GTE 20181121 unsigned long card1_32
+  #V GTE 20181121 unsigned long card2_32
+  #V GTE 20181121 unsigned long card3_32
+  #V GTE 20181121 unsigned long card4_32
+  }
+  unsigned byte option_data[25]
+  unsigned char refiningLevel
+  unsigned char grade
+ }
+0x0b42
+struct PACKET_ZC_ADD_EXCHANGE_ITEM_V4 {
+  short PacketId
+  unsigned long ITID
+  unsigned char type
+  long amount
+  unsigned char IsIdentified
+  unsigned char IsDamaged
+  struct EQUIPSLOTINFO slot {
+  #V LT 20181121 unsigned short card1
+  #V LT 20181121 unsigned short card2
+  #V LT 20181121 unsigned short card3
+  #V LT 20181121 unsigned short card4
+  #V GTE 20181121 unsigned long card1_32
+  #V GTE 20181121 unsigned long card2_32
+  #V GTE 20181121 unsigned long card3_32
+  #V GTE 20181121 unsigned long card4_32
+  }
+  unsigned byte option_data[25]
+  unsigned long location
+  unsigned short look
+  unsigned char refiningLevel
+  unsigned char grade
+ }
+0x0b77
+struct PACKET_ZC_PC_PURCHASE_ITEMLIST_V2 {
+  short PacketId
+  short PacketLength
+  struct PURCHASE_ITEM_V2 itemList[...] { // Size 19
+  unsigned long ITID
+  long price
+  long discountprice
+  unsigned char type
+  unsigned short viewSprite
+  unsigned long location
+  }
+ }
+0x0b3d
+struct PACKET_ZC_PC_PURCHASE_ITEMLIST_FROMMC_V3 {
+  short PacketId
+  short PacketLength
+  unsigned long AID
+  unsigned long UniqueID
+  struct VENDING_ITEM_V3 itemList[...] { // Size 64
+  long price
+  short count
+  short index
+  unsigned char type
+  unsigned long ITID
+  unsigned char IsIdentified
+  unsigned char IsDamaged
+   struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  unsigned byte option_data[25]
+  unsigned long location
+  unsigned short viewSprite
+  unsigned char refiningLevel
+  unsigned char grade
+  }
+ }
+0x0b40
+struct PACKET_ZC_PC_PURCHASE_MYITEMLIST_V2 {
+  short PacketId
+  short PacketLength
+  unsigned long AID
+  struct MY_VENDING_ITEM_V2 itemList[...] { // Size 58
+  long price
+  short index
+  short count
+  unsigned char type
+  unsigned long ITID
+  unsigned char IsIdentified
+  unsigned char IsDamaged
+   struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  unsigned byte option_data[25]
+  unsigned char refiningLevel
+  unsigned char grade
+  }
+ }
+0x09e5
+struct PACKET_ZC_DELETEITEM_FROM_MCSTORE2 {
+  short PacketId
+  short index
+  short count
+  unsigned long buyerCID
+  unsigned long date
+  long zeny
+ }
+0x0b65
+struct PACKET_ZC_REPAIRITEMLIST2 {
+  short PacketId
+  short PacketLength
+  struct REPAIRITEM_INFO2 itemList[...] { // Size 24
+  short index
+  unsigned long ITID
+   struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  unsigned char refiningLevel
+  unsigned char grade
+  }
+ }
+0x0b66
+struct PACKET_CZ_REQ_ITEMREPAIR2 {
+  short PacketId
+  struct REPAIRITEM_INFO2 TargetItemInfo {
+  short index
+  unsigned long ITID
+   struct EQUIPSLOTINFO slot {
+   #V LT 20181121 unsigned short card1
+   #V LT 20181121 unsigned short card2
+   #V LT 20181121 unsigned short card3
+   #V LT 20181121 unsigned short card4
+   #V GTE 20181121 unsigned long card1_32
+   #V GTE 20181121 unsigned long card2_32
+   #V GTE 20181121 unsigned long card3_32
+   #V GTE 20181121 unsigned long card4_32
+   }
+  unsigned char refiningLevel
+  unsigned char grade
+  }
+ }
+0x0b24
+struct PACKET_CZ_ADVANCED_STATUS_CHANGE {
+  short PacketId
+  short statusType
+  short amount
+ }
+0x0afd
+struct PACKET_ZC_GUILD_POSITION {
+  short PacketId
+  short PacketLength
+  unsigned long AID
+  char position[...]
+ }
+0x09e7
+struct PACKET_ZC_NOTIFY_UNREADMAIL {
+  short PacketId
+  unsigned char result
+ }
+0x0b46
+struct PACKET_CZ_REQ_ADD_NEW_EMBLEM {
+  short PacketId
+  unsigned long guildId
+  unsigned long version
+ }
+0x0ab2
+struct PACKET_ZC_GROUP_ISALIVE {
+  short PacketId
+  unsigned long AID
+  unsigned char isDead
+ }
+0x0abd
+struct PACKET_ZC_NOTIFY_MEMBERINFO_TO_GROUPM {
+  short PacketId
+  unsigned long AID
+  short job
+  short level
+ }
+0x0aa0
+struct PACKET_ZC_OPEN_REFINING_UI {
+  short PacketId
+ }
+0x0aa1
+struct PACKET_CZ_REFINING_SELECT_ITEM {
+  short PacketId
+  unsigned short index
+ }
+0x0aa2
+struct PACKET_ZC_REFINING_MATERIAL_LIST {
+  short PacketId
+  short PacketLength
+  unsigned short itemIndex
+  unsigned char blacksmithBlessing
+   struct PACKET_ZC_REFINING_MATERIAL_LIST_SUB req[...] { // Size 9
+  unsigned long itemId
+  unsigned char chance
+  unsigned long zeny
+  }
+ }
+0x0aa3
+struct PACKET_CZ_REQ_REFINING {
+  short PacketId
+  unsigned short index
+  unsigned long itemId
+  unsigned char blacksmithBlessing
+ }
+0x0aa4
+struct PACKET_CZ_CLOSE_REFINING_UI {
+  short PacketId
+ }
+0x0ada
+struct PACKET_ZC_BROADCAST_ITEMREFINING_RESULT {
+  short PacketId
+  char name[24]
+  unsigned long itemId
+  unsigned char refine_level
+  unsigned char status
+ }
+0x0b7a
+struct PACKET_ZC_NPC_MARKET_OPEN {
+  short PacketId
+  short PacketLength
+   struct PACKET_ZC_NPC_MARKET_OPEN_SUB list[...] { // Size 23
+  unsigned long itemId
+  unsigned char itemType
+  unsigned long price
+  unsigned long qty
+  unsigned short weight
+  unsigned long location
+  }
+ }
+0x09d6
+struct PACKET_CZ_NPC_MARKET_PURCHASE {
+  short PacketId
+  short PacketLength
+   struct PACKET_CZ_NPC_MARKET_PURCHASE_SUB list[...] { // Size 8
+  unsigned long itemId
+  long qty
+  }
+ }
+0x0b4e
+struct PACKET_ZC_NPC_MARKET_PURCHASE_RESULT {
+  short PacketId
+  short PacketLength
+  unsigned short result
+   struct PACKET_ZC_NPC_MARKET_PURCHASE_RESULT_SUB list[...] { // Size 10
+  unsigned long itemId
+  unsigned short qty
+  unsigned long price
+  }
+ }
+0x09d8
+struct PACKET_CZ_NPC_MARKET_CLOSE {
+  short PacketId
+ }
+0x09d4
+struct PACKET_CZ_NPC_TRADE_QUIT {
+  short PacketId
+ }
+0x0b78
+struct PACKET_ZC_NPC_BARTER_MARKET_ITEMINFO {
+  short PacketId
+  short PacketLength
+   struct PACKET_ZC_NPC_BARTER_MARKET_ITEMINFO_SUB list[...] { // Size 31
+  unsigned long itemId
+  unsigned char itemType
+  long amount
+  unsigned long currencyItemId
+  long currencyAmount
+  long weight
+  long index
+  unsigned short viewSprite
+  unsigned long location
+  }
+ }
+0x0b79
+struct PACKET_ZC_NPC_EXPANDED_BARTER_MARKET_ITEMINFO {
+  short PacketId
+  short PacketLength
+  long itemsCount
+  unsigned byte items[...]
+ }
+0x0b0f
+struct PACKET_CZ_NPC_BARTER_MARKET_PURCHASE {
+  short PacketId
+  short PacketLength
+   struct PACKET_CZ_NPC_BARTER_MARKET_PURCHASE_SUB list[...] { // Size 14
+  unsigned long itemId
+  long amount
+  unsigned short invIndex
+  long shopIndex
+  }
+ }
+0x0b12
+struct PACKET_CZ_NPC_BARTER_MARKET_CLOSE {
+  short PacketId
+ }
+0x0b57
+struct PACKET_CZ_NPC_EXPANDED_BARTER_MARKET_PURCHASE {
+  short PacketId
+  short PacketLength
+   struct PACKET_CZ_NPC_EXPANDED_BARTER_MARKET_PURCHASE_SUB list[...] { // Size 12
+  unsigned long itemId
+  long shopIndex
+  long amount
+  }
+ }
+0x0b58
+struct PACKET_CZ_NPC_EXPANDED_BARTER_MARKET_CLOSE {
+  short PacketId
+ }
+0x0ae2
+struct PACKET_ZC_UI_OPEN {
+  short PacketId
+  unsigned char UIType
+  long data
+ }
+0x0afc
+struct PACKET_CZ_REQ_STYLE_CHANGE2 {
+  short PacketId
+  short HeadPalette
+  short HeadStyle
+  short BodyPalette
+  short TopAccessory
+  short MidAccessory
+  short BottomAccessory
+  short BodyStyle
+ }
+0x0a48
+struct PACKET_CZ_REQ_STYLE_CLOSE {
+  short PacketId
+ }
+0x0a47
+struct PACKET_ZC_STYLE_CHANGE_RES {
+  short PacketId
+  unsigned char flag
+ }
+0x0b73
+struct PACKET_ZC_SOULENERGY {
+  short PacketId
+  unsigned long AID
+  short num
+ }
+0x08cf
+struct PACKET_ZC_SPIRITS_ATTRIBUTE {
+  short PacketId
+  unsigned long aid
+  short spiritsType
+  short num
+ }
+0x0b6b
+struct PACKET_ZC_SUMMON_HP_INIT {
+  short PacketId
+  unsigned long summonAID
+  unsigned long CurrentHP
+  unsigned long MaxHP
+ }
+0x0b6c
+struct PACKET_ZC_SUMMON_HP_UPDATE {
+  short PacketId
+  unsigned long summonAID
+  unsigned short VarId
+  unsigned long Value
+ }
+0x09c1
+struct PACKET_ZC_C_MARKERINFO {
+  short PacketId
+  unsigned long AID
+  short xPos
+  short yPos
+ }
+0x0b68
+struct PACKET_ZC_TARGET_SPIRITS {
+  short PacketId
+  unsigned long GID
+  unsigned long unknown_val
+  unsigned short amount
+ }
+0x097f
+struct PACKET_ZC_SELECTCART {
+  short PacketId
+  short PacketLength
+  unsigned long identity
+  unsigned byte carts[...]
+ }
+0x0980
+struct PACKET_CZ_SELECTCART {
+  short PacketId
+  unsigned long identity
+  unsigned byte type
+ }
+0x0bf5, 0x0bad:20210818, 0x0bf5:20230906
+struct PACKET_CZ_REQ_TAKEOFF_EQUIP_ALL {
+  short PacketId
+#V GTE 20230906 unsigned long location
+ }
+0x0bae
+struct PACKET_ZC_ACK_TAKEOFF_EQUIP_ALL {
+  short PacketId
+  unsigned byte result
+ }
+0x0b8c
+struct PACKET_ZC_PLAY_NPC_BGM2 {
+  short PacketId
+  short PacketLength
+  unsigned byte playType
+  unsigned byte bgm[...]
+ }
+0x07fd
+struct PACKET_ZC_BROADCASTING_SPECIAL_ITEM_OBTAIN {
+  short PacketId
+  short PacketLength
+  unsigned byte type
+  unsigned long ItemID
+  unsigned byte fields[...]
+ }
+0x0ba2
+struct PACKET_ZC_DIALOG_WINDOW_SIZE {
+  short PacketId
+  long height
+  long width
+ }
+0x0ba3
+struct PACKET_ZC_DIALOG_WINDOW_POS {
+  short PacketId
+  long x
+  long y
+ }
+0x0bb5
+struct PACKET_ZC_DIALOG_WINDOW_POS2 {
+  short PacketId
+  long x
+  long y
+ }
+0x0bbe
+struct PACKET_ZC_SPECIALPOPUP {
+  short PacketId
+  long ppId
+ }
+0x0a26
+struct PACKET_ZC_REQ_ACH_REWARD_ACK {
+  short PacketId
+  unsigned byte result
+  unsigned long achievementId
+ }
+0x0a2e
+struct PACKET_CZ_REQ_CHANGE_TITLE {
+  short PacketId
+  int titleId
+ }
+0x0a2f
+struct PACKET_ZC_ACK_CHANGE_TITLE {
+  short PacketId
+  unsigned byte result
+  int titleId
+ }
+0x0a97
+struct PACKET_CZ_REQ_EQUIPSWITCH_ADD {
+  short PacketId
+  unsigned short index
+  unsigned long position
+ }
+0x0a98
+struct PACKET_ZC_ACK_EQUIPSWITCH_ADD {
+  short PacketId
+  unsigned short index
+  unsigned long position
+  unsigned short flag
+ }
+0x0a99
+struct PACKET_CZ_REQ_EQUIPSWITCH_REMOVE {
+  short PacketId
+  unsigned short index
+ }
+0x0a9a
+struct PACKET_ZC_ACK_EQUIPSWITCH_REMOVE {
+  short PacketId
+  unsigned short index
+  unsigned long position
+  unsigned short failed
+ }
+0x0a9c
+struct PACKET_CZ_REQ_EQUIPSWITCH {
+  short PacketId
+ }
+0x0a9d
+struct PACKET_ZC_ACK_EQUIPSWITCH {
+  short PacketId
+  unsigned short failed
+ }
+0x0ace
+struct PACKET_CZ_REQ_EQUIPSWITCH_SINGLE {
+  short PacketId
+  unsigned short index
+ }

@@ -1,0 +1,18 @@
+[package]
+name = "nostalre-game"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+nostalre-formats = { workspace = true }
+nostalre-resources = { workspace = true }
+nostalre-ai = { workspace = true }
+glam = { workspace = true }
+nostalre-effects = { workspace = true }
+nostalre-profiling = { workspace = true }
+models = { workspace = true }
+movement = { workspace = true }
+tracing = { workspace = true }
+serde = { workspace = true }
+mlua = { workspace = true }
+encoding_rs = { workspace = true }

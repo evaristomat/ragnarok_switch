@@ -1,0 +1,15 @@
+[package]
+name = "nostalre-ui-component-hot"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+nostalre-resources = { workspace = true }
+models = { workspace = true }
+nostalre-ai = { workspace = true }
+nostalre-ui-component = { workspace = true }
+nostalre-ui = { workspace = true, features = ["test-support"] }
+nostalre-game = { workspace = true }

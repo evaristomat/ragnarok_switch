@@ -1,0 +1,467 @@
+// Generated campaign dialogue, UTF-8. Original classic sidequests remain available.
+function	script	RS_CampaignContact	{
+  .@key$=getarg(0);
+  .@step=campaign(0);
+  switch (.@step) {
+    case 0:
+      if (.@key$ != "Shion#nv1") return 0;
+      mes "[O primeiro passo]";
+      mes "Prólogo : Um nome no mundo";
+      mes "Antes de escolher uma profissão, aprenda a observar o mundo. A recepcionista registrará sua entrada. Abra o diário pelo menu +; o objetivo amarelo mostra com quem falar.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,0)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Shion aponta para o castelo. O caminho começa com uma conversa, não com uma grande profecia.";
+      next; close2; warp "new_1-2",100,25; end;
+      return 1;
+    case 1:
+      if (.@key$ != "Receptionist#nv1") return 0;
+      mes "[Um lugar para aprender]";
+      mes "Prólogo : Um nome no mundo";
+      mes "Seu nome agora faz parte do registro dos aprendizes. Vamos aprender a preparar uma habilidade, escolher um alvo e reconhecer um portal.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,1)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Sua inscrição está confirmada. Entre na sala e procure o instrutor.";
+      next; close2; warp "new_1-2",100,70; end;
+      return 1;
+    case 2:
+      if (.@key$ != "Instructor#nv") return 0;
+      mes "[Preparação para o campo]";
+      mes "Prólogo : Um nome no mundo";
+      mes "Distribua pontos de atributo e habilidade pelo menu. ZR e ZL alternam monstros próximos; o analógico direito gira a câmera. As habilidades desta edição não gastam SP. Use a Asa de Mosca Infinita para escapar.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,2)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      skill "NV_FIRSTAID",1,0;
+      mes "Agora faça o teste no campo. Derrote três Porings e volte ao examinador; não é preciso correr riscos desnecessários.";
+      next; close2; warp "new_1-3",95,30; end;
+      return 1;
+    case 3:
+      if (.@key$ != "Test Examiner#nv1::NovKeyman") return 0;
+      mes "[A primeira batalha]";
+      mes "Prólogo : Um nome no mundo";
+      mes "Treinar é aprender a recuar e tentar de novo. Vença três Porings neste campo e fale comigo. Os contadores do diário confirmam cada vitória.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,3)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Você concluiu o teste. Prontera precisa de aventureiros atentos. O Mestre das Classes ajudará a escolher sua profissão.";
+      next; close2; savepoint "prontera",149,178; warp "prontera",149,178; end;
+      return 1;
+    case 4:
+      if (.@key$ != "Mestre das Classes") return 0;
+      mes "[Escolha seu caminho]";
+      mes "Prólogo : Um nome no mundo";
+      mes "Ao alcançar Classe 10, distribua os pontos de habilidade e escolha sua primeira profissão no atendimento normal do Mestre. Depois, volte à campanha. Se você já escolheu sua classe pelo menu, basta confirmar a entrega.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Abrir Job Changer:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,4)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Sua profissão é uma ferramenta, não um destino. A guarda de Payon pediu ajuda; primeiro veja como estão as estradas de Prontera.";
+      return 1;
+    case 5:
+      if (.@key$ != "Mestre das Classes") return 0;
+      mes "[Estradas de Prontera]";
+      mes "1 : As primeiras cicatrizes";
+      mes "Mercadores perderam carga ao sul da cidade. Afaste oito Porings de prt_fild08 e traga seu relato. Você pode recrutar até três companheiros no menu da campanha.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,5)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "A estrada voltou a receber viajantes. Os relatos de Payon são mais estranhos: mortos caminham perto dos túmulos.";
+      return 1;
+    case 6:
+      if (.@key$ != "Guardsman#payon") return 0;
+      mes "[As vigias de Payon]";
+      mes "1 : As primeiras cicatrizes";
+      mes "Nossos mortos não são simples inimigos. Algo os mantém inquietos. Entre na primeira caverna e impeça que os zumbis alcancem a estrada.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,6)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Você conhece a entrada. Volte com um relato depois de enfrentar os mortos.";
+      return 1;
+    case 7:
+      if (.@key$ != "Guardsman#payon") return 0;
+      mes "[Quem não descansa]";
+      mes "1 : As primeiras cicatrizes";
+      mes "Derrote oito Zumbis em pay_dun00. O objetivo é proteger os vivos, não profanar os túmulos.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,7)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Os túmulos estão mais seguros. A causa ainda merece estudo. Meera, em Geffen, conhece pesquisadores que podem ajudar.";
+      return 1;
+    case 8:
+      if (.@key$ != "Meera") return 0;
+      mes "[Relatos de Geffen]";
+      mes "1 : As primeiras cicatrizes";
+      mes "As cidades carregam medos diferentes. Em Geffen, viajantes relatam o desaparecimento de pequenas cargas nas trilhas. Investigue o campo ao sul e depois volte.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,8)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "O que parecia uma ocorrência isolada já exige cooperação entre cidades.";
+      return 1;
+    case 9:
+      if (.@key$ != "Meera") return 0;
+      mes "[As trilhas de Geffen]";
+      mes "1 : As primeiras cicatrizes";
+      mes "Afaste oito Poporings de gef_fild01 e retorne. Guarde os materiais que encontrar: comerciantes podem usá-los para identificar a origem das cargas.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,9)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Não encontramos uma única explicação para tudo. Fabian, em Alberta, reúne notícias trazidas pelos navios; procure-o.";
+      return 1;
+    case 10:
+      if (.@key$ != "Fabian") return 0;
+      mes "[Notícias do porto]";
+      mes "2 : Rotas de areia e sal";
+      mes "A carga passa de mão em mão, e as histórias também. Alguns navios relatam criaturas na costa. Preciso comparar amostras, não rumores.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,10)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Traga três Jellopys. Vou examiná-los e devolvê-los; não precisa comprar nada de outro jogador.";
+      return 1;
+    case 11:
+      if (.@key$ != "Fabian") return 0;
+      mes "[Pequenas evidências]";
+      mes "2 : Rotas de areia e sal";
+      mes "Mostre três Jellopys do seu inventário. A amostra será apenas examinada; você ficará com os materiais.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,11)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "As amostras não provam ligação com os mortos de Payon. Em Comodo, La Ed ouviu outro tipo de relato, vindo de Umbala.";
+      return 1;
+    case 12:
+      if (.@key$ != "La Ed#um") return 0;
+      mes "[A história de Comodo]";
+      mes "2 : Rotas de areia e sal";
+      mes "O norte guarda um povo com sua própria história. Não trate suas crenças como superstições. Antes de seguir para Umbala, leve estas notícias à Guarda Continental em Morocc.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,12)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "A viagem não serve apenas para ficar mais forte. Ouça as pessoas que vivem em cada lugar.";
+      return 1;
+    case 13:
+      if (.@key$ != "Chief Balrog") return 0;
+      mes "[Uma guarda para o continente]";
+      mes "2 : Rotas de areia e sal";
+      mes "A Guarda Continental coordena informações sobre a crise de Morocc. Ainda não sabemos o tamanho da ameaça. Continue sua investigação, prepare equipamento e volte quando tiver algo concreto.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,13)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Antes de seguir, distribua suas habilidades e considere a segunda classe no Job Changer. Use as recompensas para comprar uma arma melhor e proteção nas lojas de Prontera. A campanha permanece salva. Pasto aguarda em Umbala.";
+      return 1;
+    case 14:
+      if (.@key$ != "Pasto#um") return 0;
+      mes "[À sombra de Yggdrasil]";
+      mes "3 : Entre os vivos e os mortos";
+      mes "Aqui, a fronteira entre lembrança e presença parece mais tênue. Um pesquisador em Prontera estuda um sinal antigo. Procure-o antes de entrar em Niflheim.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,14)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "O caminho dos mortos exige respeito e preparo. O arqueólogo explicará por que esse símbolo importa.";
+      return 1;
+    case 15:
+      if (.@key$ != "Archeologist#sign") return 0;
+      mes "[Um sinal entre mundos]";
+      mes "3 : Entre os vivos e os mortos";
+      mes "A história de The Sign trata de provas, confiança e dos limites entre os mundos. Minha pesquisa não permite chamar toda tragédia de obra do mesmo inimigo. Investigue Niflheim e traga observações. Os caminhos de Niflheim exigem preparo: revise sua arma, sua proteção e as habilidades da equipe antes de partir.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,15)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Não toque em selos desconhecidos. Sua tarefa é conter os ataques nas estradas de Niflheim e voltar com o que viu.";
+      return 1;
+    case 16:
+      if (.@key$ != "Archeologist#sign") return 0;
+      mes "[As vozes de Niflheim]";
+      mes "3 : Entre os vivos e os mortos";
+      mes "Derrote oito Disfarces em arredores de Niflheim. Reúna seus companheiros e mantenha uma rota de retorno. Depois entregue seu relato em Prontera.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,16)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Seu relato confirma que o sofrimento de Niflheim tem história própria. Podemos proteger viajantes sem fingir que resolvemos o destino de todos os mortos.";
+      return 1;
+    case 17:
+      if (.@key$ != "Pasto#um") return 0;
+      mes "[O que levamos de volta]";
+      mes "3 : Entre os vivos e os mortos";
+      mes "Quem volta de Niflheim precisa aprender a viver outra vez. Você ajudou os viajantes e preservou os selos. Há notícias inquietantes de Lighthalzen: pessoas desaparecem perto da indústria.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,17)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Leve seu relato a Maku. Procure a pessoa, antes de procurar a empresa.";
+      return 1;
+    case 18:
+      if (.@key$ != "Maku") return 0;
+      mes "[Do outro lado dos muros]";
+      mes "4 : O preço do progresso";
+      mes "A cidade próspera não mostra todas as suas feridas. As promessas de trabalho escondem ausências. Observe o laboratório, mas não confunda cada trabalhador com um culpado.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,18)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Reúna informações sobre as criaturas do laboratório e volte. Sua presença ali exige equipamento e uma equipe preparada.";
+      return 1;
+    case 19:
+      if (.@key$ != "Maku") return 0;
+      mes "[Vidas tratadas como números]";
+      mes "4 : O preço do progresso";
+      mes "Enfrente seis Removedores em primeiro piso do Laboratório de Somatologia e volte a Maku. Registre o que viu; estas pessoas não devem desaparecer da memória da cidade.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,19)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Os relatos são suficientes para alertar os contatos locais. Outra investigação envolve a escola de Kiel Hyre, ao norte de Juno. Elly precisa ser ouvida.";
+      return 1;
+    case 20:
+      if (.@key$ != "Elly") return 0;
+      mes "[A lua e as máquinas]";
+      mes "4 : O preço do progresso";
+      mes "Nem tudo que parece humano conta a mesma história. Elly relata falhas e segredos na escola. Investigue os autômatos da fábrica; não exponha os alunos ao combate.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,20)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Siga para kh_dun01. As portas desta operação solo têm passagem pelo menu de viagens; o relatório pertence à campanha e não altera o progresso das quests clássicas.";
+      return 1;
+    case 21:
+      if (.@key$ != "Elly") return 0;
+      mes "[Engrenagens sem descanso]";
+      mes "4 : O preço do progresso";
+      mes "Desative seis Constantes em kh_dun01 e retorne. Afaste-se das explosões e mantenha o suporte atrás da linha de frente.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,21)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "As máquinas recolhidas confirmam o risco. Kiel Hyre terá de ouvir seu relato na mansão.";
+      return 1;
+    case 22:
+      if (.@key$ != "Kiel Hyre#kh") return 0;
+      mes "[O preço de criar vida]";
+      mes "4 : O preço do progresso";
+      mes "Conhecimento não apaga responsabilidade. Sua investigação mostrou os efeitos dos experimentos sobre alunos e trabalhadores. A Guarda receberá cópia do relatório.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,22)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "A história da empresa não explica todos os males do mundo. Rachel enfrenta sua própria crise; Urstia precisa de ajuda.";
+      return 1;
+    case 23:
+      if (.@key$ != "Sincere Follower Urstia") return 0;
+      mes "[As portas de Rachel]";
+      mes "5 : O silêncio da ilha";
+      mes "Fé não dispensa perguntas. As notícias de Veins falam de desaparecimentos e viagens interrompidas. Procure o magistrado e compare os testemunhos.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,23)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Leve as perguntas de Rachel a Veins. Não acuse ninguém antes de ouvir os relatos.";
+      return 1;
+    case 24:
+      if (.@key$ != "Magistrate#Aru") return 0;
+      mes "[O testemunho de Veins]";
+      mes "5 : O silêncio da ilha";
+      mes "Há sinais de uma tragédia na ilha ao largo da costa. A operação solo não exige outro aventureiro nem uma espera externa. O agente na costa dará a passagem.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,24)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Procure o agente em ve_fild07. Prepare sua equipe antes de embarcar.";
+      return 1;
+    case 25:
+      if (.@key$ != "Secret Agent#Aru") return 0;
+      mes "[Travessia para o silêncio]";
+      mes "5 : O silêncio da ilha";
+      mes "A ilha não é uma extensão segura da cidade. Você encontrará mortos e sinais de violência. Meu barco está disponível para esta operação; posso trazê-lo de volta.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,25)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Investigue a área externa da Ilha Sem Nome. Sua prioridade é impedir que os mortos alcancem a costa.";
+      return 1;
+    case 26:
+      if (.@key$ != "Secret Agent#Aru") return 0;
+      mes "[O que restou da ilha]";
+      mes "5 : O silêncio da ilha";
+      mes "Derrote oito Massacres de Zumbi em Ilha Sem Nome à noite e retorne ao agente em ve_fild07. Use o barco ou o menu de viagens para sair.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,26)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "O testemunho confirma uma tragédia que não pode ser escondida. A investigação deve chegar a Rachel, com respeito às vítimas.";
+      return 1;
+    case 27:
+      if (.@key$ != "Sincere Follower Urstia") return 0;
+      mes "[Um relato que não se cala]";
+      mes "5 : O silêncio da ilha";
+      mes "Agora temos nomes, lugares e consequências. O silêncio também protege quem deveria responder. A Guarda Continental receberá seu relato sem apagar a história de Rachel.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,27)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Chegou uma convocação de Morocc. Balrog precisa de você; as notícias já não permitem adiar a defesa.";
+      return 1;
+    case 28:
+      if (.@key$ != "Chief Balrog") return 0;
+      mes "[A convocação de Marrocos]";
+      mes "6 : A ferida de Morocc";
+      mes "A ferida no deserto se abriu. Seus relatos ajudaram a reunir suprimentos e contatos, mas a ameaça de Morocc é real e distinta das crises que você encontrou. Prepare sua classe e equipamento.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,28)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Procure a Guarda Continental em moc_fild20. Nesta campanha, você e seus companheiros formam uma expedição válida, sem exigir um segundo humano.";
+      return 1;
+    case 29:
+      if (.@key$ != "Continental Guard#01::MocConGuard") return 0;
+      mes "[Diante da fenda]";
+      mes "6 : A ferida de Morocc";
+      mes "O acesso solo está autorizado para esta operação. A Fenda Dimensional já existe neste mundo. Você pode entrar, recuar e tentar novamente. A tentativa pertence ao seu personagem.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,29)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Antes do confronto, confirme que está pronto. Uma derrota não apaga sua jornada; fale comigo para reagrupar.";
+      return 1;
+    case 30:
+      if (.@key$ != "Continental Guard#01::MocConGuard") return 0;
+      mes "[Satanás Marrocos]";
+      mes "6 : A ferida de Morocc";
+      mes "Esta é a ameaça que a Guarda precisa deter. Vou conduzir sua equipe à Fenda. A vitória só será reconhecida nesta tentativa e enquanto você estiver vivo na área. Saia ou recue se precisar reorganizar a equipe.";
+      next;
+      .@choice=select("Iniciar ou retomar confronto:Entregar vitória:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==1) {
+        if (campaign(3)) { close2; warp "moc_fild21",38,193; end; }
+        mes "A tentativa não pôde iniciar. Reagrupe e tente novamente. Um confronto público em andamento precisa terminar antes de iniciar o seu."; return 1;
+      }
+      if (.@choice==3) { campaign(4); mes "Equipe reagrupada. Companheiros derrotados só se recuperam fora do confronto."; return 1; }
+      if (.@choice==4) return 0;
+      if (.@choice!=2) return 1;
+      if (!campaign(1,30)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "A presença de Satan Morocc foi vencida. A cidade ainda precisa se reconstruir, mas a ameaça imediata terminou. Leve a notícia a Balrog.";
+      return 1;
+    case 31:
+      if (.@key$ != "Chief Balrog") return 0;
+      mes "[Uma cidade que permanece]";
+      mes "Epílogo : Um mundo para viver";
+      mes "Ninguém recupera tudo que perdeu numa única batalha. Hoje, porém, Morocc ganhou tempo para reconstruir. Seu relatório ficará com a Guarda, com os nomes de quem ajudou pelo caminho.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,31)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "Volte ao Mestre das Classes em Prontera. Você começou sem saber qual caminho seguir; agora pode escolher o que fazer depois dele.";
+      return 1;
+    case 32:
+      if (.@key$ != "Mestre das Classes") return 0;
+      mes "[O mundo depois do fim]";
+      mes "Epílogo : Um mundo para viver";
+      mes "Você não atravessou o mundo para que ele terminasse nesta conversa. As estradas continuam abertas, e outras pessoas ainda têm histórias para contar. Sua campanha chegou ao fim.";
+      next;
+      .@choice=select("Confirmar e entregar:Reagrupar companheiros:Conversar sobre outro assunto:Sair");
+      if (.@choice==2) { campaign(4); mes "Sua equipe foi chamada de volta."; return 1; }
+      if (.@choice==3) return 0;
+      if (.@choice!=1) return 1;
+      if (!campaign(1,32)) { mes "Ainda falta cumprir o objetivo do diário. Confirme o local, os alvos, materiais ou requisitos de classe. Sua etapa permanece salva."; return 1; }
+      mes "CAMPANHA CONCLUÍDA : Ecos de Rune-Midgard. Uma jornada por você e seus companheiros. Mundo e personagens: Ragnarok Online. Emulador: rAthena. Edição e campanha solo: RagSWITCH Pré-Renewal. Obrigado por jogar. Você pode continuar explorando, enfrentar MVPs, realizar quests clássicas ou renascer. Esta recompensa só é entregue uma vez por personagem.";
+      return 1;
+  }
+  return 0;
+}
+-	script	RS_Campaign	-1,{
+OnPCLoginEvent:
+  campaign(0);
+  if (RS_CampStage >= 3 && getskilllv("NV_FIRSTAID") == 0) skill "NV_FIRSTAID",1,0;
+  end;
+}
+function	script	RS_CampaignMenu	{
+  .@step=campaign(0);
+  .@resume=(.@step < 4 && strpos(strcharinfo(3),"new_") != 0);
+  mes "[Ecos de Rune-Midgard]";
+  if (.@resume) mes "Uma etapa do treinamento ficou pendente. Retomar treinamento leva voce ao instrutor ou examinador correto sem apagar sua classe nem seu progresso.";
+  if (.@step >= 33) mes "CAMPANHA CONCLUÍDA. O mundo aberto e seus companheiros continuam disponíveis. Ver objetivo abre o registro do final.";
+  mes "Acompanhe a missão no diário. O elenco fica salvo por personagem. Lira protege, Caio causa dano e Nara cuida do suporte. Eles evoluem com sua classe e contam no limite de 50 bots.";
+  switch(select((.@resume ? "Retomar treinamento" : "Ver objetivo")+":Recrutar ou dispensar companheiros:Reagrupar companheiros:Viajar ao objetivo atual:Voltar ao atendimento")) {
+    case 1: if (.@resume) { close2; campaign(5); end; } if (.@step >= 33) open_quest_ui 900999; else open_quest_ui; return;
+    case 2: if (campaign(2) < 0) { mes "Retire-se do confronto antes de alterar seus companheiros."; return; } mes "Elenco atualizado. O número de companheiros aparece no chat. Novos recrutas começam como aprendizes quando você também é aprendiz."; return;
+    case 3: campaign(4); mes "Equipe chamada de volta. Durante o chefe, derrotados aguardam sua retirada para se recuperar."; return;
+    case 4: close2; campaign(5); end;
+  }
+  return;
+}

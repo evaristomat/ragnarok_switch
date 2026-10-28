@@ -1,0 +1,509 @@
+use crate::camera::{Camera, CameraUniform};
+use bytemuck::Zeroable;
+
+#[repr(C)]
+#[derive(Clone, Copy, bytemuck::Pod, bytemuck::Zeroable)]
+pub struct LightUniform {
+    pub light_dir: [f32; 4],
+    pub diffuse_color: [f32; 4],
+    pub ambient_color: [f32; 4],
+    pub shadow_strength: f32,
+    pub _pad: [f32; 3],
+}
+
+impl Default for LightUniform {
+    fn default() -> Self {
+        Self {
+            light_dir: [0.0, -1.0, 0.0, 0.0],
+            diffuse_color: [1.0, 1.0, 1.0, 1.0],
+            ambient_color: [0.3, 0.3, 0.3, 1.0],
+            shadow_strength: 1.0,
+            _pad: [0.0; 3],
+        }
+    }
+}
+
+#[repr(C)]
+#[derive(Clone, Copy, bytemuck::Pod, bytemuck::Zeroable)]
+pub struct PointLightGpu {
+    pub position: [f32; 4],
+    pub color_range: [f32; 4],
+}
+
+/// Point lights a frame shades with: the ones nearest the camera (see [`nearest_point_lights`]). A uniform
+/// with its count rather than a storage buffer of the whole map's lights: no stale lights from the last map,
+/// a bounded per-pixel loop, and no storage buffer (GLES allows few).
+pub const MAX_POINT_LIGHTS: usize = 32;
+
+#[repr(C)]
+#[derive(Clone, Copy, bytemuck::Pod, bytemuck::Zeroable)]
+pub struct PointLightsUniform {
+    pub count: u32,
+    pub _pad: [u32; 3],
+    pub lights: [PointLightGpu; MAX_POINT_LIGHTS],
+}
+
+/// The (at most MAX_POINT_LIGHTS) lights whose reach comes nearest `center`, nearest first.
+pub fn nearest_point_lights(all: &[PointLightGpu], center: glam::Vec3) -> PointLightsUniform {
+    let gap = |l: &PointLightGpu| {
+        glam::Vec3::from_slice(&l.position[..3]).distance(center) - l.color_range[3]
+    };
+    let mut lit: Vec<&PointLightGpu> = all.iter().filter(|l| l.color_range[3] > 0.0).collect();
+    lit.sort_by(|a, b| gap(a).total_cmp(&gap(b)));
+    let mut uniform = PointLightsUniform::zeroed();
+    for (slot, light) in uniform.lights.iter_mut().zip(&lit) {
+        *slot = **light;
+    }
+    uniform.count = lit.len().min(MAX_POINT_LIGHTS) as u32;
+    uniform
+}
+
+#[repr(C)]
+#[derive(Clone, Copy, bytemuck::Pod, bytemuck::Zeroable)]
+pub struct FogUniform {
+    pub color: [f32; 4],
+    pub near: f32,
+    pub far: f32,
+    pub enabled: f32,
+    pub _pad: f32,
+}
+
+impl Default for FogUniform {
+    fn default() -> Self {
+        Self {
+            color: [0.0; 4],
+            near: 0.0,
+            far: 1.0,
+            enabled: 0.0,
+            _pad: 0.0,
+        }
+    }
+}
+
+/// What the terrain needs to draw caustics on the bed under the map's water. `strength` 0 = none (no water,
+/// lava, or HD water off).
+#[repr(C)]
+#[derive(Clone, Copy, Default, bytemuck::Pod, bytemuck::Zeroable)]
+pub struct WaterGlobalsUniform {
+    pub level: f32,
+    pub time: f32,
+    pub strength: f32,
+    pub cell_size: f32,
+}
+
+/// Maps a world XZ straight to a UV of the ground lightmap, so a model samples
+/// the very texel the terrain under it samples. `enabled` is 0 when the map has
+/// no lightmap or the player turned lightmaps off.
+#[repr(C)]
+#[derive(Clone, Copy, bytemuck::Pod, bytemuck::Zeroable)]
+pub struct CellLightUniform {
+    pub uv_scale: [f32; 2],
+    pub uv_bias: [f32; 2],
+    pub enabled: f32,
+    pub _pad: [f32; 3],
+}
+
+impl Default for CellLightUniform {
+    fn default() -> Self {
+        Self {
+            uv_scale: [0.0; 2],
+            uv_bias: [0.0; 2],
+            enabled: 0.0,
+            _pad: [0.0; 3],
+        }
+    }
+}
+
+pub struct GlobalUniforms {
+    pub camera_buffer: wgpu::Buffer,
+    pub light_buffer: wgpu::Buffer,
+    pub point_light_buffer: wgpu::Buffer,
+    pub fog_buffer: wgpu::Buffer,
+    water_buffer: wgpu::Buffer,
+    pub bind_group_layout: wgpu::BindGroupLayout,
+    pub bind_group: wgpu::BindGroup,
+    cell_light_buffer: wgpu::Buffer,
+    cell_light_view: wgpu::TextureView,
+    cell_light_sampler: wgpu::Sampler,
+    cell_light: CellLightUniform,
+    cell_light_available: bool,
+}
+
+impl GlobalUniforms {
+    pub fn new(device: &wgpu::Device) -> Self {
+        use wgpu::util::DeviceExt;
+
+        let camera_uniform = CameraUniform::from_camera(&Camera::default());
+        let camera_buffer = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
+            label: Some("camera_uniform"),
+            contents: bytemuck::cast_slice(&[camera_uniform]),
+            usage: wgpu::BufferUsages::UNIFORM | wgpu::BufferUsages::COPY_DST,
+        });
+
+        let light_uniform = LightUniform::default();
+        let light_buffer = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
+            label: Some("light_uniform"),
+            contents: bytemuck::cast_slice(&[light_uniform]),
+            usage: wgpu::BufferUsages::UNIFORM | wgpu::BufferUsages::COPY_DST,
+        });
+
+        let point_light_buffer = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
+            label: Some("point_lights"),
+            contents: bytemuck::bytes_of(&PointLightsUniform::zeroed()),
+            usage: wgpu::BufferUsages::UNIFORM | wgpu::BufferUsages::COPY_DST,
+        });
+
+        let fog_uniform = FogUniform::default();
+        let fog_buffer = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
+            label: Some("fog_uniform"),
+            contents: bytemuck::cast_slice(&[fog_uniform]),
+            usage: wgpu::BufferUsages::UNIFORM | wgpu::BufferUsages::COPY_DST,
+        });
+
+        let water_buffer = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
+            label: Some("water_globals"),
+            contents: bytemuck::bytes_of(&WaterGlobalsUniform::default()),
+            usage: wgpu::BufferUsages::UNIFORM | wgpu::BufferUsages::COPY_DST,
+        });
+
+        let cell_light = CellLightUniform::default();
+        let cell_light_buffer = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
+            label: Some("cell_light_uniform"),
+            contents: bytemuck::cast_slice(&[cell_light]),
+            usage: wgpu::BufferUsages::UNIFORM | wgpu::BufferUsages::COPY_DST,
+        });
+        let cell_light_view =
+            create_cell_light_texture(device, 1, 1).create_view(&Default::default());
+        let cell_light_sampler = device.create_sampler(&wgpu::SamplerDescriptor {
+            label: Some("cell_light_sampler"),
+            address_mode_u: wgpu::AddressMode::ClampToEdge,
+            address_mode_v: wgpu::AddressMode::ClampToEdge,
+            address_mode_w: wgpu::AddressMode::ClampToEdge,
+            mag_filter: wgpu::FilterMode::Linear,
+            min_filter: wgpu::FilterMode::Linear,
+            mipmap_filter: wgpu::MipmapFilterMode::Nearest,
+            ..Default::default()
+        });
+
+        let bind_group_layout = device.create_bind_group_layout(&wgpu::BindGroupLayoutDescriptor {
+            label: Some("global_uniforms"),
+            entries: &[
+                wgpu::BindGroupLayoutEntry {
+                    binding: 0,
+                    visibility: wgpu::ShaderStages::VERTEX | wgpu::ShaderStages::FRAGMENT,
+                    ty: wgpu::BindingType::Buffer {
+                        ty: wgpu::BufferBindingType::Uniform,
+                        has_dynamic_offset: false,
+                        min_binding_size: None,
+                    },
+                    count: None,
+                },
+                wgpu::BindGroupLayoutEntry {
+                    binding: 1,
+                    visibility: wgpu::ShaderStages::FRAGMENT,
+                    ty: wgpu::BindingType::Buffer {
+                        ty: wgpu::BufferBindingType::Uniform,
+                        has_dynamic_offset: false,
+                        min_binding_size: None,
+                    },
+                    count: None,
+                },
+                wgpu::BindGroupLayoutEntry {
+                    binding: 2,
+                    visibility: wgpu::ShaderStages::FRAGMENT,
+                    ty: wgpu::BindingType::Buffer {
+                        ty: wgpu::BufferBindingType::Uniform,
+                        has_dynamic_offset: false,
+                        min_binding_size: None,
+                    },
+                    count: None,
+                },
+                wgpu::BindGroupLayoutEntry {
+                    binding: 3,
+                    visibility: wgpu::ShaderStages::FRAGMENT,
+                    ty: wgpu::BindingType::Buffer {
+                        ty: wgpu::BufferBindingType::Uniform,
+                        has_dynamic_offset: false,
+                        min_binding_size: None,
+                    },
+                    count: None,
+                },
+                wgpu::BindGroupLayoutEntry {
+                    binding: 4,
+                    visibility: wgpu::ShaderStages::FRAGMENT,
+                    ty: wgpu::BindingType::Texture {
+                        sample_type: wgpu::TextureSampleType::Float { filterable: true },
+                        view_dimension: wgpu::TextureViewDimension::D2,
+                        multisampled: false,
+                    },
+                    count: None,
+                },
+                wgpu::BindGroupLayoutEntry {
+                    binding: 5,
+                    visibility: wgpu::ShaderStages::FRAGMENT,
+                    ty: wgpu::BindingType::Sampler(wgpu::SamplerBindingType::Filtering),
+                    count: None,
+                },
+                wgpu::BindGroupLayoutEntry {
+                    binding: 6,
+                    visibility: wgpu::ShaderStages::FRAGMENT,
+                    ty: wgpu::BindingType::Buffer {
+                        ty: wgpu::BufferBindingType::Uniform,
+                        has_dynamic_offset: false,
+                        min_binding_size: None,
+                    },
+                    count: None,
+                },
+                wgpu::BindGroupLayoutEntry {
+                    binding: 7,
+                    visibility: wgpu::ShaderStages::FRAGMENT,
+                    ty: wgpu::BindingType::Buffer {
+                        ty: wgpu::BufferBindingType::Uniform,
+                        has_dynamic_offset: false,
+                        min_binding_size: None,
+                    },
+                    count: None,
+                },
+            ],
+        });
+
+        let bind_group = build_bind_group(
+            device,
+            &bind_group_layout,
+            &camera_buffer,
+            &light_buffer,
+            &point_light_buffer,
+            &fog_buffer,
+            &cell_light_view,
+            &cell_light_sampler,
+            &cell_light_buffer,
+            &water_buffer,
+        );
+
+        Self {
+            camera_buffer,
+            light_buffer,
+            point_light_buffer,
+            fog_buffer,
+            water_buffer,
+            bind_group_layout,
+            bind_group,
+            cell_light_buffer,
+            cell_light_view,
+            cell_light_sampler,
+            cell_light,
+            cell_light_available: false,
+        }
+    }
+
+    fn rebuild_bind_group(&mut self, device: &wgpu::Device) {
+        self.bind_group = build_bind_group(
+            device,
+            &self.bind_group_layout,
+            &self.camera_buffer,
+            &self.light_buffer,
+            &self.point_light_buffer,
+            &self.fog_buffer,
+            &self.cell_light_view,
+            &self.cell_light_sampler,
+            &self.cell_light_buffer,
+            &self.water_buffer,
+        );
+    }
+
+    /// Uploads a map's per-cell light texture, or clears it when the map has no
+    /// lightmap to sample.
+    /// Uploads the ground lightmap for models to sample. `stride` is the texel
+    /// step between neighbouring cells, matching the terrain's layout.
+    pub fn update_cell_light(
+        &mut self,
+        device: &wgpu::Device,
+        queue: &wgpu::Queue,
+        map: Option<(u32, u32, &[u8])>,
+        cell_size: f32,
+        stride: f32,
+    ) {
+        let (width, height, pixels) = match map {
+            Some((w, h, p)) => (w, h, p),
+            None => (1, 1, &[0u8, 0, 0, 255][..]),
+        };
+
+        let texture = create_cell_light_texture(device, width, height);
+        queue.write_texture(
+            wgpu::TexelCopyTextureInfo {
+                texture: &texture,
+                mip_level: 0,
+                origin: wgpu::Origin3d::ZERO,
+                aspect: wgpu::TextureAspect::All,
+            },
+            pixels,
+            wgpu::TexelCopyBufferLayout {
+                offset: 0,
+                bytes_per_row: Some(width * 4),
+                rows_per_image: Some(height),
+            },
+            wgpu::Extent3d {
+                width,
+                height,
+                depth_or_array_layers: 1,
+            },
+        );
+        self.cell_light_view = texture.create_view(&Default::default());
+        self.cell_light_available = map.is_some();
+        // Terrain puts cell (x, y)'s texel 0 at x * stride and spans to texel
+        // centre 7, so world x maps to (x / cell_size * stride + 0.5) texels.
+        self.cell_light = CellLightUniform {
+            uv_scale: [
+                stride / (cell_size * width as f32),
+                stride / (cell_size * height as f32),
+            ],
+            uv_bias: [0.5 / width as f32, 0.5 / height as f32],
+            enabled: self.cell_light.enabled,
+            _pad: [0.0; 3],
+        };
+        self.write_cell_light(queue);
+        self.rebuild_bind_group(device);
+    }
+
+    pub fn set_cell_light_enabled(&mut self, queue: &wgpu::Queue, enabled: bool) {
+        self.cell_light.enabled = if enabled { 1.0 } else { 0.0 };
+        self.write_cell_light(queue);
+    }
+
+    fn write_cell_light(&self, queue: &wgpu::Queue) {
+        let mut uniform = self.cell_light;
+        if !self.cell_light_available {
+            uniform.enabled = 0.0;
+        }
+        queue.write_buffer(&self.cell_light_buffer, 0, bytemuck::cast_slice(&[uniform]));
+    }
+
+    pub fn update_camera(&self, queue: &wgpu::Queue, camera: &Camera) {
+        let uniform = CameraUniform::from_camera(camera);
+        queue.write_buffer(&self.camera_buffer, 0, bytemuck::cast_slice(&[uniform]));
+    }
+
+    pub fn update_light(&self, queue: &wgpu::Queue, light: &LightUniform) {
+        queue.write_buffer(&self.light_buffer, 0, bytemuck::cast_slice(&[*light]));
+    }
+
+    pub fn update_fog(&self, queue: &wgpu::Queue, fog: &FogUniform) {
+        queue.write_buffer(&self.fog_buffer, 0, bytemuck::cast_slice(&[*fog]));
+    }
+
+    pub fn update_water(&self, queue: &wgpu::Queue, water: &WaterGlobalsUniform) {
+        queue.write_buffer(&self.water_buffer, 0, bytemuck::bytes_of(water));
+    }
+
+    pub fn update_point_lights(&self, queue: &wgpu::Queue, lights: &PointLightsUniform) {
+        queue.write_buffer(&self.point_light_buffer, 0, bytemuck::bytes_of(lights));
+    }
+}
+
+#[allow(clippy::too_many_arguments)]
+fn build_bind_group(
+    device: &wgpu::Device,
+    layout: &wgpu::BindGroupLayout,
+    camera_buffer: &wgpu::Buffer,
+    light_buffer: &wgpu::Buffer,
+    point_light_buffer: &wgpu::Buffer,
+    fog_buffer: &wgpu::Buffer,
+    cell_light_view: &wgpu::TextureView,
+    cell_light_sampler: &wgpu::Sampler,
+    cell_light_buffer: &wgpu::Buffer,
+    water_buffer: &wgpu::Buffer,
+) -> wgpu::BindGroup {
+    device.create_bind_group(&wgpu::BindGroupDescriptor {
+        label: Some("global_uniforms"),
+        layout,
+        entries: &[
+            wgpu::BindGroupEntry {
+                binding: 0,
+                resource: camera_buffer.as_entire_binding(),
+            },
+            wgpu::BindGroupEntry {
+                binding: 1,
+                resource: light_buffer.as_entire_binding(),
+            },
+            wgpu::BindGroupEntry {
+                binding: 2,
+                resource: point_light_buffer.as_entire_binding(),
+            },
+            wgpu::BindGroupEntry {
+                binding: 3,
+                resource: fog_buffer.as_entire_binding(),
+            },
+            wgpu::BindGroupEntry {
+                binding: 4,
+                resource: wgpu::BindingResource::TextureView(cell_light_view),
+            },
+            wgpu::BindGroupEntry {
+                binding: 5,
+                resource: wgpu::BindingResource::Sampler(cell_light_sampler),
+            },
+            wgpu::BindGroupEntry {
+                binding: 6,
+                resource: cell_light_buffer.as_entire_binding(),
+            },
+            wgpu::BindGroupEntry {
+                binding: 7,
+                resource: water_buffer.as_entire_binding(),
+            },
+        ],
+    })
+}
+
+fn create_cell_light_texture(device: &wgpu::Device, width: u32, height: u32) -> wgpu::Texture {
+    device.create_texture(&wgpu::TextureDescriptor {
+        label: Some("cell_light"),
+        size: wgpu::Extent3d {
+            width,
+            height,
+            depth_or_array_layers: 1,
+        },
+        mip_level_count: 1,
+        sample_count: 1,
+        dimension: wgpu::TextureDimension::D2,
+        format: wgpu::TextureFormat::Rgba8Unorm,
+        usage: wgpu::TextureUsages::TEXTURE_BINDING | wgpu::TextureUsages::COPY_DST,
+        view_formats: &[],
+    })
+}
+
+#[cfg(test)]
+mod point_light_tests {
+    use super::*;
+
+    fn light(x: f32, range: f32) -> PointLightGpu {
+        PointLightGpu {
+            position: [x, 0.0, 0.0, 0.0],
+            color_range: [1.0, 1.0, 1.0, range],
+        }
+    }
+
+    #[test]
+    fn nearest_lights_by_their_reach_and_a_count() {
+        let all = [
+            light(500.0, 10.0),
+            light(100.0, 90.0),
+            light(50.0, 0.0),
+            light(30.0, 10.0),
+        ];
+        let picked = nearest_point_lights(&all, glam::Vec3::ZERO);
+        assert_eq!(picked.count, 3); // the unlit one (range 0) is left out
+        assert_eq!(picked.lights[0].position[0], 100.0); // reach 10 from the centre
+        assert_eq!(picked.lights[1].position[0], 30.0);
+        assert_eq!(picked.lights[2].position[0], 500.0);
+    }
+
+    #[test]
+    fn at_most_max_point_lights() {
+        let all: Vec<_> = (0..100).map(|i| light(i as f32, 1.0)).collect();
+        let picked = nearest_point_lights(&all, glam::Vec3::ZERO);
+        assert_eq!(picked.count as usize, MAX_POINT_LIGHTS);
+        assert_eq!(
+            picked.lights[MAX_POINT_LIGHTS - 1].position[0],
+            (MAX_POINT_LIGHTS - 1) as f32
+        );
+    }
+}

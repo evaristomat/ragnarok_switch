@@ -1,0 +1,29 @@
+[env]
+CC_aarch64_nintendo_horizon = "aarch64-none-elf-gcc"
+CXX_aarch64_nintendo_horizon = "aarch64-none-elf-g++"
+AR_aarch64_nintendo_horizon = "aarch64-none-elf-ar"
+CFLAGS_aarch64_nintendo_horizon = "-march=armv8-a+crc+crypto -mtune=cortex-a57 -mtp=soft -fPIE -D__SWITCH__ -I/opt/devkitpro/libnx/include -I/opt/devkitpro/portlibs/switch/include"
+CXXFLAGS_aarch64_nintendo_horizon = "-march=armv8-a+crc+crypto -mtune=cortex-a57 -mtp=soft -fPIE -D__SWITCH__ -I/opt/devkitpro/libnx/include -I/opt/devkitpro/portlibs/switch/include"
+
+[patch.crates-io]
+libc = { path = "../../bevy-horizon/patches/libc" }
+cpal = { path = "../../bevy-horizon/patches/cpal" }
+wgpu = { path = "../../bevy-horizon/patches/wgpu" }
+wgpu-core = { path = "../../bevy-horizon/patches/wgpu-core" }
+wgpu-hal = { path = "../../bevy-horizon/patches/wgpu-hal" }
+wgpu-core-deps-windows-linux-android = { path = "../../bevy-horizon/patches/wgpu-core-deps-windows-linux-android" }
+raw-window-handle = { path = "../../bevy-horizon/patches/raw-window-handle" }
+getrandom = { path = "../../bevy-horizon/patches/getrandom" }
+lua-src = { path = "switch/vendor/lua-src-550.0.0" }
+memmap2 = { path = "../../bevy-horizon/patches/memmap2" }
+polling = { path = "../../bevy-horizon/patches/polling" }
+rustix = { path = "../../bevy-horizon/patches/rustix" }
+bevy_tasks = { path = "../../bevy-horizon/patches/bevy-0.18/bevy_tasks" }
+inventory = { path = "../../bevy-horizon/patches/inventory" }
+getrandom02 = { path = "../../bevy-horizon/patches/getrandom-0.2", package = "getrandom" }
+
+getrandom03 = { path = "switch/vendor/getrandom-0.3", package = "getrandom" }
+mio = { path = "switch/vendor/mio-1.1.1" }
+socket2 = { path = "switch/vendor/socket2-0.6.2" }
+
+tokio = { path = "switch/vendor/tokio-1.49.0" }

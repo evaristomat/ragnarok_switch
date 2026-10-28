@@ -1,0 +1,82 @@
+// RagSWITCH Pre-Renewal edition: classes from db/pre-re/job_exp.yml.
+#pragma once
+inline bool classic_job_allowed(int job) {
+    switch (job) {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+        case 15:
+        case 16:
+        case 17:
+        case 18:
+        case 19:
+        case 20:
+        case 21:
+        case 23:
+        case 24:
+        case 25:
+        case 4001:
+        case 4002:
+        case 4003:
+        case 4004:
+        case 4005:
+        case 4006:
+        case 4007:
+        case 4008:
+        case 4009:
+        case 4010:
+        case 4011:
+        case 4012:
+        case 4013:
+        case 4014:
+        case 4015:
+        case 4016:
+        case 4017:
+        case 4018:
+        case 4019:
+        case 4020:
+        case 4021:
+        case 4022:
+        case 4023:
+        case 4024:
+        case 4025:
+        case 4026:
+        case 4027:
+        case 4028:
+        case 4029:
+        case 4030:
+        case 4031:
+        case 4032:
+        case 4033:
+        case 4034:
+        case 4035:
+        case 4036:
+        case 4037:
+        case 4038:
+        case 4039:
+        case 4040:
+        case 4041:
+        case 4042:
+        case 4043:
+        case 4044:
+        case 4045:
+        case 4046:
+        case 4047:
+        case 4048:
+        case 4049:
+            return true;
+        default: return false;
+    }
+}

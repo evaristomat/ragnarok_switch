@@ -1,0 +1,1076 @@
+path	origin	disposition	evidence_or_next_action
+.github/workflows/ci.yml	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+.gitignore	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+Cargo.lock	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+Cargo.toml	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+Development.md	upstream baseline	removed	Two-line stub removed; F11 debug grid is documented in docs/internal/rendering.md.
+Features.md	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+LICENSE.md	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+LICENSES/korangar-MIT.txt	added for export	keep	Full Korangar MIT notice.
+LICENSES/lua-MIT.txt	added for export	keep	Full Lua 5.1 MIT notice.
+LICENSES/rathena-GPL-3.0.txt	added for export	keep	Full GPLv3 text for rAthena-derived files.
+LICENSES/winit-W3C.txt	added for export	keep	W3C notice from vendored winit keyboard definitions.
+NOTICE	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+README.md	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/Cargo.toml	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/body_effect.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/command.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/config.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/desktop.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/effect_loader.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/emblem_web.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/events/adoption.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/events/character.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/events/chat.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+client/src/events/companion.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/events/config.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/events/connection.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/events/entity.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/events/equip_switch.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+client/src/events/equipment_attributes.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/events/friends.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/events/gm.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/events/guild.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+client/src/events/inventory.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+client/src/events/lifecycle.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/events/login.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/events/mail.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/events/marriage.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/events/mod.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+client/src/events/npc.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/events/party.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+client/src/events/pet.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/events/production.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+client/src/events/quest.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/events/skill.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+client/src/events/storage.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/events/trade.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/fps_log.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/game_state.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+client/src/game_updates/animation.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/game_updates/combat.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/game_updates/companion.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/game_updates/items.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/game_updates/mod.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/game_updates/movement.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/hover.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/input/gamepad.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/input/mod.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/input/touch.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/input/window_events.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/input_action/click.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/input_action/mod.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/input_action/movement.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/main.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+client/src/overlay/mod.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+client/src/scene/mod.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/scene/render_list.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/script.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/sound.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/sprite/cart.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/sprite/cursor.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/sprite/effects.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/sprite/falcon.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/sprite/floor_item.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/sprite/gr2_loader.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/sprite/mod.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/sprite/snapshot.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/ui/escape.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/ui/in_game.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+client/src/ui/mod.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+client/src/ui/windows.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+companion_ai.json	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+config.sample.json	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+docs/TODO.md	modified or added since baseline	removed	Internal checklist removed before publication.
+docs/configuration.md	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+docs/images/android-handheld.webp	added for export	keep	User-supplied README photo (2026-10-23); downscaled to WebP, metadata stripped.
+docs/internal/architecture.md	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+docs/internal/companion-ai.md	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+docs/internal/gr2-decoding.md	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+docs/internal/packets.md	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+docs/internal/rendering.md	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+docs/internal/sprite-projection.md	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+docs/internal/ui-system.md	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+docs/packet-status-20250716.md	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+docs/profiling.md	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+docs/provenance.tsv	added for export	keep	Export inventory.
+docs/rathena-inputs.tsv	added for export	keep	Fingerprints of rAthena generator inputs.
+docs/release-review.md	added for export	keep	Export preparation record.
+docs/third-party-content.md	added for export	keep	Bundled-content and attribution review.
+lib/ai/Cargo.toml	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ai/src/config.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ai/src/consts.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ai/src/context.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ai/src/engine/mod.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ai/src/engine/target.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ai/src/lib.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ai/src/tactics.rs	upstream baseline	review	Inherited defaults closely match AzzyAI tactic tables; clarify reuse permission for this adaptation (docs/third-party-content.md).
+lib/audio/Cargo.toml	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/audio/src/attenuation.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/audio/src/bgm_retry.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/audio/src/decode.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/audio/src/lib.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/audio/src/manager.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/audio/src/mixer.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/audio/src/panning.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/Cargo.toml	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/assets/README.md	added for export	keep	Records charm artwork as the user's own.
+lib/effects/assets/charm_earth.png	modified or added since baseline	keep	Source history b2ff3940/85fe908d records user-owned artwork; see lib/effects/assets/README.md.
+lib/effects/assets/charm_fire.png	modified or added since baseline	keep	Source history b2ff3940/85fe908d records user-owned artwork; see lib/effects/assets/README.md.
+lib/effects/assets/charm_water.png	modified or added since baseline	keep	Source history b2ff3940/85fe908d records user-owned artwork; see lib/effects/assets/README.md.
+lib/effects/assets/charm_wind.png	modified or added since baseline	keep	Source history b2ff3940/85fe908d records user-owned artwork; see lib/effects/assets/README.md.
+lib/effects/examples/categorize_str_loads.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/examples/dump_effects.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/effects/examples/kro_prim_trace.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/effects/src/buckets.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/consumable_effects.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/draw.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effect_queue.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/effects/src/effect_trait.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/effects/src/effects/aciddemon.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/agiup.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/animated_texture_billboard.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/asurabody.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/attack_energy.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/aura_blade.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/banjjakii.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/barrier.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/bash.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/bash3d.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/basilica.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/begin_asura.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/begin_spell.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/begin_spell_6.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/beginspell_n.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/big_portal.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/black_devil.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/blessing.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/blitzbeat.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/body_aura.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/effects/src/effects/body_buff.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/body_scale.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/body_tint.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/bottom_box.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/bottom_hermode.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/bottom_landprotector.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/bottom_light.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/bottom_magnus.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/bottom_out.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/bottom_sanctuary_pillar.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/bottom_song.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/bottom_vertical.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/bottom_volcano.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/bowling_bash.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/bubble_drop.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/callzone.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/cartrevolution.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/cartter.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/cast_circle.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/casting_ring.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/chemical.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/cloud.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/cloud_projectile.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/coldhit.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/color_casting.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/colorpaper.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/cone.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/couple_casting.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/curseattack.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/damage_number_effect.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/defender.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/detecting.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/dome_ring.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/dragonsmoke.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/earthspike.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/ef4waybody.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/effect_texture.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/electric.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/endure.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/energy_drain.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/enhance.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/entry.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/exit.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/fireball.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/fireivy.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/firepillaron.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/firesplashhit.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/firstaid.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/flasher.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/floor_aura.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/flowercast.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/foot.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/forest_light.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/frost_diver.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/fullscreen_overlay.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/ghost.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/glasswall.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/glasswall2.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/grandcross.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/gravitation.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/grimtooth.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/grimtooth_atk.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/ground_sample.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/guard.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/gumgang.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/gumgang2.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/hasteup.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/heal.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/healsp.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/heartcasting.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/heavensdrive.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/hit.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/hit2.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/hit5_6.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/hit_line.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/hitdark.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/icewall.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/jumpbody.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/jumpkick.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/kouenka.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/kro_classes.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/effects/src/effects/kro_spheres.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/effects/src/effects/light_sphere.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/linelink.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/lockon.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/m_ef02.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/magic_bolt.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/magnum_break.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/mappillar.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/mapzone.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/mod.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/multibody.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/napalmbeat.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/napalmvalcan.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/orbit_burst.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/overthrust.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/particle_up.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/party.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/peong.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/peong_up.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/pierce.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/placeholder.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/pokjuk.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/portal.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/portal2.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/portal_wind.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/potion_berserk.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/potion_con.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/potion_pillar.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/pressure.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/providence.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/quakebody.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/rainbow.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/ready_portal.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/revive.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/rg_coin.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/saint_casting.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/saintwing.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/sakura.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/sandwind.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/sight.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/sightrasher.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/slash.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/sma.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/sonicblowhit.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/soul_breaker.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/soul_strike.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/soullink.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/sparkle_column.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/spearbmr.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/spherewind.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/spike_burst.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/spike_util.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/spinedbody.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/spraypond.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/squarebody.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/status_up.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/stin.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/storm_kick.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/stormgust.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/summon_slave.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/super_angel.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/taeready.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/tarot_card.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/teihit.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/teleportation.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/temp_result.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/texture_falling.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/throw_item.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/thunderstorm2.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/toprank.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/tripleattack.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/turnundead.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/twilight.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/venomdust2.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/volcano.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/warp.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/warp_zone.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/waterball.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/waterball2.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/waterfall.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/wind.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/wink.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/yufitel_hit.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/effects/yupitel.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/factory.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/kro_prim/generated.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/effects/src/kro_prim/mod.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/effects/src/kro_prim/types.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/effects/src/kro_str/generated.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/effects/src/kro_str/mod.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/effects/src/lib.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/effects/src/opt3.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/own_textures.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/projectile.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/radial_emitter.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/sfx.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/effects/src/skill_effects.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/effects/src/skill_units.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/spec.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/spr_aliases.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/effects/src/spr_burst.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/status_buff.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/effects/src/str_aliases.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/effects/src/table.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/effects/src/vec3.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/Cargo.toml	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/examples/act_frames.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/examples/check_wavs.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/examples/dump_file.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/examples/dump_rsw_full.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/examples/dump_str.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/examples/find_files.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/examples/list_str.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/examples/str_rotation_scan.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/act.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/builtin_accessory_table.rs	upstream baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/formats/src/builtin_name_table.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/formats/src/damage_number.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/fog_table.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/gat.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/gnd.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/gr2/bink.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/gr2/mod.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/gr2/model.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/gr2/oodle.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/gr2/range_coder.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/grf.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/imf.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/lib.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/lua_source.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/lua_table.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/formats/src/lub.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/map_coordinates.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/mixcrypt.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/pal.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/pettalk.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/res_name_table.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/rsm.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/rsw.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/spr.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/src/str_effect.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/tests/fixtures/accessoryid.lua	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/accname.lua	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/acid_lua50.lub	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/acid_lua51.lub	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/aname_lua50.lub	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/aname_lua51.lub	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/idnum2itemresnametable.txt	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/iteminfo_lua51.lua	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/iteminfo_lua51.lub	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/iteminfo_lua51_64bit.lub	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/jname_lua51.lub	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/jobidentity.lua	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/jobname.lua	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/make_fixtures.py	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/npcid_lua50.lub	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/npcid_lua51.lub	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/robe_ids.lua	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/robe_ids_lua51.lub	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/robe_jobid.lua	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/robe_jobid_lua51.lub	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/robe_layer_jobs.lua	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/robe_layer_jobs_lua51.lub	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/robe_layers_f.lua	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/robe_layers_f_lua51.lub	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/robe_layers_m.lua	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/robe_layers_m_lua51.lub	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/robe_names.lua	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/robe_names_lua51.lub	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/signboardlist.lua	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/signboardlist_lua51.lub	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/skillid_lua51.lua	modified or added since baseline	keep	Authored fixture source (our own ids).
+lib/formats/tests/fixtures/skillid_lua51.lub	modified or added since baseline	keep	Compiled from skillid_lua51.lua with 32-bit luac 5.1.5.
+lib/formats/tests/fixtures/skillinfolist_lua51.lua	modified or added since baseline	keep	Authored fixture source (our own values).
+lib/formats/tests/fixtures/skillinfolist_lua51.lub	modified or added since baseline	keep	Compiled from skillinfolist_lua51.lua with 32-bit luac 5.1.5.
+lib/formats/tests/fixtures/weapontable_lua51.lua	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/fixtures/weapontable_lua51.lub	modified or added since baseline	keep	All 17 bytecode fixtures match authored-source table contents; six generated text fixtures match make_fixtures.py.
+lib/formats/tests/gr2_integration.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/tests/grf_integration.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/formats/tests/lua_table_integration.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/Cargo.toml	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/examples/dump_skill_tables.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/ailment.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/animation.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/app_state.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/arrow.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/autocounter.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/banner.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/book.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/boss_info.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/cast_scope.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/char_name.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/character.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/chat_command.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/chat_repeat.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/chat_room.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/companion/mod.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/cooldown.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/cursor.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/damage_number.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/damage_skin.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/data_table/accessory_table.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/data_table/card_illustration_table.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/data_table/card_name_table.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/data_table/fog_table.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/data_table/indoor_table.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/data_table/item_description_table.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/data_table/item_name_table.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/data_table/item_resource_table.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/data_table/item_slot_count_table.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/data_table/map_cloud_table.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/data_table/map_name_table.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/data_table/map_position_table.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/data_table/mod.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/data_table/msg_string_table.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/data_table/name_table.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/data_table/quest_display_table.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/data_table/robe_table.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/data_table/skill_description_table.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/data_table/skill_name_table.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/data_table/skill_use_level_table.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/day_night.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/display.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/display_name.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/doridori.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/effects.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/emotion.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/entity.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/entity_collection.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/equip_switch.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/equipment_properties/jobs.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/equipment_properties/mod.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/equipment_properties/natives.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/equipment_properties/order.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/equipment_properties/property.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/event.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/floor_item.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/friends.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/gm.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/gr2_model.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/graffiti.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/guild.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/hotkey.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/inventory.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/item.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/item_tables.rs	modified or added since baseline	keep	rAthena-derived; inputs GPL-3.0-or-later (confirmed 2026-10-24); distributed under GPL-3.0-or-later (docs/third-party-content.md).
+lib/game/src/job_tables.rs	modified or added since baseline	keep	rAthena-derived; inputs GPL-3.0-or-later (confirmed 2026-10-24); distributed under GPL-3.0-or-later (docs/third-party-content.md).
+lib/game/src/keybinding.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/level_aura.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/lib.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/lightmap.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/mail.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/map_cloud.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/map_loader.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/map_title.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/minimap_mark.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/mob_info.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/monster_info.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/movement.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/navigation.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/notice.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/npc_dialog.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/npc_shop.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/npc_text.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/party.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/path.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/pet.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/pet_tables.rs	upstream baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/pk_rank.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/poptip.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/prayer.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/progress_bar.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/quest.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/refine.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/scheduled_hit.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/server_time.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/shadow.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/show_digit.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/sign_board.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/sign_board_text.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/skill.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/skill_action.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/skill_msg.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/skill_tree.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/skill_tree_tables.rs	modified or added since baseline	keep	rAthena-derived; inputs GPL-3.0-or-later (confirmed 2026-10-24); distributed under GPL-3.0-or-later (docs/third-party-content.md).
+lib/game/src/sound/ambient.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/sound/bgm_table.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/sound/mod.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/sound/repeat.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/sound/tables.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/special_popup.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/sprite_loader.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/sprite_path.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/game/src/star_gladiator.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/status_icon.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/stylist.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/targeting.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/title.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/src/trade.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/tests/equipment_properties.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/tests/gr2_animation.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/game/tests/probe_sense.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/network/Cargo.toml	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/network/data/rathena-20250716-layout.tsv	modified or added since baseline	keep	rAthena-derived; inputs GPL-3.0-or-later (confirmed 2026-10-24); distributed under GPL-3.0-or-later (docs/third-party-content.md).
+lib/network/data/rathena-20250716.tsv	modified or added since baseline	keep	rAthena-derived; inputs GPL-3.0-or-later (confirmed 2026-10-24); distributed under GPL-3.0-or-later (docs/third-party-content.md).
+lib/network/examples/packet_status.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/network/examples/session_probe.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/network/examples/session_probe/play.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/network/src/connection.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/network/src/emblem_http.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/network/src/handler.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/network/src/helpers.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/network/src/lib.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/network/src/packet_check.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/network/src/packet_status.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/network/src/packet_version_regression.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/network/src/rathena_table.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/network/src/sender.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/network/src/session.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/network/src/solo_packets.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/profiling/Cargo.toml	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/profiling/src/debug.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/profiling/src/lib.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/profiling/src/server.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/Cargo.toml	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/camera.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/renderer/src/damage_number.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/device.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/effect/blend.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/effect/dispatch.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/effect/holder.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/renderer/src/effect/mod.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/effect/pipeline.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/effect/primitives/billboard.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/effect/primitives/cylinder.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/effect/primitives/frustum.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/effect/primitives/fullscreen.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/effect/primitives/ground_disc.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/effect/primitives/line_strip.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/effect/primitives/mod.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/effect/primitives/quad_horn.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/effect/primitives/radial_ring.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/effect/primitives/sphere.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/effect/primitives/texture3d.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/effect/primitives/world_quad.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/effect/queue.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/effect/registry.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/effect/scene.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/effect/str_pipeline.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/effect_sprite.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/font_atlas.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/fonts/FONT-NOTICES.txt	added for export	keep	Copyright statements from bundled Noto font metadata.
+lib/renderer/src/fonts/NotoSans-Bold.ttf	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/fonts/NotoSans-Regular.ttf	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/fonts/NotoSansKR-Regular.otf	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/fonts/OFL-LICENSE.txt	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/fps.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/global_uniforms.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/gr2_model.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/graffiti.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/grid_selector.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/ground.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/ground_proxy.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/lib.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/matrix_texture.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/mesh_batch.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/model.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/portrait.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/rsm_anim.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/screen_distortion.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/shaders/effect_cylinder.wgsl	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/shaders/effect_frustum.wgsl	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/shaders/effect_fullscreen.wgsl	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/shaders/effect_ground_disc.wgsl	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/shaders/effect_sphere.wgsl	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/shaders/effect_world_quad_gamma.wgsl	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/shaders/gr2_model.wgsl	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/shaders/grid_selector.wgsl	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/shaders/ground_proxy.wgsl	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/shaders/model.wgsl	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/shaders/model_animated.wgsl	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/shaders/screen_distortion.wgsl	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/shaders/sprite.wgsl	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/shaders/terrain.wgsl	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/shaders/ui.wgsl	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/shaders/water.wgsl	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/shaders/water_hd.wgsl	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/sprite.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/sprite_projection.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/texture.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/texture/emotion.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/ui_renderer.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/renderer/src/water.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/resources/Cargo.toml	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/resources/src/lib.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/ui-component/Cargo.toml	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/examples/hot_reload.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/examples/shared/mod.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/account/char_create_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/account/char_select_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/account/login_server_list_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/account/login_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/account/mod.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/account/server_list_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/basic_info_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/book_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/card_insert_dialog.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/cart_select_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/cart_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/chat_room_board.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/chat_room_create_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/chat_room_member_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/chat_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/companion_ai_config_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/confirm_dialog.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/context_menu.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/damage_indicator_tab.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/ui-component/src/game/drop_quantity_dialog.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/emblem_picker_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/emotion_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/equipment_properties_window.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/ui-component/src/game/equipment_window.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/ui-component/src/game/graphic_options.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/guild_expel_dialog.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/guild_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/homun_skill_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/homun_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/hotkey_bar.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/hotkey_config_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/input_dialog.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/inventory_window.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/ui-component/src/game/item_info_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/item_list_selection_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/item_pickup_notification.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/levelup_notification_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/mailbox_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/make_item_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/map_missing_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/mercenary_skill_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/mercenary_window.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/minimap_window.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/ui-component/src/game/mod.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/monster_info_window.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/my_shop_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/npc_dialog.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/npc_shop.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/party_friends_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/party_helper_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/pet_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/quest_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/read_mail_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/refine_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/shortcut_list_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/sign_board.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/ui-component/src/game/skill_talkbox_dialog.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/skill_tree_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/sound_options.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/status_icon_bar.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/status_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/storage_password_window.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/storage_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/stylist_window.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/ui-component/src/game/swap_panel.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/system_menu.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/title_list.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/ui-component/src/game/trade_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/vending_board.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/vending_setup_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/vending_shop_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/warp_list_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/game/world_map_window.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/helper/colors.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/helper/dialog_container.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/helper/dropdown.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/helper/fallback.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/helper/format.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/helper/head_board.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/helper/mod.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/helper/scrollbar.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/helper/tab_control.rs	modified or added since baseline	keep	Retained per user decision; implementation/compatibility mappings alone are not treated as content-removal findings. See docs/third-party-content.md.
+lib/ui-component/src/helper/window_chrome.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/hud/camera.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/hud/corner.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/hud/mod.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/hud/party.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/hud/player.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/hud/style.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/hud/target.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/hud/touch.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/lib.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/menu/bar_picker.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/menu/equipment.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/menu/frame.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/menu/home.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/menu/item_detail.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/menu/items.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/menu/mod.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/menu/settings.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/menu/skills.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/menu/status.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-component/src/widget_id.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-core/Cargo.toml	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-core/src/context.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-core/src/draw.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-core/src/frame.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-core/src/key_layout.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-core/src/key_layout/wayland.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-core/src/key_layout/windows.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-core/src/key_layout/x11.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-core/src/key_layout/xkb.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-core/src/lib.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-core/src/rect.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-core/src/rich_text.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-core/src/state.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-core/src/test_support.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-core/src/text_input.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+lib/ui-core/src/theme.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+rust-ro/LICENSE.md	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/README.md	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/accessor/Cargo.toml	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/accessor/src/lib.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/enum_macro/Cargo.toml	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/enum_macro/src/enum_with_eq.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/enum_macro/src/enum_with_hash.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/enum_macro/src/enum_with_mask.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/enum_macro/src/enum_with_number_value.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/enum_macro/src/enum_with_stackable.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/enum_macro/src/enum_with_string_value.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/enum_macro/src/helper.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/enum_macro/src/lib.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/Cargo.toml	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/enums/action.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/enums/bonus.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/enums/cell.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/enums/class.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/enums/client_effect_icon.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/enums/client_messages.rs	vendored rust-ro	removed	Unused 44,287-line client-message dump; module declaration removed.
+rust-ro/models/src/enums/effect.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/enums/effect_id.rs	vendored rust-ro, possibly modified	keep	rAthena-derived; inputs GPL-3.0-or-later (confirmed 2026-10-24); distributed under GPL-3.0-or-later (docs/third-party-content.md).
+rust-ro/models/src/enums/element.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/enums/item.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/enums/look.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/enums/map.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/enums/mob.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/enums/mod.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/enums/size.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/enums/skill.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/enums/skill_client_icon.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/enums/skill_enums.rs	vendored rust-ro, possibly modified	keep	rAthena-derived; inputs GPL-3.0-or-later (confirmed 2026-10-24); distributed under GPL-3.0-or-later (docs/third-party-content.md).
+rust-ro/models/src/enums/status.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/enums/trigger.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/enums/unit.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/enums/vanish.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/enums/weapon.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/item.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/lib.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/status.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/models/src/status_bonus.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/movement/Cargo.toml	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/movement/src/lib.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/movement/src/path.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/movement/src/position.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/packets-tool/Cargo.toml	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/packets-tool/README.md	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/packets-tool/packets_db	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/packets-tool/src/main.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/packets-tool/src/packet_db_parser.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/packets-tool/src/packet_struct_generator.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/packets/Cargo.toml	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/packets/src/lib.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/packets/src/packets.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/packets/src/packets_impl.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/packets/src/packets_parser.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/packets/src/packets_print.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-ro/packets/src/print.rs	vendored rust-ro, possibly modified	keep	MIT baseline in NOTICE; retain rust-ro/LICENSE.md.
+rust-toolchain.toml	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/Cargo.toml	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/effect-viewer-dev.sh	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/effect-viewer-hot/Cargo.toml	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/effect-viewer-hot/src/lib.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/grf-editor/Cargo.toml	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/grf-editor/src/app.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/grf-editor/src/file_list.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/grf-editor/src/gallery.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/grf-editor/src/main.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/grf-editor/src/preview.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/grf-editor/src/sprite_preview.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/grf-editor/src/tree.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/rendering-viewer-dev.sh	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/rendering-viewer-hot/Cargo.toml	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/rendering-viewer-hot/src/lib.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/rsw-viewer-dev.sh	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/rsw-viewer-hot/Cargo.toml	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/rsw-viewer-hot/src/lib.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/bin/check_peco_sprites.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/bin/dump_rsw_lights.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/bin/effect_viewer.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/bin/gr2_viewer.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/bin/grf_merge.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/bin/grf_prune.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/bin/grf_verify.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/bin/list_effect_sprites.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/bin/rendering_viewer.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/bin/rsw_viewer.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/bin/sprite_viewer.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/bin/viewer.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/effect_viewer/gif_export.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/effect_viewer/mod.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/gr2_viewer/mod.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/grf_audit/closure.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/grf_audit/mod.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/grf_audit/roots.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/grf_audit/server.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/grf_merge/mod.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/grf_merge/tables.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/lib.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/rendering_viewer/controls.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/rendering_viewer/mod.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/rsw_viewer/browser.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/rsw_viewer/controls.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/rsw_viewer/mod.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/sprite_viewer/browser.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/sprite_viewer/controls.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/sprite_viewer/mod.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/stress.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/viewer/app.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/viewer/controls.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/viewer/mod.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/viewer/overlay.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/viewer_common/mod.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/src/viewer_common/shader_watcher.rs	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/ui-component-dev.sh	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/ui-component-hot/Cargo.toml	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/ui-component-hot/src/lib.rs	modified or added since baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+tools/viewer-dev.sh	upstream baseline	keep	Retain source and attribution; origin classification does not establish clearance.
+vendor/winit/.cargo-ok	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/.cargo_vcs_info.json	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/Cargo.toml	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/FEATURES.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/LICENSE	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/README.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/build.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/examples/child_window.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/examples/control_flow.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/examples/data/cross.png	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/examples/data/cross2.png	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/examples/data/gradient.png	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/examples/data/icon.png	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/examples/pump_events.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/examples/run_on_demand.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/examples/util/fill.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/examples/util/tracing.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/examples/window.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/examples/x11_embed.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/application.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/unreleased.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.10.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.11.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.12.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.13.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.14.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.15.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.16.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.17.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.18.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.19.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.20.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.21.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.22.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.23.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.24.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.25.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.26.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.27.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.28.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.29.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.30.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.8.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/changelog/v0.9.md	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/cursor.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/error.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/event.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/event_loop.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/icon.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/keyboard.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/lib.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/monitor.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform/android.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform/ios.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform/macos.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform/modifier_supplement.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform/orbital.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform/pump_events.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform/run_on_demand.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform/scancode.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform/startup_notify.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform/wayland.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform/web.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform/windows.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform/x11.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/android/keycodes.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/android/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/ios/app_state.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/ios/event_loop.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/ios/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/ios/monitor.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/ios/notification_center.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/ios/view.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/ios/view_controller.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/ios/window.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/common/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/common/xkb/compose.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/common/xkb/keymap.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/common/xkb/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/common/xkb/state.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/wayland/event_loop/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/wayland/event_loop/proxy.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/wayland/event_loop/sink.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/wayland/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/wayland/output.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/wayland/seat/keyboard/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/wayland/seat/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/wayland/seat/pointer/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/wayland/seat/pointer/relative_pointer.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/wayland/seat/text_input/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/wayland/seat/touch/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/wayland/state.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/wayland/types/cursor.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/wayland/types/kwin_blur.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/wayland/types/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/wayland/types/wp_fractional_scaling.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/wayland/types/wp_viewporter.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/wayland/types/xdg_activation.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/wayland/window/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/wayland/window/state.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/activation.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/atoms.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/dnd.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/event_processor.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/ffi.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/ime/callbacks.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/ime/context.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/ime/inner.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/ime/input_method.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/ime/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/monitor.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/tests/xsettings.dat	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/util/client_msg.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/util/cookie.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/util/cursor.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/util/geometry.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/util/hint.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/util/icon.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/util/input.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/util/keys.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/util/memory.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/util/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/util/modifiers.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/util/mouse.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/util/randr.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/util/window_property.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/util/wm.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/util/xmodmap.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/window.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/xdisplay.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/linux/x11/xsettings.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/macos/app.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/macos/app_state.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/macos/cursor.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/macos/event.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/macos/event_handler.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/macos/event_loop.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/macos/ffi.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/macos/menu.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/macos/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/macos/monitor.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/macos/observer.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/macos/util.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/macos/view.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/macos/window.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/macos/window_delegate.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/orbital/event_loop.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/orbital/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/orbital/window.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/async/abortable.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/async/atomic_waker.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/async/channel.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/async/concurrent_queue.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/async/dispatcher.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/async/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/async/notifier.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/async/waker.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/async/wrapper.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/cursor.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/device.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/error.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/event_loop/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/event_loop/proxy.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/event_loop/runner.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/event_loop/state.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/event_loop/window_target.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/keyboard.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/main_thread.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/monitor.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/web_sys/animation_frame.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/web_sys/canvas.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/web_sys/event.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/web_sys/event_handle.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/web_sys/fullscreen.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/web_sys/intersection_handle.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/web_sys/media_query_handle.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/web_sys/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/web_sys/pointer.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/web_sys/resize_scaling.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/web_sys/schedule.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/web_sys/worker.js	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/web_sys/worker.min.js	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/web/window.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/windows/dark_mode.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/windows/definitions.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/windows/dpi.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/windows/drop_handler.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/windows/event_loop.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/windows/event_loop/runner.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/windows/icon.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/windows/ime.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/windows/keyboard.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/windows/keyboard_layout.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/windows/minimal_ime.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/windows/mod.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/windows/monitor.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/windows/raw_input.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/windows/util.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/windows/window.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/platform_impl/windows/window_state.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/utils.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/src/window.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/tests/send_objects.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/tests/serde_objects.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.
+vendor/winit/tests/sync_object.rs	vendored winit	keep	Apache-2.0; retain vendor/winit/LICENSE and modification notice.

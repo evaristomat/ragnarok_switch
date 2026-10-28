@@ -1,0 +1,153 @@
+struct CameraUniforms {
+    view_proj: mat4x4<f32>,
+    view: mat4x4<f32>,
+    proj: mat4x4<f32>,
+    eye_pos: vec4<f32>,
+};
+
+struct LightUniforms {
+    light_dir: vec4<f32>,
+    diffuse_color: vec4<f32>,
+    ambient_color: vec4<f32>,
+    shadow_strength: f32,
+};
+
+struct PointLight {
+    position: vec4<f32>,
+    color_range: vec4<f32>,
+};
+
+struct FogUniforms {
+    color: vec4<f32>,
+    near: f32,
+    far: f32,
+    enabled: f32,
+};
+
+@group(0) @binding(0) var<uniform> camera: CameraUniforms;
+@group(0) @binding(1) var<uniform> light: LightUniforms;
+struct PointLights {
+    count: u32,
+    lights: array<PointLight, 32>, // MAX_POINT_LIGHTS in global_uniforms.rs
+};
+
+@group(0) @binding(2) var<uniform> point_lights: PointLights;
+@group(0) @binding(3) var<uniform> fog: FogUniforms;
+@group(1) @binding(0) var model_texture: texture_2d<f32>;
+@group(1) @binding(1) var model_sampler: sampler;
+@group(2) @binding(0) var<uniform> instance_matrix: mat4x4<f32>;
+// Bones as texels, 4 per matrix (its columns), 2048 per row (matrix_texture.rs): a texture rather than a storage
+// buffer, which Adreno's Vulkan driver misreads in the vertex stage.
+@group(2) @binding(1) var bone_texture: texture_2d<f32>;
+
+fn bone(index: u32) -> mat4x4<f32> {
+    let x = i32((index % 2048u) * 4u);
+    let y = i32(index / 2048u);
+    return mat4x4<f32>(
+        textureLoad(bone_texture, vec2<i32>(x, y), 0),
+        textureLoad(bone_texture, vec2<i32>(x + 1, y), 0),
+        textureLoad(bone_texture, vec2<i32>(x + 2, y), 0),
+        textureLoad(bone_texture, vec2<i32>(x + 3, y), 0),
+    );
+}
+
+fn linear_to_srgb(c: vec3<f32>) -> vec3<f32> {
+    let lo = c * 12.92;
+    let hi = 1.055 * pow(c, vec3<f32>(1.0 / 2.4)) - 0.055;
+    return select(hi, lo, c <= vec3<f32>(0.0031308));
+}
+
+fn apply_fog(color: vec3<f32>, view_pos: vec3<f32>) -> vec3<f32> {
+    if (fog.enabled <= 0.0) {
+        return color;
+    }
+    let fog_amount = clamp(
+        (length(view_pos) - fog.near) / (fog.far - fog.near),
+        0.0,
+        1.0,
+    );
+    return mix(color, fog.color.rgb, fog_amount);
+}
+
+fn point_light_attenuation(d: f32, r: f32) -> f32 {
+    let n = min(d, r) / (r + 1e-4);
+    let a = saturate(1.0 - n * n);
+    return a * a;
+}
+
+fn point_light_contribution(world_pos: vec3<f32>, normal: vec3<f32>) -> vec3<f32> {
+    var acc = vec3<f32>(0.0);
+    let count = point_lights.count;
+    for (var i: u32 = 0u; i < count; i = i + 1u) {
+        let lp = point_lights.lights[i].position.xyz;
+        let lc = point_lights.lights[i].color_range.rgb;
+        let lr = point_lights.lights[i].color_range.a;
+        if (lr <= 0.0) { continue; }
+        let to_frag = world_pos - lp;
+        let d = length(to_frag);
+        if (d >= lr) { continue; }
+        let dir = to_frag / max(d, 1e-4);
+        let lambert = max(-dot(dir, normal), 0.0);
+        acc += lc * lambert * point_light_attenuation(d, lr);
+    }
+    return acc;
+}
+
+struct VertexInput {
+    @location(0) position: vec3<f32>,
+    @location(1) normal: vec3<f32>,
+    @location(2) tex_coord: vec2<f32>,
+    @location(3) bone_indices: vec4<u32>,
+    @location(4) bone_weights: vec4<f32>,
+};
+
+struct VertexOutput {
+    @builtin(position) clip_position: vec4<f32>,
+    @location(0) tex_coord: vec2<f32>,
+    @location(1) normal: vec3<f32>,
+    @location(2) world_position: vec3<f32>,
+    @location(3) view_pos: vec3<f32>,
+};
+
+@vertex
+fn vs_main(in: VertexInput) -> VertexOutput {
+    let skin = bone(in.bone_indices.x) * in.bone_weights.x
+        + bone(in.bone_indices.y) * in.bone_weights.y
+        + bone(in.bone_indices.z) * in.bone_weights.z
+        + bone(in.bone_indices.w) * in.bone_weights.w;
+
+    let world = instance_matrix * skin * vec4<f32>(in.position, 1.0);
+    let world_normal = (instance_matrix * skin * vec4<f32>(in.normal, 0.0)).xyz;
+
+    var out: VertexOutput;
+    out.clip_position = camera.view_proj * world;
+    out.tex_coord = in.tex_coord;
+    out.normal = world_normal;
+    out.world_position = world.xyz;
+    let view_pos = camera.view * world;
+    out.view_pos = view_pos.xyz;
+    return out;
+}
+
+@fragment
+fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
+    let tex_color = textureSample(model_texture, model_sampler, in.tex_coord);
+
+    if tex_color.a < 0.01 {
+        discard;
+    }
+
+    let normal = normalize(in.normal);
+    let n_dot_l = max(dot(normal, normalize(light.light_dir.xyz)), 0.0);
+    let diffuse = light.diffuse_color.rgb * n_dot_l;
+    let lighting = clamp(diffuse + light.ambient_color.rgb, vec3<f32>(0.0), vec3<f32>(1.0));
+
+    let tex_gamma = linear_to_srgb(tex_color.rgb);
+    var color = tex_gamma * lighting;
+    let pl = point_light_contribution(in.world_position, normal);
+    color += tex_gamma * pl;
+
+    color = apply_fog(clamp(color, vec3<f32>(0.0), vec3<f32>(1.0)), in.view_pos);
+
+    return vec4<f32>(color, tex_color.a);
+}

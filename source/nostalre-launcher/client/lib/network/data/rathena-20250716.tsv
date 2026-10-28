@@ -1,0 +1,1304 @@
+# rAthena packet table at PACKETVER=20250716 (scripts/packetdb-dump.sh); generated, do not edit
+# id	length (-1 variable)	direction (zc: server sends, cz: server parses)	name or handler	source ("older": not the id this client sends)	offsets (cz) or the one size of a variable packet (zc)
+0x006b	-1	zc	HC_ACCEPT_ENTER	hdr	
+0x006c	3	zc	HC_REFUSE_ENTER	hdr	
+0x006e	3	zc	HC_REFUSE_MAKECHAR	hdr	
+0x006f	2	zc	HC_ACCEPT_DELETECHAR	hdr	
+0x0070	3	zc	HC_REFUSE_DELETECHAR	hdr	
+0x0074	3	zc	ZC_REFUSE_ENTER	hdr	
+0x007f	6	zc	ZC_NOTIFY_TIME	hdr	
+0x0080	7	zc	ZC_NOTIFY_VANISH	hdr	
+0x0081	3	zc	SC_NOTIFY_BAN	hdr	
+0x0087	12	zc	ZC_NOTIFY_PLAYERMOVE	hdr	
+0x0088	10	zc	ZC_STOPMOVE	hdr	
+0x008d	-1	zc	ZC_NOTIFY_CHAT	hdr	
+0x0091	22	zc	ZC_NPCACK_MAPMOVE	hdr	
+0x009a	-1	zc	ZC_BROADCAST	hdr	
+0x009c	9	zc	ZC_CHANGE_DIRECTION	hdr	
+0x009d	19	zc	ZC_ITEM_ENTRY	hdr	
+0x00a1	6	zc	ZC_ITEM_DISAPPEAR	hdr	
+0x00af	6	zc	ZC_ITEM_THROW_ACK	hdr	
+0x00b0	8	zc	ZC_PAR_CHANGE	hdr	
+0x00b1	8	zc	ZC_LONGPAR_CHANGE	hdr	
+0x00b3	3	zc	ZC_RESTART_ACK	hdr	
+0x00b4	-1	zc	ZC_SAY_DIALOG	hdr	
+0x00b5	6	zc	ZC_WAIT_DIALOG	hdr	
+0x00b6	6	zc	ZC_CLOSE_DIALOG	hdr	
+0x00b7	-1	zc	ZC_MENU_LIST	hdr	
+0x00bc	6	zc	ZC_STATUS_CHANGE_ACK	hdr	
+0x00bd	44	zc	ZC_STATUS	hdr	
+0x00be	5	zc	ZC_STATUS_CHANGE	hdr	
+0x00c0	7	zc	ZC_EMOTION	hdr	
+0x00c2	6	zc	ZC_USER_COUNT	hdr	
+0x00c4	6	zc	ZC_SELECT_DEALTYPE	hdr	
+0x00c7	-1	zc	ZC_PC_SELL_ITEMLIST	hdr	
+0x00ca	3	zc	ZC_PC_PURCHASE_RESULT	hdr	
+0x00d1	4	zc	ZC_SETTING_WHISPER_PC	hdr	
+0x00d2	4	zc	ZC_SETTING_WHISPER_STATE	hdr	
+0x00d4	-1	zc	ZC_WHISPER_LIST	hdr	
+0x00d6	3	zc	ZC_ACK_CREATE_CHATROOM	hdr	
+0x00d7	-1	zc	ZC_ROOM_NEWENTRY	hdr	
+0x00d8	6	zc	ZC_DESTROY_ROOM	hdr	
+0x00da	3	zc	ZC_REFUSE_ENTER_ROOM	hdr	
+0x00db	-1	zc	ZC_ENTER_ROOM	hdr	
+0x00dc	28	zc	ZC_MEMBER_NEWENTRY	hdr	
+0x00dd	29	zc	ZC_MEMBER_EXIT	hdr	
+0x00df	-1	zc	ZC_CHANGE_CHATROOM	hdr	
+0x00e1	30	zc	ZC_ROLE_CHANGE	hdr	
+0x00ea	5	zc	ZC_ACK_ADD_EXCHANGE_ITEM	hdr	
+0x00ec	3	zc	ZC_CONCLUDE_EXCHANGE_ITEM	hdr	
+0x00ee	2	zc	ZC_CANCEL_EXCHANGE_ITEM	hdr	
+0x00f0	3	zc	ZC_EXEC_EXCHANGE_ITEM	hdr	
+0x00f1	2	zc	ZC_EXCHANGEITEM_UNDO	hdr	
+0x00f2	6	zc	ZC_NOTIFY_STOREITEM_COUNTINFO	hdr	
+0x00f6	8	zc	ZC_DELETE_ITEM_FROM_STORE	hdr	
+0x00f8	2	zc	ZC_CLOSE_STORE	hdr	
+0x00fa	3	zc	ZC_ACK_MAKE_GROUP	hdr	
+0x0105	31	zc	ZC_DELETE_MEMBER_FROM_GROUP	hdr	
+0x0107	10	zc	ZC_NOTIFY_POSITION_TO_GROUPM	hdr	
+0x0109	-1	zc	ZC_NOTIFY_CHAT_PARTY	hdr	
+0x010a	6	zc	ZC_MVP_GETTING_ITEM	hdr	
+0x010b	6	zc	ZC_MVP_GETTING_SPECIAL_EXP	hdr unused	
+0x010c	6	zc	ZC_MVP	hdr	
+0x010d	2	zc	ZC_THROW_MVPITEM	hdr	
+0x010e	11	zc	ZC_SKILLINFO_UPDATE	hdr	
+0x010f	-1	zc	ZC_SKILLINFO_LIST	hdr	
+0x0110	14	zc	ZC_ACK_TOUSESKILL	hdr	
+0x0111	39	zc	ZC_ADD_SKILL	hdr	
+0x0115	35	zc	ZC_NOTIFY_SKILL_POSITION	hdr unused	
+0x0117	18	zc	ZC_NOTIFY_GROUNDSKILL	hdr	
+0x011e	3	zc	ZC_ACK_REMEMBER_WARPPOINT	hdr	
+0x0120	6	zc	ZC_SKILL_DISAPPEAR	hdr	
+0x0121	14	zc	ZC_NOTIFY_CARTITEM_COUNTINFO	hdr	
+0x0125	8	zc	ZC_DELETE_ITEM_FROM_CART	hdr	
+0x012b	2	zc	ZC_CARTOFF	hdr	
+0x012c	3	zc	ZC_ACK_ADDITEM_TO_CART	hdr	
+0x012d	4	zc	ZC_OPENSTORE	hdr	
+0x0131	86	zc	ZC_STORE_ENTRY	hdr	
+0x0132	6	zc	ZC_DISAPPEAR_ENTRY	hdr	
+0x0135	7	zc	ZC_PC_PURCHASE_RESULT_FROMMC	hdr	
+0x0139	16	zc	ZC_ATTACK_FAILURE_FOR_DISTANCE	hdr	
+0x013a	4	zc	ZC_ATTACK_RANGE	hdr	
+0x013b	4	zc	ZC_ACTION_FAILURE	hdr	
+0x013c	4	zc	ZC_EQUIP_ARROW	hdr	
+0x0141	14	zc	ZC_COUPLESTATUS	hdr	
+0x0142	6	zc	ZC_OPEN_EDITDLG	hdr	
+0x0144	23	zc	ZC_COMPASS	hdr	
+0x0147	39	zc	ZC_AUTORUN_SKILL	hdr	
+0x0148	8	zc	ZC_RESURRECTION	hdr	
+0x014b	27	zc	ZC_NOTIFY_MANNER_POINT_GIVEN	hdr	
+0x014c	-1	zc	ZC_MYGUILD_BASIC_INFO	hdr	
+0x014e	6	zc	ZC_ACK_GUILD_MENUINTERFACE	hdr	
+0x0156	-1	zc	ZC_ACK_REQ_CHANGE_MEMBERS	hdr	
+0x015e	6	zc	ZC_ACK_DISORGANIZE_GUILD_RESULT	hdr	
+0x0160	-1	zc	ZC_POSITION_INFO	hdr	
+0x0162	-1	zc	ZC_GUILD_SKILLINFO	hdr	
+0x0166	-1	zc	ZC_POSITION_ID_NAME_INFO	hdr	
+0x0167	3	zc	ZC_RESULT_MAKE_GUILD	hdr	
+0x0169	3	zc	ZC_ACK_REQ_JOIN_GUILD	hdr	
+0x016a	30	zc	ZC_REQ_JOIN_GUILD	hdr	
+0x016f	182	zc	ZC_GUILD_NOTICE	hdr	
+0x0171	30	zc	ZC_REQ_ALLY_GUILD	hdr	
+0x0173	3	zc	ZC_ACK_REQ_ALLY_GUILD	hdr	
+0x0174	-1	zc	ZC_ACK_CHANGE_GUILD_POSITIONINFO	hdr	
+0x0179	5	zc	ZC_ACK_ITEMIDENTIFY	hdr	
+0x017d	7	zc	ZC_ACK_ITEMCOMPOSITION	hdr	
+0x017f	-1	zc	ZC_GUILD_CHAT	hdr	
+0x0181	3	zc	ZC_ACK_REQ_HOSTILE_GUILD	hdr	
+0x0184	10	zc	ZC_DELETE_RELATED_GUILD	hdr	
+0x0188	8	zc	ZC_ACK_ITEMREFINING	hdr	
+0x0189	4	zc	ZC_NOTIFY_MAPINFO	hdr	
+0x018c	29	zc	ZC_MONSTER_INFO	hdr	
+0x018d	-1	zc	ZC_MAKABLEITEMLIST	hdr	
+0x018f	8	zc	ZC_ACK_REQMAKINGITEM	hdr	
+0x0191	27	zc	ZC_TALKBOX_CHATCONTENTS	hdr	
+0x0192	24	zc	ZC_UPDATE_MAPINFO	hdr	
+0x0196	9	zc	sc_notickType	type	
+0x019b	10	zc	ZC_NOTIFY_EFFECT	hdr	
+0x019e	2	zc	ZC_START_CAPTURE	hdr	
+0x01a0	3	zc	ZC_TRYCAPTURE_MONSTER	hdr	
+0x01a2	37	zc	ZC_PROPERTY_PET	hdr	
+0x01a3	7	zc	ZC_FEED_PET	hdr	
+0x01a4	11	zc	ZC_CHANGESTATE_PET	hdr	
+0x01aa	10	zc	ZC_PET_ACT	hdr	
+0x01ab	12	zc	ZC_PAR_CHANGE_USER	hdr	
+0x01ac	6	zc	ZC_SKILL_UPDATE	hdr	
+0x01ad	-1	zc	ZC_MAKINGARROW_LIST	hdr	
+0x01b0	11	zc	ZC_NPCSPRITE_CHANGE	hdr	
+0x01b3	67	zc	ZC_SHOW_IMAGE	hdr	
+0x01b9	6	zc	ZC_DISPEL	hdr	
+0x01c3	-1	zc	ZC_BROADCAST2	hdr	
+0x01c8	15	zc	useItemAckType	type	
+0x01c9	97	zc	graffiti_entryType	type	
+0x01d0	8	zc	ZC_SPIRITS	hdr	
+0x01d1	14	zc	ZC_BLADESTOP	hdr	
+0x01d2	10	zc	ZC_COMBODELAY	hdr	
+0x01d3	35	zc	ZC_SOUND	hdr	
+0x01d4	6	zc	ZC_OPEN_EDITDLGSTR	hdr	
+0x01d6	4	zc	ZC_NOTIFY_MAPPROPERTY2	hdr	
+0x01d7	15	zc	sendLookType	type	
+0x01dc	-1	zc	AC_ACK_HASH	hdr	
+0x01de	33	zc	ZC_NOTIFY_SKILL	hdr	
+0x01e1	8	zc	ZC_SPIRITS2	hdr unused	
+0x01e6	26	zc	ZC_COUPLENAME	hdr	
+0x01ea	6	zc	ZC_CONGRATULATION	hdr	
+0x01eb	10	zc	ZC_NOTIFY_POSITION_TO_GUILDM	hdr	
+0x01f2	20	zc	ZC_UPDATE_CHARSTAT	hdr	
+0x01f4	32	zc	ZC_REQ_EXCHANGE_ITEM	hdr	
+0x01f5	9	zc	ZC_ACK_EXCHANGE_ITEM	hdr	
+0x01fe	5	zc	ZC_ACK_ITEMREPAIR	hdr	
+0x01ff	10	zc	ZC_HIGHJUMP	hdr	
+0x0201	-1	zc	ZC_FRIENDS_LIST	hdr	
+0x0205	26	zc	ZC_DIVORCE	hdr	
+0x0206	35	zc	ZC_FRIENDS_STATE	hdr	
+0x020d	-1	zc	HC_BLOCK_CHARACTER	hdr	
+0x0215	6	zc	ZC_SKILLMSG	hdr	
+0x0219	282	zc	ZC_BLACKSMITH_RANK	hdr unused	
+0x021a	282	zc	ZC_ALCHEMIST_RANK	hdr unused	
+0x021b	10	zc	ZC_BLACKSMITH_POINT	hdr unused	
+0x021c	10	zc	ZC_ALCHEMIST_POINT	hdr unused	
+0x0221	-1	zc	ZC_NOTIFY_WEAPONITEMLIST	hdr	
+0x0223	10	zc	ZC_ACK_WEAPONREFINE	hdr	
+0x0224	10	zc	ZC_TAEKWON_POINT	hdr unused	
+0x0226	282	zc	ZC_TAEKWON_RANK	hdr unused	
+0x0229	15	zc	ZC_STATE_CHANGE	hdr	
+0x022f	7	zc	ZC_FEED_MER	hdr	
+0x0230	12	zc	ZC_CHANGESTATE_MER	hdr	
+0x0235	-1	zc	ZC_HOSKILLINFO_LIST	hdr	
+0x0236	10	zc	ZC_KILLER_POINT	hdr unused	
+0x0238	282	zc	ZC_KILLER_RANK	hdr unused	
+0x0239	11	zc	ZC_HOSKILLINFO_UPDATE	hdr	
+0x025a	-1	zc	ZC_MAKINGITEM_LIST	hdr	
+0x0287	-1	zc	ZC_PC_CASH_POINT_ITEMLIST	hdr	
+0x028a	18	zc	ZC_NPC_SHOWEFST_UPDATE	hdr	
+0x028e	4	zc	HC_ACK_IS_VALID_CHARNAME	hdr	
+0x0291	4	zc	ZC_MSG	hdr	
+0x0293	70	zc	ZC_BOSS_INFO	hdr	
+0x0298	10	zc	ZC_CASH_TIME_COUNTER	hdr	
+0x0299	8	zc	ZC_CASH_ITEM_DELETE	hdr	
+0x02bb	8	zc	ZC_EQUIPITEM_DAMAGED	hdr	
+0x02c5	30	zc	ZC_PARTY_JOIN_REQ_ACK	hdr	
+0x02c6	30	zc	ZC_PARTY_JOIN_REQ	hdr	
+0x02c9	3	zc	ZC_PARTY_CONFIG	hdr	
+0x02d3	4	zc	ZC_NOTIFY_BIND_ON_EQUIP	hdr	
+0x02da	3	zc	ZC_CONFIG_NOTIFY	hdr	
+0x02eb	13	zc	ZC_ACCEPT_ENTER	hdr	
+0x02f7	47	zc	ZC_UPDATE_GDID	hdr	
+0x043d	8	zc	ZC_SKILL_POSTDELAY	hdr	
+0x043f	25	zc	status_change2Type	type unused	
+0x0440	10	zc	ZC_MILLENNIUMSHIELD	hdr	
+0x0441	4	zc	ZC_SKILLINFO_DELETE	hdr	
+0x0442	-1	zc	ZC_SKILL_SELECT_REQUEST	hdr	
+0x07e1	15	zc	ZC_SKILLINFO_UPDATE2	hdr	
+0x07e2	8	zc	ZC_MSG_VALUE	hdr	
+0x07e6	8	zc	ZC_MSG_SKILL	hdr	
+0x07fa	8	zc	ZC_DELETE_ITEM_FROM_BODY	hdr	
+0x07fc	10	zc	partyleaderchangedType	type	
+0x07fd	-1	zc	package_item_announceType	type	44
+0x080e	14	zc	ZC_NOTIFY_HP_TO_GROUPM	hdr	
+0x0813	-1	zc	ZC_MYITEMLIST_BUYING_STORE	hdr	
+0x0814	86	zc	ZC_BUYING_STORE_ENTRY	hdr	
+0x0816	6	zc	ZC_DISAPPEAR_BUYING_STORE_ENTRY	hdr	
+0x0818	-1	zc	ZC_ACK_ITEMLIST_BUYING_STORE	hdr	
+0x081e	8	zc	ZC_EL_PAR_CHANGE	hdr	
+0x0824	8	zc	ZC_FAILED_TRADE_BUYING_STORE_TO_SELLER	hdr	
+0x0828	14	zc	HC_DELETE_CHAR3_RESERVED	hdr	
+0x082a	10	zc	HC_DELETE_CHAR3	hdr	
+0x082c	10	zc	HC_DELETE_CHAR3_CANCEL	hdr	
+0x082d	-1	zc	HC_ACCEPT_ENTER2	hdr	29
+0x0837	3	zc	ZC_SEARCH_STORE_INFO_FAILED	hdr	
+0x083a	5	zc	ZC_OPEN_SEARCH_STORE_INFO	hdr	
+0x083d	6	zc	ZC_SSILIST_ITEM_CLICK_ACK	hdr	
+0x083e	26	zc	AC_REFUSE_LOGIN	hdr	
+0x0840	-1	zc	HC_NOTIFY_ACCESSIBLE_MAPNAME	hdr	
+0x0849	16	zc	ZC_SE_PC_BUY_CASHITEM_RESULT	hdr	
+0x08b9	12	zc	HC_SECOND_PASSWD_LOGIN	hdr	
+0x08c0	-1	zc	ZC_ACK_SE_CASH_ITEM_LIST2	hdr unused	
+0x08c8	34	zc	ZC_NOTIFY_ACT	hdr	
+0x08ca	-1	zc	ZC_ACK_SCHEDULER_CASHITEM	hdr	
+0x08cf	10	zc	ZC_SPIRITS_ATTRIBUTE	hdr	
+0x08d6	6	zc	ZC_CLEAR_DIALOG	hdr	
+0x08d8	27	zc	bgqueue_ackType	type	
+0x08d9	30	zc	bgqueue_notify_entryType	type	
+0x08db	27	zc	bgqueue_notice_deleteType	type	
+0x08df	50	zc	bgqueue_battlebeginsType	type	
+0x08fd	6	zc	HC_ACK_CHANGE_CHARNAME	hdr	
+0x08fe	-1	zc	questUpdateType2	type	
+0x0908	5	zc	ZC_INVENTORY_TAB	hdr	
+0x090e	2	zc	ZC_ENTRY_QUEUE_INIT	hdr	
+0x096d	-1	zc	ZC_MERGE_ITEM_OPEN	hdr	
+0x096f	7	zc	ZC_ACK_MERGE_ITEM	hdr	
+0x0972	-1	zc	ZC_SAY_DIALOG2	hdr unused	
+0x0973	7	zc	ZC_WAIT_DIALOG2	hdr unused	
+0x0977	14	zc	monsterhpType	type	
+0x097b	16	zc	ZC_PERSONAL_INFOMATION	hdr unused	
+0x097d	288	zc	ZC_ACK_RANKING	hdr unused	
+0x097e	12	zc	ZC_UPDATE_RANKING_POINT	hdr	
+0x0983	29	zc	status_changeType	type	
+0x0984	28	zc	ZC_EFST_SET_ENTER	hdr	
+0x0988	6	zc	ZC_NOTIFY_CLAN_CONNECTINFO	hdr	
+0x0989	2	zc	ZC_ACK_CLAN_LEAVE	hdr	
+0x098a	-1	zc	ZC_CLANINFO	hdr	74
+0x098e	-1	zc	ZC_NOTIFY_CLAN_CHAT	hdr	
+0x0999	11	zc	ZC_REQ_WEAR_EQUIP_ACK	hdr	
+0x099a	9	zc	ZC_REQ_TAKEOFF_EQUIP_ACK	hdr	
+0x099b	8	zc	maptypeproperty2Type	type	
+0x09a0	6	zc	HC_CHARLIST_NOTIFY	hdr	
+0x09a6	12	zc	ZC_BANKING_CHECK	hdr	
+0x09a8	16	zc	ZC_ACK_BANKING_DEPOSIT	hdr	
+0x09aa	16	zc	ZC_ACK_BANKING_WITHDRAW	hdr	
+0x09ad	12	zc	ZC_ACK_CASH_BARGAIN_SALE_ITEM_INFO	hdr	
+0x09b2	10	zc	ZC_NOTIFY_BARGAIN_SALE_SELLING	hdr	
+0x09b3	6	zc	ZC_NOTIFY_BARGAIN_SALE_CLOSE	hdr	
+0x09b7	4	zc	ZC_ACK_OPEN_BANKING	hdr	
+0x09b9	4	zc	ZC_ACK_CLOSE_BANKING	hdr	
+0x09c1	10	zc	ZC_C_MARKERINFO	hdr	
+0x09c4	10	zc	ZC_ACK_COUNT_BARGAIN_SALE_ITEM	hdr	
+0x09ca	-1	zc	skill_entryType	type	23
+0x09cb	17	zc	ZC_USE_SKILL	hdr	
+0x09cd	8	zc	ZC_MSG_COLOR	hdr	
+0x09d1	14	zc	progressbarunit	type	
+0x09da	-1	zc	ZC_ACK_GUILDSTORAGE_LOG	hdr	
+0x09de	-1	zc	ZC_WHISPER	hdr	
+0x09df	7	zc	ZC_ACK_WHISPER	hdr	
+0x09e5	18	zc	ZC_DELETEITEM_FROM_MCSTORE	hdr	
+0x09e6	24	zc	buyingStoreUpdateItemType	type	
+0x09e7	3	zc	rodexicon	type	
+0x09ed	3	zc	rodexwriteresult	type	
+0x09f0	-1	zc	rodexnextpage	type unused	
+0x09f2	12	zc	rodexgetzeny	type	
+0x09f4	12	zc	rodexgetitem	type	
+0x09f6	11	zc	rodexdelete	type	
+0x09fd	-1	zc	unit_walkingType	type	114
+0x09fe	-1	zc	spawn_unitType	type	107
+0x09ff	-1	zc	idle_unitType	type	108
+0x0a02	4	zc	ZC_DRESSROOM_OPEN	hdr	
+0x0a07	9	zc	rodexremoveitem	type	
+0x0a0e	14	zc	ZC_BATTLEFIELD_NOTIFY_HP	hdr	
+0x0a12	27	zc	rodexopenwrite	type	
+0x0a15	12	zc	ZC_GOLDPCCAFE_POINT	hdr unused	
+0x0a17	6	zc	ZC_DYNAMICNPC_CREATE_RESULT	hdr	
+0x0a1c	-1	zc	rouletteinfoackType	type	
+0x0a1e	3	zc	ZC_ACK_CLOSE_ROULETTE	hdr unused	
+0x0a20	23	zc	roulettgenerateackType	type	
+0x0a22	7	zc	roulettercvitemackType	type	
+0x0a23	-1	zc	achievementListType	type	
+0x0a24	66	zc	achievementUpdateType	type	
+0x0a26	7	zc	achievementRewardAckType	type	
+0x0a27	8	zc	ZC_RECOVERY	hdr	
+0x0a28	3	zc	ZC_ACK_OPENSTORE2	hdr	
+0x0a30	106	zc	ZC_ACK_REQNAMEALL	hdr	
+0x0a3b	-1	zc	ZC_EQUIPMENT_EFFECT	hdr	
+0x0a3f	11	zc	ZC_UPDATE_CARDSLOT	hdr unused	
+0x0a41	18	zc	skillscale	type	
+0x0a47	3	zc	ZC_STYLE_CHANGE_RES	hdr	
+0x0a4e	6	zc	ZC_RANDOM_COMBINE_ITEM_UI_OPEN	hdr	
+0x0a50	4	zc	ZC_ACK_RANDOM_COMBINE_ITEM	hdr	
+0x0a51	34	zc	ZC_CHECKNAME	hdr	
+0x0a53	10	zc	ZC_ACK_UPLOAD_MACRO_DETECTOR	hdr	
+0x0a55	2	zc	ZC_COMPLETE_UPLOAD_MACRO_DETECTOR_CAPTCHA	hdr	
+0x0a57	6	zc	ZC_ACK_APPLY_MACRO_DETECTOR	hdr	
+0x0a58	8	zc	ZC_APPLY_MACRO_DETECTOR	hdr	
+0x0a59	-1	zc	ZC_APPLY_MACRO_DETECTOR_CAPTCHA	hdr	
+0x0a5b	7	zc	ZC_REQ_ANSWER_MACRO_DETECTOR	hdr	
+0x0a5d	6	zc	ZC_CLOSE_MACRO_DETECTOR	hdr	
+0x0a6a	12	zc	ZC_ACK_PREVIEW_MACRO_DETECTOR	hdr	
+0x0a6b	-1	zc	ZC_PREVIEW_MACRO_DETECTOR_CAPTCHA	hdr	
+0x0a6d	-1	zc	ZC_ACK_PLAYER_AID_IN_RANGE	hdr	
+0x0a78	15	zc	ZC_VIEW_CAMERAINFO	hdr	
+0x0a82	46	zc	guildExpulsion	type	
+0x0a83	46	zc	guildLeave	type	
+0x0aa0	2	zc	ZC_OPEN_REFINING_UI	hdr	
+0x0aa2	-1	zc	ZC_REFINING_MATERIAL_LIST	hdr	
+0x0aa7	6	zc	ZC_MOVE_ITEM_FAILED	hdr unused	
+0x0ab2	7	zc	ZC_GROUP_ISALIVE	hdr	
+0x0ab4	6	zc	ZC_RANDOM_UPGRADE_ITEM_UI_OPEN	hdr	
+0x0ab7	4	zc	ZC_ACK_RANDOM_UPGRADE_ITEM	hdr	
+0x0abd	10	zc	ZC_NOTIFY_MEMBERINFO_TO_GROUPM	hdr	
+0x0abe	-1	zc	ZC_WARPLIST	hdr	
+0x0ac4	-1	zc	AC_ACCEPT_LOGIN	hdr	
+0x0ac5	156	zc	HC_NOTIFY_ZONESVR	hdr	
+0x0ac7	156	zc	ZC_NPCACK_SERVERMOVE	hdr	
+0x0acb	12	zc	ZC_LONGLONGPAR_CHANGE	hdr	
+0x0ada	32	zc	ZC_BROADCAST_ITEMREFINING_RESULT	hdr	
+0x0adb	-1	zc	ZC_DEBUGMSG	hdr unused	
+0x0add	24	zc	dropflooritemType	type	
+0x0adf	58	zc	ZC_ACK_REQNAMEALL_NPC	hdr	
+0x0ae2	7	zc	ZC_UI_OPEN	hdr	
+0x0ae3	-1	zc	TC_RESULT	hdr	34
+0x0ae4	89	zc	partymemberinfo	type	
+0x0ae5	-1	zc	partyinfo	type	
+0x0ae7	38	zc	ZC_PARTY_REQ_MASTER_TO_JOIN	hdr	
+0x0af6	88	zc	ZC_ACK_RANKING2	hdr	
+0x0af7	32	zc	ZC_ACK_REQNAME_BYGID	hdr	
+0x0afa	58	zc	ZC_PARTY_JOIN_REQ_ACK_FROM_MASTER	hdr	
+0x0afb	-1	zc	ZC_AUTOSPELLLIST	hdr	
+0x0afd	-1	zc	ZC_GUILD_POSITION	hdr	
+0x0b08	-1	zc	ZC_INVENTORY_START	hdr	
+0x0b09	-1	zc	inventorylistnormalType	type	
+0x0b0b	4	zc	ZC_INVENTORY_END	hdr	
+0x0b0d	10	zc	ZC_REMOVE_EFFECT	hdr	
+0x0b15	7	zc	ZC_ACK_OPEN_MSGBOX_EXTEND_BODYITEM_SIZE	hdr	
+0x0b17	3	zc	ZC_ACK_EXTEND_BODYITEM_SIZE	hdr	
+0x0b18	4	zc	ZC_EXTEND_BODYITEM_SIZE	hdr	
+0x0b1a	29	zc	ZC_USESKILL_ACK	hdr	
+0x0b1b	2	zc	ZC_NOTIFY_ACTORINIT	hdr	
+0x0b1d	2	zc	ZC_PING_LIVE	hdr	
+0x0b20	271	zc	ZC_SHORTCUT_KEY_LIST	hdr	
+0x0b27	-1	zc	ZC_GUILD_AGIT_INFO	hdr	
+0x0b2d	11	zc	ZC_REQ_ACK_AGIT_INVESTMENT	hdr	
+0x0b2e	4	zc	ZC_REQ_ACK_MOVE_GUILD_AGIT	hdr	
+0x0b36	-1	zc	ZC_GUILD_EMBLEM_IMG	hdr unused	
+0x0b37	-1	zc	ZC_EQUIPWIN_MICROSCOPE	hdr	
+0x0b39	-1	zc	inventorylistequipType	type	
+0x0b3d	-1	zc	ZC_PC_PURCHASE_ITEMLIST_FROMMC	hdr	
+0x0b3f	64	zc	ZC_ACK_ADD_ITEM_RODEX	hdr	
+0x0b40	-1	zc	ZC_PC_PURCHASE_MYITEMLIST	hdr	
+0x0b41	70	zc	ZC_ITEM_PICKUP_ACK	hdr	
+0x0b42	62	zc	ZC_ADD_EXCHANGE_ITEM	hdr	
+0x0b43	48	zc	ZC_CHANGE_ITEM_OPTION	hdr	
+0x0b44	58	zc	ZC_ADD_ITEM_TO_STORE	hdr	
+0x0b45	58	zc	ZC_ADD_ITEM_TO_CART	hdr	
+0x0b47	14	zc	ZC_CHANGE_GUILD	hdr	
+0x0b4e	-1	zc	ZC_NPC_MARKET_PURCHASE_RESULT	hdr	
+0x0b5a	-1	zc	ZC_GRADE_ENCHANT_MATERIAL_LIST	hdr	
+0x0b5d	10	zc	ZC_GRADE_ENCHANT_ACK	hdr	
+0x0b5e	33	zc	ZC_GRADE_ENCHANT_BROADCAST_RESULT	hdr	
+0x0b63	-1	zc	ZC_ACK_READ_RODEX	hdr	
+0x0b64	-1	zc	ZC_SEARCH_STORE_INFO_ACK	hdr	
+0x0b65	-1	zc	ZC_REPAIRITEMLIST	hdr	
+0x0b67	33	zc	ZC_ITEM_PICKUP_PARTY	hdr	
+0x0b68	12	zc	ZC_TARGET_SPIRITS	hdr	
+0x0b69	18	zc	ZC_NOTIFY_EFFECT3	hdr unused	
+0x0b6b	14	zc	ZC_SUMMON_HP_INIT	hdr	
+0x0b6c	12	zc	ZC_SUMMON_HP_UPDATE	hdr	
+0x0b6e	14	zc	ZC_SE_CASHSHOP_OPEN	hdr	
+0x0b6f	177	zc	HC_ACCEPT_MAKECHAR	hdr	
+0x0b70	-1	zc	HC_ACK_CHANGE_CHARACTER_SLOT	hdr	8
+0x0b72	-1	zc	HC_ACK_CHARINFO_PER_PAGE	hdr	
+0x0b73	8	zc	ZC_SOULENERGY	hdr	
+0x0b77	-1	zc	ZC_PC_PURCHASE_ITEMLIST	hdr	
+0x0b78	-1	zc	ZC_NPC_BARTER_MARKET_ITEMINFO	hdr	
+0x0b79	-1	zc	ZC_NPC_EXPANDED_BARTER_MARKET_ITEMINFO	hdr	
+0x0b7a	-1	zc	ZC_NPC_MARKET_OPEN	hdr	
+0x0b7b	118	zc	ZC_GUILD_INFO	hdr	
+0x0b7c	-1	zc	ZC_BAN_LIST	hdr	
+0x0b7d	-1	zc	ZC_MEMBERMGR_INFO	hdr	
+0x0b8c	-1	zc	ZC_PLAY_NPC_BGM	hdr	
+0x0b8d	-1	zc	ZC_REPUTE_INFO	hdr	
+0x0b8e	18	zc	ZC_REPUTE_OPEN	hdr	
+0x0b8f	6	zc	ZC_OPEN_REFORM_UI	hdr	
+0x0b92	5	zc	ZC_ITEM_REFORM_ACK	hdr	
+0x0b9a	11	zc	ZC_UI_OPEN_V3	hdr	
+0x0b9f	10	zc	ZC_RESPONSE_ENCHANT	hdr	
+0x0ba1	3	zc	ZC_DIALOG_TEXT_ALIGN	hdr	
+0x0ba2	10	zc	ZC_DIALOG_WINDOW_SIZE	hdr	
+0x0ba3	10	zc	ZC_DIALOG_WINDOW_POS	hdr	
+0x0ba4	85	zc	ZC_PROPERTY_HOMUN	hdr	
+0x0ba5	12	zc	ZC_HO_PAR_CHANGE	hdr	
+0x0bae	3	zc	ZC_ACK_TAKEOFF_EQUIP_ALL	hdr	
+0x0bb5	10	zc	ZC_DIALOG_WINDOW_POS2	hdr	
+0x0bba	-1	zc	ZC_BROADCASTING_SPECIAL_ITEM_OBTAIN_item	hdr unused	44
+0x0bbe	6	zc	ZC_SPECIALPOPUP	hdr	
+0x0c0c	4	zc	ZC_GM_CHECKER	hdr	
+0x08e2	27	zc	0x08e2	wfifo	
+0x09b5	2	zc	0x09b5	wfifo	
+0x09bd	2	zc	0x09bd	wfifo	
+0x0ac2	-1	zc	0x0ac2	variable	
+0x0067	37	zc	0x0067	db unused	
+0x0068	46	zc	0x0068	db unused	
+0x0069	-1	zc	0x0069	db unused	
+0x006a	23	zc	0x006a	db	
+0x006d	149	zc	0x006d	db unused	
+0x0071	28	zc	0x0071	db unused	
+0x0075	-1	zc	0x0075	db unused	
+0x0076	9	zc	0x0076	db unused	
+0x0077	5	zc	0x0077	db unused	
+0x0079	53	zc	0x0079	db unused	
+0x007a	58	zc	0x007a	db unused	
+0x007b	60	zc	0x007b	db unused	
+0x007c	44	zc	0x007c	db unused	
+0x0082	2	zc	0x0082	db unused	
+0x0083	2	zc	0x0083	db unused	
+0x0084	2	zc	0x0084	db unused	
+0x008b	2	zc	0x008b	db unused	
+0x008e	-1	zc	0x008e	db	
+0x0093	2	zc	0x0093	db unused	
+0x009e	17	zc	0x009e	db unused	
+0x00ae	-1	zc	0x00ae	db unused	
+0x00ba	2	zc	0x00ba	db unused	
+0x00c3	8	zc	0x00c3	db unused	
+0x00c6	-1	zc	0x00c6	db unused	
+0x00cb	3	zc	0x00cb	db	
+0x00cd	3	zc	0x00cd	db	
+0x00e5	26	zc	0x00e5	db unused	
+0x00fb	-1	zc	0x00fb	db unused	
+0x00fd	27	zc	0x00fd	db unused	
+0x0101	6	zc	0x0101	db unused	
+0x0104	79	zc	0x0104	db unused	
+0x0114	31	zc	0x0114	db unused	
+0x0119	13	zc	0x0119	db unused	
+0x011f	16	zc	0x011f	db	
+0x0138	3	zc	0x0138	db unused	
+0x0145	19	zc	0x0145	db unused	
+0x014a	6	zc	0x014a	db	
+0x0150	110	zc	0x0150	db unused	
+0x0152	-1	zc	0x0152	db	
+0x0154	-1	zc	0x0154	db unused	
+0x0157	6	zc	0x0157	db unused	
+0x0158	-1	zc	0x0158	db unused	
+0x015f	42	zc	0x015f	db unused	
+0x0164	-1	zc	0x0164	db unused	
+0x016c	43	zc	0x016c	db unused	
+0x0175	6	zc	0x0175	db unused	
+0x0176	106	zc	0x0176	db unused	
+0x0177	-1	zc	0x0177	db	
+0x017b	-1	zc	0x017b	db	
+0x0182	106	zc	0x0182	db unused	
+0x0185	34	zc	0x0185	db unused	
+0x018b	4	zc	0x018b	db	
+0x0199	4	zc	0x0199	db unused	
+0x019a	14	zc	0x019a	db	
+0x01a6	-1	zc	0x01a6	db	
+0x01a8	4	zc	0x01a8	db unused	
+0x01b1	7	zc	0x01b1	db	
+0x01b5	18	zc	0x01b5	db unused	
+0x01b6	114	zc	0x01b6	db unused	
+0x01b7	6	zc	0x01b7	db unused	
+0x01b8	3	zc	0x01b8	db unused	
+0x01be	2	zc	0x01be	db unused	
+0x01bf	3	zc	0x01bf	db unused	
+0x01c0	2	zc	0x01c0	db unused	
+0x01c1	14	zc	0x01c1	db unused	
+0x01c2	10	zc	0x01c2	db unused	
+0x01c6	4	zc	0x01c6	db unused	
+0x01c7	2	zc	0x01c7	db unused	
+0x01ca	3	zc	0x01ca	db unused	
+0x01cb	9	zc	0x01cb	db unused	
+0x01cc	9	zc	0x01cc	db unused	
+0x01cf	28	zc	0x01cf	db	
+0x01d8	54	zc	0x01d8	db unused	
+0x01d9	53	zc	0x01d9	db unused	
+0x01da	60	zc	0x01da	db unused	
+0x01e0	30	zc	0x01e0	db	
+0x01e2	34	zc	0x01e2	db unused	
+0x01e3	14	zc	0x01e3	db unused	
+0x01e4	2	zc	0x01e4	db unused	
+0x01e5	6	zc	0x01e5	db unused	
+0x01ec	26	zc	0x01ec	db unused	
+0x01f0	-1	zc	0x01f0	db unused	
+0x01f1	-1	zc	0x01f1	db unused	
+0x01f3	10	zc	0x01f3	db	
+0x01f6	34	zc	0x01f6	db	
+0x01f8	2	zc	0x01f8	db unused	
+0x01fc	-1	zc	0x01fc	db unused	
+0x0207	34	zc	0x0207	db	
+0x0209	36	zc	0x0209	db	
+0x020a	10	zc	0x020a	db	
+0x020e	32	zc	0x020e	db	
+0x0210	22	zc	0x0210	db	
+0x0214	42	zc	0x0214	db	
+0x0216	6	zc	0x0216	db	
+0x021e	6	zc	0x021e	db unused	
+0x021f	66	zc	0x021f	db unused	
+0x0220	10	zc	0x0220	db unused	
+0x0227	18	zc	0x0227	db unused	
+0x0228	18	zc	0x0228	db unused	
+0x022a	58	zc	0x022a	db unused	
+0x022b	57	zc	0x022b	db unused	
+0x022c	65	zc	0x022c	db unused	
+0x022e	71	zc	0x022e	db unused	
+0x023a	4	zc	0x023a	db	
+0x023c	6	zc	0x023c	db	
+0x023d	-1	zc	0x023d	db unused	
+0x023e	8	zc	0x023e	db unused	
+0x0240	-1	zc	0x0240	db unused	
+0x0242	-1	zc	0x0242	db unused	
+0x0245	3	zc	0x0245	db unused	
+0x0249	3	zc	0x0249	db unused	
+0x024a	70	zc	0x024a	db unused	
+0x0250	3	zc	0x0250	db	
+0x0252	-1	zc	0x0252	db	
+0x0253	3	zc	0x0253	db	
+0x0255	5	zc	0x0255	db unused	
+0x0256	5	zc	0x0256	db	
+0x0257	8	zc	0x0257	db unused	
+0x0258	2	zc	0x0258	db unused	
+0x0259	3	zc	0x0259	db unused	
+0x025e	4	zc	0x025e	db	
+0x025f	6	zc	0x025f	db	
+0x0260	6	zc	0x0260	db	
+0x0261	11	zc	0x0261	db unused	
+0x0262	11	zc	0x0262	db unused	
+0x0263	11	zc	0x0263	db unused	
+0x0264	20	zc	0x0264	db unused	
+0x0265	20	zc	0x0265	db unused	
+0x0266	30	zc	0x0266	db unused	
+0x0267	4	zc	0x0267	db unused	
+0x0268	4	zc	0x0268	db unused	
+0x0269	4	zc	0x0269	db unused	
+0x026a	4	zc	0x026a	db unused	
+0x026b	4	zc	0x026b	db unused	
+0x026c	4	zc	0x026c	db unused	
+0x026d	4	zc	0x026d	db unused	
+0x026f	2	zc	0x026f	db unused	
+0x0270	2	zc	0x0270	db unused	
+0x0271	40	zc	0x0271	db unused	
+0x0272	44	zc	0x0272	db unused	
+0x0274	8	zc	0x0274	db	
+0x0278	2	zc	0x0278	db unused	
+0x0279	2	zc	0x0279	db unused	
+0x027a	-1	zc	0x027a	db unused	
+0x027b	14	zc	0x027b	db unused	
+0x027d	62	zc	0x027d	db unused	
+0x027e	-1	zc	0x027e	db unused	
+0x027f	8	zc	0x027f	db unused	
+0x0280	12	zc	0x0280	db unused	
+0x0282	284	zc	0x0282	db unused	
+0x0283	6	zc	0x0283	db	
+0x0284	14	zc	0x0284	db	
+0x0285	6	zc	0x0285	db unused	
+0x0286	4	zc	0x0286	db unused	
+0x0289	12	zc	0x0289	db	
+0x028b	-1	zc	0x028b	db unused	
+0x028c	46	zc	0x028c	db unused	
+0x028f	6	zc	0x028f	db unused	
+0x0290	4	zc	0x0290	db unused	
+0x0294	10	zc	0x0294	db	
+0x029b	80	zc	0x029b	db	
+0x029c	66	zc	0x029c	db unused	
+0x029d	-1	zc	0x029d	db	
+0x029e	11	zc	0x029e	db unused	
+0x02a0	-1	zc	0x02a0	db unused	
+0x02a1	-1	zc	0x02a1	db unused	
+0x02a2	8	zc	0x02a2	db	
+0x02a3	-1	zc	0x02a3	db unused	
+0x02a4	-1	zc	0x02a4	db unused	
+0x02a5	8	zc	0x02a5	db unused	
+0x02a6	-1	zc	0x02a6	db unused	
+0x02a7	-1	zc	0x02a7	db unused	
+0x02a8	162	zc	0x02a8	db unused	
+0x02a9	58	zc	0x02a9	db unused	
+0x02aa	4	zc	0x02aa	db unused	
+0x02ab	36	zc	0x02ab	db unused	
+0x02ac	6	zc	0x02ac	db unused	
+0x02ad	8	zc	0x02ad	db unused	
+0x02b1	-1	zc	0x02b1	db unused	
+0x02b2	-1	zc	0x02b2	db	
+0x02b3	107	zc	0x02b3	db unused	
+0x02b4	6	zc	0x02b4	db	
+0x02b5	-1	zc	0x02b5	db unused	
+0x02b7	7	zc	0x02b7	db	
+0x02b9	191	zc	0x02b9	db unused	
+0x02bc	6	zc	0x02bc	db unused	
+0x02bf	-1	zc	0x02bf	db unused	
+0x02c0	-1	zc	0x02c0	db unused	
+0x02c1	-1	zc	0x02c1	db	
+0x02c2	-1	zc	0x02c2	db unused	
+0x02ca	3	zc	0x02ca	db unused	
+0x02cb	65	zc	0x02cb	db	
+0x02cc	4	zc	0x02cc	db	
+0x02cd	71	zc	0x02cd	db	
+0x02ce	10	zc	0x02ce	db	
+0x02d5	2	zc	0x02d5	db unused	
+0x02d9	10	zc	0x02d9	db	
+0x02dc	-1	zc	0x02dc	db	
+0x02dd	32	zc	0x02dd	db	
+0x02de	6	zc	0x02de	db	
+0x02df	36	zc	0x02df	db	
+0x02e0	34	zc	0x02e0	db unused	
+0x02e2	20	zc	0x02e2	db unused	
+0x02e3	22	zc	0x02e3	db unused	
+0x02e4	11	zc	0x02e4	db unused	
+0x02e5	9	zc	0x02e5	db unused	
+0x02e6	6	zc	0x02e6	db unused	
+0x02e7	-1	zc	0x02e7	db unused	
+0x02ec	67	zc	0x02ec	db unused	
+0x02ed	59	zc	0x02ed	db unused	
+0x02ee	60	zc	0x02ee	db unused	
+0x02ef	8	zc	0x02ef	db	
+0x02f0	10	zc	0x02f0	db	
+0x02f2	2	zc	0x02f2	db	
+0x02f3	-1	zc	0x02f3	db unused	
+0x02f4	-1	zc	0x02f4	db unused	
+0x02f5	-1	zc	0x02f5	db unused	
+0x02f6	-1	zc	0x02f6	db unused	
+0x02f8	-1	zc	0x02f8	db unused	
+0x02f9	-1	zc	0x02f9	db unused	
+0x02fa	-1	zc	0x02fa	db unused	
+0x02fb	-1	zc	0x02fb	db unused	
+0x02fc	-1	zc	0x02fc	db unused	
+0x02fd	-1	zc	0x02fd	db unused	
+0x02fe	-1	zc	0x02fe	db unused	
+0x02ff	-1	zc	0x02ff	db unused	
+0x0300	-1	zc	0x0300	db unused	
+0x0301	-1	zc	0x0301	db unused	
+0x0302	-1	zc	0x0302	db unused	
+0x0303	-1	zc	0x0303	db unused	
+0x0304	-1	zc	0x0304	db unused	
+0x0305	-1	zc	0x0305	db unused	
+0x0306	-1	zc	0x0306	db unused	
+0x0307	-1	zc	0x0307	db unused	
+0x0308	-1	zc	0x0308	db unused	
+0x0309	-1	zc	0x0309	db unused	
+0x030a	-1	zc	0x030a	db unused	
+0x030b	-1	zc	0x030b	db unused	
+0x030c	-1	zc	0x030c	db unused	
+0x030d	-1	zc	0x030d	db unused	
+0x030e	-1	zc	0x030e	db unused	
+0x030f	-1	zc	0x030f	db unused	
+0x0310	-1	zc	0x0310	db unused	
+0x0311	-1	zc	0x0311	db unused	
+0x0312	-1	zc	0x0312	db unused	
+0x0313	-1	zc	0x0313	db unused	
+0x0314	-1	zc	0x0314	db unused	
+0x0315	-1	zc	0x0315	db unused	
+0x0316	-1	zc	0x0316	db unused	
+0x0317	-1	zc	0x0317	db unused	
+0x0318	-1	zc	0x0318	db unused	
+0x0319	-1	zc	0x0319	db unused	
+0x031a	-1	zc	0x031a	db unused	
+0x031b	-1	zc	0x031b	db unused	
+0x031c	-1	zc	0x031c	db unused	
+0x031d	-1	zc	0x031d	db unused	
+0x031e	-1	zc	0x031e	db unused	
+0x031f	-1	zc	0x031f	db unused	
+0x0320	-1	zc	0x0320	db unused	
+0x0321	-1	zc	0x0321	db unused	
+0x0322	-1	zc	0x0322	db unused	
+0x0323	-1	zc	0x0323	db unused	
+0x0324	-1	zc	0x0324	db unused	
+0x0325	-1	zc	0x0325	db unused	
+0x0326	-1	zc	0x0326	db unused	
+0x0327	-1	zc	0x0327	db unused	
+0x0328	-1	zc	0x0328	db unused	
+0x0329	-1	zc	0x0329	db unused	
+0x032a	-1	zc	0x032a	db unused	
+0x032b	-1	zc	0x032b	db unused	
+0x032c	-1	zc	0x032c	db unused	
+0x032d	-1	zc	0x032d	db unused	
+0x032e	-1	zc	0x032e	db unused	
+0x032f	-1	zc	0x032f	db unused	
+0x0330	-1	zc	0x0330	db unused	
+0x0331	-1	zc	0x0331	db unused	
+0x0332	-1	zc	0x0332	db unused	
+0x0333	-1	zc	0x0333	db unused	
+0x0334	-1	zc	0x0334	db unused	
+0x0335	-1	zc	0x0335	db unused	
+0x0336	-1	zc	0x0336	db unused	
+0x0337	-1	zc	0x0337	db unused	
+0x0338	-1	zc	0x0338	db unused	
+0x0339	-1	zc	0x0339	db unused	
+0x033a	-1	zc	0x033a	db unused	
+0x033b	-1	zc	0x033b	db unused	
+0x033c	-1	zc	0x033c	db unused	
+0x033d	-1	zc	0x033d	db unused	
+0x033e	-1	zc	0x033e	db unused	
+0x033f	-1	zc	0x033f	db unused	
+0x0340	-1	zc	0x0340	db unused	
+0x0341	-1	zc	0x0341	db unused	
+0x0342	-1	zc	0x0342	db unused	
+0x0343	-1	zc	0x0343	db unused	
+0x0344	-1	zc	0x0344	db unused	
+0x0345	-1	zc	0x0345	db unused	
+0x0346	-1	zc	0x0346	db unused	
+0x0347	-1	zc	0x0347	db unused	
+0x0348	-1	zc	0x0348	db unused	
+0x0349	-1	zc	0x0349	db unused	
+0x034a	-1	zc	0x034a	db unused	
+0x034b	-1	zc	0x034b	db unused	
+0x034c	-1	zc	0x034c	db unused	
+0x034d	-1	zc	0x034d	db unused	
+0x034e	-1	zc	0x034e	db unused	
+0x034f	-1	zc	0x034f	db unused	
+0x0350	-1	zc	0x0350	db unused	
+0x0351	-1	zc	0x0351	db unused	
+0x0352	-1	zc	0x0352	db unused	
+0x0353	-1	zc	0x0353	db unused	
+0x0354	-1	zc	0x0354	db unused	
+0x0355	-1	zc	0x0355	db unused	
+0x0356	-1	zc	0x0356	db unused	
+0x0357	-1	zc	0x0357	db unused	
+0x0358	-1	zc	0x0358	db unused	
+0x0359	-1	zc	0x0359	db unused	
+0x035a	-1	zc	0x035a	db unused	
+0x035b	-1	zc	0x035b	db unused	
+0x035c	2	zc	0x035c	db unused	
+0x035d	-1	zc	0x035d	db unused	
+0x035e	2	zc	0x035e	db unused	
+0x0389	-1	zc	0x0389	db unused	
+0x040c	-1	zc	0x040c	db unused	
+0x040d	-1	zc	0x040d	db unused	
+0x040e	-1	zc	0x040e	db unused	
+0x040f	-1	zc	0x040f	db unused	
+0x0410	-1	zc	0x0410	db unused	
+0x0411	-1	zc	0x0411	db unused	
+0x0412	-1	zc	0x0412	db unused	
+0x0413	-1	zc	0x0413	db unused	
+0x0414	-1	zc	0x0414	db unused	
+0x0415	-1	zc	0x0415	db unused	
+0x0416	-1	zc	0x0416	db unused	
+0x0417	-1	zc	0x0417	db unused	
+0x0418	-1	zc	0x0418	db unused	
+0x0419	-1	zc	0x0419	db unused	
+0x041a	-1	zc	0x041a	db unused	
+0x041b	-1	zc	0x041b	db unused	
+0x041c	-1	zc	0x041c	db unused	
+0x041d	-1	zc	0x041d	db unused	
+0x041e	-1	zc	0x041e	db unused	
+0x041f	-1	zc	0x041f	db unused	
+0x0420	-1	zc	0x0420	db unused	
+0x0421	-1	zc	0x0421	db unused	
+0x0422	-1	zc	0x0422	db unused	
+0x0423	-1	zc	0x0423	db unused	
+0x0424	-1	zc	0x0424	db unused	
+0x0425	-1	zc	0x0425	db unused	
+0x0426	-1	zc	0x0426	db unused	
+0x0427	-1	zc	0x0427	db unused	
+0x0428	-1	zc	0x0428	db unused	
+0x0429	-1	zc	0x0429	db unused	
+0x042a	-1	zc	0x042a	db unused	
+0x042b	-1	zc	0x042b	db unused	
+0x042c	-1	zc	0x042c	db unused	
+0x042d	-1	zc	0x042d	db unused	
+0x042e	-1	zc	0x042e	db unused	
+0x042f	-1	zc	0x042f	db unused	
+0x0430	-1	zc	0x0430	db unused	
+0x0431	-1	zc	0x0431	db unused	
+0x0432	-1	zc	0x0432	db unused	
+0x0433	-1	zc	0x0433	db unused	
+0x0434	-1	zc	0x0434	db unused	
+0x0435	-1	zc	0x0435	db unused	
+0x043e	-1	zc	0x043e	db unused	
+0x0444	-1	zc	0x0444	db unused	
+0x0445	10	zc	0x0445	db unused	
+0x0446	14	zc	0x0446	db	
+0x0448	-1	zc	0x0448	db unused	
+0x0449	4	zc	0x0449	db unused	
+0x07d8	8	zc	0x07d8	db	
+0x07d9	268	zc	0x07d9	db unused	
+0x07e3	6	zc	0x07e3	db	
+0x07e5	8	zc	0x07e5	db unused	
+0x07e7	32	zc	0x07e7	db unused	
+0x07e8	-1	zc	0x07e8	db unused	
+0x07e9	5	zc	0x07e9	db unused	
+0x07f6	14	zc	0x07f6	db unused	
+0x07f7	-1	zc	0x07f7	db unused	
+0x07f8	-1	zc	0x07f8	db unused	
+0x07f9	-1	zc	0x07f9	db unused	
+0x0803	4	zc	0x0803	db	
+0x0805	-1	zc	0x0805	db	
+0x0807	4	zc	0x0807	db	
+0x0809	50	zc	0x0809	db	
+0x080a	18	zc	0x080A	db	
+0x080b	6	zc	0x080B	db	
+0x0810	3	zc	0x0810	db	
+0x0812	8	zc	0x0812	db	
+0x081a	4	zc	0x081a	db	
+0x081b	10	zc	0x081b	db unused	
+0x081c	10	zc	0x081c	db	
+0x081d	22	zc	0x081d	db	
+0x0820	11	zc	0x0820	db unused	
+0x084b	19	zc	0x084b	db unused	
+0x0856	-1	zc	0x0856	db unused	
+0x0857	-1	zc	0x0857	db unused	
+0x0858	-1	zc	0x0858	db unused	
+0x08b3	-1	zc	0x8b3	db	
+0x08c7	20	zc	0x08C7	db	
+0x08d2	10	zc	0x08d2	db	
+0x08dc	26	zc	0x08DC	db unused	
+0x08de	27	zc	0x08DE	db unused	
+0x08e1	51	zc	0x08E1	db	
+0x08e3	149	zc	0x08e3	db unused	
+0x08e6	4	zc	0x08e6	db unused	
+0x08e8	-1	zc	0x08e8	db unused	
+0x08ea	4	zc	0x08ea	db unused	
+0x08ec	73	zc	0x08ec	db unused	
+0x08ed	43	zc	0x08ed	db unused	
+0x08ee	6	zc	0x08ee	db unused	
+0x08ef	6	zc	0x08ef	db unused	
+0x08f0	6	zc	0x08f0	db unused	
+0x08f1	6	zc	0x08f1	db unused	
+0x08f2	36	zc	0x08f2	db unused	
+0x08f3	-1	zc	0x08f3	db unused	
+0x08f4	6	zc	0x08f4	db unused	
+0x08f5	-1	zc	0x08f5	db unused	
+0x08f6	22	zc	0x08f6	db unused	
+0x08f7	3	zc	0x08f7	db unused	
+0x08f8	7	zc	0x08f8	db unused	
+0x08f9	6	zc	0x08f9	db unused	
+0x08fa	6	zc	0x08fa	db unused	
+0x08fb	6	zc	0x08fb	db unused	
+0x090f	-1	zc	0x090F	db unused	
+0x0914	-1	zc	0x0914	db unused	
+0x0915	-1	zc	0x0915	db unused	
+0x0979	50	zc	0x0979	db	
+0x097a	-1	zc	0x097A	db unused	
+0x097f	-1	zc	0x097F	db	
+0x099f	22	zc	0x099f	db	
+0x09af	4	zc	0x09AF	db	
+0x09b1	4	zc	0x09B1	db	
+0x09d7	-1	zc	0x09D7	db unused	
+0x09db	-1	zc	0x09DB	db unused	
+0x09dc	-1	zc	0x09DC	db unused	
+0x09dd	-1	zc	0x09DD	db unused	
+0x09f7	75	zc	0x09F7	db unused	
+0x09f8	-1	zc	0x09F8	db	
+0x09f9	143	zc	0x09F9	db	
+0x09fa	-1	zc	0x09FA	db	
+0x09fc	6	zc	0x09FC	db	
+0x0a00	269	zc	0x0A00	db unused	
+0x0a14	10	zc	0x0A14	db unused	
+0x0a1a	23	zc	0x0A1A	db	
+0x0a2f	7	zc	0x0A2F	db	
+0x0a32	2	zc	0x0A32	db unused	
+0x0a44	-1	zc	0x0A44	db unused	
+0x0a4a	6	zc	0x0A4A	db	
+0x0a4b	22	zc	0x0A4B	db unused	
+0x0a4c	28	zc	0x0A4C	db unused	
+0x0a7d	-1	zc	0x0A7D	db unused	
+0x0a98	10	zc	0x0A98	db	
+0x0a9a	10	zc	0x0A9A	db	
+0x0a9b	-1	zc	0x0A9B	db	
+0x0a9d	4	zc	0x0A9D	db	
+0x0aa5	-1	zc	0x0AA5	db unused	
+0x0acc	18	zc	0x0ACC	db	
+0x0ade	6	zc	0x0ADE	db	
+0x0af0	10	zc	0x0AF0	db	
+0x0072	22	cz	clif_parse_UseSkillToId	0x0072 older	9,15,18
+0x007d	2	cz	clif_parse_LoadEndAck	0x007d	0
+0x007e	105	cz	clif_parse_UseSkillToPosMoreInfo	0x007e older	10,14,18,23,25
+0x0085	10	cz	clif_parse_ChangeDir	0x0085 older	4,9
+0x0089	11	cz	clif_parse_TickSend	0x0089 older	7
+0x008c	14	cz	clif_parse_GetCharNameRequest	0x008c older	10
+0x0090	7	cz	clif_parse_NpcClicked	HEADER_CZ_CONTACTNPC	0
+0x0094	19	cz	clif_parse_MoveToKafra	0x0094 older	3,15
+0x0096	-1	cz	clif_parse_WisMessage	0x0096	2,4,28
+0x0099	-1	cz	clif_parse_Broadcast	HEADER_CZ_BROADCAST	0
+0x009b	34	cz	clif_parse_WantToConnection	0x009b older	7,15,25,29,33
+0x009f	20	cz	clif_parse_UseItem	0x009f older	7,20
+0x00a2	14	cz	clif_parse_SolveCharName	0x00a2 older	10
+0x00a7	9	cz	clif_parse_WalkToXY	0x00a7 older	6
+0x00ab	4	cz	clif_parse_UnequipItem	0x00ab	2
+0x00b2	3	cz	clif_parse_Restart	0x00b2	2
+0x00b8	7	cz	clif_parse_NpcSelectMenu	0x00b8	2,6
+0x00b9	6	cz	clif_parse_NpcNextClicked	0x00b9	2
+0x00bb	5	cz	clif_parse_StatusUp	0x00bb	2,4
+0x00bf	3	cz	clif_parse_Emotion	HEADER_CZ_REQ_EMOTION	0
+0x00c1	2	cz	clif_parse_HowManyConnections	0x00c1	0
+0x00c5	7	cz	clif_parse_NpcBuySellSelected	HEADER_CZ_ACK_SELECT_DEALTYPE	0
+0x00c8	-1	cz	clif_parse_NpcBuyListSend	0x00c8	2,4
+0x00c9	-1	cz	clif_parse_NpcSellListSend	HEADER_CZ_PC_SELL_ITEMLIST	2,4
+0x00cc	6	cz	clif_parse_GMKick	0x00cc	2
+0x00ce	2	cz	clif_parse_GMKickAll	0x00ce	0
+0x00cf	27	cz	clif_parse_PMIgnore	0x00cf	2,26
+0x00d0	3	cz	clif_parse_PMIgnoreAll	HEADER_CZ_SETTING_WHISPER_STATE	0
+0x00d3	2	cz	clif_parse_PMIgnoreList	0x00d3	0
+0x00d5	-1	cz	clif_parse_CreateChatRoom	HEADER_CZ_CREATE_CHATROOM	0
+0x00d9	14	cz	clif_parse_ChatAddMember	HEADER_CZ_REQ_ENTER_ROOM	0
+0x00de	-1	cz	clif_parse_ChatRoomStatusChange	HEADER_CZ_CHANGE_CHATROOM	0
+0x00e0	30	cz	clif_parse_ChangeChatOwner	0x00e0	2,6
+0x00e2	26	cz	clif_parse_KickFromChat	0x00e2	2
+0x00e3	2	cz	clif_parse_ChatLeave	0x00e3	0
+0x00e4	6	cz	clif_parse_TradeRequest	0x00e4	2
+0x00e6	3	cz	clif_parse_TradeAck	0x00e6	2
+0x00e8	8	cz	clif_parse_TradeAddItem	HEADER_CZ_ADD_EXCHANGE_ITEM	0
+0x00eb	2	cz	clif_parse_TradeOk	0x00eb	0
+0x00ed	2	cz	clif_parse_TradeCancel	0x00ed	0
+0x00ef	2	cz	clif_parse_TradeCommit	0x00ef	0
+0x00f3	-1	cz	clif_parse_GlobalMessage	0x00f3	2,4
+0x00f5	11	cz	clif_parse_TakeItem	0x00f5 older	7
+0x00f7	17	cz	clif_parse_MoveFromKafra	0x00f7 older	3,13
+0x00f9	26	cz	clif_parse_CreateParty	HEADER_CZ_MAKE_GROUP	0
+0x00fc	6	cz	clif_parse_PartyInvite	HEADER_CZ_REQ_JOIN_GROUP	0
+0x00ff	10	cz	clif_parse_ReplyPartyInvite	HEADER_CZ_JOIN_GROUP	0
+0x0100	2	cz	clif_parse_LeaveParty	HEADER_CZ_REQ_LEAVE_GROUP	0
+0x0102	6	cz	clif_parse_PartyChangeOption	0x0102 older	2
+0x0103	30	cz	clif_parse_RemovePartyMember	HEADER_CZ_REQ_EXPEL_GROUP_MEMBER	0
+0x0108	-1	cz	clif_parse_PartyMessage	0x0108	2,4
+0x0112	4	cz	clif_parse_SkillUp	0x0112	2
+0x0113	25	cz	clif_parse_UseSkillToPos	0x0113 older	10,14,18,23
+0x0116	17	cz	clif_parse_DropItem	0x0116 older	6,15
+0x0118	2	cz	clif_parse_StopAttack	0x0118	0
+0x011b	20	cz	clif_parse_UseSkillMap	HEADER_CZ_SELECT_WARPPOINT	0
+0x011d	2	cz	clif_parse_RequestMemo	0x011d	0
+0x0126	8	cz	clif_parse_PutItemToCart	HEADER_CZ_MOVE_ITEM_FROM_BODY_TO_CART	0
+0x0127	8	cz	clif_parse_GetItemFromCart	HEADER_CZ_MOVE_ITEM_FROM_CART_TO_BODY	0
+0x0128	8	cz	clif_parse_MoveFromKafraToCart	HEADER_CZ_MOVE_ITEM_FROM_STORE_TO_CART	0
+0x0129	8	cz	clif_parse_MoveToKafraFromCart	HEADER_CZ_MOVE_ITEM_FROM_CART_TO_STORE	0
+0x012a	2	cz	clif_parse_RemoveOption	0x012a older	0
+0x012e	2	cz	clif_parse_CloseVending	0x012e	0
+0x012f	-1	cz	clif_parse_OpenVending	0x012f older	2,4,0,84
+0x0130	6	cz	clif_parse_VendingListReq	0x0130	2
+0x0134	-1	cz	clif_parse_PurchaseReq	HEADER_CZ_PC_PURCHASE_ITEMLIST_FROMMC	0
+0x013f	26	cz	clif_parse_GM_Item_Monster	0x013f older	2
+0x0140	22	cz	clif_parse_MapMove	HEADER_CZ_MOVETO_MAP	0
+0x0143	10	cz	clif_parse_NpcAmountInput	HEADER_CZ_INPUT_EDITDLG	0
+0x0146	6	cz	clif_parse_NpcCloseClicked	HEADER_CZ_CLOSE_DIALOG	0
+0x0149	9	cz	clif_parse_GMReqNoChat	0x0149	2,6,7
+0x014d	2	cz	clif_parse_GuildCheckMaster	0x014d	0
+0x014f	6	cz	clif_parse_GuildRequestInfo	0x014f	2
+0x0151	6	cz	clif_parse_GuildRequestEmblem	0x0151	2
+0x0153	-1	cz	clif_parse_GuildChangeEmblem	0x0153	2,4
+0x0155	-1	cz	clif_parse_GuildChangeMemberPosition	HEADER_CZ_REQ_CHANGE_MEMBERPOS	0
+0x0159	54	cz	clif_parse_GuildLeave	HEADER_CZ_REQ_LEAVE_GUILD	0
+0x015b	54	cz	clif_parse_GuildExpulsion	HEADER_CZ_REQ_BAN_GUILD	0
+0x015d	42	cz	clif_parse_GuildBreak	HEADER_CZ_REQ_DISORGANIZE_GUILD	0
+0x0161	-1	cz	clif_parse_GuildChangePositionInfo	0x0161	2,4
+0x0165	30	cz	clif_parse_CreateGuild	0x0165	2,6
+0x0168	14	cz	clif_parse_GuildInvite	HEADER_CZ_REQ_JOIN_GUILD	0
+0x016b	10	cz	clif_parse_GuildReplyInvite	HEADER_CZ_JOIN_GUILD	0
+0x016e	186	cz	clif_parse_GuildChangeNotice	0x016e	2,6,66
+0x0170	14	cz	clif_parse_GuildRequestAlliance	0x0170	2,6,10
+0x0172	10	cz	clif_parse_GuildReplyAlliance	0x0172	2,6
+0x0178	4	cz	clif_parse_ItemIdentify	HEADER_CZ_REQ_ITEMIDENTIFY	0
+0x017a	4	cz	clif_parse_UseCard	HEADER_CZ_REQ_ITEMCOMPOSITION_LIST	0
+0x017c	6	cz	clif_parse_InsertCard	HEADER_CZ_REQ_ITEMCOMPOSITION	0
+0x017e	-1	cz	clif_parse_GuildMessage	0x017e	2,4
+0x0180	6	cz	clif_parse_GuildOpposition	0x0180	2
+0x0183	10	cz	clif_parse_GuildDelAlliance	0x0183	2,6
+0x018a	4	cz	clif_parse_QuitGame	0x018a	2
+0x018e	18	cz	clif_parse_ProduceMix	HEADER_CZ_REQMAKINGITEM	0
+0x0190	23	cz	clif_parse_ActionRequest	0x0190 older	9,22
+0x0193	2	cz	clif_parse_CloseKafra	0x0193	0
+0x0197	4	cz	clif_parse_ResetChar	HEADER_CZ_RESET	0
+0x0198	8	cz	clif_parse_GMChangeMapType	0x0198	2,4,6
+0x019c	-1	cz	clif_parse_LocalBroadcast	HEADER_CZ_LOCALBROADCAST	0
+0x019d	6	cz	clif_parse_GMHide	0x019d	2
+0x019f	6	cz	clif_parse_CatchPet	0x019f	2
+0x01a1	3	cz	clif_parse_PetMenu	0x01a1	2
+0x01a5	26	cz	clif_parse_ChangePetName	0x01a5	2
+0x01a7	4	cz	clif_parse_SelectEgg	0x01a7	2
+0x01a9	6	cz	clif_parse_SendEmotion	0x01a9	2
+0x01ae	6	cz	clif_parse_SelectArrow	HEADER_CZ_REQ_MAKINGARROW	0
+0x01af	4	cz	clif_parse_ChangeCart	0x01af	2
+0x01b2	-1	cz	clif_parse_OpenVending	0x01b2	2,4,84,85
+0x01ba	26	cz	clif_parse_GMShift	0x01ba older	2
+0x01bb	26	cz	clif_parse_GMShift	0x01bb	2
+0x01bc	26	cz	clif_parse_GMRecall	0x01bc older	2
+0x01bd	26	cz	clif_parse_GMRecall	0x01bd	2
+0x01ce	6	cz	clif_parse_AutoSpell	HEADER_CZ_SELECTAUTOSPELL	0
+0x01d5	-1	cz	clif_parse_NpcStringInput	HEADER_CZ_INPUT_EDITDLGSTR	0
+0x01df	6	cz	clif_parse_GMReqAccountName	0x01df	2
+0x01e7	2	cz	clif_parse_NoviceDoriDori	0x01e7	0
+0x01e8	28	cz	clif_parse_CreateParty2	HEADER_CZ_MAKE_GROUP2	0
+0x01ed	2	cz	clif_parse_NoviceExplosionSpirits	0x01ed	0
+0x01f7	14	cz	clif_parse_Adopt_reply	HEADER_CZ_JOIN_BABY	0
+0x01f9	6	cz	clif_parse_Adopt_request	0x01f9	2
+0x01fd	25	cz	clif_parse_RepairItem	HEADER_CZ_REQ_ITEMREPAIR1 older	0
+0x0202	26	cz	clif_parse_FriendsListAdd	0x0202	2
+0x0203	10	cz	clif_parse_FriendsListRemove	0x0203	2,6
+0x0208	14	cz	clif_parse_FriendsListReply	0x0208	2,6,10
+0x020f	10	cz	clif_parse_PVPInfo	0x020f	2,6
+0x0212	26	cz	clif_parse_GMRc	0x0212	2
+0x0213	26	cz	clif_parse_Check	0x0213	2
+0x021d	6	cz	clif_parse_LessEffect	HEADER_CZ_LESSEFFECT	0
+0x0222	6	cz	clif_parse_WeaponRefine	0x0222	2
+0x022d	5	cz	clif_parse_HomMenu	0x022D	2,4
+0x0231	26	cz	clif_parse_ChangeHomunculusName	0x0231	2
+0x0232	9	cz	clif_parse_HomMoveTo	HEADER_CZ_REQUEST_MOVENPC	0
+0x0233	11	cz	clif_parse_HomAttack	0x0233	2,6,10
+0x0234	6	cz	clif_parse_HomMoveToMaster	0x0234	2
+0x023b	36	cz	clif_parse_StoragePassword	0x023B	0
+0x023f	2	cz	clif_parse_Mail_refreshinbox	0x023f older	0
+0x0241	6	cz	clif_parse_Mail_read	0x0241 older	2
+0x0243	6	cz	clif_parse_Mail_delete	0x0243 older	2
+0x0244	6	cz	clif_parse_Mail_getattach	0x0244 older	2
+0x0246	4	cz	clif_parse_Mail_winopen	0x0246 older	2
+0x0247	8	cz	clif_parse_Mail_setattach	0x0247 older	2,4
+0x0248	-1	cz	clif_parse_Mail_send	0x0248 older	2,4,28,68,69
+0x024b	4	cz	clif_parse_Auction_cancelreg	0x024b	2
+0x024c	8	cz	clif_parse_Auction_setitem	0x024c	2,4
+0x024d	12	cz	clif_parse_Auction_register	HEADER_CZ_AUCTION_ADD	0
+0x024e	6	cz	clif_parse_Auction_cancel	0x024e	2
+0x024f	10	cz	clif_parse_Auction_bid	HEADER_CZ_AUCTION_BUY	0
+0x0251	34	cz	clif_parse_Auction_search	HEADER_CZ_AUCTION_ITEM_SEARCH	0
+0x0254	3	cz	clif_parse_FeelSaveOk	0x0254	2
+0x025b	8	cz	clif_parse_Cooking	HEADER_CZ_REQ_MAKINGITEM	0
+0x025c	4	cz	clif_parse_Auction_buysell	0x025c	2
+0x025d	6	cz	clif_parse_Auction_close	0x025d	2
+0x0273	30	cz	clif_parse_Mail_return	0x0273 older	2,6
+0x0281	-1	cz	clif_parse_ItemListWindowSelected	0x0281 older	2,4,8,12
+0x0288	-1	cz	clif_parse_npccashshop_buy	0x0288	2,4,8,10
+0x0292	2	cz	clif_parse_AutoRevive	0x0292	0
+0x029f	3	cz	clif_parse_mercenary_action	0x029f	2
+0x02b6	7	cz	clif_parse_questStateAck	HEADER_CZ_ACTIVE_QUEST	0
+0x02ba	11	cz	clif_parse_Hotkey	0x02ba older	2,4,5,9
+0x02c4	26	cz	clif_parse_PartyInvite2	0x02C4	2
+0x02c7	7	cz	clif_parse_ReplyPartyInvite2	HEADER_CZ_PARTY_JOIN_REQ_ACK	0
+0x02c8	3	cz	clif_parse_PartyTick	HEADER_CZ_PARTY_CONFIG	0
+0x02cf	6	cz	clif_parse_MemorialDungeonCommand	0x02cf	2
+0x02d6	6	cz	clif_parse_ViewPlayerEquip	0x02d6	2
+0x02d8	10	cz	clif_parse_configuration	0x02d8	2,6
+0x02db	-1	cz	clif_parse_BattleChat	0x02db	2,4
+0x02f1	2	cz	clif_parse_progressbar	0x02f1	0
+0x035f	5	cz	clif_parse_WalkToXY	0x035F	2
+0x0360	6	cz	clif_parse_TickSend	0x0360	2
+0x0361	5	cz	clif_parse_ChangeDir	0x0361	2,4
+0x0362	6	cz	clif_parse_TakeItem	0x0362	2
+0x0363	6	cz	clif_parse_DropItem	0x0363	2,4
+0x0364	8	cz	clif_parse_MoveToKafra	0x0364	2,4
+0x0365	8	cz	clif_parse_MoveFromKafra	0x0365	2,4
+0x0366	10	cz	clif_parse_UseSkillToPos	0x0366	2,4,6,8
+0x0367	31	cz	clif_parse_UseSkillToPosMoreInfo	0x0367	2,4,6,8,10
+0x0368	6	cz	clif_parse_GetCharNameRequest	0x0368	2
+0x0369	6	cz	clif_parse_SolveCharName	0x0369	2
+0x0436	23	cz	clif_parse_WantToConnection	0x0436	2,6,10,14,22
+0x0437	7	cz	clif_parse_ActionRequest	0x0437	2,6
+0x0438	10	cz	clif_parse_UseSkillToId	0x0438	2,4,6
+0x0439	8	cz	clif_parse_UseItem	0x0439	2,4
+0x0443	8	cz	clif_parse_SkillSelectMenu	HEADER_CZ_SKILL_SELECT_RESPONSE	0
+0x0447	2	cz	clif_parse_blocking_playcancel	0x0447	0
+0x044a	6	cz	clif_parse_client_version	0x044A	2
+0x07d7	8	cz	clif_parse_PartyChangeOption	0x07d7	2,6,7
+0x07da	6	cz	clif_parse_PartyChangeLeader	0x07da	2
+0x07e4	-1	cz	clif_parse_ItemListWindowSelected	0x07E4	2,4,8,12
+0x07ec	8	cz	clif_parse_MoveToKafra	0x07EC older	2,4
+0x07f5	6	cz	clif_parse_GMFullStrip	0x07f5	2
+0x0801	-1	cz	clif_parse_PurchaseReq2	HEADER_CZ_PC_PURCHASE_ITEMLIST_FROMMC2	0
+0x0802	18	cz	clif_parse_PartyBookingRegisterReq	0x0802	2,4
+0x0804	14	cz	clif_parse_PartyBookingSearchReq	0x0804 older	2,4,6,8,12
+0x0806	2	cz	clif_parse_PartyBookingDeleteReq	0x0806 older	0
+0x0808	14	cz	clif_parse_PartyBookingUpdateReq	0x0808 older	2
+0x0811	-1	cz	clif_parse_ReqOpenBuyingStore	0x0811	2,4,8,9,89
+0x0815	2	cz	clif_parse_ReqCloseBuyingStore	0x0815	0
+0x0817	6	cz	clif_parse_ReqClickBuyingStore	0x0817	2
+0x0819	-1	cz	clif_parse_ReqTradeBuyingStore	0x0819	2,4,8,12
+0x0835	-1	cz	clif_parse_SearchStoreInfo	0x0835	2,4,5,9,13,14,15
+0x0838	2	cz	clif_parse_SearchStoreInfoNextPage	0x0838	0
+0x083b	2	cz	clif_parse_CloseSearchStoreInfo	0x083B	0
+0x083c	14	cz	clif_parse_SearchStoreInfoListItemClick	0x083C	0
+0x0842	6	cz	clif_parse_GMRecall2	0x0842	2
+0x0843	6	cz	clif_parse_GMRemove2	0x0843	2
+0x0844	2	cz	clif_parse_cashshop_open_request	0x0844 older	0
+0x0846	4	cz	clif_parse_CashShopReqTab	HEADER_CZ_REQ_SE_CASH_TAB_CODE	0
+0x0848	-1	cz	clif_parse_cashshop_buy	HEADER_CZ_SE_PC_BUY_CASHITEM_LIST	0
+0x084a	2	cz	clif_parse_cashshop_close	0x084a	0
+0x085a	90	cz	clif_parse_UseSkillToPosMoreInfo	0x085a older	2,4,6,8,10
+0x085d	18	cz	clif_parse_PartyBookingRegisterReq	0x085d older	2,4,6
+0x0861	8	cz	clif_parse_MoveFromKafra	0x0861 older	2,4
+0x0862	10	cz	clif_parse_UseSkillToId	0x0862 older	2,4,6
+0x0863	10	cz	clif_parse_UseSkillToPos	0x0863 older	2,4,6,8
+0x0865	6	cz	clif_parse_TakeItem	0x0865 older	2
+0x0868	-1	cz	clif_parse_ItemListWindowSelected	0x0868 older	2,4,8,12
+0x086a	19	cz	clif_parse_WantToConnection	0x086A older	2,6,10,14,18
+0x086c	8	cz	clif_parse_MoveToKafra	0x086c older	2,4
+0x086d	26	cz	clif_parse_PartyInvite2	0x086d older	2
+0x086f	26	cz	clif_parse_FriendsListAdd	0x086f older	2
+0x0870	-1	cz	clif_parse_ItemListWindowSelected	0x0870 older	2,4,8,12
+0x0871	5	cz	clif_parse_ChangeDir	0x0871 older	2,4
+0x0874	8	cz	clif_parse_MoveFromKafra	0x0874 older	2,4
+0x0879	41	cz	clif_parse_PartyBookingRegisterReq	0x0879 older	2,4,6
+0x0881	5	cz	clif_parse_WalkToXY	0x0881 older	2
+0x0884	6	cz	clif_parse_SolveCharName	0x0884 older	2
+0x0885	5	cz	clif_parse_HomMenu	0x0885 older	2,4
+0x0886	2	cz	clif_parse_ReqCloseBuyingStore	0x0886 older	0
+0x0887	6	cz	clif_parse_TickSend	0x0887 older	2
+0x0888	19	cz	clif_parse_WantToConnection	0x0888 older	2,6,10,14,18
+0x0889	90	cz	clif_parse_UseSkillToPosMoreInfo	0x0889 older	2,4,6,8,10
+0x088a	6	cz	clif_parse_GetCharNameRequest	0x088a older	2
+0x088b	2	cz	clif_parse_SearchStoreInfoNextPage	0x088b older	0
+0x088d	26	cz	clif_parse_PartyInvite2	0x088d older	2
+0x088e	7	cz	clif_parse_ActionRequest	0x088e older	2,6
+0x0890	5	cz	clif_parse_ChangeDir	0x0890 older	2,4
+0x0891	6	cz	clif_parse_DropItem	0x0891 older	2,4
+0x0893	8	cz	clif_parse_MoveToKafra	0x0893 older	2,4
+0x0897	5	cz	clif_parse_ChangeDir	0x0897 older	2,4
+0x0898	6	cz	clif_parse_GetCharNameRequest	0x0898 older	2
+0x089b	10	cz	clif_parse_UseSkillToId	0x089b older	2,4,6
+0x089c	26	cz	clif_parse_FriendsListAdd	0x089c older	2
+0x089e	6	cz	clif_parse_DropItem	0x089e older	2,4
+0x089f	6	cz	clif_parse_TakeItem	0x089f older	2
+0x08a0	8	cz	clif_parse_MoveToKafra	0x08a0 older	2,4
+0x08a1	6	cz	clif_parse_ReqClickBuyingStore	0x08a1 older	2
+0x08a2	14	cz	clif_parse_SearchStoreInfoListItemClick	0x08a2 older	0
+0x08a5	18	cz	clif_parse_PartyBookingRegisterReq	0x08a5 older	2,4,6
+0x08a6	8	cz	clif_parse_MoveFromKafra	0x08a6 older	2,4
+0x08a8	36	cz	clif_parse_StoragePassword	0x08A8 older	2,4,20
+0x08aa	7	cz	clif_parse_ActionRequest	0x08aa older	2,6
+0x08ab	-1	cz	clif_parse_SearchStoreInfo	0x08ab older	2,4,5,9,13,14,15
+0x08ac	8	cz	clif_parse_MoveToKafra	0x08ac older	2,4
+0x08ad	90	cz	clif_parse_UseSkillToPosMoreInfo	0x08ad older	2,4,6,8,10
+0x08c9	2	cz	clif_parse_cashshop_list_request	0x08c9	0
+0x08d7	28	cz	clif_parse_bg_queue_apply_request	0x08D7	2,4
+0x08da	26	cz	clif_parse_bg_queue_cancel_request	0x08DA	2
+0x08dd	27	cz	clif_parse_dull	0x08DD older	2,3
+0x08e0	51	cz	clif_parse_bg_queue_lobby_reply	0x08E0	2,3,27
+0x08e5	41	cz	clif_parse_PartyBookingRegisterReq	0x08E5 older	2,4,6
+0x08e7	10	cz	clif_parse_PartyBookingSearchReq	0x08e7	2,4,6,8,12
+0x08e9	2	cz	clif_parse_PartyBookingDeleteReq	0x08e9	0
+0x08eb	39	cz	clif_parse_PartyBookingUpdateReq	0x08eb	2
+0x0907	5	cz	clif_parse_MoveItem	HEADER_CZ_INVENTORY_TAB	0
+0x090a	26	cz	clif_parse_bg_queue_request_queue_number	0x090A	2
+0x0916	26	cz	clif_parse_GuildInvite2	HEADER_CZ_REQ_JOIN_GUILD2	0
+0x091c	26	cz	clif_parse_PartyInvite2	0x091c older	2
+0x091d	41	cz	clif_parse_PartyBookingRegisterReq	0x091d older	2,4,6
+0x0922	-1	cz	clif_parse_ReqTradeBuyingStore	0x0922 older	2,4,8,12
+0x0929	26	cz	clif_parse_PartyInvite2	0x0929 older	2
+0x0933	6	cz	clif_parse_TakeItem	0x0933 older	2
+0x0938	-1	cz	clif_parse_ReqOpenBuyingStore	0x0938 older	2,4,8,9,89
+0x093b	8	cz	clif_parse_MoveToKafra	0x093B older	2,4
+0x093f	5	cz	clif_parse_HomMenu	0x093f older	2,4
+0x0945	-1	cz	clif_parse_ItemListWindowSelected	0x0945 older	2,4,8,12
+0x0947	36	cz	clif_parse_StoragePassword	0x0947 older	2,4,20
+0x094a	6	cz	clif_parse_GetCharNameRequest	0x094a older	2
+0x094b	19	cz	clif_parse_WantToConnection	0x094b older	2,6,10,14,18
+0x094c	6	cz	clif_parse_SolveCharName	0x094c older	2
+0x094e	-1	cz	clif_parse_SearchStoreInfo	0x094e older	2,4,5,9,13,14,15
+0x0953	5	cz	clif_parse_WalkToXY	0x0953 older	2
+0x0959	10	cz	clif_parse_UseSkillToPos	0x0959 older	2,4,6,8
+0x0960	5	cz	clif_parse_ChangeDir	0x0960 older	2,4
+0x0961	36	cz	clif_parse_StoragePassword	0x0961 older	2,4,20
+0x0963	8	cz	clif_parse_MoveFromKafra	0x0963 older	2,4
+0x096a	6	cz	clif_parse_GetCharNameRequest	0x096A older	2
+0x096e	-1	cz	clif_parse_merge_item_req	HEADER_CZ_REQ_MERGE_ITEM	0
+0x0974	2	cz	clif_parse_merge_item_cancel	0x0974	0
+0x0978	6	cz	clif_parse_reqworldinfo	0x0978	2
+0x097c	4	cz	clif_parse_ranklist	HEADER_CZ_REQ_RANKING	0
+0x0980	7	cz	clif_parse_SelectCart	0x0980	2,6
+0x098d	-1	cz	clif_parse_clan_chat	0x098D	2,4
+0x0998	8	cz	clif_parse_EquipItem	HEADER_CZ_REQ_WEAR_EQUIP	0
+0x09a7	10	cz	clif_parse_BankDeposit	HEADER_CZ_REQ_BANKING_DEPOSIT	0
+0x09a9	10	cz	clif_parse_BankWithdraw	HEADER_CZ_REQ_BANKING_WITHDRAW	0
+0x09ab	6	cz	clif_parse_BankCheck	HEADER_CZ_REQ_BANKING_CHECK	0
+0x09ac	-1	cz	clif_parse_sale_search	HEADER_CZ_REQ_CASH_BARGAIN_SALE_ITEM_INFO	0
+0x09ae	20	cz	clif_parse_sale_add	HEADER_CZ_REQ_APPLY_BARGAIN_SALE_ITEM older	0
+0x09b0	10	cz	clif_parse_sale_remove	HEADER_CZ_REQ_REMOVE_BARGAIN_SALE_ITEM	0
+0x09b4	6	cz	clif_parse_sale_open	0x09B4	2
+0x09b6	6	cz	clif_parse_BankOpen	HEADER_CZ_REQ_OPEN_BANKING	0
+0x09b8	6	cz	clif_parse_BankClose	HEADER_CZ_REQ_CLOSE_BANKING	0
+0x09bc	6	cz	clif_parse_sale_close	0x09BC	2
+0x09c3	8	cz	clif_parse_sale_refresh	0x09C3	2,6
+0x09ce	102	cz	clif_parse_GM_Item_Monster	0x09CE	2
+0x09d4	2	cz	clif_parse_NPCShopClosed	0x09D4	0
+0x09d6	-1	cz	clif_parse_NPCMarketPurchase	HEADER_CZ_NPC_MARKET_PURCHASE	0
+0x09d8	2	cz	clif_parse_NPCMarketClosed	0x09D8	0
+0x09e8	11	cz	clif_parse_Mail_refreshinbox	0x09E8 older	2,3
+0x09e9	2	cz	clif_parse_dull	0x09E9 older	0
+0x09ea	11	cz	clif_parse_Mail_read	0x09EA	2,3
+0x09ec	-1	cz	clif_parse_Mail_send	0x09EC older	2,4,28,52,60,62,64
+0x09ee	11	cz	clif_parse_Mail_refreshinbox	0x09EE older	2,3
+0x09ef	11	cz	clif_parse_Mail_refreshinbox	0x09EF older	2,3
+0x09f1	11	cz	clif_parse_Mail_getattach	0x09F1 older	0
+0x09f3	11	cz	clif_parse_Mail_getattach	0x09F3	0
+0x09f5	11	cz	clif_parse_Mail_delete	0x09F5	0
+0x09fb	-1	cz	clif_parse_pet_evolution	0x9FB	2,4
+0x0a01	3	cz	clif_parse_HotkeyRowShift	0x0A01 older	2
+0x0a03	2	cz	clif_parse_Mail_cancelwrite	0x0A03	0
+0x0a04	6	cz	clif_parse_Mail_setattach	0x0A04	2,4
+0x0a06	6	cz	clif_parse_Mail_winopen	0x0A06	2,4
+0x0a08	26	cz	clif_parse_Mail_beginwrite	0x0A08	0
+0x0a13	26	cz	clif_parse_Mail_Receiver_Check	0x0A13 older	2
+0x0a19	2	cz	clif_parse_roulette_open	0x0A19	0
+0x0a1b	2	cz	clif_parse_roulette_info	0x0A1B	0
+0x0a1d	2	cz	clif_parse_roulette_close	0x0A1D	0
+0x0a1f	2	cz	clif_parse_roulette_generate	0x0A1F	0
+0x0a21	3	cz	clif_parse_roulette_item	0x0A21	2
+0x0a25	6	cz	clif_parse_AchievementCheckReward	0x0A25	0
+0x0a2e	6	cz	clif_parse_change_title	0x0A2E	0
+0x0a35	4	cz	clif_parse_Oneclick_Itemidentify	0x0A35	2
+0x0a3d	20	cz	clif_parse_sale_add	HEADER_CZ_REQ_APPLY_BARGAIN_SALE_ITEM2	0
+0x0a46	14	cz	clif_parse_stylist_buy	HEADER_CZ_REQ_STYLE_CHANGE older	0
+0x0a48	2	cz	clif_parse_stylist_close	HEADER_CZ_REQ_STYLE_CLOSE	0
+0x0a49	22	cz	clif_parse_private_airship_request	0x0A49	0
+0x0a4f	-1	cz	clif_parse_laphine_synthesis	HEADER_CZ_REQ_RANDOM_COMBINE_ITEM	0
+0x0a52	20	cz	clif_parse_captcha_register	HEADER_CZ_REQ_UPLOAD_MACRO_DETECTOR	0
+0x0a54	-1	cz	clif_parse_captcha_upload	HEADER_CZ_UPLOAD_MACRO_DETECTOR_CAPTCHA	0
+0x0a56	6	cz	clif_parse_macro_reporter_ack	HEADER_CZ_REQ_APPLY_MACRO_DETECTOR	0
+0x0a5a	2	cz	clif_parse_macro_detector_download_ack	HEADER_CZ_COMPLETE_APPLY_MACRO_DETECTOR_CAPTCHA	0
+0x0a5c	18	cz	clif_parse_macro_detector_answer	HEADER_CZ_ACK_ANSWER_MACRO_DETECTOR	0
+0x0a68	3	cz	clif_parse_open_ui	0x0A68	2
+0x0a69	6	cz	clif_parse_captcha_preview_request	HEADER_CZ_REQ_PREVIEW_MACRO_DETECTOR	0
+0x0a6c	7	cz	clif_parse_macro_reporter_select	HEADER_CZ_REQ_PLAYER_AID_IN_RANGE	0
+0x0a6e	-1	cz	clif_parse_Mail_send	0x0A6E	2,4,28,52,60,62,64,68
+0x0a70	2	cz	clif_parse_laphine_synthesis_close	HEADER_CZ_RANDOM_COMBINE_ITEM_UI_CLOSE	0
+0x0a77	15	cz	clif_parse_camerainfo	0x0A77	0
+0x0a88	2	cz	clif_parse_gm_resetcooltime	HEADER_CZ_CMD_RESETCOOLTIME	0
+0x0a97	8	cz	clif_parse_equipswitch_add	0x0A97	2,4
+0x0a99	4	cz	clif_parse_equipswitch_remove	0x0A99	2,4
+0x0a9c	2	cz	clif_parse_equipswitch_request	0x0A9C	0
+0x0aa1	4	cz	clif_parse_refineui_add	HEADER_CZ_REFINING_SELECT_ITEM	0
+0x0aa3	9	cz	clif_parse_refineui_refine	HEADER_CZ_REQ_REFINING	0
+0x0aa4	2	cz	clif_parse_refineui_close	HEADER_CZ_CLOSE_REFINING_UI	0
+0x0ab5	2	cz	clif_parse_laphine_upgrade_close	HEADER_CZ_RANDOM_UPGRADE_ITEM_UI_CLOSE	0
+0x0ab6	8	cz	clif_parse_laphine_upgrade	HEADER_CZ_REQ_RANDOM_UPGRADE_ITEM	0
+0x0ac0	26	cz	clif_parse_Mail_refreshinbox	0x0AC0 older	2,10
+0x0ac1	26	cz	clif_parse_Mail_refreshinbox	0x0AC1	2,10
+0x0ace	4	cz	clif_parse_equipswitch_request_single	0x0ACE	0
+0x0ae6	10	cz	clif_parse_partybooking_join	HEADER_CZ_PARTY_REQ_MASTER_TO_JOIN	0
+0x0ae8	2	cz	clif_parse_changedress	0x0ae8	0
+0x0aef	2	cz	clif_parse_attendance_request	0x0AEF	0
+0x0af4	11	cz	clif_parse_UseSkillToPos	0x0AF4 older	2,4,6,8,10
+0x0af8	11	cz	clif_parse_partybooking_reply	HEADER_CZ_PARTY_REQ_ACK_MASTER_TO_JOIN	0
+0x0afc	16	cz	clif_parse_stylist_buy	HEADER_CZ_REQ_STYLE_CHANGE2	0
+0x0b0f	-1	cz	clif_parse_barter_buy	HEADER_CZ_NPC_BARTER_MARKET_PURCHASE	0
+0x0b10	10	cz	clif_parse_StartUseSkillToId	HEADER_CZ_USE_SKILL_START	0
+0x0b11	4	cz	clif_parse_StopUseSkillToId	HEADER_CZ_USE_SKILL_END	0
+0x0b12	2	cz	clif_parse_barter_close	HEADER_CZ_NPC_BARTER_MARKET_CLOSE	0
+0x0b14	2	cz	clif_parse_inventory_expansion_request	HEADER_CZ_REQ_OPEN_MSGBOX_EXTEND_BODYITEM_SIZE	0
+0x0b16	2	cz	clif_parse_inventory_expansion_confirm	HEADER_CZ_REQ_EXTEND_BODYITEM_SIZE	0
+0x0b19	2	cz	clif_parse_inventory_expansion_reject	HEADER_CZ_CLOSE_MSGBOX_EXTEND_BODYITEM_SIZE	0
+0x0b1c	2	cz	clif_parse_dull	HEADER_CZ_PING_LIVE older	0
+0x0b21	13	cz	clif_parse_Hotkey	0x0B21	0
+0x0b22	5	cz	clif_parse_HotkeyRowShift	0x0B22	0
+0x0b24	6	cz	clif_parse_traitstatus_up	HEADER_CZ_ADVANCED_STATUS_CHANGE	0
+0x0b28	3	cz	clif_parse_guild_castle_teleport_request	HEADER_CZ_REQ_MOVE_GUILD_AGIT	0
+0x0b2c	3	cz	clif_parse_guild_castle_info_request	HEADER_CZ_REQ_AGIT_INVESTMENT	0
+0x0b35	3	cz	clif_parse_RemoveOption	HEADER_CZ_UNINSTALLATION	0
+0x0b46	10	cz	clif_parse_GuildChangeEmblem2	HEADER_CZ_REQ_ADD_NEW_EMBLEM	0
+0x0b4c	2	cz	clif_parse_dull	0x0b4c older	0
+0x0b57	-1	cz	clif_parse_barter_extended_buy	HEADER_CZ_NPC_EXPANDED_BARTER_MARKET_PURCHASE	0
+0x0b58	2	cz	clif_parse_barter_extended_close	HEADER_CZ_NPC_EXPANDED_BARTER_MARKET_CLOSE	0
+0x0b59	4	cz	clif_parse_enchantgrade_add	HEADER_CZ_GRADE_ENCHANT_SELECT_EQUIPMENT	0
+0x0b5b	14	cz	clif_parse_enchantgrade_start	HEADER_CZ_GRADE_ENCHANT_REQUEST	0
+0x0b5c	2	cz	clif_parse_enchantgrade_close	HEADER_CZ_GRADE_ENCHANT_CLOSE_UI	0
+0x0b66	26	cz	clif_parse_RepairItem	HEADER_CZ_REQ_ITEMREPAIR2	0
+0x0b6d	6	cz	clif_parse_cashshop_open_request	HEADER_CZ_SE_CASHSHOP_OPEN2	0
+0x0b90	2	cz	clif_parse_item_reform_close	HEADER_CZ_CLOSE_REFORM_UI	0
+0x0b91	8	cz	clif_parse_item_reform_start	HEADER_CZ_ITEM_REFORM	0
+0x0b93	12	cz	clif_parse_dull	0xb93 older	0
+0x0b97	27	cz	clif_parse_Mail_Receiver_Check	HEADER_CZ_CHECKNAME2	0
+0x0b98	6	cz	clif_parse_Mail_return	HEADER_CZ_RODEX_RETURN	0
+0x0b9b	12	cz	clif_parse_enchantwindow_general	HEADER_CZ_REQUEST_RANDOM_ENCHANT	0
+0x0b9c	16	cz	clif_parse_enchantwindow_perfect	HEADER_CZ_REQUEST_PERFECT_ENCHANT	0
+0x0b9d	14	cz	clif_parse_enchantwindow_upgrade	HEADER_CZ_REQUEST_UPGRADE_ENCHANT	0
+0x0b9e	12	cz	clif_parse_enchantwindow_reset	HEADER_CZ_REQUEST_RESET_ENCHANT	0
+0x0ba0	2	cz	clif_parse_enchantwindow_close	HEADER_CZ_CLOSE_UI_ENCHANT	0
+0x0baf	16	cz	clif_parse_itempackage_select	HEADER_CZ_USE_PACKAGEITEM	0
+0x0bb0	9	cz	clif_parse_dull	HEADER_CZ_APPROXIMATE_ACTOR older	0
+0x0bb1	3	cz	clif_parse_reset_skill	HEADER_CZ_RESET_SKILL	0
+0x0bdd	-1	cz	clif_parse_dull	HEADER_CZ_ALLY_CHAT older	0
+0x0be2	137	cz	clif_parse_dull	HEADER_CZ_REQ_REPORT_USER	0
+0x0be9	6	cz	clif_parse_dull	HEADER_CZ_REQ_EMOTION_EXPANSION older	0
+0x0bf3	-1	cz	clif_parse_dull	HEADER_CZ_QUEST_STATUS_REQ older	0
+0x0bf5	6	cz	clif_parse_unequipall	HEADER_CZ_REQ_TAKEOFF_EQUIP_ALL	0
+0x0c0b	18	cz	clif_parse_macro_checker	HEADER_CZ_GM_CHECKER	0
+0x0c22	12	cz	clif_parse_MoveFromKafraFav	HEADER_CZ_MOVE_ITEM_TO_PERSONAL	0
+0x0064	55	cz	CA_LOGIN	hdr	
+0x0065	17	cz	chclif_parse_reqtoconnect	hdr	
+0x0066	3	cz	CH_SELECT_CHAR	hdr	
+0x0187	6	cz	PING	hdr	
+0x01db	2	cz	CA_REQ_HASH	hdr	
+0x01dd	47	cz	CA_LOGIN2	hdr	
+0x01fa	48	cz	CA_LOGIN3	hdr	
+0x01fb	56	cz	CH_DELETE_CHAR	hdr	
+0x0200	26	cz	CA_CONNECT_INFO_CHANGED	hdr	
+0x0204	18	cz	CA_EXE_HASHCHECK	hdr	
+0x0277	84	cz	CA_LOGIN_PCBANG	hdr	
+0x027c	60	cz	CA_LOGIN4	hdr	
+0x028d	34	cz	CH_REQ_IS_VALID_CHARNAME	hdr	
+0x02b0	85	cz	CA_LOGIN_CHANNEL	hdr	
+0x0825	-1	cz	CA_SSO_LOGIN_REQ	hdr	
+0x0827	6	cz	CH_DELETE_CHAR3_RESERVED	hdr	
+0x0829	12	cz	CH_DELETE_CHAR3	hdr	
+0x082b	6	cz	CH_DELETE_CHAR3_CANCEL	hdr	
+0x0841	4	cz	CH_SELECT_ACCESSIBLE_MAPNAME	hdr	
+0x08b8	10	cz	CH_SECOND_PASSWD_ACK	hdr	
+0x08ba	10	cz	CH_MAKE_SECOND_PASSWD	hdr	
+0x08be	14	cz	CH_EDIT_SECOND_PASSWD	hdr	
+0x08c5	6	cz	CH_AVAILABLE_SECOND_PASSWD	hdr	
+0x08d4	8	cz	CH_REQ_CHANGE_CHARACTER_SLOT	hdr	
+0x08fc	30	cz	CH_REQ_CHANGE_CHARNAME	hdr	
+0x09a1	2	cz	CH_CHARLIST_REQ	hdr	
+0x0a39	36	cz	CH_MAKE_CHAR	hdr	
+0x0acf	68	cz	CT_AUTH	hdr	

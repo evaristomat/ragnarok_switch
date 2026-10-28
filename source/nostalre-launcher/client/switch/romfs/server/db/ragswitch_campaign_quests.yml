@@ -1,0 +1,166 @@
+Header:
+  Type: QUEST_DB
+  Version: 3
+Body:
+  - Id: 900000
+    Title: "O primeiro passo"
+  - Id: 900001
+    Title: "Um lugar para aprender"
+  - Id: 900002
+    Title: "Preparação para o campo"
+  - Id: 900003
+    Title: "A primeira batalha"
+    Targets:
+      - Mob: PORING
+        Count: 3
+  - Id: 900004
+    Title: "Escolha seu caminho"
+  - Id: 900005
+    Title: "Estradas de Prontera"
+    Targets:
+      - Mob: PORING
+        Count: 8
+  - Id: 900006
+    Title: "Os vigias de Payon"
+  - Id: 900007
+    Title: "Quem não descansa"
+    Targets:
+      - Mob: ZOMBIE
+        Count: 8
+  - Id: 900008
+    Title: "Relatos de Geffen"
+  - Id: 900009
+    Title: "As trilhas de Geffen"
+    Targets:
+      - Mob: POPORING
+        Count: 8
+  - Id: 900010
+    Title: "Notícias do porto"
+  - Id: 900011
+    Title: "Pequenas evidências"
+  - Id: 900012
+    Title: "A história de Comodo"
+  - Id: 900013
+    Title: "Uma guarda para o continente"
+  - Id: 900014
+    Title: "À sombra de Yggdrasil"
+  - Id: 900015
+    Title: "Um sinal entre mundos"
+  - Id: 900016
+    Title: "As vozes de Niflheim"
+    Targets:
+      - Mob: DISGUISE
+        Count: 8
+  - Id: 900017
+    Title: "O que levamos de volta"
+  - Id: 900018
+    Title: "Do outro lado dos muros"
+  - Id: 900019
+    Title: "Vidas tratadas como números"
+    Targets:
+      - Mob: REMOVAL
+        Count: 6
+  - Id: 900020
+    Title: "A aluna e as máquinas"
+  - Id: 900021
+    Title: "Engrenagens sem descanso"
+    Targets:
+      - Mob: CONSTANT
+        Count: 6
+  - Id: 900022
+    Title: "O preço de criar vida"
+  - Id: 900023
+    Title: "As portas de Rachel"
+  - Id: 900024
+    Title: "O testemunho de Veins"
+  - Id: 900025
+    Title: "Travessia para o silêncio"
+  - Id: 900026
+    Title: "O que restou da ilha"
+    Targets:
+      - Mob: ZOMBIE_SLAUGHTER
+        Count: 8
+  - Id: 900027
+    Title: "Um relato que não se cala"
+  - Id: 900028
+    Title: "A convocação de Morocc"
+  - Id: 900029
+    Title: "Diante da fenda"
+  - Id: 900030
+    Title: "Satan Morocc"
+    Targets:
+      - Mob: MOROCC
+        Count: 1
+  - Id: 900031
+    Title: "Uma cidade que permanece"
+  - Id: 900032
+    Title: "O mundo depois do fim"
+  - Id: 900999
+    Title: "Ecos de Rune-Midgard - Campanha concluída"
+
+  - Id: 900500
+    Title: "O primeiro passo - Concluída"
+  - Id: 900501
+    Title: "Um lugar para aprender - Concluída"
+  - Id: 900502
+    Title: "Preparação para o campo - Concluída"
+  - Id: 900503
+    Title: "A primeira batalha - Concluída"
+  - Id: 900504
+    Title: "Escolha seu caminho - Concluída"
+  - Id: 900505
+    Title: "Estradas de Prontera - Concluída"
+  - Id: 900506
+    Title: "Os vigias de Payon - Concluída"
+  - Id: 900507
+    Title: "Quem não descansa - Concluída"
+  - Id: 900508
+    Title: "Relatos de Geffen - Concluída"
+  - Id: 900509
+    Title: "As trilhas de Geffen - Concluída"
+  - Id: 900510
+    Title: "Notícias do porto - Concluída"
+  - Id: 900511
+    Title: "Pequenas evidências - Concluída"
+  - Id: 900512
+    Title: "A história de Comodo - Concluída"
+  - Id: 900513
+    Title: "Uma guarda para o continente - Concluída"
+  - Id: 900514
+    Title: "À sombra de Yggdrasil - Concluída"
+  - Id: 900515
+    Title: "Um sinal entre mundos - Concluída"
+  - Id: 900516
+    Title: "As vozes de Niflheim - Concluída"
+  - Id: 900517
+    Title: "O que levamos de volta - Concluída"
+  - Id: 900518
+    Title: "Do outro lado dos muros - Concluída"
+  - Id: 900519
+    Title: "Vidas tratadas como números - Concluída"
+  - Id: 900520
+    Title: "A aluna e as máquinas - Concluída"
+  - Id: 900521
+    Title: "Engrenagens sem descanso - Concluída"
+  - Id: 900522
+    Title: "O preço de criar vida - Concluída"
+  - Id: 900523
+    Title: "As portas de Rachel - Concluída"
+  - Id: 900524
+    Title: "O testemunho de Veins - Concluída"
+  - Id: 900525
+    Title: "Travessia para o silêncio - Concluída"
+  - Id: 900526
+    Title: "O que restou da ilha - Concluída"
+  - Id: 900527
+    Title: "Um relato que não se cala - Concluída"
+  - Id: 900528
+    Title: "A convocação de Morocc - Concluída"
+  - Id: 900529
+    Title: "Diante da fenda - Concluída"
+  - Id: 900530
+    Title: "Satan Morocc - Concluída"
+  - Id: 900531
+    Title: "Uma cidade que permanece - Concluída"
+  - Id: 900532
+    Title: "O mundo depois do fim - Concluída"

@@ -1,0 +1,602 @@
+use std::collections::HashMap;
+
+use nostalre_effects::{EffectDrawList, EffectPrimitiveDraw};
+use nostalre_formats::act::ActFile;
+use nostalre_formats::grf::GrfArchive;
+use nostalre_formats::spr::SprFile;
+
+use crate::camera::Camera;
+use crate::effect::queue::{BlendBucket, DrawRecord, PipelineKind, view_z};
+use crate::mesh_batch::QUAD_INDICES;
+use crate::sprite::{
+    SpriteBatch, SpriteTextures, build_clip_quad, rotate_sprite_vertices, scale_clip_vertices,
+    upload_sprite_textures_filtered,
+};
+
+pub struct EffectSpriteEntry {
+    pub textures: SpriteTextures,
+    pub act: ActFile,
+}
+
+/// Effect sprite frames are uploaded with 4 bits of alpha.
+fn quantize_alpha(images: &mut [nostalre_formats::spr::RgbaImageData]) {
+    for img in images {
+        for px in img.data.chunks_exact_mut(4) {
+            let q = px[3] >> 4;
+            px[3] = (q << 4) | q;
+        }
+    }
+}
+
+pub struct EffectSpriteCache {
+    entries: HashMap<String, EffectSpriteEntry>,
+    filtering: bool,
+}
+
+impl Default for EffectSpriteCache {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl EffectSpriteCache {
+    pub fn new() -> Self {
+        Self {
+            entries: HashMap::new(),
+            filtering: true,
+        }
+    }
+
+    pub fn set_filtering(&mut self, on: bool) {
+        self.filtering = on;
+    }
+
+    /// Re-uploads every loaded sprite, so a filter change reaches the textures
+    /// a map already put in the cache.
+    pub fn reload(
+        &mut self,
+        grf: &GrfArchive,
+        device: &wgpu::Device,
+        queue: &wgpu::Queue,
+        layout: &wgpu::BindGroupLayout,
+    ) {
+        let paths: Vec<String> = self.entries.keys().cloned().collect();
+        self.entries.clear();
+        for path in &paths {
+            self.load(path, grf, device, queue, layout);
+        }
+    }
+
+    pub fn load(
+        &mut self,
+        path: &str,
+        grf: &GrfArchive,
+        device: &wgpu::Device,
+        queue: &wgpu::Queue,
+        layout: &wgpu::BindGroupLayout,
+    ) -> bool {
+        if self.entries.contains_key(path) {
+            return true;
+        }
+        let prepared = Self::prepare(path, grf, device, queue, layout, self.filtering);
+        self.install_prepared(path, prepared)
+    }
+
+    /// Reads, decodes and uploads one asset. Device resources may be prepared on
+    /// a worker; publishing the finished entry needs no archive or GPU work.
+    pub fn prepare(
+        path: &str,
+        grf: &GrfArchive,
+        device: &wgpu::Device,
+        queue: &wgpu::Queue,
+        layout: &wgpu::BindGroupLayout,
+        filtering: bool,
+    ) -> Option<EffectSpriteEntry> {
+        let spr_path = format!("{path}.spr");
+        let act_path = format!("{path}.act");
+
+        let spr_bytes = match grf.read_file(&spr_path) {
+            Ok(d) => d,
+            Err(e) => {
+                tracing::warn!("Effect SPR missing: {spr_path} ({e})");
+                return None;
+            }
+        };
+        let spr = match SprFile::parse(&spr_bytes) {
+            Ok(s) => s,
+            Err(e) => {
+                tracing::warn!("Effect SPR parse failed: {spr_path} ({e})");
+                return None;
+            }
+        };
+        let act_bytes = match grf.read_file(&act_path) {
+            Ok(d) => d,
+            Err(e) => {
+                tracing::warn!("Effect ACT missing: {act_path} ({e})");
+                return None;
+            }
+        };
+        let act = match ActFile::parse(&act_bytes) {
+            Ok(a) => a,
+            Err(e) => {
+                tracing::warn!("Effect ACT parse failed: {act_path} ({e})");
+                return None;
+            }
+        };
+
+        let (mut images, indexed_count) = spr.to_rgba_images();
+        quantize_alpha(&mut images);
+        let filter = if filtering {
+            wgpu::FilterMode::Linear
+        } else {
+            wgpu::FilterMode::Nearest
+        };
+        let textures =
+            upload_sprite_textures_filtered(&images, indexed_count, device, queue, layout, filter);
+        Some(EffectSpriteEntry { textures, act })
+    }
+
+    pub fn install_prepared(&mut self, path: &str, prepared: Option<EffectSpriteEntry>) -> bool {
+        if self.entries.contains_key(path) {
+            return true;
+        }
+        let Some(entry) = prepared else {
+            return false;
+        };
+        self.entries.entry(path.to_string()).or_insert(entry);
+        true
+    }
+
+    pub fn get(&self, path: &str) -> Option<&EffectSpriteEntry> {
+        self.entries.get(path)
+    }
+}
+
+pub struct EmitterDraw<'a> {
+    pub sprite: &'a EffectSpriteEntry,
+    pub screen_anchor: [f32; 2],
+    pub depth: f32,
+    pub depth_gradient: [f32; 2],
+    pub no_depth: bool,
+    pub clip_offset: [i32; 2],
+    pub sprite_scale: f32,
+    pub motion_index: usize,
+    pub action_index: usize,
+    pub color: [f32; 4],
+    pub additive: bool,
+}
+
+pub fn build_emitter_batches<'a>(draws: &[EmitterDraw<'a>]) -> Vec<SpriteBatch<'a>> {
+    let mut batches = Vec::new();
+    for draw in draws {
+        if draw.sprite.act.actions.is_empty() {
+            continue;
+        }
+        let action = &draw.sprite.act.actions[draw.action_index % draw.sprite.act.actions.len()];
+        if action.motions.is_empty() {
+            continue;
+        }
+        let motion = &action.motions[draw.motion_index % action.motions.len()];
+        for clip in &motion.clips {
+            let Some((mut vertices, tex_idx)) = build_clip_quad(
+                clip,
+                &draw.sprite.textures,
+                draw.screen_anchor,
+                draw.depth,
+                [draw.clip_offset[0] as f32, draw.clip_offset[1] as f32],
+            ) else {
+                continue;
+            };
+            if tex_idx >= draw.sprite.textures.bind_groups.len() {
+                continue;
+            }
+            scale_clip_vertices(
+                &mut vertices,
+                draw.screen_anchor,
+                draw.sprite_scale,
+                draw.depth_gradient,
+            );
+            for v in &mut vertices {
+                v.color[0] *= draw.color[0];
+                v.color[1] *= draw.color[1];
+                v.color[2] *= draw.color[2];
+                v.color[3] *= draw.color[3];
+            }
+            batches.push(SpriteBatch {
+                vertices: vertices.into(),
+                indices: QUAD_INDICES,
+                texture: &draw.sprite.textures.bind_groups[tex_idx],
+                additive: draw.additive,
+                no_depth: draw.no_depth,
+                weapon_aura: false,
+            });
+        }
+    }
+    batches
+}
+
+pub fn prepare_sprite_particle_records<'cache>(
+    list: &EffectDrawList,
+    cache: &'cache EffectSpriteCache,
+    camera: &Camera,
+    screen_w: f32,
+    screen_h: f32,
+) -> Vec<DrawRecord<'cache>> {
+    let mut records: Vec<DrawRecord<'cache>> = Vec::new();
+    for (emission, prim) in list.primitives.iter().enumerate() {
+        let EffectPrimitiveDraw::SpriteParticle {
+            sprite_path,
+            position,
+            action_index,
+            motion_index,
+            size_scale,
+            color,
+            blend,
+            aim_target,
+            no_depth,
+        } = prim
+        else {
+            continue;
+        };
+        let Some(sprite) = cache.get(sprite_path) else {
+            continue;
+        };
+        let Some((anchor, depth, ppu)) = project_billboard(camera, *position, screen_w, screen_h)
+        else {
+            continue;
+        };
+        if sprite.act.actions.is_empty() {
+            continue;
+        }
+        let action = &sprite.act.actions[action_index % sprite.act.actions.len()];
+        let motion_count = action.motions.len();
+        if motion_count == 0 {
+            continue;
+        }
+        let motion = &action.motions[motion_index % motion_count];
+        let sprite_scale = (ppu / 7.5) * size_scale;
+        let view_depth = view_z(camera, *position);
+        let blend_bucket = match (BlendBucket::from_blend_kind(*blend), *no_depth) {
+            (BlendBucket::Alpha, true) => BlendBucket::AlphaNoDepth,
+            (BlendBucket::Additive, true) => BlendBucket::AdditiveNoDepth,
+            (bucket, _) => bucket,
+        };
+        for clip in &motion.clips {
+            let Some((mut vertices, tex_idx)) =
+                build_clip_quad(clip, &sprite.textures, anchor, depth, [0.0, 0.0])
+            else {
+                continue;
+            };
+            if tex_idx >= sprite.textures.bind_groups.len() {
+                continue;
+            }
+            scale_clip_vertices(&mut vertices, anchor, sprite_scale, [0.0, 0.0]);
+            if let Some(target) = aim_target {
+                if let Some((tx, ty)) =
+                    camera.world_to_screen(target[0], target[1], target[2], screen_w, screen_h)
+                {
+                    let dx = tx - anchor[0];
+                    let dy = ty - anchor[1];
+                    let angle = dy.atan2(dx) - std::f32::consts::FRAC_PI_2;
+                    rotate_sprite_vertices(&mut vertices, anchor, angle);
+                }
+            }
+            for v in &mut vertices {
+                v.color[0] *= color[0];
+                v.color[1] *= color[1];
+                v.color[2] *= color[2];
+                v.color[3] *= color[3];
+            }
+            records.push(DrawRecord::new(
+                view_depth,
+                emission as u32,
+                blend_bucket,
+                PipelineKind::Sprite,
+                vertices,
+                QUAD_INDICES,
+                &sprite.textures.bind_groups[tex_idx],
+            ));
+        }
+    }
+    records
+}
+
+pub fn project_billboard(
+    camera: &Camera,
+    world_pos: [f32; 3],
+    screen_w: f32,
+    screen_h: f32,
+) -> Option<([f32; 2], f32, f32)> {
+    let (sx, sy, ndc_z, _clip_w) = camera.world_to_screen_with_depth(
+        world_pos[0],
+        world_pos[1],
+        world_pos[2],
+        screen_w,
+        screen_h,
+    )?;
+    let ppu = camera.perspective_scale(world_pos[0], world_pos[1], world_pos[2], screen_h);
+    Some(([sx, sy], ndc_z, ppu))
+}
+
+/// World-space distance nudged toward the camera to avoid depth-precision flicker
+/// against coincident ground. Converted to NDC as `near * units / clip_w²` so
+/// the nudge is zoom-independent.
+pub const BILLBOARD_DEPTH_BIAS_UNITS: f32 = 1.0;
+
+pub fn project_billboard_biased(
+    camera: &Camera,
+    world_pos: [f32; 3],
+    screen_w: f32,
+    screen_h: f32,
+) -> Option<([f32; 2], f32, f32)> {
+    let (sx, sy, ndc_z, clip_w) = camera.world_to_screen_with_depth(
+        world_pos[0],
+        world_pos[1],
+        world_pos[2],
+        screen_w,
+        screen_h,
+    )?;
+    let ppu = camera.perspective_scale(world_pos[0], world_pos[1], world_pos[2], screen_h);
+    let ndc_z = ndc_z - camera.near * BILLBOARD_DEPTH_BIAS_UNITS / (clip_w * clip_w);
+    Some(([sx, sy], ndc_z, ppu))
+}
+
+/// Depth bias for entity sprites. Effect quads that must occlude against the body
+/// use the same value so comparison is purely front/back.
+pub const ENTITY_DEPTH_BIAS_UNITS: f32 = 4.0;
+
+pub fn project_billboard_depth_anchored(
+    camera: &Camera,
+    screen_pos: [f32; 3],
+    depth_pos: [f32; 3],
+    screen_w: f32,
+    screen_h: f32,
+) -> Option<([f32; 2], f32, f32, f32)> {
+    let (sx, sy, _ndc_z, _clip_w) = camera.world_to_screen_with_depth(
+        screen_pos[0],
+        screen_pos[1],
+        screen_pos[2],
+        screen_w,
+        screen_h,
+    )?;
+    let ppu = camera.perspective_scale(screen_pos[0], screen_pos[1], screen_pos[2], screen_h);
+    let (_, _, ndc_z, clip_w) = camera.world_to_screen_with_depth(
+        depth_pos[0],
+        depth_pos[1],
+        depth_pos[2],
+        screen_w,
+        screen_h,
+    )?;
+    let ndc_z = ndc_z - camera.near * ENTITY_DEPTH_BIAS_UNITS / (clip_w * clip_w);
+    Some(([sx, sy], ndc_z, ppu, view_z(camera, depth_pos)))
+}
+
+#[derive(Clone, Copy, Debug)]
+pub struct BurstParticle {
+    pub pos: [f32; 3],
+    pub age: f32,
+    pub lifetime: f32,
+    pub alpha_override: Option<f32>,
+}
+
+pub enum SpriteEffectEmitter<'a> {
+    Spr {
+        sprite_path: &'a str,
+        duration_ms: f32,
+        position: [f32; 3],
+        color: [f32; 4],
+        size_scale: f32,
+        anim_speed: f32,
+        repeat: bool,
+        anim_time: f32,
+        action_index: usize,
+        no_depth: bool,
+        clip_offset: [i32; 2],
+    },
+    ParticleBurst {
+        sprite_path: &'a str,
+        alpha_max: f32,
+        color: [f32; 4],
+        size_scale: f32,
+        anim_speed: f32,
+        size_shrink: bool,
+        twinkle: bool,
+        particles: Vec<BurstParticle>,
+    },
+}
+
+#[allow(clippy::too_many_arguments)]
+fn push_billboard_draw<'cache>(
+    sprite: &'cache EffectSpriteEntry,
+    camera: &Camera,
+    pos: [f32; 3],
+    motion_index: usize,
+    action_index: usize,
+    size: f32,
+    color: [f32; 4],
+    no_depth: bool,
+    clip_offset: [i32; 2],
+    screen_w: f32,
+    screen_h: f32,
+) -> Option<EmitterDraw<'cache>> {
+    let (anchor, depth, ppu, grad) =
+        crate::sprite_projection::project_effect_billboard(pos, camera, screen_w, screen_h)?;
+    Some(EmitterDraw {
+        sprite,
+        screen_anchor: anchor,
+        depth,
+        depth_gradient: grad,
+        no_depth,
+        clip_offset,
+        sprite_scale: (ppu / 7.5) * size,
+        motion_index,
+        action_index,
+        color,
+        additive: false,
+    })
+}
+
+pub fn collect_sprite_effect_draws<'cache>(
+    emitters: &[SpriteEffectEmitter<'_>],
+    cache: &'cache EffectSpriteCache,
+    camera: &Camera,
+    screen_w: f32,
+    screen_h: f32,
+) -> Vec<EmitterDraw<'cache>> {
+    let mut draws = Vec::new();
+    for emitter in emitters {
+        match emitter {
+            SpriteEffectEmitter::Spr {
+                sprite_path,
+                duration_ms: _,
+                position,
+                color,
+                size_scale,
+                anim_speed,
+                repeat,
+                anim_time,
+                action_index,
+                no_depth,
+                clip_offset,
+            } => {
+                let Some(sprite) = cache.get(sprite_path) else {
+                    continue;
+                };
+                if sprite.act.actions.is_empty() {
+                    continue;
+                }
+                let action = &sprite.act.actions[action_index % sprite.act.actions.len()];
+                let motion_count = action.motions.len();
+                if motion_count == 0 {
+                    continue;
+                }
+                const FRAME_MS_60FPS: f32 = 1000.0 / 60.0;
+                let frame_delay_ms = FRAME_MS_60FPS * anim_speed.max(1.0);
+                let raw_motion = ((anim_time * 1000.0) / frame_delay_ms) as usize;
+                let motion_index = if *repeat {
+                    raw_motion % motion_count
+                } else {
+                    raw_motion.min(motion_count - 1)
+                };
+                if let Some(draw) = push_billboard_draw(
+                    sprite,
+                    camera,
+                    *position,
+                    motion_index,
+                    *action_index,
+                    *size_scale,
+                    *color,
+                    *no_depth,
+                    *clip_offset,
+                    screen_w,
+                    screen_h,
+                ) {
+                    draws.push(draw);
+                }
+            }
+            SpriteEffectEmitter::ParticleBurst {
+                sprite_path,
+                alpha_max,
+                color,
+                size_scale,
+                anim_speed,
+                size_shrink,
+                twinkle,
+                particles,
+            } => {
+                let Some(sprite) = cache.get(sprite_path) else {
+                    continue;
+                };
+                let action = sprite.act.actions.first();
+                let motion_count = action.map(|a| a.motions.len()).unwrap_or(0);
+                if motion_count == 0 {
+                    continue;
+                }
+                let frames_per_sec = 60.0 / anim_speed.max(1.0);
+                for particle in particles {
+                    let BurstParticle {
+                        pos,
+                        age,
+                        lifetime,
+                        alpha_override,
+                    } = *particle;
+                    let t = (age / lifetime).clamp(0.0, 1.0);
+                    let alpha = match alpha_override {
+                        Some(a) => a,
+                        None => {
+                            let envelope = (1.0 - t) * alpha_max;
+                            if *twinkle {
+                                let phase = age * 2.5 * std::f32::consts::TAU;
+                                let pulse = 0.4 + 0.6 * phase.sin().powi(2);
+                                envelope * pulse
+                            } else {
+                                envelope
+                            }
+                        }
+                    };
+                    if alpha <= 0.01 {
+                        continue;
+                    }
+                    let per_particle_size = if *size_shrink {
+                        (1.0 - t).max(0.0)
+                    } else {
+                        1.0
+                    };
+                    let motion_index = (age * frames_per_sec) as usize % motion_count;
+                    if let Some(draw) = push_billboard_draw(
+                        sprite,
+                        camera,
+                        pos,
+                        motion_index,
+                        0,
+                        *size_scale * per_particle_size,
+                        [color[0], color[1], color[2], color[3] * alpha],
+                        false,
+                        [0, 0],
+                        screen_w,
+                        screen_h,
+                    ) {
+                        draws.push(draw);
+                    }
+                }
+            }
+        }
+    }
+    // Depth-tested first, then the ones that ignore depth, matching the order the
+    // original flushes its alpha and no-depth lists in.
+    draws.sort_by(|a, b| {
+        a.no_depth.cmp(&b.no_depth).then_with(|| {
+            b.depth
+                .partial_cmp(&a.depth)
+                .unwrap_or(std::cmp::Ordering::Equal)
+        })
+    });
+    draws
+}
+
+#[cfg(test)]
+mod quantize_alpha_tests {
+    use super::quantize_alpha;
+    use nostalre_formats::spr::RgbaImageData;
+
+    #[test]
+    fn alpha_below_one_sixteenth_drops_out_and_full_alpha_survives() {
+        let mut images = vec![RgbaImageData {
+            width: 4,
+            height: 1,
+            data: vec![
+                0, 0, 0, 15, // particle1's outer ring
+                0, 0, 0, 30, // its corners
+                255, 255, 155, 0, // transparent interior
+                255, 255, 155, 255, // opaque core
+            ],
+        }];
+
+        quantize_alpha(&mut images);
+
+        assert_eq!(images[0].data[3], 0);
+        assert_eq!(images[0].data[7], 17);
+        assert_eq!(images[0].data[11], 0);
+        assert_eq!(images[0].data[15], 255);
+    }
+}

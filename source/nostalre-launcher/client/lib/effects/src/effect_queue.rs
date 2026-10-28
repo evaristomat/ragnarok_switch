@@ -1,0 +1,690 @@
+use super::spec::Attach;
+use crate::effect_trait::EffectMessage;
+use crate::effects::body_aura::BodyAuraSpec;
+use models::enums::client_effect_icon::ClientEffectIcon;
+use models::enums::effect_id::EffectId;
+
+#[derive(Clone, Debug)]
+pub struct SpawnRequest {
+    pub effect_id: EffectId,
+    pub attach: Attach,
+    pub override_duration_ms: Option<u32>,
+    /// The longest the effect may live: it ends at its own length or here, whichever is first
+    pub cap_duration_ms: Option<u32>,
+    pub hit_count: Option<u8>,
+    pub target_size: Option<[f32; 2]>,
+    pub key: Option<u32>,
+    pub size_scale: Option<f32>,
+    /// What an `EffectId::BodyAura` draws (`custom.skill.body_effect`, the counters kRO draws)
+    pub body_aura: Option<BodyAuraSpec>,
+}
+
+impl SpawnRequest {
+    pub fn new(effect_id: EffectId, attach: Attach) -> Self {
+        Self {
+            effect_id,
+            attach,
+            override_duration_ms: None,
+            cap_duration_ms: None,
+            hit_count: None,
+            target_size: None,
+            key: None,
+            size_scale: None,
+            body_aura: None,
+        }
+    }
+}
+
+pub struct EffectQueue {
+    pub pending: Vec<SpawnRequest>,
+    pub despawns: Vec<u32>,
+    /// Messages for live keyed effects ([`crate::Effect::on_message`]), applied after this frame's spawns
+    messages: Vec<(u32, EffectMessage)>,
+    enabled: bool,
+}
+
+impl Default for EffectQueue {
+    fn default() -> Self {
+        Self {
+            pending: Vec::new(),
+            despawns: Vec::new(),
+            messages: Vec::new(),
+            enabled: true,
+        }
+    }
+}
+
+impl EffectQueue {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    /// The `/effect` toggle: when disabled, one-shot requests (no key) are
+    /// dropped while keyed requests (auras, status buffs, ailment overlays)
+    /// keep flowing so their key-map lifecycles never observe a lost spawn.
+    pub fn set_effects_enabled(&mut self, enabled: bool) {
+        self.enabled = enabled;
+    }
+
+    pub fn push(&mut self, request: SpawnRequest) {
+        if !self.enabled && request.key.is_none() {
+            return;
+        }
+        self.pending.push(request);
+    }
+
+    pub fn clear(&mut self) {
+        self.pending.clear();
+        self.despawns.clear();
+    }
+
+    pub fn spawn_at(&mut self, effect_id: EffectId, world_pos: [f32; 3]) {
+        self.push(SpawnRequest::new(effect_id, Attach::WorldPos(world_pos)));
+    }
+
+    pub fn spawn_at_with_count(&mut self, effect_id: EffectId, world_pos: [f32; 3], hit_count: u8) {
+        self.push(SpawnRequest {
+            hit_count: Some(hit_count),
+            ..SpawnRequest::new(effect_id, Attach::WorldPos(world_pos))
+        });
+    }
+
+    pub fn spawn_at_with_size(
+        &mut self,
+        effect_id: EffectId,
+        world_pos: [f32; 3],
+        target_size: [f32; 2],
+    ) {
+        self.push(SpawnRequest {
+            target_size: Some(target_size),
+            ..SpawnRequest::new(effect_id, Attach::WorldPos(world_pos))
+        });
+    }
+
+    pub fn spawn_on(&mut self, effect_id: EffectId, entity_id: u32) {
+        self.push(SpawnRequest::new(effect_id, Attach::Entity(entity_id)));
+    }
+
+    pub fn spawn_on_for(&mut self, effect_id: EffectId, entity_id: u32, duration_ms: u32) {
+        self.push(SpawnRequest {
+            override_duration_ms: Some(duration_ms),
+            ..SpawnRequest::new(effect_id, Attach::Entity(entity_id))
+        });
+    }
+
+    /// An effect on `entity_id` that ends at its own length or after `cap_ms`, whichever is first
+    pub fn spawn_on_capped(&mut self, effect_id: EffectId, entity_id: u32, cap_ms: u32) {
+        self.push(SpawnRequest {
+            cap_duration_ms: Some(cap_ms),
+            ..SpawnRequest::new(effect_id, Attach::Entity(entity_id))
+        });
+    }
+
+    pub fn spawn_on_with_count(&mut self, effect_id: EffectId, entity_id: u32, hit_count: u8) {
+        self.push(SpawnRequest {
+            hit_count: Some(hit_count),
+            ..SpawnRequest::new(effect_id, Attach::Entity(entity_id))
+        });
+    }
+
+    /// An effect on `entity_id` under `key`, made with a count it keeps ([`Self::send`] changes it after)
+    pub fn spawn_on_keyed_counted(
+        &mut self,
+        effect_id: EffectId,
+        entity_id: u32,
+        key: u32,
+        count: u8,
+    ) {
+        self.push(SpawnRequest {
+            key: Some(key),
+            hit_count: Some(count),
+            ..SpawnRequest::new(effect_id, Attach::Entity(entity_id))
+        });
+    }
+
+    pub fn spawn_on_keyed(&mut self, effect_id: EffectId, entity_id: u32, key: u32) {
+        self.push(SpawnRequest {
+            key: Some(key),
+            ..SpawnRequest::new(effect_id, Attach::Entity(entity_id))
+        });
+    }
+
+    pub fn spawn_on_keyed_with_count(
+        &mut self,
+        effect_id: EffectId,
+        entity_id: u32,
+        key: u32,
+        hit_count: u8,
+    ) {
+        self.push(SpawnRequest {
+            key: Some(key),
+            hit_count: Some(hit_count),
+            ..SpawnRequest::new(effect_id, Attach::Entity(entity_id))
+        });
+    }
+
+    /// A body effect on a unit, `counter` its count (shields, spheres, souls), held until despawned by `key`
+    pub fn spawn_body_aura(&mut self, entity_id: u32, key: u32, spec: BodyAuraSpec, counter: u8) {
+        self.push(SpawnRequest {
+            key: Some(key),
+            hit_count: Some(counter),
+            body_aura: Some(spec),
+            ..SpawnRequest::new(EffectId::BodyAura, Attach::Entity(entity_id))
+        });
+    }
+
+    pub fn spawn_on_keyed_for(
+        &mut self,
+        effect_id: EffectId,
+        entity_id: u32,
+        key: u32,
+        duration_ms: u32,
+    ) {
+        self.spawn_on_keyed_for_with_count(effect_id, entity_id, key, duration_ms, None);
+    }
+
+    pub fn spawn_on_keyed_for_with_count(
+        &mut self,
+        effect_id: EffectId,
+        entity_id: u32,
+        key: u32,
+        duration_ms: u32,
+        hit_count: Option<u8>,
+    ) {
+        let duration_ms = if duration_ms == 0 {
+            u32::MAX
+        } else {
+            duration_ms
+        };
+        self.push(SpawnRequest {
+            key: Some(key),
+            override_duration_ms: Some(duration_ms),
+            hit_count,
+            ..SpawnRequest::new(effect_id, Attach::Entity(entity_id))
+        });
+    }
+
+    pub fn spawn_at_keyed(&mut self, effect_id: EffectId, world_pos: [f32; 3], key: u32) {
+        self.push(SpawnRequest {
+            key: Some(key),
+            ..SpawnRequest::new(effect_id, Attach::WorldPos(world_pos))
+        });
+    }
+
+    pub fn spawn_at_keyed_scaled(
+        &mut self,
+        effect_id: EffectId,
+        world_pos: [f32; 3],
+        key: u32,
+        size_scale: f32,
+    ) {
+        self.push(SpawnRequest {
+            key: Some(key),
+            size_scale: Some(size_scale),
+            ..SpawnRequest::new(effect_id, Attach::WorldPos(world_pos))
+        });
+    }
+
+    pub fn spawn_trail(&mut self, effect_id: EffectId, from: [f32; 3], to: [f32; 3]) {
+        self.push(SpawnRequest::new(effect_id, Attach::Trail { from, to }));
+    }
+
+    pub fn spawn_trail_with_count(
+        &mut self,
+        effect_id: EffectId,
+        from: [f32; 3],
+        to: [f32; 3],
+        hit_count: u8,
+    ) {
+        self.push(SpawnRequest {
+            hit_count: Some(hit_count),
+            ..SpawnRequest::new(effect_id, Attach::Trail { from, to })
+        });
+    }
+
+    pub fn spawn_link(&mut self, effect_id: EffectId, caster: u32, target: u32) {
+        self.push(SpawnRequest::new(
+            effect_id,
+            Attach::Link { caster, target },
+        ));
+    }
+
+    /// [`Self::spawn_link`] under `key`, so it can be taken off with [`Self::despawn`]
+    pub fn spawn_link_keyed(&mut self, effect_id: EffectId, caster: u32, target: u32, key: u32) {
+        self.push(SpawnRequest {
+            key: Some(key),
+            ..SpawnRequest::new(effect_id, Attach::Link { caster, target })
+        });
+    }
+
+    pub fn cancel_pending_on(&mut self, effect_id: EffectId, entity_id: u32) {
+        self.pending.retain(|r| {
+            r.effect_id != effect_id || !matches!(r.attach, Attach::Entity(id) if id == entity_id)
+        });
+    }
+
+    pub fn despawn(&mut self, key: u32) {
+        self.pending.retain(|r| r.key != Some(key));
+        self.despawns.push(key);
+    }
+
+    pub fn drain(&mut self) -> Vec<SpawnRequest> {
+        std::mem::take(&mut self.pending)
+    }
+
+    pub fn drain_despawns(&mut self) -> Vec<u32> {
+        std::mem::take(&mut self.despawns)
+    }
+
+    /// Tells the keyed effect `key` something its owner's packet brought
+    pub fn send(&mut self, key: u32, message: EffectMessage) {
+        self.messages.push((key, message));
+    }
+
+    pub fn drain_messages(&mut self) -> std::vec::Drain<'_, (u32, EffectMessage)> {
+        self.messages.drain(..)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn marionette_and_shadow_form_statuses_end_their_links_and_soul_change_has_none() {
+        for (icon, link) in [
+            (ClientEffectIcon::MarionetteMaster, EffectId::Linelink3),
+            (ClientEffectIcon::Shadowform, EffectId::Linelink4),
+        ] {
+            assert!(is_link_effect(link));
+            assert_eq!(status_link(icon), Some(link));
+            assert_eq!(link_status(link), Some(icon));
+        }
+        assert_eq!(
+            link_status(EffectId::Linelink2),
+            None,
+            "Soul Change's lasts its own time"
+        );
+        assert_eq!(
+            status_link(ClientEffectIcon::Marionette),
+            None,
+            "the target's status keeps it"
+        );
+    }
+
+    #[test]
+    fn a_keyed_link_ties_two_units_and_comes_off_by_its_key() {
+        let mut q = EffectQueue::new();
+        q.spawn_link_keyed(EffectId::Linelink, 1, 2, 0x8000_0001);
+        let spawned = q.drain();
+        assert_eq!(spawned.len(), 1);
+        assert_eq!(spawned[0].key, Some(0x8000_0001));
+        assert!(matches!(
+            spawned[0].attach,
+            Attach::Link {
+                caster: 1,
+                target: 2
+            }
+        ));
+        q.despawn(0x8000_0001);
+        assert_eq!(q.drain_despawns(), vec![0x8000_0001]);
+    }
+
+    #[test]
+    fn keyed_spawn_and_despawn_channel_round_trip() {
+        let mut q = EffectQueue::new();
+        q.spawn_on_keyed(EffectId::Blessing, 42, 7);
+
+        let pending = q.drain();
+        assert_eq!(pending.len(), 1);
+        assert_eq!(pending[0].attach, Attach::Entity(42));
+        assert_eq!(pending[0].key, Some(7));
+        assert!(q.drain().is_empty());
+
+        q.despawn(7);
+        assert_eq!(q.drain_despawns(), vec![7]);
+        assert!(q.drain_despawns().is_empty());
+    }
+
+    #[test]
+    fn cancel_pending_on_drops_only_that_effect_on_that_entity() {
+        let mut q = EffectQueue::new();
+        q.spawn_on(EffectId::Bash, 42);
+        q.spawn_on(EffectId::Bash, 99);
+        q.spawn_on(EffectId::Blessing, 42);
+
+        q.cancel_pending_on(EffectId::Bash, 42);
+
+        let pending = q.drain();
+        assert_eq!(pending.len(), 2);
+        assert!(
+            pending
+                .iter()
+                .all(|r| !(r.effect_id == EffectId::Bash && r.attach == Attach::Entity(42)))
+        );
+    }
+
+    #[test]
+    fn despawn_cancels_a_same_frame_pending_spawn_of_that_key() {
+        // Spirit spheres ramping 1→2→3 in one frame: each step despawns the
+        // previous key then queues the next. Only the last spawn must survive,
+        // and the superseded keys must not leak into the holder.
+        let mut q = EffectQueue::new();
+        q.spawn_on_keyed_with_count(EffectId::Chookgi2, 42, 1, 1);
+        q.despawn(1);
+        q.spawn_on_keyed_with_count(EffectId::Chookgi2, 42, 2, 2);
+        q.despawn(2);
+        q.spawn_on_keyed_with_count(EffectId::Chookgi2, 42, 3, 3);
+
+        let pending = q.drain();
+        assert_eq!(pending.len(), 1, "only the final spawn survives");
+        assert_eq!(pending[0].key, Some(3));
+        assert_eq!(pending[0].hit_count, Some(3));
+
+        // Dropping to 0 spheres in one frame must cancel the pending spawn too.
+        let mut q = EffectQueue::new();
+        q.spawn_on_keyed_with_count(EffectId::Chookgi2, 42, 5, 5);
+        q.despawn(5);
+        assert!(q.drain().is_empty(), "count→0 leaves no pending spheres");
+    }
+
+    #[test]
+    fn clear_drops_pending_spawns_and_despawns() {
+        let mut q = EffectQueue::new();
+        q.spawn_on_keyed_with_count(EffectId::Chookgi2, 42, 1, 1);
+        q.despawn(9);
+        q.clear();
+        assert!(q.drain().is_empty());
+        assert!(q.drain_despawns().is_empty());
+    }
+
+    #[test]
+    fn disabling_effects_drops_one_shots_but_keeps_keyed_spawns() {
+        let mut q = EffectQueue::new();
+        q.set_effects_enabled(false);
+        q.spawn_at(EffectId::Firehit, [0.0, 0.0, 0.0]);
+        q.spawn_on(EffectId::Blessing, 42);
+        q.spawn_on_keyed(EffectId::Blessing, 42, 7);
+
+        let pending = q.drain();
+        assert_eq!(pending.len(), 1);
+        assert_eq!(pending[0].key, Some(7));
+
+        q.set_effects_enabled(true);
+        q.spawn_at(EffectId::Firehit, [0.0, 0.0, 0.0]);
+        assert_eq!(q.drain().len(), 1);
+    }
+
+    #[test]
+    fn keyed_timed_spawn_carries_key_and_duration() {
+        let mut q = EffectQueue::new();
+        q.spawn_on_keyed_for(EffectId::Redbody, 42, 0x8000_0001, 60_000);
+        q.spawn_on_keyed_for(EffectId::Pinkbody, 42, 0x8000_0002, 0);
+
+        let pending = q.drain();
+        assert_eq!(pending[0].key, Some(0x8000_0001));
+        assert_eq!(pending[0].override_duration_ms, Some(60_000));
+        assert_eq!(pending[1].override_duration_ms, Some(u32::MAX));
+    }
+}
+
+pub fn body_attached(id: EffectId) -> bool {
+    matches!(
+        id,
+        EffectId::Quakebody
+            | EffectId::Quakebody2
+            | EffectId::Quakebody3
+            | EffectId::Quakebody4
+            | EffectId::Twohandquicken
+            | EffectId::Spearquicken
+            | EffectId::Lkconcentration
+            | EffectId::Giantbody
+            | EffectId::Giantbody2
+            | EffectId::Babybody
+            | EffectId::Babybody2
+            | EffectId::BabybodyBack
+            | EffectId::Jumpkick
+            | EffectId::Jumpbody
+            | EffectId::Landbody
+            | EffectId::Spinedbody
+            | EffectId::Spinedbody2
+            | EffectId::Asurabody
+            | EffectId::TaeReady
+            | EffectId::Ef4waybody
+            | EffectId::Hitline2
+            | EffectId::Stormkick
+            | EffectId::Stormkick1
+            | EffectId::Stormkick2
+            | EffectId::Stormkick3
+            | EffectId::Stormkick6
+            | EffectId::Stormkick7
+            | EffectId::Redbody
+            | EffectId::Transbluebody
+            | EffectId::Pinkbody
+            | EffectId::Linklight
+            | EffectId::Magiccrasher
+            | EffectId::Magiccrasher2
+            | EffectId::Hitbody
+            | EffectId::Falconassault
+            | EffectId::Chemicalbody
+            | EffectId::Piercebody
+            | EffectId::Memorize
+            | EffectId::Doublecastbody
+            | EffectId::Greenbody
+            | EffectId::Shrink
+            | EffectId::Bluebody
+            | EffectId::Redlightbody
+            | EffectId::RedHit
+            | EffectId::BlueHit
+            | EffectId::Bunsinjyutsu
+            | EffectId::MadnessBlue
+            | EffectId::MadnessRed
+            | EffectId::Undeadbody
+            | EffectId::Pressedbody
+            | EffectId::Kickedbody
+            | EffectId::Reflectbody
+            | EffectId::Assumptio
+            | EffectId::Lightblade
+            | EffectId::Damage1
+            | EffectId::Damage12
+            | EffectId::Damage13
+            | EffectId::GreenNumber
+            | EffectId::BlueNumber
+            | EffectId::RedNumber
+            | EffectId::PurpleNumber
+            | EffectId::BlackNumber
+            | EffectId::WhiteNumber
+            | EffectId::YellowNumber
+            | EffectId::PinkNumber
+    )
+}
+
+pub fn is_count_point_effect(id: EffectId) -> bool {
+    matches!(
+        id,
+        EffectId::Chookgi
+            | EffectId::Chookgi2
+            | EffectId::Chookgi3
+            | EffectId::Icearrow
+            | EffectId::Firearrow
+    )
+}
+
+pub fn is_caster_link_effect(id: EffectId) -> bool {
+    matches!(id, EffectId::Soulbreaker | EffectId::Energydrain2)
+        || crate::effects::kro_classes::needs_target(id)
+}
+
+pub fn is_trail_effect(id: EffectId) -> bool {
+    matches!(
+        id,
+        EffectId::Frostdiver
+            | EffectId::Blooddrain
+            | EffectId::Energydrain
+            | EffectId::Grimtooth
+            | EffectId::Icewall
+            | EffectId::Fireball
+            | EffectId::Soulstrike
+            | EffectId::Soulstrike2
+            | EffectId::Soulbreaker
+            | EffectId::Yufitel
+            | EffectId::Pierce
+            | EffectId::Hit1
+            | EffectId::Hit3
+            | EffectId::Hit4
+            | EffectId::Sonicblowhit
+            | EffectId::Fireivy
+            | EffectId::Foot
+            | EffectId::Foot2
+            | EffectId::Foot3
+            | EffectId::Foot4
+            | EffectId::Foot5
+            | EffectId::Foot6
+            | EffectId::Bowlingbash
+            | EffectId::Dragonsmoke
+            | EffectId::Throwitem
+            | EffectId::Throwitem2
+            | EffectId::Throwitem3
+            | EffectId::Throwitem4
+            | EffectId::Throwitem5
+            | EffectId::Throwitem6
+            | EffectId::Throwitem7
+            | EffectId::Throwitem8
+            | EffectId::Throwitem9
+            | EffectId::Throwitem10
+            | EffectId::Chemical2
+            | EffectId::Chemical2dash
+            | EffectId::Chemical3
+            | EffectId::Chemical4
+            | EffectId::Smatk1
+            | EffectId::Smatk2
+            | EffectId::Smatk3
+            | EffectId::Smatk4
+            | EffectId::Stin
+            | EffectId::Stin2
+            | EffectId::Stin3
+            | EffectId::Stin4
+            | EffectId::Stin5
+            | EffectId::Sma
+            | EffectId::Teihit2
+            | EffectId::Backstap
+            | EffectId::Tanji
+            | EffectId::Tanji2
+            | EffectId::Alattack1
+            | EffectId::Alattack2
+            | EffectId::Alattack3
+            | EffectId::Alattack4
+            | EffectId::Shieldboomerang
+            | EffectId::Shieldboomerang2
+            | EffectId::Shieldboomerang3
+            | EffectId::Slim
+            | EffectId::Slim2
+            | EffectId::Slim3
+            | EffectId::Pressure
+            | EffectId::Tripleattack
+            | EffectId::Tripleattack2
+            | EffectId::Tripleattack3
+            | EffectId::Spearbmr
+            | EffectId::Waterball2
+            | EffectId::Wink
+            | EffectId::Fvoice
+    )
+}
+
+#[derive(Clone, Copy, Debug)]
+pub enum ProjectileFlight {
+    FixedFrames(f32),
+    ConstantSpeed {
+        delay_frames: f32,
+        units_per_frame: f32,
+    },
+    AtTarget,
+}
+
+impl ProjectileFlight {
+    const FPS: f32 = 60.0;
+
+    pub fn reach_secs(self, distance_units: f32) -> f32 {
+        let frames = match self {
+            ProjectileFlight::FixedFrames(f) => f,
+            ProjectileFlight::ConstantSpeed {
+                delay_frames,
+                units_per_frame,
+            } => delay_frames + distance_units / units_per_frame.max(1e-3),
+            ProjectileFlight::AtTarget => 0.0,
+        };
+        frames / Self::FPS
+    }
+}
+
+pub fn trail_arrival_secs(id: EffectId, distance_units: f32) -> Option<f32> {
+    use crate::effects;
+    let flight = match id {
+        EffectId::Fireball => effects::fireball::PROJECTILE_FLIGHT,
+        EffectId::Waterball2 => effects::waterball2::PROJECTILE_FLIGHT,
+        EffectId::Yufitel => effects::yupitel::PROJECTILE_FLIGHT,
+        EffectId::Spearbmr => effects::spearbmr::PROJECTILE_FLIGHT,
+        EffectId::Soulstrike | EffectId::Soulstrike2 => effects::soul_strike::PROJECTILE_FLIGHT,
+        EffectId::Frostdiver | EffectId::Grimtooth => effects::frost_diver::PROJECTILE_FLIGHT,
+        EffectId::Throwitem
+        | EffectId::Throwitem2
+        | EffectId::Throwitem3
+        | EffectId::Throwitem4
+        | EffectId::Throwitem5
+        | EffectId::Throwitem6
+        | EffectId::Throwitem7
+        | EffectId::Throwitem8
+        | EffectId::Throwitem9
+        | EffectId::Throwitem10 => effects::throw_item::projectile_flight(id),
+        EffectId::Pressure => effects::pressure::PROJECTILE_FLIGHT,
+        EffectId::Tripleattack | EffectId::Tripleattack2 | EffectId::Tripleattack3 => {
+            effects::tripleattack::PROJECTILE_FLIGHT
+        }
+        EffectId::Teihit2 | EffectId::Backstap => effects::teihit::PROJECTILE_FLIGHT,
+        EffectId::Soulbreaker => effects::soul_breaker::PROJECTILE_FLIGHT,
+        EffectId::Stin | EffectId::Stin2 | EffectId::Stin3 | EffectId::Stin4 | EffectId::Stin5 => {
+            effects::stin::PROJECTILE_FLIGHT
+        }
+        EffectId::Chemical2
+        | EffectId::Chemical2dash
+        | EffectId::Chemical3
+        | EffectId::Chemical4 => effects::chemical::PROJECTILE_FLIGHT,
+        EffectId::Tanji
+        | EffectId::Tanji2
+        | EffectId::Shieldboomerang
+        | EffectId::Shieldboomerang2
+        | EffectId::Shieldboomerang3 => effects::cloud_projectile::PROJECTILE_FLIGHT,
+        // the emote takes the trail only for its fly-off direction; it is drawn on the target from the start
+        EffectId::Wink | EffectId::Fvoice => ProjectileFlight::AtTarget,
+        _ => return None,
+    };
+    Some(flight.reach_secs(distance_units))
+}
+
+pub fn is_link_effect(id: EffectId) -> bool {
+    matches!(
+        id,
+        EffectId::Linelink | EffectId::Linelink2 | EffectId::Linelink3 | EffectId::Linelink4
+    )
+}
+
+/// The statuses whose every change takes the caster's link off, as kRO's status message does (0x755301): Marionette's
+/// caster status takes `EF_LINELINK3`, Shadow Form's `EF_LINELINK4`. Soul Change's `EF_LINELINK2` has none and lasts
+/// its own time. The status comes before the skill's 0x09cb, so a new cast's link outlives it
+const STATUS_LINKS: &[(ClientEffectIcon, EffectId)] = &[
+    (ClientEffectIcon::MarionetteMaster, EffectId::Linelink3),
+    (ClientEffectIcon::Shadowform, EffectId::Linelink4),
+];
+
+/// The status that ends a link (see [`STATUS_LINKS`])
+pub fn link_status(id: EffectId) -> Option<ClientEffectIcon> {
+    STATUS_LINKS.iter().find(|(_, e)| *e == id).map(|(s, _)| *s)
+}
+
+/// The link a status takes off its unit (see [`STATUS_LINKS`])
+pub fn status_link(icon: ClientEffectIcon) -> Option<EffectId> {
+    STATUS_LINKS
+        .iter()
+        .find(|(s, _)| *s == icon)
+        .map(|(_, e)| *e)
+}

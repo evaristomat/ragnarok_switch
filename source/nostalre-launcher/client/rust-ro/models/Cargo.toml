@@ -1,0 +1,10 @@
+[package]
+name = "models"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+enum_macro = { path = "../enum_macro" }
+accessor = { path = "../accessor" }
+tracing = {workspace = true}
+movement = { path = "../movement" }

@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "allowed_roots": [
+    ".github", "campaign", "config", "docs", "scripts", "source", "toolchain",
+    ".editorconfig", ".gitattributes", ".gitignore", "README.md", "LICENSE",
+    "NOTICE", "CONTRIBUTING.md", "CHANGELOG.md", "edition.json",
+    "PUBLIC-SOURCE-MANIFEST.json"
+  ],
+  "allowed_vendor_prefix": "vendor/population-engine-origin/",
+  "excluded_prefixes": [
+    "docs/history/",
+    "source/assets-loose/",
+    "source/nostalre-launcher/client/docs/internal/",
+    "source/mesa-switch/src/gallium/targets/teflon/tests/models/"
+  ],
+  "excluded_names": [
+    "source/nostalre-launcher/client/docs/images/android-handheld.webp",
+    "source/bevy-horizon/scripts/nostalre_build_nvk.sh",
+    "source/bevy-horizon/scripts/nostalre_localize_nvk.sh"
+  ],
+  "excluded_suffixes": [
+    ".grf", ".nro", ".elf", ".nacp", ".db", ".sqlite", ".sqlite3",
+    ".db-wal", ".db-shm", ".dll", ".exe", ".lib", ".a", ".pfx", ".p12", ".pem"
+  ],
+  "excluded_script_names": [
+    "audit_classic_maps.py", "audit_classic_travel.py", "audit_isolation.py",
+    "audit_npc_logic_pre12.py", "audit_ptbr_catalog.py",
+    "build_ptbr_catalog.py", "capture_campaign_boss.py",
+    "fetch_classic_maps.py", "fetch_ptbr_catalog.py", "finalize.py",
+    "fix_classic_world.py", "install_switch.py", "localize_classic_npcs.py",
+    "materialize_build_links.py", "move_builds_to_e.py",
+    "pack_assets.py", "port_renewal_pre2.py", "prepare_pre3.py",
+    "prepare_pre4.py", "restore_build_permissions.py", "resume_install_pre5.py",
+    "stage_playtest.py", "verify_storage.py",
+    "build_npc_labels_pre12.py", "localize_npc_display_pre12.py",
+    "ptbr_translation.py", "review_npc_speakers_pre12.py",
+    "test_npc_ptbr_pre12.py"
+  ],
+  "known_publication_blockers": [
+    {
+      "id": "azzyai-defaults",
+      "status": "unresolved",
+      "reference": "source/nostalre-launcher/client/docs/third-party-content.md",
+      "description": "Clarify redistribution permission for inherited AzzyAI-derived tactics and companion defaults before publication."
+    }
+  ]
+}

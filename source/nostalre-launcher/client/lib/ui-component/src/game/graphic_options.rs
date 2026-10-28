@@ -1,0 +1,787 @@
+use crate::helper::CHECKBOX;
+use crate::helper::dropdown::Dropdown;
+use crate::helper::window_chrome::{
+    SYS_BASE_OFF_TEX, SYS_BASE_ON_TEX, TITLEBAR_TEX, draw_sys_button, draw_titlebar, text_color,
+};
+use crate::{BuildCtx, InGameWindow, Window};
+use nostalre_game::display::{GraphicsSettings, HudLayout};
+use nostalre_game::event::GameEvent;
+use nostalre_ui::frame::{UiFrame, WidgetId};
+use nostalre_ui::rect::Rect;
+
+pub const GRAPHIC_OPTIONS_WINDOW_ID: WidgetId = WidgetId(4200);
+const CLOSE_BTN_ID: WidgetId = WidgetId(4201);
+const UI_SCALE_DROPDOWN_ID: WidgetId = WidgetId(4202);
+const FULLSCREEN_CB_ID: WidgetId = WidgetId(4203);
+const FOG_CB_ID: WidgetId = WidgetId(4204);
+const EFFECTS_CB_ID: WidgetId = WidgetId(4205);
+const AURA_CB_ID: WidgetId = WidgetId(4206);
+const DAMAGE_CB_ID: WidgetId = WidgetId(4207);
+const CASTBAR_CB_ID: WidgetId = WidgetId(4208);
+const NAME_PLAYER_CB_ID: WidgetId = WidgetId(4209);
+const NAME_MONSTER_CB_ID: WidgetId = WidgetId(4210);
+const NAME_NPC_CB_ID: WidgetId = WidgetId(4211);
+const REFUSE_TRADE_CB_ID: WidgetId = WidgetId(4212);
+const REFUSE_PARTY_CB_ID: WidgetId = WidgetId(4213);
+const SNAP_MONSTER_CB_ID: WidgetId = WidgetId(4214);
+const SNAP_SKILL_CB_ID: WidgetId = WidgetId(4215);
+const SNAP_ITEM_CB_ID: WidgetId = WidgetId(4216);
+const ACCESSIBILITY_CB_ID: WidgetId = WidgetId(4217);
+const FILTER_WORLD_CB_ID: WidgetId = WidgetId(4218);
+const FILTER_EFFECT_CB_ID: WidgetId = WidgetId(4219);
+const FILTER_SPRITE_CB_ID: WidgetId = WidgetId(4220);
+const SPRITE_UPSCALE_CB_ID: WidgetId = WidgetId(4221);
+const HUD_CB_ID: WidgetId = WidgetId(4222);
+const UI_SCALE_OPTION_BASE: u32 = 4230;
+
+pub(crate) const UI_SCALE_OPTIONS: [u32; 6] = [75, 100, 125, 150, 175, 200];
+/// `UI_SCALE_OPTIONS` as the dropdown and the menu's Settings write them
+pub(crate) const UI_SCALE_LABELS: [&str; 6] = ["75%", "100%", "125%", "150%", "175%", "200%"];
+
+const CLOSE_OFF_TEX: &str = nostalre_resources::ui::basic::SYS_CLOSE_OFF;
+const CLOSE_ON_TEX: &str = nostalre_resources::ui::basic::SYS_CLOSE_ON;
+
+const WIN_W: f32 = 280.0;
+const TITLE_H: f32 = 20.0;
+const CLOSE_SIZE: f32 = 11.0;
+const ROW_H: f32 = 22.0;
+const ROW_COUNT: f32 = 12.0;
+const PAD: f32 = 8.0;
+const WIN_H: f32 = TITLE_H + PAD + ROW_COUNT * ROW_H + PAD;
+const CB_SIZE: f32 = 11.0;
+
+#[derive(Default)]
+pub struct GraphicOptionsWindow {
+    pub open: bool,
+    pub has_grf_textures: bool,
+    selected_ui_scale: usize,
+    /// What the boxes show; its `ui_scale` follows `selected_ui_scale` when sent
+    settings: GraphicsSettings,
+    frameless_hud: bool,
+    dropdown: Dropdown,
+}
+
+impl GraphicOptionsWindow {
+    pub fn new() -> Self {
+        Self {
+            settings: GraphicsSettings {
+                show_skill_effects: true,
+                filter_world: true,
+                filter_effects: true,
+                filter_sprites: true,
+                ..Default::default()
+            },
+            ..Default::default()
+        }
+    }
+
+    pub fn set_values(&mut self, settings: &GraphicsSettings) {
+        self.selected_ui_scale = ui_scale_index(settings.ui_scale);
+        self.settings = settings.clone();
+    }
+
+    pub fn toggle(&mut self) {
+        self.open = !self.open;
+    }
+
+    pub fn set_hud_layout(&mut self, layout: HudLayout) {
+        self.frameless_hud = layout == HudLayout::Modern;
+    }
+
+    fn changed_event(&self) -> GameEvent {
+        let ui_scale = UI_SCALE_OPTIONS
+            .get(self.selected_ui_scale)
+            .copied()
+            .unwrap_or(100) as f32;
+        GameEvent::GraphicsSettingsChanged {
+            settings: GraphicsSettings {
+                ui_scale,
+                ..self.settings.clone()
+            },
+            persist: true,
+        }
+    }
+}
+
+/// The scale step nearest a scale the config holds (percent)
+pub(crate) fn ui_scale_index(percent: f32) -> usize {
+    (0..UI_SCALE_OPTIONS.len())
+        .min_by(|&a, &b| {
+            let gap = |i: usize| (UI_SCALE_OPTIONS[i] as f32 - percent).abs();
+            gap(a).total_cmp(&gap(b))
+        })
+        .unwrap_or(1)
+}
+
+impl Window for GraphicOptionsWindow {
+    fn has_grf_textures(&self) -> bool {
+        self.has_grf_textures
+    }
+    fn set_has_grf_textures(&mut self, value: bool) {
+        self.has_grf_textures = value;
+    }
+    fn window_size(&self) -> (f32, f32) {
+        (WIN_W, WIN_H)
+    }
+    fn grf_texture_paths() -> Vec<&'static str> {
+        let mut paths = vec![
+            TITLEBAR_TEX,
+            SYS_BASE_OFF_TEX,
+            SYS_BASE_ON_TEX,
+            CLOSE_OFF_TEX,
+            CLOSE_ON_TEX,
+            CHECKBOX.off,
+            CHECKBOX.on,
+        ];
+        paths.extend(crate::helper::dropdown::grf_texture_paths());
+        paths
+    }
+}
+
+impl InGameWindow for GraphicOptionsWindow {
+    fn wants_escape(&self, _ctx: &BuildCtx) -> bool {
+        self.open
+    }
+
+    fn on_escape(&mut self, _ctx: &mut BuildCtx) -> Vec<GameEvent> {
+        self.open = false;
+        self.dropdown.open = false;
+        Vec::new()
+    }
+
+    fn build(&mut self, ui: &mut UiFrame, ctx: &mut BuildCtx) -> Vec<GameEvent> {
+        let _character = &mut *ctx.character;
+        let _data = ctx.data;
+        if !self.open {
+            return Vec::new();
+        }
+        let mut events = Vec::new();
+        let prev_grf = ui.has_grf_textures;
+        ui.has_grf_textures = self.has_grf_textures;
+        let grf = self.has_grf_textures;
+
+        let default_x = (ui.ctx.screen_width - WIN_W) / 2.0;
+        let default_y = (ui.ctx.screen_height - WIN_H) / 2.0;
+        let win = ui.window_at(
+            GRAPHIC_OPTIONS_WINDOW_ID,
+            WIN_W,
+            WIN_H,
+            TITLE_H,
+            default_x,
+            default_y,
+        );
+        ui.interact(
+            GRAPHIC_OPTIONS_WINDOW_ID,
+            Rect::new(win.x, win.y, WIN_W, WIN_H),
+        );
+
+        crate::helper::fallback::window_body(ui, win.x, win.y + TITLE_H, WIN_W, WIN_H - TITLE_H);
+
+        draw_titlebar(ui, win.x, win.y, WIN_W, TITLE_H, grf);
+        ui.text(
+            win.x + 20.0,
+            win.y + TITLE_H - 5.0,
+            "Graphic Settings",
+            text_color(grf),
+        );
+
+        let close_rect = Rect::new(
+            win.x + WIN_W - CLOSE_SIZE - 4.0,
+            win.y + 4.0,
+            CLOSE_SIZE,
+            CLOSE_SIZE,
+        );
+        let close_resp = ui.interact(CLOSE_BTN_ID, close_rect);
+        if close_resp.hovered() {
+            ui.any_interactive_hovered = true;
+        }
+        draw_sys_button(
+            ui,
+            close_rect,
+            (CLOSE_SIZE, CLOSE_SIZE),
+            close_resp.hovered(),
+            grf,
+            CLOSE_ON_TEX,
+            CLOSE_OFF_TEX,
+            Some('x'),
+        );
+        if close_resp.clicked() {
+            self.open = false;
+            self.dropdown.open = false;
+            ui.has_grf_textures = prev_grf;
+            return events;
+        }
+
+        let label_color = text_color(grf);
+        let row_y = |n: usize| win.y + TITLE_H + PAD + n as f32 * ROW_H;
+        let cb_y = |n: usize| row_y(n) + (ROW_H - CB_SIZE) / 2.0 - 2.0;
+        let text_y = |n: usize| row_y(n) + 13.0;
+        let mut changed = false;
+
+        // Row 0: UI scale dropdown + full screen
+        ui.text(win.x + 10.0, text_y(0), "UI Scale", label_color);
+        let labels = UI_SCALE_LABELS;
+        let selected_label = labels
+            .get(self.selected_ui_scale)
+            .copied()
+            .unwrap_or_default();
+        let dd_rect = Rect::new(win.x + 75.0, row_y(0), 100.0, 16.0);
+        let screen = Rect::new(0.0, 0.0, ui.ctx.screen_width, ui.ctx.screen_height);
+        self.dropdown.begin_frame();
+        let dd_resp = self.dropdown.show(
+            ui,
+            UI_SCALE_DROPDOWN_ID,
+            dd_rect,
+            &selected_label,
+            labels.len(),
+            screen,
+            false,
+        );
+
+        let fs_cb = Rect::new(win.x + 185.0, cb_y(0), CB_SIZE, CB_SIZE);
+        changed |= ui
+            .checkbox(
+                FULLSCREEN_CB_ID,
+                fs_cb,
+                &mut self.settings.fullscreen,
+                &CHECKBOX,
+            )
+            .clicked();
+        ui.text(
+            fs_cb.x + CB_SIZE + 4.0,
+            text_y(0),
+            "Full Screen",
+            label_color,
+        );
+
+        let check_row = |ui: &mut UiFrame,
+                         n: usize,
+                         id: WidgetId,
+                         x: f32,
+                         label: &str,
+                         value: &mut bool|
+         -> bool {
+            let rect = Rect::new(x, cb_y(n), CB_SIZE, CB_SIZE);
+            let clicked = ui.checkbox(id, rect, value, &CHECKBOX).clicked();
+            ui.text(rect.x + CB_SIZE + 4.0, text_y(n), label, label_color);
+            clicked
+        };
+
+        let x0 = win.x + 10.0;
+        ui.text(x0, text_y(1), "Texture Filtering:", label_color);
+        changed |= check_row(
+            ui,
+            1,
+            FILTER_WORLD_CB_ID,
+            win.x + 92.0,
+            crate::pt!("Map", "Mapa"),
+            &mut self.settings.filter_world,
+        );
+        changed |= check_row(
+            ui,
+            1,
+            FILTER_EFFECT_CB_ID,
+            win.x + 152.0,
+            crate::pt!("Effects", "Efeitos"),
+            &mut self.settings.filter_effects,
+        );
+        changed |= check_row(
+            ui,
+            1,
+            FILTER_SPRITE_CB_ID,
+            win.x + 220.0,
+            "Sprites",
+            &mut self.settings.filter_sprites,
+        );
+        changed |= check_row(
+            ui,
+            2,
+            SPRITE_UPSCALE_CB_ID,
+            win.x + 92.0,
+            crate::pt!("Sprite upscale", "Ampliação dos sprites"),
+            &mut self.settings.sprite_upscale,
+        );
+
+        changed |= check_row(ui, 3, FOG_CB_ID, x0, crate::pt!("Fog", "Neblina"), &mut self.settings.fog);
+        if check_row(
+            ui,
+            3,
+            HUD_CB_ID,
+            win.x + 152.0,
+            "Frameless HUD",
+            &mut self.frameless_hud,
+        ) {
+            let layout = if self.frameless_hud {
+                HudLayout::Modern
+            } else {
+                HudLayout::Classic
+            };
+            events.push(GameEvent::HudLayoutChanged { layout });
+        }
+        changed |= check_row(
+            ui,
+            4,
+            EFFECTS_CB_ID,
+            x0,
+            crate::pt!("Skill effects", "Efeitos das habilidades"),
+            &mut self.settings.show_skill_effects,
+        );
+        changed |= check_row(
+            ui,
+            5,
+            AURA_CB_ID,
+            x0,
+            crate::pt!("Level 99 aura", "Aura de nível 99"),
+            &mut self.settings.display.show_level_aura,
+        );
+        changed |= check_row(
+            ui,
+            6,
+            DAMAGE_CB_ID,
+            x0,
+            "Show other players' damage",
+            &mut self.settings.display.show_other_damage,
+        );
+        changed |= check_row(
+            ui,
+            7,
+            CASTBAR_CB_ID,
+            x0,
+            "Show cast bars of others",
+            &mut self.settings.display.show_other_cast_bars,
+        );
+
+        ui.text(x0, text_y(8), "Name plates:", label_color);
+        let mut show_player = !self.settings.display.hide_name_player;
+        let mut show_monster = !self.settings.display.hide_name_monster;
+        let mut show_npc = !self.settings.display.hide_name_npc;
+        let names_changed =
+            check_row(
+                ui,
+                8,
+                NAME_PLAYER_CB_ID,
+                win.x + 92.0,
+                "Player",
+                &mut show_player,
+            ) | check_row(
+                ui,
+                8,
+                NAME_MONSTER_CB_ID,
+                win.x + 152.0,
+                "Monster",
+                &mut show_monster,
+            ) | check_row(ui, 8, NAME_NPC_CB_ID, win.x + 220.0, "NPC", &mut show_npc);
+        if names_changed {
+            self.settings.display.hide_name_player = !show_player;
+            self.settings.display.hide_name_monster = !show_monster;
+            self.settings.display.hide_name_npc = !show_npc;
+            changed = true;
+        }
+
+        ui.text(x0, text_y(9), "Auto-refuse:", label_color);
+        changed |= check_row(
+            ui,
+            9,
+            REFUSE_TRADE_CB_ID,
+            win.x + 92.0,
+            crate::pt!("Trade", "Troca"),
+            &mut self.settings.refuse_trade,
+        );
+        changed |= check_row(
+            ui,
+            9,
+            REFUSE_PARTY_CB_ID,
+            win.x + 152.0,
+            "Party invite",
+            &mut self.settings.refuse_party_invite,
+        );
+
+        ui.text(x0, text_y(10), "Cursor snap:", label_color);
+        changed |= check_row(
+            ui,
+            10,
+            SNAP_MONSTER_CB_ID,
+            win.x + 92.0,
+            "Monster",
+            &mut self.settings.snap.monster_no_skill,
+        );
+        changed |= check_row(
+            ui,
+            10,
+            SNAP_SKILL_CB_ID,
+            win.x + 165.0,
+            "Skill",
+            &mut self.settings.snap.monster_skill,
+        );
+        changed |= check_row(
+            ui,
+            10,
+            SNAP_ITEM_CB_ID,
+            win.x + 220.0,
+            "Item",
+            &mut self.settings.snap.item,
+        );
+
+        changed |= check_row(
+            ui,
+            11,
+            ACCESSIBILITY_CB_ID,
+            x0,
+            "Accessibility improvements",
+            &mut self.settings.accessibility,
+        );
+
+        if let Some(overlay) = dd_resp.overlay_rect {
+            if let Some(idx) =
+                self.dropdown
+                    .show_overlay(ui, overlay, UI_SCALE_OPTION_BASE, &labels)
+            {
+                if idx != self.selected_ui_scale {
+                    self.selected_ui_scale = idx;
+                    changed = true;
+                }
+            }
+        }
+
+        if changed {
+            events.push(self.changed_event());
+        }
+
+        ui.has_grf_textures = prev_grf;
+        events
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use nostalre_game::cursor::MouseSnapPrefs;
+    use nostalre_game::display::DisplayOptions;
+
+    #[test]
+    fn scale_labels_name_the_scales() {
+        let named = UI_SCALE_OPTIONS.map(|p| format!("{p}%"));
+        assert_eq!(named, UI_SCALE_LABELS);
+    }
+    use crate::InGameWindow;
+    use nostalre_game::character::Character;
+    use nostalre_game::data_table::DataTable;
+
+    use nostalre_ui::context::UiContext;
+    use nostalre_ui::state::StateCache;
+    use nostalre_ui::test_support::test_frame;
+
+    fn build_at(
+        win: &mut GraphicOptionsWindow,
+        state: &mut StateCache,
+        mouse: Option<(f32, f32)>,
+    ) -> Vec<GameEvent> {
+        let mut ctx = UiContext::new(800.0, 600.0);
+        if let Some((x, y)) = mouse {
+            ctx.mouse_x = x;
+            ctx.mouse_y = y;
+            ctx.mouse_clicked = true;
+        }
+        let mut ui = test_frame(&mut ctx, state);
+        let mut character = Character::new();
+        let data = DataTable::new();
+        win.build(&mut ui, &mut crate::BuildCtx::test(&mut character, &data))
+    }
+
+    #[test]
+    fn fog_checkbox_and_ui_scale_change_emit_snapshot() {
+        let mut win = GraphicOptionsWindow::new();
+        win.set_values(&GraphicsSettings {
+            ui_scale: 100.0,
+            fullscreen: false,
+            fog: false,
+            show_skill_effects: true,
+            display: DisplayOptions::default(),
+            snap: MouseSnapPrefs::default(),
+            refuse_trade: false,
+            refuse_party_invite: false,
+            accessibility: false,
+            filter_world: true,
+            filter_effects: true,
+            filter_sprites: true,
+            sprite_upscale: false,
+        });
+        assert_eq!(win.selected_ui_scale, 1, "100% is the second option");
+        win.toggle();
+        assert!(win.open);
+        let mut state = StateCache::new();
+
+        let wx = (800.0 - WIN_W) / 2.0;
+        let wy = (600.0 - WIN_H) / 2.0;
+        let row_y = |n: usize| wy + TITLE_H + PAD + n as f32 * ROW_H;
+        let cb_y = |n: usize| row_y(n) + (ROW_H - CB_SIZE) / 2.0 - 2.0;
+
+        // Fog checkbox (row 1)
+        let events = build_at(
+            &mut win,
+            &mut state,
+            Some((wx + 10.0 + CB_SIZE / 2.0, cb_y(3) + CB_SIZE / 2.0)),
+        );
+        assert_eq!(events.len(), 1);
+        match &events[0] {
+            GameEvent::GraphicsSettingsChanged {
+                settings: GraphicsSettings { fog, ui_scale, .. },
+                persist,
+            } => {
+                assert!(*fog);
+                assert!(*persist);
+                assert_eq!(*ui_scale, 100.0);
+            }
+            other => panic!("unexpected event: {other:?}"),
+        }
+
+        // Open the UI-scale dropdown, then pick the second option next frame.
+        let dd_x = wx + 75.0 + 10.0;
+        let dd_y = row_y(0) + 8.0;
+        let events = build_at(&mut win, &mut state, Some((dd_x, dd_y)));
+        assert!(events.is_empty());
+
+        let option_y = row_y(0) + 16.0 + 2.0 * crate::helper::dropdown::OPTION_H + 8.0;
+        let events = build_at(&mut win, &mut state, Some((dd_x, option_y)));
+        assert_eq!(events.len(), 1);
+        match &events[0] {
+            GameEvent::GraphicsSettingsChanged {
+                settings: GraphicsSettings { ui_scale, fog, .. },
+                ..
+            } => {
+                assert_eq!(*ui_scale, 125.0, "picked the third option (125%)");
+                assert!(*fog, "earlier fog flip is part of the snapshot");
+            }
+            other => panic!("unexpected event: {other:?}"),
+        }
+    }
+
+    #[test]
+    fn bold_name_plate_checkbox_rides_the_snapshot() {
+        let mut win = GraphicOptionsWindow::new();
+        win.set_values(&GraphicsSettings {
+            ui_scale: 100.0,
+            fullscreen: false,
+            fog: false,
+            show_skill_effects: true,
+            display: DisplayOptions::default(),
+            snap: MouseSnapPrefs::default(),
+            refuse_trade: false,
+            refuse_party_invite: false,
+            accessibility: false,
+            filter_world: true,
+            filter_effects: true,
+            filter_sprites: true,
+            sprite_upscale: false,
+        });
+        win.toggle();
+        let mut state = StateCache::new();
+
+        let wy = (600.0 - WIN_H) / 2.0;
+        let cb_y = wy + TITLE_H + PAD + 11.0 * ROW_H + (ROW_H - CB_SIZE) / 2.0 - 2.0;
+        let events = build_at(
+            &mut win,
+            &mut state,
+            Some((
+                (800.0 - WIN_W) / 2.0 + 10.0 + CB_SIZE / 2.0,
+                cb_y + CB_SIZE / 2.0,
+            )),
+        );
+        assert_eq!(events.len(), 1);
+        match &events[0] {
+            GameEvent::GraphicsSettingsChanged {
+                settings: GraphicsSettings { accessibility, .. },
+                ..
+            } => {
+                assert!(*accessibility);
+            }
+            other => panic!("unexpected event: {other:?}"),
+        }
+    }
+
+    #[test]
+    fn filter_map_textures_checkbox_rides_the_snapshot() {
+        let mut win = GraphicOptionsWindow::new();
+        win.set_values(&GraphicsSettings {
+            ui_scale: 100.0,
+            fullscreen: false,
+            fog: false,
+            show_skill_effects: true,
+            display: DisplayOptions::default(),
+            snap: MouseSnapPrefs::default(),
+            refuse_trade: false,
+            refuse_party_invite: false,
+            accessibility: false,
+            filter_world: true,
+            filter_effects: true,
+            filter_sprites: true,
+            sprite_upscale: false,
+        });
+        win.toggle();
+        let mut state = StateCache::new();
+
+        let wy = (600.0 - WIN_H) / 2.0;
+        let cb_y = wy + TITLE_H + PAD + 1.0 * ROW_H + (ROW_H - CB_SIZE) / 2.0 - 2.0;
+        let events = build_at(
+            &mut win,
+            &mut state,
+            Some((
+                (800.0 - WIN_W) / 2.0 + 92.0 + CB_SIZE / 2.0,
+                cb_y + CB_SIZE / 2.0,
+            )),
+        );
+        assert_eq!(events.len(), 1);
+        match &events[0] {
+            GameEvent::GraphicsSettingsChanged {
+                settings: GraphicsSettings { filter_world, .. },
+                ..
+            } => {
+                assert!(!*filter_world, "unticking the box stops filtering the map");
+            }
+            other => panic!("unexpected event: {other:?}"),
+        }
+    }
+
+    #[test]
+    fn filter_effects_checkbox_rides_the_snapshot() {
+        let mut win = GraphicOptionsWindow::new();
+        win.set_values(&GraphicsSettings {
+            ui_scale: 100.0,
+            fullscreen: false,
+            fog: false,
+            show_skill_effects: true,
+            display: DisplayOptions::default(),
+            snap: MouseSnapPrefs::default(),
+            refuse_trade: false,
+            refuse_party_invite: false,
+            accessibility: false,
+            filter_world: true,
+            filter_effects: true,
+            filter_sprites: true,
+            sprite_upscale: false,
+        });
+        win.toggle();
+        let mut state = StateCache::new();
+
+        let wy = (600.0 - WIN_H) / 2.0;
+        let cb_y = wy + TITLE_H + PAD + 1.0 * ROW_H + (ROW_H - CB_SIZE) / 2.0 - 2.0;
+        let events = build_at(
+            &mut win,
+            &mut state,
+            Some((
+                (800.0 - WIN_W) / 2.0 + 152.0 + CB_SIZE / 2.0,
+                cb_y + CB_SIZE / 2.0,
+            )),
+        );
+        assert_eq!(events.len(), 1);
+        match &events[0] {
+            GameEvent::GraphicsSettingsChanged {
+                settings:
+                    GraphicsSettings {
+                        filter_world,
+                        filter_effects,
+                        ..
+                    },
+                ..
+            } => {
+                assert!(!*filter_effects);
+                assert!(*filter_world, "the map box is untouched");
+            }
+            other => panic!("unexpected event: {other:?}"),
+        }
+    }
+
+    #[test]
+    fn filter_sprites_checkbox_rides_the_snapshot() {
+        let mut win = GraphicOptionsWindow::new();
+        win.set_values(&GraphicsSettings {
+            ui_scale: 100.0,
+            fullscreen: false,
+            fog: false,
+            show_skill_effects: true,
+            display: DisplayOptions::default(),
+            snap: MouseSnapPrefs::default(),
+            refuse_trade: false,
+            refuse_party_invite: false,
+            accessibility: false,
+            filter_world: true,
+            filter_effects: true,
+            filter_sprites: true,
+            sprite_upscale: false,
+        });
+        win.toggle();
+        let mut state = StateCache::new();
+
+        let wy = (600.0 - WIN_H) / 2.0;
+        let cb_y = wy + TITLE_H + PAD + 1.0 * ROW_H + (ROW_H - CB_SIZE) / 2.0 - 2.0;
+        let events = build_at(
+            &mut win,
+            &mut state,
+            Some((
+                (800.0 - WIN_W) / 2.0 + 220.0 + CB_SIZE / 2.0,
+                cb_y + CB_SIZE / 2.0,
+            )),
+        );
+        assert_eq!(events.len(), 1);
+        match &events[0] {
+            GameEvent::GraphicsSettingsChanged {
+                settings:
+                    GraphicsSettings {
+                        filter_sprites,
+                        filter_effects,
+                        ..
+                    },
+                ..
+            } => {
+                assert!(!*filter_sprites);
+                assert!(*filter_effects, "the effects box is untouched");
+            }
+            other => panic!("unexpected event: {other:?}"),
+        }
+    }
+
+    #[test]
+    fn cursor_snap_row_flips_the_monster_toggle() {
+        let mut win = GraphicOptionsWindow::new();
+        win.set_values(&GraphicsSettings {
+            ui_scale: 100.0,
+            fullscreen: false,
+            fog: false,
+            show_skill_effects: true,
+            display: DisplayOptions::default(),
+            snap: MouseSnapPrefs::default(),
+            refuse_trade: false,
+            refuse_party_invite: false,
+            accessibility: false,
+            filter_world: true,
+            filter_effects: true,
+            filter_sprites: true,
+            sprite_upscale: false,
+        });
+        win.toggle();
+        let mut state = StateCache::new();
+
+        let wy = (600.0 - WIN_H) / 2.0;
+        let cb_y = wy + TITLE_H + PAD + 10.0 * ROW_H + (ROW_H - CB_SIZE) / 2.0 - 2.0;
+        let events = build_at(
+            &mut win,
+            &mut state,
+            Some((
+                (800.0 - WIN_W) / 2.0 + 92.0 + CB_SIZE / 2.0,
+                cb_y + CB_SIZE / 2.0,
+            )),
+        );
+        assert_eq!(events.len(), 1);
+        match &events[0] {
+            GameEvent::GraphicsSettingsChanged {
+                settings: GraphicsSettings { snap, .. },
+                ..
+            } => {
+                assert!(snap.monster_no_skill);
+                assert!(snap.monster_skill, "skill snap is on by default");
+                assert!(!snap.item);
+            }
+            other => panic!("unexpected event: {other:?}"),
+        }
+    }
+}

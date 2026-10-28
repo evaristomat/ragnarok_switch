@@ -1,0 +1,259 @@
+# RagSWITCH Pre-Renewal: independently maintained classic data.
+Header:
+  Type: POPULATION_ENGINE_DB
+  Version: 2
+Body:
+- Profile: combat_pvp
+  Jobs:
+    Gunslinger: para_gun
+    Ninja: para_ninja
+    Creator: para_merchant
+    Taekwon: para_taekwon
+  NameProfile: default
+  ChatProfile: pvp
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  Flags:
+  - mortal
+  TownBehavior: wander
+  FieldBehavior: combat
+  DungeonBehavior: combat
+- Profile: pvp_paladin
+  Jobs:
+    Paladin: para_crusader
+  NameProfile: default
+  ChatProfile: pvp
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  BaseLevel:
+  - 90
+  - 99
+  JobLevel:
+  - 40
+  - 50
+  Str:
+  - 50
+  - 80
+  Agi:
+  - 1
+  - 50
+  Vit:
+  - 50
+  - 80
+  Int:
+  - 50
+  - 80
+  Dex:
+  - 50
+  - 80
+  Luk:
+  - 1
+  - 10
+  Flags:
+  - mortal
+  TownBehavior: social
+  FieldBehavior: combat
+  DungeonBehavior: combat
+  Script: 'setriding;
+
+    bonus bCastrate,-90;
+
+    bonus bDelayRate,-90;
+
+    '
+- Profile: pvp_caster
+  Jobs:
+    Professor: para_mage
+  NameProfile: default
+  ChatProfile: pvp
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  BaseLevel:
+  - 90
+  - 99
+  JobLevel:
+  - 40
+  - 50
+  Str:
+  - 1
+  - 10
+  Agi:
+  - 1
+  - 10
+  Vit:
+  - 30
+  - 50
+  Int:
+  - 90
+  - 99
+  Dex:
+  - 90
+  - 99
+  Luk:
+  - 1
+  - 10
+  Flags:
+  - mortal
+  - skill_only
+  TownBehavior: social
+  FieldBehavior: combat
+  DungeonBehavior: combat
+  Script: 'bonus bCastrate,-90;
+
+    bonus bDelayRate,-90;
+
+    '
+- Profile: pvp_archer
+  Jobs:
+    Sniper: para_bow
+    Clown: para_bow
+    Gypsy: para_bow
+  NameProfile: default
+  ChatProfile: pvp
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  BaseLevel:
+  - 90
+  - 99
+  JobLevel:
+  - 40
+  - 50
+  Str:
+  - 1
+  - 10
+  Agi:
+  - 90
+  - 99
+  Vit:
+  - 1
+  - 10
+  Int:
+  - 1
+  - 10
+  Dex:
+  - 90
+  - 99
+  Luk:
+  - 90
+  - 99
+  Flags:
+  - mortal
+  TownBehavior: wander
+  FieldBehavior: combat
+  DungeonBehavior: combat
+  Script: 'setarrow;
+
+    '
+- Profile: pvp_monk
+  Jobs:
+    Champion: para_monk
+  NameProfile: default
+  ChatProfile: pvp_kill
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  BaseLevel:
+  - 90
+  - 99
+  JobLevel:
+  - 40
+  - 50
+  Str:
+  - 90
+  - 99
+  Agi:
+  - 1
+  - 10
+  Vit:
+  - 90
+  - 99
+  Int:
+  - 1
+  - 10
+  Dex:
+  - 90
+  - 99
+  Luk:
+  - 1
+  - 10
+  Flags:
+  - mortal
+  TownBehavior: wander
+  FieldBehavior: combat
+  DungeonBehavior: combat
+  Script: 'bonus bCastrate,-90;
+
+    bonus bDelayRate,-90;
+
+    '
+- Profile: pvp_thief_high
+  Jobs:
+    Stalker: para_thief
+  NameProfile: default
+  ChatProfile: pvp
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  Str:
+  - 35
+  - 60
+  Agi:
+  - 75
+  - 99
+  Vit:
+  - 35
+  - 60
+  Int:
+  - 16
+  - 38
+  Dex:
+  - 68
+  - 95
+  Luk:
+  - 48
+  - 85
+  Flags:
+  - mortal
+  TownBehavior: wander
+  FieldBehavior: combat
+  DungeonBehavior: combat

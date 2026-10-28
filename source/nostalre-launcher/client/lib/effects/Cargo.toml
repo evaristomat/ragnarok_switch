@@ -1,0 +1,10 @@
+[package]
+name = "nostalre-effects"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+models = { workspace = true }
+nostalre-resources = { workspace = true }
+tracing = { workspace = true }
+nostalre-profiling = { workspace = true }

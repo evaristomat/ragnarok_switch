@@ -1,0 +1,27 @@
+{
+  "solo": {
+    "username": "classic",
+    "password": "classic",
+    "char_id": null
+  },
+  "login_servers": [
+    {
+      "name": "RagSWITCH Pre-Renewal offline",
+      "host": "127.0.0.1",
+      "port": 6900,
+      "web_port": 8888
+    }
+  ],
+  "screen_width": 1280,
+  "screen_height": 720,
+  "dpi_scale": 150.0,
+  "fullscreen": true,
+  "grf_paths": [
+    "game-data/ragswitch-assets.grf",
+    "game-data/data.grf",
+    "game-data/official_data.grf"
+  ],
+  "data_dir": null,
+  "install_dir": "game-data",
+  "bgm_path": "game-data/BGM"
+}

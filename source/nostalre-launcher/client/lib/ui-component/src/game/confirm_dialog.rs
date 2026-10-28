@@ -1,0 +1,419 @@
+use crate::Window;
+use nostalre_ui::draw::{self, DrawCall, TextureRef};
+use nostalre_ui::frame::{ButtonTextures, UiFrame, WidgetId, WindowOrder};
+use nostalre_ui::rect::Rect;
+
+const OVERLAY_ID: WidgetId = WidgetId(410);
+const WINDOW_ID: WidgetId = WidgetId(411);
+const OK_BTN_ID: WidgetId = WidgetId(400);
+const CANCEL_BTN_ID: WidgetId = WidgetId(401);
+
+const DIALOG_W: f32 = 220.0;
+const DIALOG_H: f32 = 40.0;
+const PADDING: f32 = 4.0;
+const BTN_BOTTOM: f32 = 4.0;
+const BTN_FIRST_RIGHT: f32 = 5.0;
+const BTN_SPACING: f32 = 3.0;
+const FALLBACK_BTN_W: f32 = 42.0;
+const FALLBACK_BTN_H: f32 = 20.0;
+
+const WIN_TEXTURE: &str = nostalre_resources::ui::WIN_MSGBOX;
+
+const OK_BTN: ButtonTextures = ButtonTextures {
+    normal: nostalre_resources::ui::BTN_OK,
+    hover: nostalre_resources::ui::BTN_OK_A,
+    pressed: nostalre_resources::ui::BTN_OK_B,
+};
+const CANCEL_BTN: ButtonTextures = ButtonTextures {
+    normal: nostalre_resources::ui::BTN_CANCEL,
+    hover: nostalre_resources::ui::BTN_CANCEL_A,
+    pressed: nostalre_resources::ui::BTN_CANCEL_B,
+};
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ConfirmResult {
+    Ok,
+    Cancel,
+}
+
+pub struct ConfirmDialogState {
+    pub message: String,
+    pub show_cancel: bool,
+    /// Informational box with no buttons (e.g. "Please wait..."), dismissed
+    /// programmatically by clearing `state`.
+    pub no_buttons: bool,
+    onclose: Option<Box<dyn FnMut(ConfirmResult)>>,
+    deliver_result: bool,
+}
+
+impl ConfirmDialogState {
+    pub fn new(message: &str) -> Self {
+        Self {
+            message: message.to_string(),
+            show_cancel: false,
+            no_buttons: false,
+            onclose: None,
+            deliver_result: false,
+        }
+    }
+}
+
+pub struct ConfirmDialog {
+    pub state: Option<ConfirmDialogState>,
+    pub has_grf_textures: bool,
+    result: Option<ConfirmResult>,
+    btn_size: (f32, f32),
+    win_size: (f32, f32),
+}
+
+impl Default for ConfirmDialog {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl ConfirmDialog {
+    pub fn new() -> Self {
+        Self {
+            state: None,
+            has_grf_textures: false,
+            result: None,
+            btn_size: (FALLBACK_BTN_W, FALLBACK_BTN_H),
+            win_size: (DIALOG_W, DIALOG_H),
+        }
+    }
+
+    pub fn show<F>(&mut self, message: &str, show_cancel: bool, onclose: F)
+    where
+        F: FnMut(ConfirmResult) + 'static,
+    {
+        let mut state = ConfirmDialogState::new(message);
+        state.show_cancel = show_cancel;
+        state.onclose = Some(Box::new(onclose));
+        self.state = Some(state);
+    }
+
+    pub fn show_confirm(&mut self, message: &str) {
+        let mut state = ConfirmDialogState::new(message);
+        state.show_cancel = true;
+        state.deliver_result = true;
+        self.result = None;
+        self.state = Some(state);
+    }
+
+    pub fn take_result(&mut self) -> Option<ConfirmResult> {
+        self.result.take()
+    }
+
+    /// Shows a buttonless informational box (e.g. "Please wait...") that stays
+    /// until [`ConfirmDialog::dismiss`] or a new `show*` call replaces it.
+    pub fn show_message(&mut self, message: &str) {
+        let mut state = ConfirmDialogState::new(message);
+        state.no_buttons = true;
+        self.state = Some(state);
+    }
+
+    pub fn dismiss(&mut self) {
+        self.state = None;
+    }
+
+    pub fn close(&mut self) {
+        if let Some(ref mut state) = self.state {
+            let result = if state.show_cancel {
+                ConfirmResult::Cancel
+            } else {
+                ConfirmResult::Ok
+            };
+            if let Some(ref mut callback) = state.onclose.take() {
+                callback(result);
+            }
+            self.state = None;
+        }
+    }
+
+    /// Escape cancels a two-button box and dismisses a lone-OK box as OK. A
+    /// buttonless box declines the key: only its owner can take it down.
+    /// Returns whether the key was used.
+    pub fn escape(&mut self) -> bool {
+        let Some(state) = &self.state else {
+            return false;
+        };
+        if state.no_buttons {
+            return false;
+        }
+        let result = if state.show_cancel {
+            ConfirmResult::Cancel
+        } else {
+            ConfirmResult::Ok
+        };
+        let deliver_result = state.deliver_result;
+        let mut state = self.state.take().unwrap();
+        if deliver_result {
+            self.result = Some(result);
+        }
+        if let Some(mut callback) = state.onclose.take() {
+            callback(result);
+        }
+        true
+    }
+
+    pub fn build(&mut self, ui: &mut UiFrame) {
+        let state = match &mut self.state {
+            Some(s) => s,
+            None => return,
+        };
+
+        let screen = Rect::new(0.0, 0.0, ui.ctx.screen_width, ui.ctx.screen_height);
+        ui.ensure_in_z_order_with(WINDOW_ID, WindowOrder::Foreground);
+        ui.enter_window(WINDOW_ID, screen);
+        ui.interact(OVERLAY_ID, screen);
+
+        let (dialog_w, base_h) = self.win_size;
+        let text_w = dialog_w - PADDING * 2.0;
+        let lines = draw::word_wrap(&state.message, text_w, |t| ui.atlas.measure_text(t), false);
+        let extra_lines = lines.len().saturating_sub(1) as f32;
+        let dialog_h = base_h + extra_lines * ui.atlas.line_height;
+        let dx = ((ui.ctx.screen_width - dialog_w) / 2.0).floor();
+        let dy = ((ui.ctx.screen_height - dialog_h) / 2.0).floor();
+
+        if self.has_grf_textures {
+            let (v, i) = draw::quad_vertices(dx, dy, dialog_w, dialog_h, [1.0, 1.0, 1.0, 1.0]);
+            ui.draw_calls.push(DrawCall {
+                vertices: v.into(),
+                indices: i.into(),
+                texture: TextureRef::Named(WIN_TEXTURE.into()),
+            });
+        } else {
+            let (v, i) = draw::quad_vertices(dx, dy, dialog_w, dialog_h, [0.2, 0.2, 0.28, 1.0]);
+            ui.draw_calls.push(DrawCall {
+                vertices: v.into(),
+                indices: i.into(),
+                texture: TextureRef::White,
+            });
+            let border_color = [0.5, 0.5, 0.6, 1.0];
+            for (bx, by, bw, bh) in [
+                (dx, dy, dialog_w, 1.0),
+                (dx, dy + dialog_h - 1.0, dialog_w, 1.0),
+                (dx, dy, 1.0, dialog_h),
+                (dx + dialog_w - 1.0, dy, 1.0, dialog_h),
+            ] {
+                let (v, i) = draw::quad_vertices(bx, by, bw, bh, border_color);
+                ui.draw_calls.push(DrawCall {
+                    vertices: v.into(),
+                    indices: i.into(),
+                    texture: TextureRef::White,
+                });
+            }
+        }
+
+        let (btn_w, btn_h) = self.btn_size;
+        let container = Rect::new(dx, dy, dialog_w, dialog_h);
+
+        if state.no_buttons {
+            let text_color = if self.has_grf_textures {
+                [0.0, 0.0, 0.0, 1.0]
+            } else {
+                [1.0, 1.0, 1.0, 1.0]
+            };
+            draw_wrapped_lines(
+                ui,
+                &container,
+                &lines,
+                PADDING,
+                dy + dialog_h - PADDING,
+                text_color,
+            );
+            return;
+        }
+
+        let num_buttons = if state.show_cancel { 2 } else { 1 };
+        let btns = container.buttons_bottom_right(
+            num_buttons,
+            btn_w,
+            btn_h,
+            BTN_BOTTOM,
+            BTN_FIRST_RIGHT,
+            BTN_SPACING,
+        );
+
+        let text_color = if self.has_grf_textures {
+            [0.0, 0.0, 0.0, 1.0]
+        } else {
+            [1.0, 1.0, 1.0, 1.0]
+        };
+        draw_wrapped_lines(ui, &container, &lines, PADDING, btns[0].y, text_color);
+
+        let mut callback = state.onclose.take();
+        let deliver_result = state.deliver_result;
+        let enter = ui.ctx.key_enter;
+
+        let mut cancelled = false;
+        if state.show_cancel {
+            let cancel = ui.button(CANCEL_BTN_ID, btns[0], &CANCEL_BTN, crate::pt!("Cancel", "Cancelar"));
+            cancelled = cancel.clicked();
+        }
+        let ok = ui.button(OK_BTN_ID, btns[num_buttons - 1], &OK_BTN, "OK");
+        let confirmed = ok.clicked() || enter;
+
+        if cancelled {
+            if deliver_result {
+                self.result = Some(ConfirmResult::Cancel);
+            }
+            if let Some(ref mut cb) = callback {
+                cb(ConfirmResult::Cancel);
+            }
+            self.state = None;
+            return;
+        }
+        if confirmed {
+            if deliver_result {
+                self.result = Some(ConfirmResult::Ok);
+            }
+            if let Some(ref mut cb) = callback {
+                cb(ConfirmResult::Ok);
+            }
+            self.state = None;
+            return;
+        }
+
+        state.onclose = callback;
+    }
+}
+
+fn draw_wrapped_lines(
+    ui: &mut UiFrame,
+    container: &Rect,
+    lines: &[String],
+    padding: f32,
+    bottom_y: f32,
+    color: [f32; 4],
+) {
+    let lh = ui.atlas.line_height;
+    let top = container.y + padding;
+    let block_h = lines.len() as f32 * lh;
+    let mut y = top + ((bottom_y - top - block_h) / 2.0).max(0.0);
+    for line in lines {
+        ui.text(container.x + padding, y, line, color);
+        y += lh;
+    }
+}
+
+impl Window for ConfirmDialog {
+    fn has_grf_textures(&self) -> bool {
+        self.has_grf_textures
+    }
+    fn set_has_grf_textures(&mut self, value: bool) {
+        self.has_grf_textures = value;
+    }
+
+    fn set_texture_sizes(&mut self, size_fn: &dyn Fn(&str) -> Option<(u32, u32)>) {
+        if let Some((w, h)) = size_fn(OK_BTN.normal) {
+            self.btn_size = (w as f32, h as f32);
+        }
+        if let Some((w, h)) = size_fn(WIN_TEXTURE) {
+            self.win_size = (w as f32, h as f32);
+        }
+    }
+
+    fn grf_texture_paths() -> Vec<&'static str> {
+        vec![
+            WIN_TEXTURE,
+            OK_BTN.normal,
+            OK_BTN.hover,
+            OK_BTN.pressed,
+            CANCEL_BTN.normal,
+            CANCEL_BTN.hover,
+            CANCEL_BTN.pressed,
+        ]
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    use nostalre_ui::context::UiContext;
+    use nostalre_ui::state::StateCache;
+    use nostalre_ui::test_support::test_frame;
+    use std::cell::RefCell;
+    use std::rc::Rc;
+
+    #[test]
+    fn close_without_cancel_calls_ok() {
+        let mut dialog = ConfirmDialog::new();
+        let callback_result = Rc::new(RefCell::new(None));
+        let result_clone = Rc::clone(&callback_result);
+        dialog.show("Message", false, move |result| {
+            *result_clone.borrow_mut() = Some(result);
+        });
+
+        dialog.close();
+        assert_eq!(*callback_result.borrow(), Some(ConfirmResult::Ok));
+        assert!(dialog.state.is_none());
+    }
+
+    #[test]
+    fn close_with_cancel_calls_cancel() {
+        let mut dialog = ConfirmDialog::new();
+        let callback_result = Rc::new(RefCell::new(None));
+        let result_clone = Rc::clone(&callback_result);
+        dialog.show("Message", true, move |result| {
+            *result_clone.borrow_mut() = Some(result);
+        });
+
+        dialog.close();
+        assert_eq!(*callback_result.borrow(), Some(ConfirmResult::Cancel));
+        assert!(dialog.state.is_none());
+    }
+
+    #[test]
+    fn enter_key_confirms_ok_dialog() {
+        let mut dialog = ConfirmDialog::new();
+        let callback_result = Rc::new(RefCell::new(None));
+        let result_clone = Rc::clone(&callback_result);
+        dialog.show("Message", false, move |result| {
+            *result_clone.borrow_mut() = Some(result);
+        });
+
+        let mut state = StateCache::new();
+        let mut ctx = UiContext::new(800.0, 600.0);
+        ctx.key_enter = true;
+        {
+            let mut ui = test_frame(&mut ctx, &mut state);
+            dialog.build(&mut ui);
+        }
+        assert_eq!(*callback_result.borrow(), Some(ConfirmResult::Ok));
+        assert!(dialog.state.is_none());
+    }
+
+    fn font_atlas_draw_calls(ui: &UiFrame) -> usize {
+        ui.draw_calls
+            .iter()
+            .filter(|c| matches!(c.texture, TextureRef::FontAtlas))
+            .count()
+    }
+
+    #[test]
+    fn long_message_wraps_into_multiple_lines() {
+        let long = "This is a fairly long confirmation message that should not fit on a single line inside the dialog box and therefore must wrap.";
+        let mut dialog = ConfirmDialog::new();
+        dialog.show_message(long);
+
+        let mut state = StateCache::new();
+        let mut ctx = UiContext::new(800.0, 600.0);
+        let mut ui = test_frame(&mut ctx, &mut state);
+        dialog.build(&mut ui);
+
+        assert!(font_atlas_draw_calls(&ui) > 1);
+    }
+
+    #[test]
+    fn build_with_no_state_returns_early() {
+        let mut dialog = ConfirmDialog::new();
+        let mut state = StateCache::new();
+        let mut ctx = UiContext::new(800.0, 600.0);
+        let mut ui = test_frame(&mut ctx, &mut state);
+
+        dialog.build(&mut ui);
+    }
+}

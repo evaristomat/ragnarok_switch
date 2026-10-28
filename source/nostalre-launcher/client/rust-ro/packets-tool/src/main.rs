@@ -1,0 +1,70 @@
+mod packet_db_parser;
+mod packet_struct_generator;
+
+use std::fmt::Debug;
+use std::path::Path;
+
+use crate::packet_db_parser::parse;
+use crate::packet_struct_generator::write_packets_struct;
+
+#[derive(Debug)]
+pub struct PacketStructDefinition<'a> {
+    pub ids: Vec<PacketId>,
+    pub struct_def: StructDefinition<'a>,
+}
+
+#[derive(Clone, Debug)]
+pub struct PacketId {
+    pub id: String,
+    pub packetver: Option<u32>,
+}
+
+#[derive(Debug)]
+pub struct StructDefinition<'a> {
+    pub name: String,
+    pub current_field_position: i16,
+    pub fields: Vec<StructField<'a>>,
+}
+
+#[derive(Debug, Clone)]
+pub struct StructField<'a> {
+    pub name: String,
+    pub position: i16,
+    pub length: i16,
+    pub data_type: &'a Type,
+    pub complex_type: Option<String>,
+    pub sub_type: Option<&'a Type>,
+    pub condition: Option<Condition>,
+    pub array_count: Option<i16>,
+}
+#[derive(Debug, Clone)]
+pub enum Condition {
+    GTE(u32),
+    GT(u32),
+    LTE(u32),
+    LT(u32),
+    Range(u32, u32),
+}
+
+#[derive(Debug)]
+pub struct Type {
+    pub name: String,
+    pub cname: String,
+    pub length: Option<i16>,
+}
+
+impl<'a> StructDefinition<'a> {
+    pub fn increment_current_field_position(&mut self, last_field_length: i16) {
+        self.current_field_position += last_field_length;
+    }
+}
+
+/// Regenerates rust-ro/packets/src from rust-ro/packets-tool/packets_db; run from the workspace root:
+/// `cargo run -p packets-tool`.
+fn main() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let packet_db_path = root.join("packets_db");
+    let output_path = root.join("../packets/src");
+    let (packets, nested_structs) = parse(&packet_db_path);
+    write_packets_struct(packets, &nested_structs, &output_path);
+}

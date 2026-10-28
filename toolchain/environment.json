@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "rust_nightly": "nightly-2026-10-04",
+  "gcc_link_path_version": "16.1.0",
+  "mesa_upstream_commit": "0ff52079ca9e9e837ed27eb95a8d239f439a1864",
+  "mesa_patches_in_vendored_source": true,
+  "original_local_images": {
+    "nostalre-switch-toolchain:work": "sha256:bed0525fe5c94ab00291b1531290d5c29e28c09d23ede90a05bfd0ee334f7122",
+    "nostalre-client-tests:work": "sha256:3000198dff05ad79958d9e9b734d8b91df2788d8b859038c7bc81c0a89d01f0e"
+  },
+  "images_published": false,
+  "clean_machine_rebuild_verified": false,
+  "base_and_some_packages_unpinned": true
+}

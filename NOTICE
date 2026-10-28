@@ -1,0 +1,24 @@
+RagSWITCH Pre-Renewal
+
+Independent offline Nintendo Switch edition, based on the source components
+retained under source/. Local modifications include classic rules, controller
+interface, campaign, population, localization and rendering optimizations.
+
+The top-level GPLv3 text does not replace component licenses or grant rights
+over game assets. Preserve each component's LICENSE, NOTICE and source headers.
+
+nostalRE launcher: GPLv3; see source/nostalre-launcher/LICENSE and NOTICE.
+Client: Apache-2.0 baseline with MIT and GPL-derived portions; see
+source/nostalre-launcher/client/LICENSE.md, NOTICE and LICENSES/.
+rAthena: GNU GPL; database headers include GPL-3.0-or-later grants;
+see source/nostalre-launcher/server/LICENSE and individual source headers.
+bevy-horizon: MIT/Apache-2.0; source/bevy-horizon/LICENSE-*.
+mesa-switch: component-specific notices retained in source/mesa-switch/.
+Population engine origin: GPL text retained in vendor/population-engine-origin/.
+Noto fonts: SIL OFL; notices remain alongside the bundled fonts.
+
+Known unresolved upstream permission: AzzyAI-derived default tactic tables.
+See docs/LICENSING.md and the client's docs/third-party-content.md.
+
+The public export uses a fresh Git history. Original notices, authorship
+information and source references remain in the source files.

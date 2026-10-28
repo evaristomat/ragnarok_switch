@@ -1,0 +1,27 @@
+[package]
+name = "nostalre-renderer"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+nostalre-formats = { workspace = true }
+nostalre-resources = { workspace = true }
+nostalre-effects = { workspace = true }
+nostalre-profiling = { workspace = true }
+models = { workspace = true }
+tracing = { workspace = true }
+wgpu = { workspace = true }
+glam = { workspace = true }
+bytemuck = { workspace = true }
+image = { workspace = true }
+winit = { workspace = true }
+ab_glyph = { workspace = true }
+encoding_rs = { workspace = true }
+
+[target.'cfg(not(target_os = "horizon"))'.dependencies]
+wgpu = { workspace = true, features = ["dx12", "metal", "gles"] }
+
+[dev-dependencies]
+naga = { version = "28", features = ["wgsl-in"] }
+# a stub device for tests: real buffers and bind groups, no GPU
+wgpu = { workspace = true, features = ["noop"] }

@@ -1,0 +1,1791 @@
+//===== rAthena Script =======================================
+//= Acolyte Class Tutorial and Job Specific Quest
+//===== By: ==================================================
+//= Fix up by Jukka
+//===== Current Version: =====================================
+//= 2.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Acolyte training quest.
+//===== Additional Comments: =================================
+//= 1.0 Fully working
+//= 1.1 optimized [Lupus]
+//= 1.2 Fixed experience gains to match upcoming rate adjustments. [SinSloth]
+//= 1.3 Fixed bad NPC header data to comply with rev. 11603. [L0ne_W0lf]
+//= 1.4 Misc. updates. [L0ne_W0lf]
+//= 1.5 Adjusted EXP gains to Renewal values.
+//= 1.6 Fixed a wrong placed curly bracket. [Joseph]
+//= 1.6a Added 'npcskill' command. [Euphy]
+//= 1.7 Fixed exp, texts, and requirements in pre-renewal [Daegaladh]
+//= 1.8 Updated to match the official script. [Euphy]
+//= 1.9 Added GM management function. [Euphy]
+//= 2.0 Clean-up and little fix in Cleope Verce. [Capuche]
+//============================================================
+
+// Priest Praupin
+//============================================================
+prt_church,179,15,1	script	Priest Praupin	4_M_MINISTER,{
+	mes "[Padre Praupin]";
+	if(BaseJob != Job_Acolyte){
+		if(tu_acolyte01 == 25){
+			mes "Ah...!";
+			mes "Você"+strcharinfo(0)+" !";
+			mes "Você cresceu tanto!";
+			mes "Estou verdadeiramente orgulhosa de você.";
+		} else {
+			mes "Que você";
+			mes "seja sempre abençoado(a)...";
+		}
+		close;
+	}
+	switch(tu_acolyte01){
+	case 0:
+		mes "Bem-vindo(a), pequeno(a).";
+		mes "O destino deve ter nos";
+		mes "trazido juntos para que";
+		mes "nos encontrássemos hoje. É um prazer conhecê-lo(a).";
+		next;
+		mes "[Padre Praupin]";
+		mes "Mas estou preocupada que";
+		mes "você talvez não saiba o que fazer";
+		mes "como um(a) Noviço daqui em diante...";
+		next;
+		switch(select("Não estou preocupado(a).:O que devo fazer?")){
+		case 1:
+			mes "[Padre Praupin]";
+			mes "Ver seus olhos cheios de tanta determinação me tranquiliza. Mas se encontrar qualquer problema, sinta-se à vontade para me pedir ajuda. Adeus por enquanto, criança abençoada.";
+			close;
+		case 2:
+			mes "[Padre Praupin]";
+			mes "Existe um convento a nordeste";
+			mes "de Prontera chamado Convento de Santa Capitolina. Vá até lá e procure pela ^3131FFIrmã Asthe^000000. Ela é uma alma doce e gentil que tem";
+			mes "muito a lhe ensinar.";
+			next;
+			mes "[Padre Praupin]";
+			mes "Estou ansiosa para ver você";
+			mes "se tornar um(a) Noviço melhor após aprender com as instruções da Irmã Asthe. Se quiser, posso enviá-lo(a) ao convento.";
+			tu_acolyte01 = 1;
+			next;
+			if(select("Ir ao convento.:Não ir.")==1){
+				mes "[Padre Praupin]";
+				mes "Por favor, diga olá";
+				mes "à Irmã Asthe por mim.";
+				mes "Tenha uma boa viagem, pequeno(a)...";
+				close2;
+				warp "prt_monk",30,250;
+				end;
+			} else {
+				mes "[Padre Praupin]";
+				mes "Se desejar,";
+				mes "posso enviá-lo(a) para";
+				mes "o convento a qualquer momento.";
+				mes "Sempre que sentir que";
+				mes "precisa de ajuda, venha até mim.";
+				close;
+			}
+		}
+	case 7:
+		mes "Você está procurando alguém";
+		mes "que lida com assuntos de Arqueiros";
+		mes "na igreja? Hmm...";
+		next;
+		mes "[Padre Praupin]";
+		mes "Ah, ele está no convento agora. Se quiser encontrar o Bispo Maugins no Convento de Santa Capitolina, viaje para ^3131FFnorte^000000, ^3131FFleste^000000, ^3131FFleste^000000 e então ^3131FFleste^000000 partindo de Prontera.";
+		close;
+	case 22:
+		if(countitem(7181) > 0){// Receipt_01
+			emotion ET_SURPRISE;
+			mes "Ora, você parece";
+			mes "estar crescendo rapidamente";
+			mes "em seu papel como Noviço.";
+			mes "O treinamento foi difícil?";
+			next;
+			mes "[Padre Praupin]";
+			mes "Você tem algo";
+			mes "para me dar? Ah, sim, o";
+			mes "recibo! Eu estava me perguntando";
+			mes "o que tinha acontecido. Obrigado(a)";
+			mes "por todo o seu esforço.";
+			next;
+			mes "[Padre Praupin]";
+			mes "Ora, ora.";
+			mes "Faz tempo que não nos vemos.";
+			mes "Será que existe";
+			mes "algo que eu possa lhe dar?";
+			next;
+			mes "[Padre Praupin]";
+			mes "Que tal um destes?";
+			mes "Sei que não estou oferecendo muito,";
+			mes "mas eles foram bem úteis para mim quando eu era um(a) jovem Noviço como você.";
+			next;
+			if (select("Varinha:Mangual") == 1)
+				getitem 1604,1; //Wand
+			else
+				getitem 1510,1; //Flail
+			delitem 7181,1; //Receipt_01
+			tu_acolyte01 = 23;
+			close;
+		} else {
+			mes "Você é uma pessoa tão boa,";
+			mes "uma verdadeira criança da luz. Espero que muitos outros se beneficiem da pureza do seu coração e mente.";
+			close;
+		}
+	case 25:
+		mes "Você deve agora encontrar";
+		mes "seu próprio caminho e se tornar";
+		mes "um(a) Noviço melhor usando";
+		mes "sua própria força.";
+		next;
+		mes "[Padre Praupin]";
+		mes "Estou preocupada, mas confio em sua coragem e afeição. Que você seja sempre protegido(a) e que";
+		mes "você seja sempre abençoado(a).";
+		close;
+	}
+	mes "A Irmã Asthe no Convento de Santa Capitolina é uma pessoa";
+	mes "tão sincera e amorosa.";
+	next;
+	mes "[Padre Praupin]";
+	mes "Gostaria que eu o(a) enviasse ao convento para que possa aprender com esta professora maravilhosa?";
+	next;
+	if(select("Sim, por favor.:Não, obrigado(a).")==1){
+		mes "[Padre Praupin]";
+		mes "Por favor, diga olá";
+		mes "à Irmã Asthe por mim.";
+		mes "Tenha uma boa viagem, pequeno(a)...";
+		close2;
+		warp "prt_monk",30,250;
+		end;
+	} else {
+		mes "[Padre Praupin]";
+		mes "Se desejar,";
+		mes "posso enviá-lo(a) para";
+		mes "o convento a qualquer momento.";
+		mes "Sempre que sentir que";
+		mes "precisa de ajuda, venha até mim.";
+	}
+	close;
+}
+
+// Asthe
+//============================================================
+prt_monk,230,106,3	script	Asthe#tu	1_F_PRIEST,{
+	mes "[Asthe]";
+	switch(tu_acolyte01){
+	case 1:
+		mes "Ora...";
+		mes "Como alguém tão";
+		mes "jovem como um(a) Noviço";
+		mes "conseguiu chegar";
+		mes "a este lugar remoto?";
+		next;
+		if(select("Vim por diversão.:O Sacerdote Praupin sugeriu que eu viesse.")==1){
+			mes "[Asthe]";
+			mes "Este convento é sempre silencioso e pacífico. Sentar nos bancos e sentir a presença todo-poderosa ao seu redor é uma experiência relaxante e meditativa.";
+		}
+		else {
+			mes "[Asthe]";
+			mes "Sacerdote Praupin?";
+			mes "Ele é um homem muito gentil";
+			mes "que está sempre pensando";
+			mes "nos outros. Então ele";
+			mes "enviou você a mim para treinamento?";
+			next;
+			mes "[Asthe]";
+			mes "Antes de começarmos,";
+			mes "por que você não descansa";
+			mes "um pouco? Você deve estar cansado(a) de viajar até aqui. Quando estiver pronto(a), venha";
+			mes "me ver, certo?";
+			tu_acolyte01 = 2;
+		}
+		close;
+	case 2:
+		mes "Este castelo, o Convento de Santa Capitolina, é um lugar bonito e pacífico que traz";
+		mes "calma a qualquer coração.";
+		next;
+		mes "[Asthe]";
+		mes "Bem, então...";
+		mes "Vamos começar";
+		mes "as lições?";
+		next;
+		mes "[Asthe]";
+		mes ""+strcharinfo(0)+",";
+		mes "Você já pensou sobre que tipo de Noviço gostaria de se tornar? É muito importante que você planeje o futuro que deseja.";
+		next;
+		if(select("Um que apoia os outros.:Um que pune o mal.")==1){
+			mes "[Asthe]";
+			mes "Ah, você tem um";
+			mes "coração tão generoso!";
+			mes "Curar a dor dos outros e apoiar seus companheiros em batalha. Você deve ter se tornado um(a) Noviço para se tornar um(a) ^3131FFSacerdote^000000.";
+			next;
+			mes "[Asthe]";
+			mes "Sacerdotes têm ótimas habilidades de suporte e o poder de batalhar contra o mal. Eles usam armas para lutar contra monstros como outros combatentes, mas são ^3131FFproibidos de usar lâminas^000000.";
+		} else {
+			mes "[Asthe]";
+			mes "Chamamos aqueles que usam seus punhos como ferramentas de punição divina de Monges. Eles transmitem nossa mensagem";
+			mes "de amor e paz de uma forma... mais colorida.";
+			next;
+			mes "[Asthe]";
+			mes "Mas o caminho para se tornar";
+			mes "um(a) Monge exigirá grande paciência e autocontrole. Você verá frequentemente Monges treinando suas mentes";
+			mes "e corpos por toda a terra.";
+		}
+		next;
+		mes "[Asthe]";
+		mes "Bem, você ainda tem um longo caminho a percorrer. A melhor coisa a fazer seria dedicar um tempo para planejar e considerar seu futuro seriamente.";
+		next;
+		mes "[Asthe]";
+		mes "Agora,";
+		mes ""+strcharinfo(0)+"...";
+		mes "O que você acha";
+		mes "que é a habilidade mais necessária";
+		mes "para um(a) Noviço?";
+		next;
+		switch(select("Curar:Água Sagrada:Teleporte")){
+		case 1:
+			mes "[Asthe]";
+			mes "Ah, sim.";
+			mes "^3131FFCurar^000000 é uma habilidade básica, porém importante para pessoas como nós. Ela pode recuperar sua própria vida";
+			mes "assim como a de outras pessoas.";
+			break;
+		case 2:
+			mes "[Asthe]";
+			mes "^3131FFÁgua Bendita^000000 abençoa";
+			mes "água normal e a transforma em Água Benta. Esta é uma habilidade importante, mas não é considerada um dos itens essenciais que todos os Noviços";
+			mes "deveriam saber.";
+			next;
+			mes "[Asthe]";
+			mes "Na minha opinião,";
+			mes "^3131FFCurar^000000 é a habilidade mais importante";
+			mes "que um Noviço pode aprender. É uma habilidade especial que pode salvar outros e derrotar os";
+			mes "monstros nascidos da escuridão.";
+			break;
+		case 3:
+			mes "[Asthe]";
+			mes "^3131FFTeleporte^000000 permite que você se mova instantaneamente para outro lugar. É uma ótima habilidade, mas é difícil considerá-la necessária para todos os Noviços.";
+			next;
+			mes "[Asthe]";
+			mes "Na minha opinião,";
+			mes "^3131FFCurar^000000 é a habilidade mais importante que um Noviço pode aprender. É uma habilidade especial que pode salvar outros e derrotar os";
+			mes "monstros nascidos da escuridão.";
+			break;
+		}
+		next;
+		mes "[Asthe]";
+		mes "Você pode usar o poder sagrado";
+		mes "da habilidade Curar para atacar monstros Mortos-Vivos (^3131FFShift + Curar^000000). A luz da verdade protege os justos e destrói os perversos.";
+		next;
+		mes "[Asthe]";
+		mes "Apenas reúna a";
+		mes "força dentro do seu";
+		mes "coração em suas mãos...";
+		next;
+		mes "[Asthe]";
+		mes "CURAR!!";
+		npcskill "AL_HEAL",11,99,60;
+		tu_acolyte01 = 3;
+		if(getskilllv("AL_HEAL") == 0){
+			getexp 0,100;
+			specialeffect2 EF_CONE;
+		}
+		close;
+	case 3:
+		mes "Eu gostaria de lhe passar uma tarefa, mas o que você";
+		mes "acha? Acredito que aprender o básico é sua tarefa";
+		mes "mais importante por enquanto.";
+		next;
+		if(getskilllv("AL_HEAL") < 3){
+			mes "[Asthe]";
+			mes "Pois bem, aprenda";
+			mes "a habilidade Curar até o";
+			mes "^3131FFNível 3^000000 e então";
+			mes "retorne para mim.";
+			next;
+			mes "[Asthe]";
+			mes "Sua força ainda não está desenvolvida,";
+			mes "então lute contra monstros mais fracos por enquanto.";
+			mes "Vou lhe emprestar uma Maça da igreja, então use-a bem e ^3131FFdevolva-a^000000 quando terminar, tudo bem?";
+			next;
+			mes "[Asthe]";
+			mes "Primeiro ^0033FFcomece lutando contra monstros ao redor de cada cidade, como Prontera^000000. Seria mais conveniente lutar contra os monstros aqui, mas eles podem ser fortes demais para você agora.";
+			next;
+			mes "[Asthe]";
+			mes "Vou mudar seu Ponto de Retorno para que você renasça no convento. Assim que aprender Curar Nível 3, você pode usar uma Asa de Borboleta para retornar aqui.";
+			next;
+			mes "[Asthe]";
+			mes "Você também pode falar com o ^3131FFPadre Praupin na Igreja de Prontera^000000";
+			mes "e ele enviará você de volta para cá.";
+			mes "Ele tem um cuidado especial em ajudar os jovens Noviços.";
+			next;
+			mes "[Asthe]";
+			mes "Pois bem,";
+			mes "espero que você";
+			mes "tenha uma boa viagem.";
+			tu_acolyte01 = 4;
+			getitem 1504,1; //Mace
+			getitem 602,1; //Wing_Of_Butterfly
+			savepoint "prt_monk",30,250,1,1;
+		}
+		else {
+			mes "[Asthe]";
+			mes "Oh, céus!";
+			mes "Você já aprendeu";
+			mes "a usar corretamente";
+			mes "a habilidade";
+			mes "Curar. Muito bem!";
+			next;
+			mes "[Asthe]";
+			mes "Acredito que você está";
+			mes "pronto para que eu discuta";
+			mes "o próximo assunto. Agora,";
+			mes "vamos ver... Hmm...";
+			tu_acolyte01 = 5;
+		}
+		close;
+	case 4:
+		if(getskilllv("AL_HEAL") > 2){
+			if(countitem(1504) > 0){// Mace
+				mes "Oh, céus!";
+				mes "Bem-vindo de volta~";
+				mes "Vejo que você";
+				mes "já completou a tarefa.";
+				mes "Bom trabalho!";
+				next;
+				mes "[Asthe]";
+				mes "Agora, eu gostaria de ter a Maça de volta, se não se importar.";
+				mes "Por acaso, você carrega ^FF0000alguma outra Maça com Propriedade elemental^000000?";
+				mes "Se sim, por favor, guarde a maça em algum lugar primeiro.";
+				mes "Receio que minha visão esteja ruim demais para distinguir a diferença... Hoho.";
+				next;
+				mes "[Asthe]";
+				mes "Você gostaria que eu retirasse a maça do seu inventário agora?";
+				next;
+				if(select("Com certeza.:Deixe-me verificar novamente.") == 2) {
+					mes "[Asthe]";
+					mes "Tudo bem, sem problemas.";
+					mes "Por favor, certifique-se de não carregar nenhuma ^FF0000Maça com Propriedade elemental^000000.";
+					close;
+				}
+				mes "[Asthe]";
+				mes "Muito obrigado.";
+				mes "Você devolveu a Maça.";
+				emotion ET_SMILE;
+				tu_acolyte01 = 5;
+				delitem 1504,1; //Mace
+				if(Class == Job_Acolyte_High)
+					getexp 2000,1000;
+				else
+					getexp 1000,500;
+				specialeffect2 EF_CONE;
+			}
+			else {
+				mes "Oh, céus!";
+				mes "Bem-vindo de volta~";
+				mes "Vejo que você";
+				mes "completou a tarefa.";
+				next;
+				mes "[Asthe]";
+				mes "Mas você deve ter esquecido a Maça que lhe emprestei. Você poderia trazê-la de volta para que eu possa devolvê-la à igreja?";
+			}
+			close;
+		}
+		mes "Você está tendo";
+		mes "dificuldades em treinar";
+		mes "para aprender Curar Nível 3?";
+		mes "Por favor, não desanime.";
+		next;
+		mes "[Asthe]";
+		mes "O básico é crucial para obter o domínio das habilidades mais avançadas que você aprenderá depois. Apenas tenha em mente que todos os seus esforços e sofrimentos se tornarão glória";
+		mes "e felicidade.";
+		close;
+	case 5:
+		mes "Suponho que posso lhe contar um pouco mais sobre a classe Noviço. Você já sabe que Noviços devem treinar e ir até a Igreja de Prontera para se tornarem um Noviço, sua Primeira Classe.";
+		next;
+		mes "[Asthe]";
+		mes "Após se tornar um Noviço";
+		mes "no ^3131FFNível de Classe 40^000000, você terá a oportunidade de mudar para uma Segunda Classe mais especializada.";
+		next;
+		mes "[Asthe]";
+		mes "Ao mudar";
+		mes "para as Segundas Classes,";
+		mes "Noviços podem se tornar ^3131FFSacerdotes^000000,";
+		mes "os apóstolos da misericórdia, ou ^3131FFMonges^000000";
+		mes "que executam a ira de Deus.";
+		next;
+		mes "[Asthe]";
+		mes "Sacerdotes e Monges podem";
+		mes "mudar para a Classe Transcendente";
+		mes "visitando a Valquíria em Valhalla. Sacerdotes podem se tornar ^3131FFSumos Sacerdotes^000000 e Monges podem se tornar ^3131FFCampeões^000000.";
+		next;
+		mes "[Asthe]";
+		mes "Você entendeu tudo isso?";
+		mes "Ho ho ho~ Não há necessidade de tentar lembrar de tudo agora. Você pegará o jeito.";
+		tu_acolyte01 = 6;
+		close;
+	case 6:
+		mes ""+strcharinfo(0)+",";
+		mes "Acabei de receber esta carta, mas parece ter sido um erro.";
+		mes "Na verdade, ela é endereçada";
+		mes "ao Sacerdote Gardron.";
+		next;
+		mes "[Asthe]";
+		mes "No entanto, estou um pouco ocupado com";
+		mes "meu trabalho agora, então você poderia entregar isso ao Sacerdote Gardron no prédio ao lado para mim?";
+		tu_acolyte01 = 7;
+		getitem 7148,1; //Mother_Letter
+		close;
+	case 7:
+		mes "Você poderia, por favor,";
+		mes "entregar esta carta";
+		mes "ao Sacerdote Gardron para mim?";
+		mes "Você pode encontrá-lo no";
+		mes "prédio próximo.";
+		close;
+	case 9:
+		mes "Você foi até"+(checkre(0)?"Prontera":"payon")+"em nome do convento para o Sacerdote Gardron? Isso deve ter sido difícil...";
+		next;
+		mes "[Asthe]";
+		mes "Bênção!";
+		npcskill "AL_BLESSING",10,0,0;
+		next;
+		mes "[Asthe]";
+		mes "Agora vou lhe ensinar";
+		mes "sobre ^FF0000Bênção^000000. Esta é uma habilidade sagrada que entrega a bênção de Deus. Bênção aumentará temporariamente ^3131FFFOR^000000, ^3131FFINT^000000, ^3131FFDES^000000 e removerá ^3131FFMaldição^000000.";
+		next;
+		mes "[Asthe]";
+		mes "Assim como Curar,";
+		mes "Bênção pode ser usada";
+		mes "contra monstros Mortos-Vivos.";
+		mes "(^3131FFSHIFT + Bênção^000000)";
+		mes "Bênção, na verdade,";
+		mes "amaldiçoará o Morto-Vivo.";
+		next;
+		mes "[Asthe]";
+		mes "Bênção pode ser aprendida após você aprender ^3131FFProteção Divina^000000 Nível 5. Essa é a habilidade que aumentará sua resistência a danos de monstros Mortos-Vivos e Demoníacos.";
+		next;
+		mes "[Asthe]";
+		mes "Ser capaz de servir a Deus e";
+		mes "abençoar os outros com sua glória é uma grande honra. Bem, isso é tudo para esta lição.";
+		next;
+		mes "[Asthe]";
+		mes "Oh, sim...!";
+		mes "No cemitério a noroeste";
+		mes "daqui, tenho cuidado de um cachorro perdido. Agora, está na hora de alimentá-lo.";
+		next;
+		mes "[Asthe]";
+		mes "Desculpe o incômodo,";
+		mes "mas você poderia ir";
+		mes "alimentar o cachorro para mim?";
+		next;
+		mes "^3355FFIrmã Asthe lhe dá";
+		mes "um pouco de ração para cachorro.^000000";
+		tu_acolyte01 = 10;
+		close;
+	case 11:
+	case 12:
+		mes "Como expulsar";
+		mes "um espírito maligno?";
+		mes "Ora, é da mesma";
+		mes "maneira que você";
+		mes "removeria uma maldição...";
+		next;
+		mes "[Asthe]";
+		mes "Ah...";
+		mes "Eu acredito que";
+		mes "este é um teste";
+		mes "dado a você por Deus.";
+		next;
+		mes "[Asthe]";
+		mes "Você já";
+		mes "sabe a resposta.";
+		mes "Pense cuidadosamente";
+		mes "e ela virá.";
+		tu_acolyte01 = 12;
+		close;
+	case 13:
+		mes "Você se lembra que";
+		mes "você pode aprender Proteção Divina";
+		mes "após aprender";
+		mes "Bênção, certo?";
+		next;
+		mes "[Asthe]";
+		mes "Quando você abrir a";
+		mes "Janela de Habilidades, verá que também pode aprender ^3131FFFlagelo do Mal^000000 e ^3131FFAngelus^000000, dependendo do seu nível de Proteção Divina.";
+		next;
+		mes "[Asthe]";
+		mes "Agora, ^3131FFFlagelo do Mal^000000 aumenta seu Poder de Ataque contra monstros Mortos-Vivos e Demônios, então é útil para aqueles de nós que servem a Deus expulsando o mal.";
+		next;
+		mes "[Asthe]";
+		mes "Assim que você aprender Flagelo do Mal nível 3, você pode aprender ^3131FFSinal da Cruz^000000, que diminui a defesa do monstro Morto-Vivo ou Fantasma alvo.";
+		specialeffect EF_SIGNUM;
+		next;
+		mes "[Asthe]";
+		mes "^3131FFAngelus^000000 aumenta a defesa do seu grupo, incluindo a sua. É afetado pelo atributo VIT, então quanto maior sua VIT, melhor ele funciona.";
+		specialeffect EF_ANGELUS;
+		next;
+		mes "[Asthe]";
+		mes "Por enquanto é isso";
+		mes "sobre Proteção Divina.";
+		mes "Vamos fazer uma pausa antes";
+		mes "de seguirmos para a próxima lição,";
+		mes "certo? Estarei bem aqui.";
+		tu_acolyte01 = 14;
+		close;
+	case 14:
+		mes "Agora é hora";
+		mes "da sua próxima lição.";
+		mes "Vamos falar sobre a";
+		mes "habilidade ^3131FFAumentar Agilidade^000000, que faz";
+		mes "parte da árvore de habilidades de Curar.";
+		next;
+		mes "[Asthe]";
+		mes "Você pode aprender Aumentar Agilidade após aprender ^3131FFCurar^000000 nível 3. Como o nome diz, Aumentar Agilidade aumenta temporariamente a ^3131FFagilidade (AGI)^000000 do seu alvo.";
+		next;
+		mes "[Asthe]";
+		mes "Aumentar Agilidade";
+		mes "também aumenta";
+		mes "a ^3131FFTaxa de Esquiva^000000,";
+		mes "a ^3131FFVelocidade de Ataque^000000";
+		mes "e a ^3131FFVelocidade de Movimento^000000.";
+		next;
+		mes "[Asthe]";
+		mes "Experimente você";
+		mes "mesmo, está bem?";
+		tu_acolyte01 = 15;
+		npcskill "AL_INCAGI",10,0,0;
+		close;
+	case 15:
+		mes "Assim que você aprender";
+		mes "Aumentar Agilidade nível 1,";
+		mes "você pode começar a aprender";
+		mes "^3131FFDiminuir Agilidade^000000.";
+		next;
+		mes "[Asthe]";
+		mes "Como você pode imaginar, Diminuir Agilidade torna os inimigos mais lentos, reduzindo sua agilidade, Velocidade de Movimento, Taxa de Esquiva e Velocidade de Ataque. Seu efeito é o exato oposto de Aumentar Agilidade.";
+		tu_acolyte01 = 15;
+		next;
+		mes "[Asthe]";
+		mes "A última habilidade na árvore de habilidades de Curar é ^3131FFCura^000000. Você pode aprender Cura após aprender Curar nível 2.";
+		next;
+		mes "[Asthe]";
+		mes "Cura pode remover status";
+		mes "irregulares como ^3131FFSilêncio^000000, ^3131FFMaldição^000000";
+		mes "e ^3131FFPetrificação^000000. Quando usada em monstros Mortos-Vivos, Cura na";
+		mes "verdade irá amaldiçoá-los.";
+		specialeffect EF_CURE;
+		next;
+		mes "[Asthe]";
+		mes "Por hora, não se esqueça de que as habilidades Aumentar Agilidade, Diminuir Agilidade e";
+		mes "Cura só podem ser aprendidas";
+		mes "se você aprender a habilidade Curar.";
+		tu_acolyte01 = 16;
+		close;
+	case 16:
+		mes "Você tem aprendido";
+		mes "muito rápido. Fico feliz";
+		mes "que tenhamos chegado a este";
+		mes "ponto tão cedo.";
+		next;
+		mes "[Asthe]";
+		mes "Assim que você se tornar";
+		mes "um Noviço, você poderá";
+		mes "aprender a habilidade ^3131FFRuach^000000.";
+		next;
+		mes "[Asthe]";
+		mes "Ruach é usada para detectar ^3131FFinimigos escondidos^000000. Magos têm uma habilidade similar chamada Revelação, mas ela só detecta inimigos. Ruach irá simultaneamente detectar e";
+		mes "causar dano a inimigos escondidos.";
+		specialeffect EF_RUWACH;
+		next;
+		mes "[Asthe]";
+		mes "Após aprender Ruach,";
+		mes "você pode aprender ^3131FFTeleporte^000000. Teleporte enviará você instantaneamente para um ponto aleatório no mapa ou para o seu Ponto de Retorno.";
+		next;
+		mes "[Asthe]";
+		mes "Após aprender Teleporte nível 2, você pode aprender ^3131FFPortal^000000, que permitirá que você se teleporte para um Ponto de Memo, ou destino salvo, consumindo ^FF00001 Gema Azul^000000.";
+		next;
+		mes "[Asthe]";
+		mes "Assim que dominar Portal, você pode ^3131FFmemorizar três Pontos de Memo^000000. Você não pode salvar Pontos de Memo na maioria dos campos ou masmorras, mas pode usar o comando ^FF0000/memo^000000 em";
+		mes "cidades e certos campos.";
+		next;
+		mes "[Asthe]";
+		mes "Ficou confuso?";
+		mes "Pense apenas que Teleporte";
+		mes "e Portal permitem que os servos";
+		mes "de Deus se movam rapidamente de um lugar";
+		mes "para outro.";
+		next;
+		mes "[Asthe]";
+		mes "Eu tenho minha casa e o convento salvos como Pontos de Memo, então eu simplesmente me teleporto entre o trabalho e a casa.";
+		next;
+		mes "[Asthe]";
+		mes "Agora...";
+		mes "A última habilidade";
+		mes "da árvore de Ruach";
+		mes "é chamada de ^3131FFPneuma^000000.";
+		next;
+		mes "[Asthe]";
+		mes "Pneuma protege personagens";
+		mes "dentro de um bloco de 3x3, ou uma área de 9 células, contra ^FF0000ataques de longa distância^000000. Se você estiver em grupo com Arqueiros ou outros usuários de arco, tome cuidado, pois você pode acabar bloqueando os ataques deles acidentalmente.";
+		specialeffect2 EF_PNEUMA;
+		next;
+		mes "[Asthe]";
+		mes "Existem alguns monstros Mortos-Vivos";
+		mes "que podem atacar à distância, então proteger-se com Pneuma e atacar com Curar seria uma boa estratégia.";
+		next;
+		mes "[Asthe]";
+		mes "Bem, cobrimos um";
+		mes "conteúdo bastante complicado nesta lição. Você gostaria de ouvir novamente?";
+		next;
+		if(select("Ouvir novamente.:Ir para o próximo tópico.")==1){
+			mes "[Asthe]";
+			mes "Muito bem,";
+			mes "dê-me um momento";
+			mes "para recuperar o fôlego~";
+		} else {
+			mes "[Asthe]";
+			mes "Ho ho!";
+			mes "Que Noviço inteligente~";
+			tu_acolyte01 = 17;
+		}
+		close;
+	case 17:
+		mes "Oh, céus...!";
+		mes "Todas essas coisas foram entregues para mim por acidente! E alguns desses pacotes deveriam";
+		mes "ser enviados para o Santuário de Prontera!";
+		next;
+		mes "[Asthe]";
+		mes "Você faria outro favor para mim? Por favor, distribua as correspondências aqui e na Igreja de Prontera, já que";
+		mes "eu simplesmente não tenho tempo.";
+		next;
+		mes "[Asthe]";
+		mes "Parece que alguns deles são mais urgentes que outros, então você poderia entregá-los em uma ordem específica, por favor?";
+		next;
+		mes "[Asthe]";
+		mes "O primeiro é um pacote para um trabalhador no norte. O nome dele é ^3131FFVeiner^000000. A próxima entrega é para ^3131FFHedrick^000000, que está perto da entrada do convento.";
+		next;
+		mes "[Asthe]";
+		mes "O terceiro é do Sindicato dos Ferreiro para o ^3131FFFerreiro^000000 que faz armas e armaduras para Monges. A quarta entrega vai para o ^3131FFPadre Karven^000000 no prédio ao lado.";
+		next;
+		mes "[Asthe]";
+		mes "Oh, e esta última entrega é um recibo para o ^3131FFPadre Praupin^000000, o Sacerdote que lhe falou sobre mim.";
+		mes "Aqui estão, as cartas e os pacotes...";
+		if(MaxWeight - Weight < 2430){
+			next;
+			mes "[Asthe]";
+			mes "Oh...!";
+			mes "Parece que você não";
+			mes "tem espaço suficiente";
+			mes "para carregar tudo.";
+			mes "Por que você não coloca alguns de seus itens no Armazém Kafra primeiro?";
+		} else {
+			tu_acolyte01 = 18;
+			getitem 7183,1; //Sister_Letter
+			getitem 7181,1; //Receipt_01
+			getitem 1081,2; //Merchant_Box_1
+			getitem 7148,1; //Mother_Letter
+		}
+		close;
+	case 18:
+	case 19:
+	case 20:
+	case 21:
+	case 22:
+		mes "Certo, não se";
+		mes "esqueça da ordem";
+		mes "na qual você precisa";
+		mes "entregar as cartas";
+		mes "e pacotes. Isso é";
+		mes "muito importante.";
+		next;
+		mes "[Asthe]";
+		mes "O primeiro é um pacote para um trabalhador no norte. O nome dele é ^3131FFVeiner^000000. A próxima entrega é para ^3131FFHedrick^000000, que está perto da entrada do convento.";
+		next;
+		mes "[Asthe]";
+		mes "O terceiro é da guilda de Ferreiro para o ^3131FFFerreiro^000000 que faz armas e armaduras para Monges. A quarta entrega vai para o ^3131FFSacerdote Karven^000000 no próximo prédio.";
+		next;
+		mes "[Asthe]";
+		mes "Ah, e esta última entrega é um recibo para o ^3131FFSacerdote Praupin^000000, o Sacerdote que te falou sobre mim. Certo, tenha uma boa viagem~";
+		close;
+	case 23:
+		mes "Ah, você está terminando";
+		mes "de fazer todas essas entregas? Muito obrigado! Como foi encontrar o Sacerdote Praupin depois de tanto";
+		mes "tempo?";
+		next;
+		mes "[Asthe]";
+		mes "Nós criamos relacionamentos com outras pessoas ao longo de nossas vidas e nossas memórias sobre elas vivem em nossos corações, sabe.";
+		next;
+		mes "[Asthe]";
+		mes "Quando se sentir solitário, deixe essas memórias brilharem através da sua escuridão. Apenas pensar nas pessoas que você ama pode curar suas feridas emocionais quando os tempos são difíceis.";
+		next;
+		mes "[Asthe]";
+		mes "Aqueles que sabem valorizar o presente podem formar relacionamentos duradouros. Eles são os primeiros a abraçar a felicidade no futuro. Lembre-se disso.";
+		next;
+		mes "[Asthe]";
+		mes "Tenho a sensação de que você se tornou um bom amigo do Sacerdote Praupin. Espero que o Sacerdote Praupin continue sendo um bom amigo seu também.";
+		next;
+		mes "[Asthe]";
+		mes "Muito bem então,";
+		mes "na próxima vez que";
+		mes "nos encontrarmos, eu lhe darei";
+		mes "minha lição final.";
+		tu_acolyte01 = 24;
+		close;
+	case 24:
+		mes "A última habilidade";
+		mes "que vou lhe ensinar";
+		mes "é ^3131FFAqua Benedicta^000000.";
+		next;
+		mes "[Asthe]";
+		mes "A água é algo tão comum que";
+		mes "esquecemos que ela está no centro da natureza. É muito básico, mas essencial.";
+		next;
+		mes "[Asthe]";
+		mes "Coloque a água em um recipiente assim e foque toda a sua energia sagrada desta forma... E então...";
+		next;
+		specialeffect EF_AQUA;
+		mes "[Asthe]";
+		mes "Aqua";
+		mes "Benedicta!";
+		next;
+		mes "[Asthe]";
+		mes "É assim que você cria ^3131FFÁgua Benta^000000. Lembre-se de que seus ^3131FFpés devem estar tocando a água^000000 para usar a habilidade Aqua Benedicta.";
+		next;
+		mes "[Asthe]";
+		mes "Ho ho~";
+		mes "Bem, isso é tudo";
+		mes "que tenho para lhe ensinar.";
+		mes "Pode ter sido difícil,";
+		mes "mas você fez um bom trabalho.";
+		next;
+		mes "[Asthe]";
+		mes "Oh! Se você voltar ao Santuário de Prontera, acredito que poderá aprender uma habilidade secreta. Não custa nada passar lá e conferir.";
+		next;
+		mes "[Asthe]";
+		mes "Bem, por favor, não se esqueça do que lhe ensinei. Espero que você olhe para trás com carinho para o nosso tempo juntos entre estas lindas flores. Que Deus te abençoe~";
+		tu_acolyte01 = 25;
+		if (checkre(3))
+			getexp 1000,1000;
+		else
+			getexp 5000,3000;
+		specialeffect2 EF_CONE;
+		close;
+	}
+	mes "Se você entrar em uma";
+	mes "discussão com alguém,";
+	mes "resolva conversando enquanto compartilha";
+	mes "uma refeição boa e quente.";
+	next;
+	mes "[Asthe]";
+	mes "Com uma comida tão quente e deliciosa no seu corpo, todos os sentimentos de raiva desaparecerão como a neve.";
+	next;
+	mes "[Asthe]";
+	mes "Não estou brincando!";
+	mes "Se você acabar brigando com alguém próximo a você, isso pode ajudar. Estou falando por experiência de vida, sabe.";
+	close;
+}
+
+
+// Priest Gardron
+//============================================================
+monk_in,18,38,6	script	Priest Gardron#tu	4_M_MINISTER,{
+	mes "[Padre Gardron]";
+	if(tu_acolyte01 == 7){
+		if(countitem(7148) >= 1){// Mother_Letter
+			mes "Hmm...?";
+			mes "O que é isso?";
+			mes "Você tem algo para mim?";
+			next;
+			emotion ET_SURPRISE;
+			mes "[Padre Gardron]";
+			mes "Oh! Esta é uma carta da minha mãe lá em casa. Obrigado por trazer isso para mim, jovem Noviço.";
+			next;
+			mes "[Padre Gardron]";
+			mes "Eu tenho me preocupado com";
+			mes "ela, especialmente porque";
+			mes "ela está ficando velha agora, mas estou aliviado em saber que a saúde dela";
+			mes "está boa. Nós somos verdadeiramente abençoados...";
+			delitem 7148,1; //Mother_Letter
+			tu_acolyte01 = 8;
+		} else {
+			mes "Hmm...?";
+			mes "O que é isso?";
+			mes "Você tem algo para";
+			mes "mim? Uma carta, você disse?";
+			next;
+			mes "[Padre Gardron]";
+			mes "Bem, parece que";
+			mes "você deve ter esquecido";
+			mes "ou perdido em algum lugar.";
+		}
+		close;
+	} else if(tu_acolyte01 == 8){
+		if(countitem((checkre(0)?939:957)) > 4){// Bee_Sting
+			mes "Oh...!";
+			mes "Você voltou!";
+			mes "Vamos ver... Um...";
+			mes "Dois... Três...";
+			next;
+			mes "[Padre Gardron]";
+			mes "Muito obrigado!";
+			mes "Você fez um ótimo trabalho";
+			mes "em nome do convento,";
+			mes "sem mencionar o fato de que";
+			mes "você protegeu os cidadãos";
+			mes "de"+(checkre(0)?"Prontera":"payon")+"do perigo.";
+			next;
+			mes "[Padre Gardron]";
+			mes "Que você seja sempre";
+			mes "abençoado. Agora, você";
+			mes "deve retornar à Irmã";
+			mes "Asthe para continuar seu";
+			mes "treinamento de Noviço.";
+			tu_acolyte01 = 9;
+			percentheal 100,100;
+			if (checkre(3))
+				getexp 1000,1000;
+			else
+				getexp 2000,2000;
+			specialeffect2 EF_CONE;
+			//getitem 505,1; //Blue_Potion
+			close;
+		} else {
+			if (checkre(0)) {
+				mes "Há alguns dias, uma irmã em Prontera";
+				mes "me enviou um telegrama informando que cidadãos foram feridos";
+				mes "por Vespas no campo oeste,";
+				mes "então ela pediu ajuda à abadia para lidar com eles.";
+				next;
+				mes "[Padre Gardron]";
+				mes "Mas, neste momento,";
+				mes "também estamos com falta de pessoal...";
+				mes "então é um grande problema.";
+				next;
+				mes "[Padre Gardron]";
+				mes "....!";
+				emotion ET_SURPRISE;
+				next;
+				mes "[Padre Gardron]";
+				mes "Posso confiar a você, Noviço,"+strcharinfo(0)+",";
+				mes "este assunto urgente?";
+				mes "Por favor, livre-se das Vespas";
+				mes "que estão causando problemas no ^FF0000campo oeste de Prontera^000000.";
+				next;
+				mes "[Padre Gardron]";
+				mes "Sei que você está passando pela disciplina,";
+				mes "então vou lhe dar algo para ajudar";
+				mes "se você me trouxer ^3131FF 5^000000 ^3131FFFerrões de Abelha^000000.";
+				next;
+				mes "[Padre Gardron]";
+				mes "Você vai para Prontera?";
+				next;
+				if(select("Vamos para Prontera!:Voltarei depois de fazer alguns preparativos.") == 1) {
+					mes "[Padre Gardron]";
+					mes "Certo, vou enviar você para Prontera.";
+					mes "Por favor, livre-se das Vespas e me traga 5 Ferrões de Abelha para confirmação.";
+					mes "Meu Senhor, por favor, proteja este Noviço de monstros malignos.";
+					close2;
+					warp "prontera",116,72;
+					end;
+				}
+			} else {
+				mes "Há pouco tempo, o Ancião de payon me enviou uma mensagem. Aparentemente,";
+				mes "os residentes de payon estão sendo atacados por Zumbis.";
+				next;
+				mes "[Padre Gardron]";
+				mes "Ele solicitou ajuda ao convento, mas temos um grande problema. Estamos ficando sem pessoas aqui que possam lidar com essa situação...";
+				next;
+				mes "[Padre Gardron]";
+				mes "....!";
+				emotion ET_SURPRISE;
+				next;
+				mes "[Padre Gardron]";
+				mes ""+strcharinfo(0)+",";
+				mes "Poderia pedir";
+				mes "a você para realizar";
+				mes "esta tarefa? Extermine os Esqueletos e Zumbis no";
+				mes "Primeiro Andar da masmorra de payon.";
+				next;
+				mes "[Padre Gardron]";
+				mes "Como você ainda está no treinamento básico, eu darei";
+				mes "um pouco de ajuda se você";
+				mes "voltar com ^3131FF5 Unhas de Zumbi^000000.";
+				next;
+				mes "[Padre Gardron]";
+				mes "Bem então...";
+				mes "Você vai a payon?";
+				next;
+				if(select("Vamos para payon!:Hum, deixe-me preparar primeiro.")==1) {
+					mes "[Padre Gardron]";
+					mes "Bom, muito bom.";
+					mes "Eu vou enviar você";
+					mes "para lá para lutar contra os monstros na masmorra de payon para que você possa voltar com 5 Unhas de Zumbi. Que Deus te abençoe...";
+					close2;
+					warp "payon",161,58;
+					end;
+				}
+			}
+			close;
+		}
+	}
+	mes "Que a luz sempre";
+	mes "venha e ilumine";
+	mes "a escuridão. Em tempos";
+	mes "de dificuldade, lembre-nos";
+	mes "de que não há milagres";
+	mes "sem esperança...";
+	close;
+}
+
+// Dog
+//============================================================
+prt_monk,235,245,5	script	Dog#tu	4_DOG01,{
+	mes "[Dog]";
+	mes "^CDB79EAu au!";
+	mes "Woof woof!^000000";
+	next;
+	if(tu_acolyte01 == 10){
+		while(1) {
+			switch(select("Dar um petisco.:Fazer carinho no cachorro.:Encerrar ações.")){
+			case 1:
+				.@dog_food++;
+				if(.@dog_food > 4){
+					mes "[Dog]";
+					mes "^CDB79EGrrrrrr...!^000000";
+					emotion ET_FRET;
+					next;
+					mes "^3355FFO cachorro rosna";
+					mes "mostrando os dentes e encara";
+					mes "você de forma ameaçadora.^000000";
+				} else {
+					mes "[Dog]";
+					mes "^CDB79EAu au!^000000";
+					emotion ET_THROB;
+				}
+				break;
+			case 2:
+				mes "[Dog]";
+				mes "^CDB79EAu au~^000000";
+				emotion ET_THROB;
+				break;
+			case 3:
+				mes "[Dog]";
+				mes "^CDB79EAu au!^000000";
+				break;
+			}
+			next;
+		}
+	}
+	mes "["+strcharinfo(0)+"]";
+	mes "Que fofo~!";
+	close;
+}
+
+// Boy
+//============================================================
+prt_monk,243,238,5	script	Boy#boy_voi	HIDDEN_WARP_NPC,5,5,{
+OnTouch_:
+	if(tu_acolyte01 != 10) end;
+	mes "[??]";
+	mes "^333333*Snif*^000000";
+	mes "Irmã...";
+	close;
+}
+
+// Ill Girl
+//============================================================
+prt_monk,226,257,6	script	Ill Girl#tu	4_F_04,{
+	mes "[Angelic]";
+	if(tu_acolyte01 > 12){
+		mes "Obrigado por me ajudar.";
+		mes "Estou triste porque minha irmã mais velha não está mais comigo, mas eu deveria";
+		mes "me animar, certo? Farei o meu melhor!";
+		emotion ET_SMILE;
+		close;
+	}
+	mes "Irmã, não vá...";
+	mes "^333333*Snif* *Tosse tosse!*^000000";
+	mes "D-dói t-tanto... assim...!";
+	mes "Ir...mã...";
+	if(tu_acolyte01 == 10){
+		next;
+		mes "[Angelic]";
+		mes "^333333*Snif...*^000000";
+		mes "Você é do";
+		mes "convento?";
+		next;
+		mes "[Angelic]";
+		mes "...";
+		mes "......";
+		next;
+		mes "[Angelic]";
+		mes "Salve...";
+		mes "Minha irmã...";
+		next;
+		mes "[Angelic]";
+		mes "^333333*Snif snif*";
+		mes "^333333*Tosse tosse*";
+		mes "D-dói...";
+		next;
+		select("Você está bem?");
+		mes "[Angelic]";
+		mes "Minha irmã...";
+		mes "Ela era tão bonita...";
+		mes "Ela era uma garota tão legal.";
+		mes "Mas então, um dia...";
+		next;
+		mes "[Angelic]";
+		mes "Esta pessoa de aparência nojenta";
+		mes "estava coberta por essa substância gosmenta e a atacou. Ela foi envenenada e seu corpo ficou";
+		mes "mais frio e... ^333333*Snif*^000000";
+		next;
+		mes "[Angelic]";
+		mes "Eu estava com ela e também fiquei doente. Eu não fui envenenada tão gravemente, mas";
+		mes "meu corpo todo parece pesado e tenho tido esses pesadelos...";
+		next;
+		mes "[Angelic]";
+		mes "^333333*Tosse tosse!*^000000";
+		mes "Será que vou me juntar à";
+		mes "minha irmã assim?";
+		next;
+		mes "^3355FFEsta garota parece";
+		mes "realmente doente. Talvez você";
+		mes "devesse dar uma olhada melhor";
+		mes "e ver o que há de errado.^000000";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Você está bem?";
+		mes "................";
+		next;
+		specialeffect EF_CURSEATTACK;
+		soundeffectall "_curse.wav",0;
+		emotion ET_HUK;
+		mes "["+strcharinfo(0)+"]";
+		mes "Isso é....!";
+		mes "Um espírito amaldiçoado";
+		mes "está atormentando esta";
+		mes "pobre garotinha!";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Eu vou curar você...";
+		mes "Com certeza.";
+		tu_acolyte01 = 11;
+	}
+	else if(tu_acolyte01 == 11){
+		next;
+		mes "[Angelic]";
+		mes "Dói...!";
+		mes "Eu... eu não consigo...!";
+	}
+	else if(tu_acolyte01 == 12){
+		next;
+		mes "^3355FFVocê se aproxima";
+		mes "da garota, coloca as mãos";
+		mes "nas costas dela e realiza";
+		mes "um feitiço sagrado...^000000";
+		next;
+		switch(select("Curar!:Bênção!:Cura!:Recuperação!:Signum Crucis!:B.S Sacramenti!")){
+		case 1:
+			mes "["+strcharinfo(0)+"]";
+			mes "C...";
+			mes "Curar !!";
+			specialeffect EF_HEAL;
+			next;
+			mes "^3355FFNada aconteceu.";
+			mes "Não parece que";
+			mes "essa habilidade vai funcionar.^000000";
+			close;
+		case 2:
+			if(getskilllv("AL_BLESSING") > 0){
+				mes "["+strcharinfo(0)+"]";
+				mes "B...";
+				mes "Bênção!";
+				next;
+				if(rand(100) < getskilllv("AL_BLESSING")*10){
+					specialeffect EF_BLESSING;
+					mes "["+strcharinfo(0)+"]";
+					mes "Eu...";
+					mes "Eu consegui!!";
+					next;
+					mes "^3355FFQue ótima";
+					mes "chance para você";
+					mes "praticar suas habilidades!";
+					mes "Parece que essa boa";
+					mes "ação melhorou suas habilidades.^000000";
+					tu_acolyte01 = 13;
+					if (checkre(3))
+						getexp 0,500;
+					else
+						getexp 0,1000;
+					specialeffect2 EF_CONE;
+					next;
+					break;
+				} else {
+					mes "["+strcharinfo(0)+"]";
+					mes "Hã...?";
+					mes "Não está funcionando...";
+					mes "Talvez seja porque";
+					mes "eu ainda estou aprendendo?";
+					close;
+				}
+			} else {
+				mes "^3355FFVocê ainda não aprendeu";
+				mes "essa habilidade, então você";
+				mes "não pode usá-la por enquanto.^000000";
+				close;
+			}
+		case 3:
+			if(getskilllv("AL_CURE") > 0){
+				mes "["+strcharinfo(0)+"]";
+				mes "C-Curar...!";
+				specialeffect EF_CURE;
+				next;
+				mes "^3355FFNada aconteceu.";
+				mes "Não parece que";
+				mes "essa habilidade vai funcionar.^000000";
+			}
+			else {
+				mes "^3355FFVocê ainda não aprendeu";
+				mes "essa habilidade, então você não";
+				mes "consegue usá-la por enquanto.^000000";
+			}
+			close;
+		case 4:
+			mes "^3355FFEsta não é uma habilidade";
+			mes "que Noviços podem usar...^000000";
+			close;
+		case 5:
+			if(getskilllv("AL_CRUCIS") > 0){
+				mes "["+strcharinfo(0)+"]";
+				mes "S-Signum...";
+				mes "Signum Crucis!";
+				specialeffect EF_SIGNUM;
+				next;
+				mes "^3355FFNada aconteceu.";
+				mes "Não parece que";
+				mes "essa habilidade vai funcionar.^000000";
+			}
+			else {
+				mes "^3355FFVocê ainda não aprendeu";
+				mes "essa habilidade, então você não";
+				mes "consegue usá-la por enquanto.^000000";
+			}
+			close;
+		case 6:
+			mes "^3355FFEsta não é uma habilidade";
+			mes "que Noviços podem usar...^000000";
+			close;
+		}
+		mes "[Angelic]";
+		mes "Ah...";
+		mes "Eu me sinto...";
+		mes "Tão relaxada.";
+		mes "Tão mais leve...";
+		next;
+		mes "[Angelic]";
+		mes "Foi você";
+		mes "quem fez isso?";
+		mes "Esse é o";
+		mes "poder de Deus?";
+	}
+	close;
+}
+
+// Veiner
+//============================================================
+prt_monk,197,228,3	script	Veiner	4_M_ORIENT02,{
+	mes "[Veiner]";
+	if(countitem(1081) && tu_acolyte01 == 18){// Merchant_Box_1
+		mes "Tão exausta...";
+		mes "Será que eu deveria voltar para casa?";
+		next;
+		mes "[Veiner]";
+		mes "O que é isso?";
+		mes "Você tem uma entrega";
+		mes "para mim? Ora, o que";
+		mes "poderia ser?";
+		next;
+		mes "[Veiner]";
+		mes "Isto é...!";
+		mes "É um Chocolate Artesanal";
+		mes "do meu amorzinho!";
+		mes "Oh, Bibi! Você é a melhor!";
+		specialeffect EF_VALLENTINE;
+		specialeffect EF_HEARTCASTING;
+		next;
+		mes "[Veiner]";
+		mes "Ah, é verdade!";
+		mes "Muito obrigado por me entregar isso. Desculpe, mas sempre fico empolgado ao receber notícias da minha gatinha~";
+		emotion ET_THANKS;
+		tu_acolyte01 = 19;
+		delitem 1081,1; //Merchant_Box_1
+	}
+	else if(tu_acolyte01 > 18){
+		mes "Mal posso esperar";
+		mes "para vê-la novamente!";
+		mes "Bibi...! Eu te amoooo!";
+		emotion ET_CHUPCHUP;
+	}
+	else {
+		mes "Tão, tão";
+		mes "exausta...";
+		mes "Você poderia me ajudar";
+		mes "a carregar minhas coisas?";
+		mes "P-por favor...";
+	}
+	close;
+}
+
+// Hedrick
+//============================================================
+prt_monk,28,260,5	script	Hedrick	1_M_04,{
+	mes "[Hedrick]";
+	mes "^333333*Ufa!*^000000";
+	mes "Cara, trabalhei muito hoje!";
+	mes "E de forma tão eficiente também!";
+	mes "Ótimo trabalho como sempre,";
+	mes "Hedrick. Você é o número um!";
+	if(countitem(7148)==0 || tu_acolyte01 != 19) close;// Mother_Letter
+	next;
+	mes "[Hedrick]";
+	mes "Oh...?";
+	mes "Esta carta é para mim?";
+	mes "Queria saber de quem é.";
+	mes "Ah, é da minha mãe!";
+	next;
+	mes "[Hedrick]";
+	mes "Uau...!";
+	mes "Santo Deus!";
+	mes "Esta carta está";
+	mes "cheia da energia";
+	mes "do amor materno!";
+	specialeffect EF_STEELBODY;
+	next;
+	mes "[Hedrick]";
+	mes "Muito obrigado!";
+	mes "Aqui, por que você";
+	mes "não pega um dos";
+	mes "biscoitos que ela me enviou?";
+	delitem 7148,1; //Mother_Letter
+	tu_acolyte01 = 20;
+	getitem 538,1; //Well_Baked_Cookie
+	close;
+}
+
+// Weapon Merchant
+//============================================================
+prt_monk,136,261,0	script	Weapon Merchant#tu	HIDDEN_WARP_NPC,9,9,{
+OnTouch_:
+	if(tu_acolyte01 != 20 || countitem(1081) == 0) end;// Merchant_Box_1
+	mes "[Comerciante de Armas]";
+	mes "As coisas que pedi à guilda finalmente chegaram!";
+	mes "É bem difícil manter tudo em estoque, já que este lugar é tão remoto.";
+	next;
+	mes "[Comerciante de Armas]";
+	mes "Ei, muito obrigado!";
+	mes "Ah, e venha aqui se";
+	mes "precisar de alguma coisa, tá?";
+	delitem 1081,1; //Merchant_Box_1
+	tu_acolyte01 = 21;
+	close;
+}
+
+// Karven
+//============================================================
+monk_in,103,176,7	script	Karven	1_M_PASTOR,{
+	mes "[Karven]";
+	mes "Que você descanse";
+	if(tu_acolyte01 == 21 && countitem(7183)){
+		delitem 7183, 1;// Sister_Letter
+		tu_acolyte01 = 22;
+		mes "em paz para sempre...";
+		next;
+		mes "[Karven]";
+		mes "Estou fazendo orações";
+		mes "pelos que partiram recentemente.";
+		mes "Se não for urgente, por favor,";
+		mes "volte em outro momento.";
+		next;
+		mes "[Karven]";
+		mes "Uma carta?";
+		mes "Oh. Deve ser da";
+		mes "minha irmã mais nova.";
+		mes "O que ela poderia querer";
+		mes "desta vez?";
+		next;
+		mes "[Karven]";
+		mes "Espero que ela perceba";
+		mes "a palavra de Deus e volte";
+		mes "a viver uma boa vida mais";
+		mes "uma vez. Muito obrigado.";
+		close;
+	}
+	mes "descanse em paz...";
+	close;
+}
+
+// Gloria
+//============================================================
+prt_monk,219,164,3	script	Gloria#tu	4_F_SISTER,{
+	mes "[Gloria]";
+	if(BaseJob != Job_Acolyte){
+		mes "Oi, oi~";
+		mes "Eu sou a Gloria.";
+		mes "Você quer saber";
+		mes "algo interessante";
+		mes "sobre o meu nome?";
+		next;
+		mes "[Gloria]";
+		mes "Meu pai era um Ferreiro em Geffen, e supostamente ele terminou uma arma incrível no dia em que";
+		mes "eu nasci. Ele achou que era um sinal de boa sorte, então ele deu o nome";
+		mes "da arma em minha homenagem!";
+		next;
+		mes "[Gloria]";
+		mes "É um pouco estranho saber que existe uma arma com o seu nome,";
+		mes "mas eu gosto muito do meu nome. Digo, não é como se meus pais tivessem me batizado com o nome da arma, certo?";
+		close;
+	}
+	if(tu_acolyte01 > 0 && tu_acolyte01 < 25){
+		mes "Ainda sou";
+		mes "uma Noviço jovem";
+		mes "em treinamento e estou";
+		mes "sempre cometendo erros!";
+		next;
+		mes "[Gloria]";
+		mes "^333333*Snif*^000000";
+		mes "E eu levo bronca";
+		mes "quase o tempo todo...";
+		mes "Mas há uma coisa";
+		mes "que eu faço muito bem!";
+		next;
+		mes "[Gloria]";
+		mes "Portal!";
+		mes "Eu sei Portal de Nível 2!";
+		mes "Um dos meus Pontos de Memo é aqui";
+		mes "e o outro é em Prontera.";
+		next;
+		mes "[Gloria]";
+		mes "De qualquer forma, sempre";
+		mes "que você precisar, eu posso";
+		mes "te enviar para Prontera.";
+		mes "É só me avisar, certo?";
+		next;
+		switch(select("Estou bem por agora.:Me envie para Prontera.")){
+		case 1:
+			mes "[Gloria]";
+			mes "Para usar";
+			mes "o Portal, você precisa";
+			mes "de uma ^3131FFGema Azul^000000.";
+			mes "Isso é para me ajudar?";
+			mes "Uau, estou comovida!";
+			emotion ET_CRY;
+			close;
+		case 2:
+			mes "[Gloria]";
+			mes "Deixe comigo!";
+			mes "Lá vamos nós~!!";
+			mes "P-portal!";
+			close2;
+			warp "prontera",116,72;
+			end;
+		}
+	}
+	mes "Uau...";
+	mes "Você aprendeu tudo isso com a Asthe? Isso é tão legal...";
+	mes "Você deve ser muito melhor do que eu, a ponto de eu nem conseguir mais me gabar de abrir portais para";
+	mes "Prontera. ^333333*Snif*^000000";
+	close;
+}
+
+// Cleope Verce
+//============================================================
+prt_monk,153,210,3	script	Cleope Verce	4_F_SISTER,{
+	mes "[Cléope Verce]";
+	if(BaseJob == Job_Acolyte){
+		if (JobLevel < 40) {
+			if (BaseLevel < 26) {
+				mes "Oh, céus..";
+				mes "Uma Noviço novata?";
+				mes "Não parece nem que";
+				mes "você aprendeu";
+				mes "tantas habilidades assim?";
+				next;
+				mes "[Cléope Verce]";
+				mes "Ho ho~!";
+				mes "Nos meus dias";
+				mes "como Noviço,";
+				switch(rand(1,4)){
+				case 1:
+					mes "eu treinava atacando";
+					mes "^3131FFsapos verdes^000000 até meus nós dos dedos";
+					mes "sangrarem de tanto socar!";
+					break;
+				case 2:
+					mes "Eu batia em ^3131FFgravetos de madeira";
+					mes "prestes a quebrar^000000 e nesses";
+					mes "^3131FFcogumelos enormes^000000 o tempo todo!";
+					break;
+				case 3:
+					mes "Eu treinava lutando contra aquelas ^3131FFbaratas nojentas^000000.";
+					next;
+					mes "[Cléope Verce]";
+					mes "Argh...";
+					mes "Na verdade, essa não é uma lembrança tão boa quando paro para pensar.";
+					break;
+				case 4:
+					mes "Eu treinava lutando contra ^3131FFZumbis^000000 na masmorra daquela cidade cheia de árvores.";
+					break;
+				}
+				next;
+				mes "[Cléope Verce]";
+				mes "Você terá que passar por muita coisa até chegar ao ponto onde estou agora. Ho ho ho! Você ainda tem um looongo caminho pela frente~";
+				next;
+				emotion ET_KIK;
+				mes "[Cléope Verce]";
+				mes "Boa sorte...";
+				mes "Novato.";
+				close;
+			} else if(BaseLevel < 36){
+				mes "Ah, céus..";
+				mes "Um jovem Noviço?";
+				mes "Parece que você acabou de";
+				mes "começar a aprender suas habilidades?";
+				next;
+				mes "[Cléope Verce]";
+				mes "Ho ho~!";
+				mes "Quando eu tinha";
+				mes "a sua idade,";
+				switch(rand(1,5)){
+				case 1:
+					mes "eu lutava contra aqueles ^3131FFratos";
+					mes "brancos^000000 e ^3131FFbaratas enormes^000000~";
+					break;
+				case 2:
+					mes "Eu caminhava direto para as";
+					mes "^3131FFprofundezas do oceano^000000 para encontrar monstros para caçar.";
+					break;
+				case 3:
+					mes "Eu costumava lutar contra ^3131FFmonstros";
+					mes "de árvore assustadores^000000.";
+					break;
+				case 4:
+					mes "Eu costumava lutar contra centenas";
+					mes "de ^3131FFo-o-o-orc-os feios^000000.";
+					break;
+				case 5:
+					mes "Eu lutava contra os ^3131FFmacacos";
+					mes "na frente do convento^000000.";
+					break;
+				}
+				next;
+				mes "[Cléope Verce]";
+				mes "Aquelas foram";
+				mes "más lembranças.";
+				mes "Se alguém me dissesse";
+				mes "para ir lá novamente,";
+				mes "eu ficaria louco.";
+				next;
+				mes "[Cléope Verce]";
+				mes "Ainda assim, parece que você";
+				mes "tem um longo caminho a percorrer";
+				mes "até se tornar um Noviço";
+				mes "bem experiente. Ho ho~";
+				next;
+				emotion ET_KIK;
+				mes "[Cléope Verce]";
+				mes "Boa sorte,";
+				mes "jovem amigo.";
+				close;
+			} else if(BaseLevel < 46){
+				mes "Bem, bem, bem~";
+				mes "Olá, jovem Noviço.";
+				mes "Você ainda é meio";
+				mes "inexperiente, mas acho que você";
+				mes "também não é exatamente um iniciante.";
+				next;
+				mes "[Cléope Verce]";
+				mes "Lembro-me de que quando";
+				mes "eu tinha a sua idade, eu costumava";
+				switch(rand(1,6)){
+				case 1:
+					mes "lutar contra esses ^3131FFterríveis espíritos malignos^000000 o tempo todo naquele castelo a ^3131FFoeste de Geffen^000000. Eu me pergunto como sobrevivi";
+					mes "a tudo aquilo?";
+					break;
+				case 2:
+					mes "brincar com esses ^3131FFfofos";
+					mes "Poporings^000000 o tempo todo!";
+					next;
+					mes "[Cléope Verce]";
+					mes "Ainda assim, eu tinha que ter cuidado com os ataques deles. Naquela época, eles eram bem fortes!";
+					break;
+				case 3:
+					mes "lutar com ^3131FFfantasmas atiradores de armas!^000000 Claro, eles eram assustadores, mas derrotá-los era moleza se você tivesse Pneuma!";
+					break;
+				case 4:
+					mes "surrar aqueles ^3131FFdiabos atiradores de flechas^000000 quase todos os dias no castelo a oeste de Geffen. Nossa, havia muitos deles naquela época.";
+					break;
+				case 5:
+					mes "batalhar contra esses ^3131FFporcos gordos^000000. Eles eram bem fortes, então sempre me davam trabalho.";
+					break;
+				case 6:
+					mes "surrar esses ^3131FFpedaços vivos de";
+					mes "areia no deserto^000000. Eu juro, eles estavam vivos!";
+					break;
+				}
+				next;
+				mes "[Cléope Verce]";
+				mes "^333333*Suspiro*^000000";
+				mes "Ah, lembranças~";
+				mes "É claro, se eu tivesse";
+				mes "a chance de fazer tudo";
+				mes "de novo, não sei";
+				mes "se eu aceitaria...";
+				next;
+				mes "[Cléope Verce]";
+				mes "De qualquer forma, você tem";
+				mes "muitas aventuras";
+				mes "esperando por você. Espero";
+				mes "que você crie muitas boas";
+				mes "lembranças enquanto";
+				mes "ainda for um Noviço.";
+				next;
+				emotion ET_KIK;
+				mes "[Cléope Verce]";
+				mes "Boa sorte,";
+				mes "jovem amigo~";
+				close;
+			}
+		}
+		mes "Hmmm?";
+		mes "Parece que você aprendeu";
+		mes "bastante como";
+		mes "um Noviço! Odeio admitir,";
+		mes "mas você é bom demais para eu";
+		mes "te chamar de novato agora~";
+		close;
+	}
+	mes "Olá, olá.";
+	mes "O sol está muito";
+	mes "quente hoje, não";
+	mes "acha? Um clima muito";
+	mes "agradável hoje...";
+	close;
+}
+// Range NPC
+//============================================================
+prt_monk,217,123,0	script	#tu_monk	HIDDEN_WARP_NPC,10,10,{
+OnTouch_:
+	if(BaseJob == Job_Acolyte){
+		switch(tu_acolyte01){
+		case 4:
+		case 10:
+		case 25:
+			mes "[Som por janela]";
+			mes "...";
+			next;
+			mes "^3355FFHá algum tipo";
+			mes "de ruído vindo daquela";
+			mes "janela ali...^000000";
+			close;
+		}
+	}
+	end;
+}
+
+// Eavesdrop
+//============================================================
+prt_monk,223,123,3	script	Eavesdrop#tu	HIDDEN_NPC,{
+	if(BaseJob != Job_Acolyte){
+		mes "^3355FFNão há nada aqui.^000000";
+		close;
+	}
+	if(tu_acolyte01 > 3 && tu_acolyte01 < 10){
+		mes "[Voices from Window]";
+		mes "^A68064Senhor...";
+		mes "Algo não parece";
+		mes "certo no palácio.^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^CD6600O que há de errado?";
+		mes "Aconteceu alguma coisa?^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^A68064Não tenho certeza.";
+		mes "Não consigo explicar exatamente o que é, mas os funcionários parecem assustados com algo. Talvez tenha";
+		mes "acontecido algum tipo de acidente?^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^CD6600Hmm, eu não saberia dizer.";
+		mes "Por que não esperamos para ver";
+		mes "o que acontece? Tenho certeza de que a verdade virá à tona de uma forma ou de outra.^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^A68064 Tudo bem, senhor.";
+		mes "Ainda assim, não consigo";
+		mes "evitar me sentir inquieto...^000000";
+	}
+	else if(tu_acolyte01 > 9 && tu_acolyte01 < 25){
+		mes "[Voices from Window]";
+		mes "^A68064Ouvi de um";
+		mes "funcionário do palácio";
+		mes "que eles estão solicitando";
+		mes "um exorcismo nosso.^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^CD6600Exorcismo?";
+		mes "Zumbis atacaram";
+		mes "o reino ou algo assim?^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^A68064Não, não acho";
+		mes "que seja esse o caso, mas";
+		mes "eles estão solicitando";
+		mes "uma pessoa santa altamente qualificada...^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^CD6600Hmm...";
+		mes "Fico me perguntando o que";
+		mes "exatamente está acontecendo...^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^A68064Eu o informarei";
+		mes "assim que souber";
+		mes "de algo.^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^CD6600Obrigado...^000000";
+	}
+	else if(tu_acolyte01 > 24){
+		mes "[Voices from Window]";
+		mes "^A68064...Senhor, você sabe algo sobre a ^855E42maldição da família Gaebolg^A68064?^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^CD6600Os Gaebolg?";
+		mes "Você está me dizendo";
+		mes "que há uma maldição na";
+		mes "família real?^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^A68064Sim...";
+		mes "Talvez seja por isso que Sua";
+		mes "Alteza, o Rei Tristam III,";
+		mes "e seus cortesãos têm agido";
+		mes "de forma estranha ultimamente...^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^A68064Veja bem...";
+		mes "Dizem que Yormungard";
+		mes "amaldiçoou a família";
+		mes "Gaebolg quando Rune-Midgarts foi fundada.^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^CD6600Yormungard?!";
+		mes "Como podemos esperar";
+		mes "combater a sua magia?";
+		mes "Nem mesmo os Asgardianos";
+		mes "conseguiram lidar com o poder";
+		mes "daquela serpente gigante!^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^A68064É horrível...";
+		mes "Por causa da maldição,";
+		mes "supostamente, o primeiro filho de cada geração da família Gaebolg morrerá precocemente...^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^CD6600Você está dizendo que todos os primeiros príncipes e princesas";
+		mes "morreram até hoje? Se isso for verdade, causaria problemas se a notícia se espalhasse...^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^CD6600Foi isso que aconteceu";
+		mes "no palácio? O príncipe mais velho faleceu recentemente?^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^A68064 Não...";
+		mes "Na verdade, foi o segundo";
+		mes "príncipe mais velho que faleceu,";
+		mes "não o primeiro.^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^CD6600O quê!?^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^A68064B-baixe a voz!^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^CD6600Então...";
+		mes "Como aconteceu?";
+		mes "Foi um acidente?^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^A68064 Eles ainda não determinaram";
+		mes "a causa exata da morte. Mas os oficiais da corte querem que vejamos se conseguimos desfazer a maldição de Yormungard de uma vez por todas.^000000";
+		next;
+		mes "[Voices from Window]";
+		mes "^CD6600A maldição de Yormungard?";
+		mes "É possível removê-la depois de tantos anos? Tal magia antiga";
+		mes "pode ser poderosa demais para";
+		mes "qualquer um de nós na Igreja...^000000";
+		next;
+		mes "[Voice from Window]";
+		mes "^A68064Esta tarefa é monumentalmente grande!";
+		mes "E se falharmos, perderemos a fé dos nossos fiéis. A Igreja e a Corte Real realmente precisam de um milagre...^000000";
+		next;
+		mes "[Voice from Window]";
+		mes "^CD6600Bem, qual é a resposta da Igreja? Vamos realmente enviar alguém para quebrar a maldição de um monstro que pode desafiar os Asgardianos?^000000";
+		next;
+		mes "[Voice from Window]";
+		mes "^A68064Não tenho certeza.";
+		mes "Aqueles que poderiam ter";
+		mes "a habilidade necessária são";
+		mes "velhos demais. Ainda assim, eles";
+		mes "não perderam a esperança...^000000";
+		next;
+		mes "[Voice from Window]";
+		mes "^A68064Esta situação é muito importante para a reputação da família real e a estabilidade do reino, por isso todos têm sido muito cuidadosos";
+		mes "em manter silêncio.^000000";
+		next;
+		mes "[Voice from Window]";
+		mes "^A68064Por enquanto, voltarei ao reino e avisarei se ouvir outras notícias. Ainda assim, como todos precisam ser tão cuidadosos, pode demorar";
+		mes "um pouco até que eu saiba de algo novo.^000000";
+		next;
+		mes "[Voice from Window]";
+		mes "^CD6600Muito obrigado.";
+		mes "Estarei aguardando notícias";
+		mes "suas.^000000";
+		next;
+		mes "[Voice from Window]";
+		mes "^CD6600Oh, querido Deus.";
+		mes "Por favor, expulse a escuridão que se aproxima do Reino de Rune-Midgarts. Por favor, proteja-nos com sua luz e compaixão.^000000";
+	}
+	close;
+}
+
+sec_in02,17,156,3	script	1st Job Quest Reset	4_F_JOB_BLACKSMITH,{
+	callfunc "F_GM_NPC";
+	mes "[1st Missão de Trabalho]";
+	mes "Qual você gostaria de resetar?";
+	next;
+	switch(select("Espadachim:Mercador:Arqueiro:Noviço:Gatuno:Mago")) {
+	case 1:
+		tu_swordman = 0;
+		break;
+	case 2:
+		tu_merchant = 0;
+		break;
+	case 3:
+		tu_archer01 = 0;
+		tu_archer02 = 0;
+		break;
+	case 4:
+		tu_acolyte01 = 0;
+		break;
+	case 5:
+		tu_thief01 = 0;
+		break;
+	case 6:
+		tu_magician01 = 0;
+		break;
+	}
+	mes "Concluído.";
+	close;
+}

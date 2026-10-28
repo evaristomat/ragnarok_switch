@@ -1,0 +1,18 @@
+[package]
+name = "nostalre-grf-editor"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+nostalre-resources = { workspace = true }
+nostalre-formats = { workspace = true }
+nostalre-renderer = { workspace = true }
+nostalre-game = { workspace = true }
+nostalre-audio = { workspace = true }
+eframe = { workspace = true }
+egui_ltreeview = "0.6.1"
+glam = { workspace = true }
+image = { workspace = true }
+rfd = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }

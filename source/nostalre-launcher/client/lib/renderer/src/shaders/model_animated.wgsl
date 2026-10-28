@@ -1,0 +1,176 @@
+struct CameraUniforms {
+    view_proj: mat4x4<f32>,
+    view: mat4x4<f32>,
+    proj: mat4x4<f32>,
+    eye_pos: vec4<f32>,
+};
+
+struct LightUniforms {
+    light_dir: vec4<f32>,
+    diffuse_color: vec4<f32>,
+    ambient_color: vec4<f32>,
+    shadow_strength: f32,
+};
+
+struct PointLight {
+    position: vec4<f32>,
+    color_range: vec4<f32>,
+};
+
+struct FogUniforms {
+    color: vec4<f32>,
+    near: f32,
+    far: f32,
+    enabled: f32,
+};
+
+struct CellLightUniforms {
+    uv_scale: vec2<f32>,
+    uv_bias: vec2<f32>,
+    enabled: f32,
+};
+
+@group(0) @binding(0) var<uniform> camera: CameraUniforms;
+@group(0) @binding(1) var<uniform> light: LightUniforms;
+struct PointLights {
+    count: u32,
+    lights: array<PointLight, 32>, // MAX_POINT_LIGHTS in global_uniforms.rs
+};
+
+@group(0) @binding(2) var<uniform> point_lights: PointLights;
+@group(0) @binding(3) var<uniform> fog: FogUniforms;
+@group(0) @binding(4) var cell_light_texture: texture_2d<f32>;
+@group(0) @binding(5) var cell_light_sampler: sampler;
+@group(0) @binding(6) var<uniform> cell_light: CellLightUniforms;
+@group(1) @binding(0) var model_texture: texture_2d<f32>;
+@group(1) @binding(1) var model_sampler: sampler;
+// Node matrices as texels, 4 per matrix (its columns), 2048 matrices per row (matrix_texture.rs).
+// A texture rather than a storage buffer: Adreno's Vulkan driver misreads storage buffers in the vertex stage.
+@group(2) @binding(0) var node_texture: texture_2d<f32>;
+
+fn node_matrix(slot: u32) -> mat4x4<f32> {
+    let x = i32((slot % 2048u) * 4u);
+    let y = i32(slot / 2048u);
+    return mat4x4<f32>(
+        textureLoad(node_texture, vec2<i32>(x, y), 0),
+        textureLoad(node_texture, vec2<i32>(x + 1, y), 0),
+        textureLoad(node_texture, vec2<i32>(x + 2, y), 0),
+        textureLoad(node_texture, vec2<i32>(x + 3, y), 0),
+    );
+}
+
+fn cell_light_at(world_pos: vec3<f32>) -> vec3<f32> {
+    if (cell_light.enabled <= 0.0) {
+        return vec3<f32>(0.0);
+    }
+    let uv = vec2<f32>(world_pos.x, world_pos.z) * cell_light.uv_scale + cell_light.uv_bias;
+    if (any(uv < vec2<f32>(0.0)) || any(uv > vec2<f32>(1.0))) {
+        return vec3<f32>(0.0);
+    }
+    return textureSample(cell_light_texture, cell_light_sampler, uv).rgb;
+}
+
+fn linear_to_srgb(c: vec3<f32>) -> vec3<f32> {
+    let lo = c * 12.92;
+    let hi = 1.055 * pow(c, vec3<f32>(1.0 / 2.4)) - 0.055;
+    return select(hi, lo, c <= vec3<f32>(0.0031308));
+}
+
+fn apply_fog(color: vec3<f32>, view_pos: vec3<f32>) -> vec3<f32> {
+    if (fog.enabled <= 0.0) {
+        return color;
+    }
+    let fog_amount = clamp(
+        (length(view_pos) - fog.near) / (fog.far - fog.near),
+        0.0,
+        1.0,
+    );
+    return mix(color, fog.color.rgb, fog_amount);
+}
+
+fn point_light_attenuation(d: f32, r: f32) -> f32 {
+    let n = min(d, r) / (r + 1e-4);
+    let a = saturate(1.0 - n * n);
+    return a * a;
+}
+
+fn point_light_contribution(world_pos: vec3<f32>, normal: vec3<f32>) -> vec3<f32> {
+    var acc = vec3<f32>(0.0);
+    let count = point_lights.count;
+    for (var i: u32 = 0u; i < count; i = i + 1u) {
+        let lp = point_lights.lights[i].position.xyz;
+        let lc = point_lights.lights[i].color_range.rgb;
+        let lr = point_lights.lights[i].color_range.a;
+        if (lr <= 0.0) { continue; }
+        let to_frag = world_pos - lp;
+        let d = length(to_frag);
+        if (d >= lr) { continue; }
+        let dir = to_frag / max(d, 1e-4);
+        let lambert = max(-dot(dir, normal), 0.0);
+        acc += lc * lambert * point_light_attenuation(d, lr);
+    }
+    return acc;
+}
+
+struct VertexInput {
+    @location(0) position: vec3<f32>,
+    @location(1) normal: vec3<f32>,
+    @location(2) tex_coord: vec2<f32>,
+    @location(3) alpha: f32,
+    @location(4) node_slot: u32,
+    @location(5) lit_scale: f32,
+    @location(6) unlit: f32,
+};
+
+struct VertexOutput {
+    @builtin(position) clip_position: vec4<f32>,
+    @location(0) tex_coord: vec2<f32>,
+    @location(1) normal: vec3<f32>,
+    @location(2) alpha: f32,
+    @location(3) world_position: vec3<f32>,
+    @location(4) view_pos: vec3<f32>,
+    @location(5) lit_scale: f32,
+    @location(6) unlit: f32,
+};
+
+@vertex
+fn vs_main(in: VertexInput) -> VertexOutput {
+    var out: VertexOutput;
+    let node = node_matrix(in.node_slot);
+    let world = node * vec4<f32>(in.position, 1.0);
+    let rotation = mat3x3<f32>(node[0].xyz, node[1].xyz, node[2].xyz);
+
+    out.clip_position = camera.view_proj * world;
+    out.tex_coord = in.tex_coord;
+    out.normal = rotation * in.normal;
+    out.alpha = in.alpha;
+    out.world_position = world.xyz;
+    out.view_pos = (camera.view * world).xyz;
+    out.lit_scale = in.lit_scale;
+    out.unlit = in.unlit;
+    return out;
+}
+
+@fragment
+fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
+    let tex_color = textureSample(model_texture, model_sampler, in.tex_coord);
+
+    if tex_color.a < 0.81 {
+        discard;
+    }
+
+    let n_dot_l = max(dot(normalize(in.normal), normalize(light.light_dir.xyz)), 0.0);
+    let diffuse = light.diffuse_color.rgb * n_dot_l;
+    let shaded = clamp(diffuse + light.ambient_color.rgb, vec3<f32>(0.0), vec3<f32>(1.0))
+        * in.lit_scale;
+    let lighting = mix(shaded, vec3<f32>(1.0), in.unlit);
+
+    let tex_gamma = linear_to_srgb(tex_color.rgb);
+    var color = tex_gamma * (lighting + cell_light_at(in.world_position));
+    let pl = point_light_contribution(in.world_position, normalize(in.normal));
+    color += tex_gamma * pl;
+
+    color = apply_fog(clamp(color, vec3<f32>(0.0), vec3<f32>(1.0)), in.view_pos);
+
+    return vec4<f32>(color, tex_color.a * in.alpha);
+}

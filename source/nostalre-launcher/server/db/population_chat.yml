@@ -1,0 +1,37 @@
+Header:
+  Type: POPULATION_CHAT_DB
+  Version: 1
+Body:
+- ChatGlobal:
+    Categories:
+      greet:
+      - opa
+      - e aí
+      - alguém procurando grupo?
+      idle:
+      - vou guardar os itens
+      - volto já
+      - preciso comprar poção
+      hunt:
+      - sem SP
+      - vou pegar mais poção
+      - mais um nível
+      - alguém fecha PT?
+- ChatProfile: default
+  Categories:
+  - greet
+  - idle
+  - hunt
+- ChatProfile: hunter_field
+  Categories:
+  - greet
+  - hunt
+  - idle
+- ChatProfile: pvp
+  Categories:
+  - greet
+  - hunt
+- ChatProfile: vendor
+  Categories:
+  - greet
+  - idle

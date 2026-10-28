@@ -1,0 +1,1507 @@
+pub mod camera;
+pub mod damage_number;
+mod device;
+pub mod effect;
+pub mod effect_sprite;
+pub mod font_atlas;
+pub mod fps;
+pub mod global_uniforms;
+pub mod gr2_model;
+pub mod graffiti;
+pub mod grid_selector;
+pub mod ground;
+pub mod ground_proxy;
+mod matrix_texture;
+mod mesh_batch;
+mod minimap;
+pub use mesh_batch::{QUAD_INDICES, Vertices, Z_QUAD_INDICES, shared_indices};
+pub mod model;
+pub mod portrait;
+pub mod rsm_anim;
+pub mod screen_distortion;
+pub mod sprite;
+pub mod sprite_projection;
+pub mod texture;
+pub mod ui_renderer;
+pub mod water;
+
+#[cfg(test)]
+pub(crate) mod test_support {
+    /// wgpu's stub device: real buffers and bind groups, no GPU behind them.
+    pub(crate) fn device() -> (wgpu::Device, wgpu::Queue) {
+        wgpu::Device::noop(&wgpu::DeviceDescriptor::default())
+    }
+
+    /// Two empty bind groups at distinct addresses, for batching that tells textures apart by address.
+    pub(crate) fn bind_groups() -> &'static [wgpu::BindGroup; 2] {
+        static GROUPS: std::sync::OnceLock<[wgpu::BindGroup; 2]> = std::sync::OnceLock::new();
+        GROUPS.get_or_init(|| {
+            let (device, _) = device();
+            let layout = device.create_bind_group_layout(&wgpu::BindGroupLayoutDescriptor {
+                label: None,
+                entries: &[],
+            });
+            let group = || {
+                device.create_bind_group(&wgpu::BindGroupDescriptor {
+                    label: None,
+                    layout: &layout,
+                    entries: &[],
+                })
+            };
+            [group(), group()]
+        })
+    }
+}
+
+pub use camera::Camera;
+pub use device::{DEPTH_FORMAT, RenderDevice, block_on};
+pub use fps::Fps;
+pub use global_uniforms::{FogUniform, GlobalUniforms, LightUniform, PointLightGpu};
+
+pub use damage_number::render_damage_number_quads;
+pub use nostalre_effects::sfx::{SfxEmission, SfxPos};
+
+pub use effect::{
+    BlendBucket, BlendKind, DrawRecord, EffectDispatcher, PipelineKind, StrEffectCache,
+    StrEffectEntry, StrEmitterInput, build_str_effect_batches, d3d_blend_to_wgpu,
+    prepare_billboard_records, prepare_cylinder_records, prepare_frustum_records,
+    prepare_ground_disc_records, prepare_line_strip_records, prepare_quad_horn_records,
+    prepare_radial_ring_records, prepare_screen_quad_records, prepare_sphere_records,
+    prepare_texture3d_records, prepare_world_quad_records,
+};
+pub use effect_sprite::{
+    BurstParticle, EffectSpriteCache, EffectSpriteEntry, EmitterDraw, SpriteEffectEmitter,
+    build_emitter_batches, collect_sprite_effect_draws, prepare_sprite_particle_records,
+    project_billboard,
+};
+pub use font_atlas::FontAtlas;
+pub use gr2_model::{
+    Gr2Geometry, Gr2ModelAsset, Gr2ModelDraw, Gr2ModelPipeline, Gr2ModelVertex, Gr2TextureData,
+    build_gr2_geometry, decode_textures,
+};
+pub use grid_selector::GridSelectorRenderer;
+pub use ground::GroundRenderer;
+pub use ground_proxy::GroundProxyRenderer;
+pub use model::{AnimatedModelRenderer, ModelRenderer};
+pub use screen_distortion::ScreenDistortion;
+pub use sprite::{
+    BodyChannels, ClipQuad, CompositeClips, EntitySprite, RobeLayer, SpriteBatch, SpriteRenderer,
+    SpriteTextures, SpriteUniforms, SpriteVertex, build_clip_quad, build_clip_quad_scaled,
+    build_composite_clips, build_entity_sprite, build_entity_sprite_cached, compose_actor_batches, scale_clip_vertices,
+    transform_batch_vertices, upload_glyph_textures, upload_sprite_textures,
+};
+pub use texture::TextureCache;
+pub use ui_renderer::{UiDrawCommand, UiRenderer, UiVertex};
+pub use water::WaterRenderer;
+pub use wgpu;
+
+pub const SPRITE_SHADER_SRC: &str = include_str!("shaders/sprite.wgsl");
+
+use nostalre_formats::fog_table::FogEntry;
+use nostalre_formats::gnd::GndFile;
+use nostalre_formats::grf::GrfArchive;
+use nostalre_formats::rsm::RsmFile;
+use nostalre_formats::rsw::{RswFile, RswObject};
+use std::borrow::Cow;
+use std::sync::Arc;
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum BackgroundMode {
+    Clear,
+    GroundProxy,
+    RswMap,
+}
+
+impl Default for BackgroundMode {
+    fn default() -> Self {
+        BackgroundMode::RswMap
+    }
+}
+
+pub enum UiTextureRef {
+    FontAtlas,
+    White,
+    /// A texture cache path: a constant one borrowed, a built one owned.
+    Named(Cow<'static, str>),
+    Inline(usize),
+}
+
+/// One UI mesh. A quad's vertices are inline and its indices a shared static slice, so drawing a widget allocates
+/// nothing.
+pub struct UiDrawCall {
+    pub vertices: Vertices<UiVertex>,
+    pub indices: Cow<'static, [u32]>,
+    pub texture: UiTextureRef,
+}
+
+pub struct FrameInputs<'a> {
+    pub ui_draw_calls: &'a [UiDrawCall],
+    /// Appended to `after_ui_batches`, so tooltips paint over the cursor sprite
+    /// instead of behind it.
+    pub tooltip_draw_calls: &'a [UiDrawCall],
+    pub effect_sprite_batches: &'a [SpriteBatch<'a>],
+    /// Effects under the units, drawn before the sprites (kRO's floors)
+    pub effect_under_sprite_batches: &'a [SpriteBatch<'a>],
+    pub effect_draws: &'a effect::EffectDrawList,
+    pub sprite_particle_records: Vec<DrawRecord<'a>>,
+    pub sprite_batches: &'a [SpriteBatch<'a>],
+    pub silhouette_batches: &'a [SpriteBatch<'a>],
+    /// Drawn after the UI, in order: effects kRO plays over its windows, then the cursor
+    pub after_ui_batches: Vec<SpriteBatch<'a>>,
+    pub inline_textures: &'a [&'a wgpu::BindGroup],
+    pub elapsed: f32,
+    /// Seconds since the previous frame. Callers that render more than once per
+    /// frame (offscreen capture) must pass 0.0 for the extra passes so
+    /// time-stepped state is not advanced twice.
+    pub delta: f32,
+}
+
+pub struct Renderer {
+    #[cfg(target_os = "horizon")]
+    pub frame_timing_us: [u32; 3],
+    pub device: RenderDevice,
+    pub camera: Camera,
+    pub global_uniforms: GlobalUniforms,
+    pub texture_cache: TextureCache,
+    pub ground_renderer: Option<GroundRenderer>,
+    pub ground_proxy: Option<GroundProxyRenderer>,
+    pub model_renderer: Option<ModelRenderer>,
+    pub animated_model_renderer: Option<AnimatedModelRenderer>,
+    pub skill_unit_models: std::collections::HashMap<u32, ModelRenderer>,
+    /// Animated GR2 entity models keyed by entity gid (emperium, guardians…).
+    pub gr2_models: std::collections::HashMap<u32, Gr2ModelDraw>,
+    /// Geometry and textures of each loaded `.gr2`, keyed by GRF path and
+    /// shared by every entity drawn with it.
+    pub gr2_assets: std::collections::HashMap<String, std::rc::Rc<Gr2ModelAsset>>,
+    pub gr2_pipeline: Gr2ModelPipeline,
+    pub water_renderer: Option<WaterRenderer>,
+    pub grid_selector: Option<GridSelectorRenderer>,
+    pub sprite_renderer: SpriteRenderer,
+    pub effect_sprite_renderer: SpriteRenderer,
+    pub ui_sprite_renderer: SpriteRenderer,
+    pub effect_primitives: effect::EffectPrimitiveRegistry,
+    pub effect_dispatcher: effect::EffectDispatcher,
+    /// The effects behind the sprites have buffers of their own: both dispatches upload in the same frame, and
+    /// uploads land before either draws, so sharing made the behind pass draw the front pass's geometry.
+    effect_behind_dispatcher: effect::EffectDispatcher,
+    /// The map's RSW lights; the frame shades with the nearest (global_uniforms::nearest_point_lights)
+    point_lights: Vec<PointLightGpu>,
+    point_light_center: Option<glam::Vec3>,
+    pub ui_renderer: UiRenderer,
+    pub font_atlas: FontAtlas,
+    pub font_atlas_bind_group: wgpu::BindGroup,
+    pub white_bind_group: wgpu::BindGroup,
+    pub font_px_height: f32,
+    pub dpi_scale: f32,
+    pub clear_color: wgpu::Color,
+    pub screen_distortion: ScreenDistortion,
+    pub background_mode: BackgroundMode,
+    /// The map's day lighting, captured in `load_map`. `set_day_night` patches the
+    /// diffuse rgb over this so the day/night fade never loses the map's light dir,
+    /// ambient or shadow strength.
+    pub base_light: LightUniform,
+    /// The loaded map's fog, kept so a `fog_scale` change can re-derive the
+    /// distances without the caller handing back the table entry. `None` when
+    /// the map has no entry or the player turned fog off.
+    fog_entry: Option<FogEntry>,
+    fog_scale: f32,
+    lightmap_enabled: bool,
+    /// HD water (refraction, depth colour, caustics) when the frame allows it; classic water otherwise.
+    hd_water: bool,
+    filter_effects: bool,
+    /// Effect textures uploaded so far, so a filter change can rebuild them.
+    effect_textures: Vec<String>,
+}
+
+/// The view planes the fog table's `near`/`far` columns are fractions of. Not
+/// [`Camera::near`]/[`Camera::far`], which are ours and are set wider.
+const FOG_TABLE_NEAR_PLANE: f32 = 10.0;
+const FOG_TABLE_FAR_PLANE: f32 = 1500.0;
+
+fn fog_world_distance(fraction: f32, scale: f32) -> f32 {
+    (FOG_TABLE_NEAR_PLANE + fraction * (FOG_TABLE_FAR_PLANE - FOG_TABLE_NEAR_PLANE)) * scale
+}
+
+#[allow(clippy::too_many_arguments)]
+fn build_effect_records<'tex>(
+    effect_draws: &effect::EffectDrawList,
+    camera: &Camera,
+    texture_cache: &'tex TextureCache,
+    white_bind_group: &'tex wgpu::BindGroup,
+    logical_w: f32,
+    logical_h: f32,
+    primitives: &effect::EffectPrimitiveRegistry,
+    out: &mut Vec<DrawRecord<'tex>>,
+) {
+    let texture_lookup = |name: &str| -> Option<&'tex wgpu::BindGroup> {
+        if name.is_empty() {
+            return None;
+        }
+        // Runtime-composed textures are registered under their own key, which must not
+        // be rewritten into a GRF path.
+        name.split('|').find_map(|candidate| {
+            texture_cache
+                .get(candidate)
+                .or_else(|| texture_cache.get(&effect::effect_texture_path(candidate)))
+        })
+    };
+    prepare_billboard_records(
+        effect_draws,
+        camera,
+        logical_w,
+        logical_h,
+        white_bind_group,
+        &texture_lookup,
+        out,
+    );
+    for renderer in primitives.iter() {
+        renderer.prepare(effect_draws, camera, white_bind_group, &texture_lookup, out);
+    }
+}
+
+impl Renderer {
+    pub async fn new(
+        window: Arc<winit::window::Window>,
+        font_px_height: f32,
+        dpi_scale: f32,
+    ) -> Self {
+        let device = RenderDevice::new(window).await;
+        let camera = Camera::with_aspect(
+            device.surface_config.width as f32 / device.surface_config.height as f32,
+        );
+        let global_uniforms = GlobalUniforms::new(&device.device);
+        let texture_cache = TextureCache::new(&device.device);
+
+        let gr2_pipeline = Gr2ModelPipeline::new(
+            &device.device,
+            device.scene_format,
+            &global_uniforms,
+            &texture_cache,
+        );
+
+        let mut font_atlas = FontAtlas::from_embedded(font_px_height, dpi_scale);
+        let font_atlas_bind_group = texture::create_font_atlas_bind_group(
+            &device.device,
+            &device.queue,
+            &font_atlas.image,
+            &texture_cache.bind_group_layout,
+            "font_atlas",
+        );
+        font_atlas.release_image();
+
+        let screen_distortion = ScreenDistortion::new(&device.device, device.surface_format);
+
+        let white_img = image::RgbaImage::from_pixel(1, 1, image::Rgba([255, 255, 255, 255]));
+        let white_bind_group = texture::create_texture_bind_group(
+            &device.device,
+            &device.queue,
+            &white_img,
+            &texture_cache.bind_group_layout,
+            "ui_white",
+        );
+
+        let logical_w = device.surface_config.width as f32 / dpi_scale;
+        let logical_h = device.surface_config.height as f32 / dpi_scale;
+
+        // Entity sprites: the colour pass tests against world geometry per-pixel
+        // (gradient) but writes no depth, so coplanar body layers/copies blend by
+        // paint order (no seams). A flat feet-depth body silhouette is stamped
+        // afterward (render_silhouette) purely so effects occlude against the body
+        // the way the game did before per-pixel gradient depth — effects above the
+        // feet on top, ground effects at the feet occluded.
+        let sprite_renderer = SpriteRenderer::new(
+            &device.device,
+            device.scene_format,
+            &texture_cache.bind_group_layout,
+            logical_w,
+            logical_h,
+            include_str!("shaders/sprite.wgsl"),
+            false,
+        );
+        let effect_sprite_renderer = SpriteRenderer::new(
+            &device.device,
+            device.scene_format,
+            &texture_cache.bind_group_layout,
+            logical_w,
+            logical_h,
+            include_str!("shaders/sprite.wgsl"),
+            false,
+        );
+        let effect_primitives = effect::EffectPrimitiveRegistry::new(
+            &device.device,
+            device.scene_format,
+            &global_uniforms.bind_group_layout,
+            &texture_cache.bind_group_layout,
+        );
+        let effect_dispatcher = effect::EffectDispatcher::new(&device.device);
+        let effect_behind_dispatcher = effect::EffectDispatcher::new(&device.device);
+
+        let ui_sprite_renderer = SpriteRenderer::new(
+            &device.device,
+            device.scene_format,
+            &texture_cache.bind_group_layout,
+            logical_w,
+            logical_h,
+            include_str!("shaders/sprite.wgsl"),
+            false,
+        );
+
+        let ui_renderer = UiRenderer::new(
+            &device.device,
+            device.scene_format,
+            &texture_cache.bind_group_layout,
+            logical_w,
+            logical_h,
+        );
+
+        Self {
+            #[cfg(target_os = "horizon")]
+            frame_timing_us: [0; 3],
+            device,
+            camera,
+            global_uniforms,
+            texture_cache,
+            ground_renderer: None,
+            ground_proxy: None,
+            model_renderer: None,
+            animated_model_renderer: None,
+            skill_unit_models: std::collections::HashMap::new(),
+            gr2_models: std::collections::HashMap::new(),
+            gr2_assets: std::collections::HashMap::new(),
+            gr2_pipeline,
+            water_renderer: None,
+            grid_selector: None,
+            sprite_renderer,
+            effect_sprite_renderer,
+            ui_sprite_renderer,
+            effect_primitives,
+            effect_dispatcher,
+            effect_behind_dispatcher,
+            point_lights: Vec::new(),
+            point_light_center: None,
+            ui_renderer,
+            font_atlas,
+            font_atlas_bind_group,
+            white_bind_group,
+            font_px_height,
+            dpi_scale,
+            clear_color: wgpu::Color {
+                r: 0.392,
+                g: 0.584,
+                b: 0.929,
+                a: 1.0,
+            },
+            screen_distortion,
+            background_mode: BackgroundMode::default(),
+            base_light: LightUniform::default(),
+            fog_entry: None,
+            fog_scale: 1.0,
+            lightmap_enabled: true,
+            hd_water: true,
+            filter_effects: true,
+            effect_textures: Vec::new(),
+        }
+    }
+
+    pub fn set_background_mode(&mut self, mode: BackgroundMode) {
+        self.background_mode = mode;
+    }
+
+    pub fn set_day_night(&mut self, diffuse: [f32; 3], sprite_light: [f32; 3]) {
+        let mut light = self.base_light;
+        light.diffuse_color = [diffuse[0], diffuse[1], diffuse[2], light.diffuse_color[3]];
+        self.global_uniforms
+            .update_light(&self.device.queue, &light);
+        self.sprite_renderer
+            .set_world_light(&self.device.queue, sprite_light);
+        self.ui_sprite_renderer
+            .set_world_light(&self.device.queue, sprite_light);
+    }
+
+    pub fn toggle_lightmap(&mut self) -> bool {
+        self.set_lightmap_enabled(!self.lightmap_enabled);
+        self.lightmap_enabled
+    }
+
+    pub fn lightmap_enabled(&self) -> bool {
+        self.lightmap_enabled
+    }
+
+    pub fn toggle_hd_water(&mut self) -> bool {
+        self.hd_water = !self.hd_water;
+        self.hd_water
+    }
+
+    pub fn set_lightmap_enabled(&mut self, enabled: bool) {
+        self.lightmap_enabled = enabled;
+        if let Some(ground) = &mut self.ground_renderer {
+            ground.set_lightmap_enabled(enabled);
+        }
+        self.global_uniforms
+            .set_cell_light_enabled(&self.device.queue, enabled);
+        let mut light = self.base_light;
+        if !enabled {
+            for c in light.ambient_color.iter_mut().take(3) {
+                *c = (*c * 1.5).min(1.0);
+            }
+        }
+        self.global_uniforms
+            .update_light(&self.device.queue, &light);
+    }
+
+    pub fn set_fog(&mut self, fog: Option<FogEntry>) {
+        self.fog_entry = fog;
+        self.upload_fog();
+    }
+
+    /// Filters effect textures, the way the original game does. Pass the archive
+    /// to rebuild the textures already uploaded.
+    pub fn set_effect_filtering(&mut self, on: bool, grf: Option<&GrfArchive>) {
+        if self.filter_effects == on {
+            return;
+        }
+        self.filter_effects = on;
+        let Some(grf) = grf else {
+            return;
+        };
+        let paths = std::mem::take(&mut self.effect_textures);
+        for path in &paths {
+            self.texture_cache.remove(path);
+        }
+        self.preload_effect_textures(&paths, grf);
+    }
+
+    /// Entity sprites only: effect billboards share the sprite shader but must
+    /// keep sampling their textures plainly.
+    pub fn set_sprite_upscale(&mut self, on: bool) {
+        self.sprite_renderer.set_sharpen(&self.device.queue, on);
+    }
+
+    /// Filters ground and model textures, the way the original game does. Pass
+    /// the archive to rebuild the textures a loaded map already uploaded.
+    pub fn set_world_filtering(&mut self, on: bool, grf: Option<&GrfArchive>) {
+        self.texture_cache
+            .set_world_filtering(on, grf, &self.device.device, &self.device.queue);
+    }
+
+    /// Multiplies both fog distances, so a wider view than the original game's
+    /// does not sit entirely inside the fog. 1.0 is the original.
+    pub fn set_fog_scale(&mut self, scale: f32) {
+        self.fog_scale = scale.max(f32::EPSILON);
+        self.upload_fog();
+    }
+
+    fn upload_fog(&mut self) {
+        let scale = self.fog_scale;
+        let fog_uniform = match self.fog_entry {
+            Some(entry) => FogUniform {
+                color: [entry.color[0], entry.color[1], entry.color[2], 1.0],
+                near: fog_world_distance(entry.near, scale),
+                far: fog_world_distance(entry.far, scale),
+                enabled: 1.0,
+                _pad: 0.0,
+            },
+            None => FogUniform::default(),
+        };
+        self.global_uniforms
+            .update_fog(&self.device.queue, &fog_uniform);
+        self.sprite_renderer.set_fog(
+            &self.device.queue,
+            &fog_uniform,
+            self.camera.near,
+            self.camera.far,
+        );
+    }
+
+    pub fn load_map(
+        &mut self,
+        gnd: &GndFile,
+        rsw: &RswFile,
+        grf: &GrfArchive,
+        fog: Option<FogEntry>,
+    ) {
+        let map_load_started = std::time::Instant::now();
+        // Reclaim the previous scene before constructing the replacement.
+        // In-flight draws retain old resources until the device is polled.
+        self.ground_renderer = None;
+        self.ground_proxy = None;
+        self.model_renderer = None;
+        self.animated_model_renderer = None;
+        self.water_renderer = None;
+        self.grid_selector = None;
+        self.skill_unit_models.clear();
+        self.gr2_models.clear();
+        self.gr2_assets.clear();
+        self.texture_cache.clear_map_textures();
+        self.device.queue.submit([]);
+        if let Err(error) = self.device.device.poll(wgpu::PollType::wait_indefinitely()) {
+            tracing::error!("GPU did not finish the previous map before resource reclamation: {error}");
+        }
+        self.set_fog(fog);
+
+        let center_x = gnd.width as f32 * gnd.zoom / 2.0;
+        let center_z = gnd.height as f32 * gnd.zoom / 2.0;
+        self.camera.target = glam::Vec3::new(center_x, 0.0, center_z);
+
+        let mut light = LightUniform::default();
+        if let (Some(longitude), Some(latitude)) = (rsw.light.longitude, rsw.light.latitude) {
+            let lon_rad = (longitude as f32).to_radians();
+            let lat_rad = (latitude as f32).to_radians();
+            let dir = glam::Vec3::new(
+                -lon_rad.cos() * lat_rad.sin(),
+                -lat_rad.cos(),
+                -lon_rad.sin() * lat_rad.sin(),
+            )
+            .normalize();
+            light.light_dir = [dir.x, dir.y, dir.z, 0.0];
+        }
+        if let Some(diffuse) = rsw.light.diffuse {
+            light.diffuse_color = [diffuse[0], diffuse[1], diffuse[2], 1.0];
+        }
+        if let Some(ambient) = rsw.light.ambient {
+            light.ambient_color = [ambient[0], ambient[1], ambient[2], 1.0];
+        }
+        self.base_light = light;
+        self.global_uniforms
+            .update_light(&self.device.queue, &light);
+
+        let scale_factor = gnd.zoom / 10.0;
+        let center_x = gnd.width as f32 * gnd.zoom / 2.0;
+        let center_z = gnd.height as f32 * gnd.zoom / 2.0;
+        let point_lights: Vec<PointLightGpu> = rsw
+            .objects
+            .iter()
+            .filter_map(|obj| {
+                if let RswObject::Light(l) = obj {
+                    Some(PointLightGpu {
+                        position: [
+                            l.position[0] * scale_factor + center_x,
+                            l.position[1] * scale_factor,
+                            l.position[2] * scale_factor + center_z,
+                            0.0,
+                        ],
+                        color_range: [l.color[0], l.color[1], l.color[2], l.range * scale_factor],
+                    })
+                } else {
+                    None
+                }
+            })
+            .collect();
+        tracing::info!("Loaded {} RSW point lights", point_lights.len());
+        self.point_lights = point_lights;
+        self.point_light_center = None;
+
+        let ground_renderer = GroundRenderer::from_gnd(
+            gnd,
+            grf,
+            &self.device.device,
+            &self.device.queue,
+            &self.global_uniforms,
+            &mut self.texture_cache,
+            self.device.scene_format,
+        );
+        self.ground_renderer = Some(ground_renderer);
+        let cell_lightmap = gnd.has_lightmap_data().then(|| {
+            let (w, h) = ground::cell_lightmap_size(gnd);
+            (w, h, ground::pack_cell_lightmap(gnd))
+        });
+        self.global_uniforms.update_cell_light(
+            &self.device.device,
+            &self.device.queue,
+            cell_lightmap
+                .as_ref()
+                .map(|(w, h, p)| (*w, *h, p.as_slice())),
+            gnd.zoom,
+            ground::LIGHTMAP_CELL_STRIDE as f32,
+        );
+        self.set_lightmap_enabled(self.lightmap_enabled);
+
+        let props = ModelRenderer::from_rsw(
+            rsw,
+            gnd,
+            grf,
+            &self.device.device,
+            &self.device.queue,
+            &self.global_uniforms,
+            &mut self.texture_cache,
+            self.device.scene_format,
+        );
+        self.model_renderer = props.static_models;
+        self.animated_model_renderer = props.animated_models;
+
+        self.water_renderer = WaterRenderer::from_water_settings(
+            &rsw.water,
+            gnd,
+            grf,
+            &self.device.device,
+            &self.device.queue,
+            &self.global_uniforms,
+            &mut self.texture_cache,
+            self.device.scene_format,
+        );
+
+        self.skill_unit_models.clear();
+        self.gr2_models.clear();
+        self.background_mode = BackgroundMode::RswMap;
+        if let Some(memory) = self.device.device.generate_allocator_report() {
+            tracing::info!("[MapLoad] renderer_ms={} gpu_live_bytes={} gpu_reserved_bytes={}",
+                map_load_started.elapsed().as_millis(), memory.total_allocated_bytes, memory.total_reserved_bytes);
+        }
+    }
+
+    pub fn has_skill_unit_model(&self, key: u32) -> bool {
+        self.skill_unit_models.contains_key(&key)
+    }
+
+    pub fn add_skill_unit_model(
+        &mut self,
+        key: u32,
+        rsm: &RsmFile,
+        grf: &GrfArchive,
+        world_pos: [f32; 3],
+        scale_factor: f32,
+    ) {
+        if let Some(model) = ModelRenderer::from_rsm_at(
+            rsm,
+            grf,
+            &self.device.device,
+            &self.device.queue,
+            &self.global_uniforms,
+            &mut self.texture_cache,
+            self.device.scene_format,
+            world_pos,
+            scale_factor,
+        ) {
+            self.skill_unit_models.insert(key, model);
+        }
+    }
+
+    pub fn remove_skill_unit_model(&mut self, key: u32) {
+        self.skill_unit_models.remove(&key);
+    }
+
+    pub fn retain_skill_unit_models(&mut self, keep: &std::collections::HashSet<u32>) {
+        self.skill_unit_models.retain(|k, _| keep.contains(k));
+    }
+
+    pub fn preload_effect_textures(&mut self, paths: &[String], grf: &GrfArchive) {
+        for path in paths {
+            self.load_effect_texture(path, grf);
+        }
+    }
+
+    /// One effect texture into the cache, kept for a filtering change; false when the archive lacks it
+    pub fn load_effect_texture(&mut self, path: &str, grf: &GrfArchive) -> bool {
+        if self.texture_cache.get(path).is_some() {
+            return true;
+        }
+        let prepared = Self::prepare_effect_texture(
+            path,
+            grf,
+            &self.device.device,
+            &self.device.queue,
+            &self.texture_cache.bind_group_layout,
+            self.filter_effects,
+        );
+        self.install_effect_texture(path, prepared)
+    }
+
+    pub fn prepare_effect_texture(
+        path: &str,
+        grf: &GrfArchive,
+        device: &wgpu::Device,
+        queue: &wgpu::Queue,
+        layout: &wgpu::BindGroupLayout,
+        filtering: bool,
+    ) -> Option<(wgpu::BindGroup, u32, u32)> {
+        let address_mode = if nostalre_effects::texture_wraps(path) {
+            wgpu::AddressMode::Repeat
+        } else {
+            wgpu::AddressMode::ClampToEdge
+        };
+        let loaded = texture::load_keyed_texture(
+            path,
+            grf,
+            device,
+            queue,
+            layout,
+            address_mode,
+            if filtering {
+                wgpu::FilterMode::Linear
+            } else {
+                wgpu::FilterMode::Nearest
+            },
+        );
+        if nostalre_profiling::debug::trace_texture_load() {
+            let status = if loaded.is_some() { "ok   " } else { "MISS " };
+            tracing::info!("[effect-preload]   {status} {path}");
+        }
+        loaded
+    }
+
+    pub fn install_effect_texture(
+        &mut self,
+        path: &str,
+        prepared: Option<(wgpu::BindGroup, u32, u32)>,
+    ) -> bool {
+        if self.texture_cache.get(path).is_some() {
+            return true;
+        }
+        let Some((bind_group, w, h)) = prepared else {
+            return false;
+        };
+        self.texture_cache.insert(path, bind_group, w, h);
+        self.effect_textures.push(path.to_string());
+        true
+    }
+
+    /// Use the official image when available; otherwise cache a floor plan
+    /// built once from the collision geometry already loaded with this map.
+    pub fn load_minimap_texture(
+        &mut self,
+        map_name: &str,
+        grf: &GrfArchive,
+        gat: Option<&nostalre_formats::gat::GatFile>,
+    ) -> Option<String> {
+        let original = nostalre_resources::ui::minimap::of(map_name);
+        if self.preload_textures(&[&original], grf) {
+            return Some(original);
+        }
+        let key = format!("nostalre-generated-minimap/{map_name}");
+        if self.texture_cache.get(&key).is_some() {
+            return Some(key);
+        }
+        let image = minimap::floor_plan(gat?)?;
+        let group = texture::create_texture_bind_group_from_rgba(
+            &self.device.device, &self.device.queue, image.as_raw(),
+            image.width(), image.height(), &self.texture_cache.bind_group_layout,
+            &key, wgpu::FilterMode::Linear, wgpu::TextureFormat::Rgba8Unorm,
+            wgpu::AddressMode::ClampToEdge,
+        );
+        self.texture_cache.insert(&key, group, image.width(), image.height());
+        tracing::info!("Minimap image unavailable for {map_name}; using cached collision floor plan");
+        Some(key)
+    }
+
+    pub fn preload_textures(&mut self, paths: &[&str], grf: &GrfArchive) -> bool {
+        let mut all_loaded = true;
+        for path in paths {
+            if self
+                .texture_cache
+                .get_or_load(path, grf, &self.device.device, &self.device.queue, true)
+                .is_none()
+            {
+                all_loaded = false;
+            }
+        }
+        all_loaded
+    }
+
+    /// Builds a Graffiti message decal and registers it under `key`. Returns false
+    /// when the alphabet atlas is missing from the GRF.
+    pub fn build_graffiti_texture(&mut self, key: &str, message: &str, grf: &GrfArchive) -> bool {
+        let Ok(bytes) = grf.read_file(graffiti::ALPHABET_TEXTURE) else {
+            return false;
+        };
+        let Ok(atlas) = image::load_from_memory_with_format(&bytes, image::ImageFormat::Bmp) else {
+            return false;
+        };
+        let mut atlas = atlas.to_rgba8();
+        nostalre_formats::apply_magenta_transparency(atlas.as_mut());
+        let composed = graffiti::compose(&atlas, message);
+        let (w, h) = (composed.width(), composed.height());
+        let bind_group = texture::create_texture_bind_group_from_rgba(
+            &self.device.device,
+            &self.device.queue,
+            composed.as_raw(),
+            w,
+            h,
+            &self.texture_cache.bind_group_layout,
+            key,
+            wgpu::FilterMode::Linear,
+            wgpu::TextureFormat::Rgba8Unorm,
+            wgpu::AddressMode::ClampToEdge,
+        );
+        self.texture_cache.insert(key, bind_group, w, h);
+        true
+    }
+
+    /// Changes the UI scale at runtime. The font atlas is re-rasterized at the
+    /// new scale so text stays crisp; per-frame layout picks up `dpi_scale`.
+    pub fn set_dpi_scale(&mut self, dpi_scale: f32) {
+        if dpi_scale <= 0.0 || (dpi_scale - self.dpi_scale).abs() < f32::EPSILON {
+            return;
+        }
+        self.dpi_scale = dpi_scale;
+        self.font_atlas = FontAtlas::from_embedded(self.font_px_height, dpi_scale);
+        self.font_atlas_bind_group = texture::create_font_atlas_bind_group(
+            &self.device.device,
+            &self.device.queue,
+            &self.font_atlas.image,
+            &self.texture_cache.bind_group_layout,
+            "font_atlas",
+        );
+        self.font_atlas.release_image();
+    }
+
+    /// See [`RenderDevice::recreate_surface`]; the rest of the renderer follows the new size.
+    pub fn recreate_surface(&mut self, window: std::sync::Arc<winit::window::Window>) {
+        let size = window.inner_size();
+        self.device.recreate_surface(window);
+        self.resize(size.width, size.height);
+    }
+
+    pub fn resize(&mut self, width: u32, height: u32) {
+        self.device.resize(width, height);
+        if width > 0 && height > 0 {
+            self.camera.aspect = width as f32 / height as f32;
+            let logical_w = width as f32 / self.dpi_scale;
+            let logical_h = height as f32 / self.dpi_scale;
+            self.sprite_renderer
+                .resize(&self.device.queue, logical_w, logical_h);
+            // `effect_sprite_renderer` carries its own `SpriteUniforms`; if we
+            // skip it here its screen_size diverges from the camera's
+            // projection screen_w/h and billboards shift off-center after the
+            // first window resize.
+            self.effect_sprite_renderer
+                .resize(&self.device.queue, logical_w, logical_h);
+            self.ui_renderer
+                .resize(&self.device.queue, logical_w, logical_h);
+        }
+    }
+
+    pub fn enable_ground_proxy(&mut self) {
+        if self.ground_proxy.is_some() {
+            return;
+        }
+        let proxy = GroundProxyRenderer::new(
+            &self.device.device,
+            self.device.scene_format,
+            &self.global_uniforms.bind_group_layout,
+        );
+        proxy.initialise(&self.device.queue);
+        self.ground_proxy = Some(proxy);
+    }
+
+    pub fn render(&mut self, frame: FrameInputs) {
+        #[cfg(target_os = "horizon")]
+        let started = {
+            self.frame_timing_us = [0; 3];
+            std::time::Instant::now()
+        };
+        nostalre_profiling::profile_function!();
+        let output = match self.device.surface.get_current_texture() {
+            wgpu::CurrentSurfaceTexture::Success(texture)
+            | wgpu::CurrentSurfaceTexture::Suboptimal(texture) => texture,
+            wgpu::CurrentSurfaceTexture::Outdated => {
+                self.device.reconfigure_surface();
+                return;
+            }
+            wgpu::CurrentSurfaceTexture::Lost => {
+                self.device.recreate_surface(self.device.window.clone());
+                return;
+            }
+            wgpu::CurrentSurfaceTexture::Timeout | wgpu::CurrentSurfaceTexture::Occluded => return,
+            wgpu::CurrentSurfaceTexture::Validation => {
+                tracing::error!("Surface validation error");
+                return;
+            }
+        };
+
+        #[cfg(target_os = "horizon")]
+        let acquired = std::time::Instant::now();
+        let scene_view = output.texture.create_view(&wgpu::TextureViewDescriptor {
+            format: Some(self.device.scene_format),
+            ..Default::default()
+        });
+        let depth_view = self.device.depth_view.clone();
+        let phys_w = self.device.surface_config.width;
+        let phys_h = self.device.surface_config.height;
+        let clear = self.clear_color;
+        if self.screen_distortion.is_active() {
+            let offscreen_scene =
+                self.screen_distortion
+                    .scene_view(&self.device.device, phys_w, phys_h);
+            let offscreen_texture = self.screen_distortion.scene_texture();
+            self.render_into(
+                &offscreen_scene,
+                &offscreen_scene,
+                &depth_view,
+                offscreen_texture.as_ref(),
+                phys_w,
+                phys_h,
+                clear,
+                frame,
+            );
+            let mut encoder = self
+                .device
+                .device
+                .create_command_encoder(&Default::default());
+            let view = output.texture.create_view(&Default::default());
+            self.screen_distortion
+                .resolve(&mut encoder, &self.device.queue, &view);
+            self.device.queue.submit(std::iter::once(encoder.finish()));
+        } else {
+            let scene_texture = self
+                .device
+                .scene_copy_supported()
+                .then_some(&output.texture);
+            self.render_into(
+                &scene_view,
+                &scene_view,
+                &depth_view,
+                scene_texture,
+                phys_w,
+                phys_h,
+                clear,
+                frame,
+            );
+        }
+        #[cfg(target_os = "horizon")]
+        let encoded = std::time::Instant::now();
+        output.present();
+        #[cfg(target_os = "horizon")]
+        {
+            self.frame_timing_us = [
+                acquired.duration_since(started),
+                encoded.duration_since(acquired),
+                encoded.elapsed(),
+            ]
+            .map(|time| time.as_micros().min(u32::MAX as u128) as u32);
+        }
+    }
+
+    /// `scene_texture`: the texture behind `scene_view` when it can be copied from (COPY_SRC), for HD
+    /// water; without one the water is drawn classic.
+    #[allow(clippy::too_many_arguments)]
+    pub fn render_into(
+        &mut self,
+        scene_view: &wgpu::TextureView,
+        ui_view: &wgpu::TextureView,
+        depth_view: &wgpu::TextureView,
+        scene_texture: Option<&wgpu::Texture>,
+        physical_w: u32,
+        physical_h: u32,
+        clear_color: wgpu::Color,
+        frame: FrameInputs,
+    ) {
+        nostalre_profiling::profile_function!();
+        if physical_w == 0 || physical_h == 0 {
+            return;
+        }
+        let FrameInputs {
+            ui_draw_calls,
+            tooltip_draw_calls,
+            effect_sprite_batches,
+            effect_under_sprite_batches,
+            effect_draws,
+            sprite_particle_records,
+            sprite_batches,
+            silhouette_batches,
+            mut after_ui_batches,
+            inline_textures,
+            elapsed,
+            delta,
+        } = frame;
+        let logical_w = physical_w as f32 / self.dpi_scale;
+        let logical_h = physical_h as f32 / self.dpi_scale;
+        self.camera.aspect = physical_w as f32 / physical_h as f32;
+        self.sprite_renderer
+            .resize(&self.device.queue, logical_w, logical_h);
+        self.effect_sprite_renderer
+            .resize(&self.device.queue, logical_w, logical_h);
+        self.ui_sprite_renderer
+            .resize(&self.device.queue, logical_w, logical_h);
+        self.ui_renderer
+            .resize(&self.device.queue, logical_w, logical_h);
+
+        self.global_uniforms
+            .update_camera(&self.device.queue, &self.camera);
+        // the lights nearest the camera, again when it moved half a cell
+        let center = self.camera.target;
+        if self
+            .point_light_center
+            .is_none_or(|c| c.distance(center) > 5.0)
+        {
+            let nearest = global_uniforms::nearest_point_lights(&self.point_lights, center);
+            self.global_uniforms
+                .update_point_lights(&self.device.queue, &nearest);
+            self.point_light_center = Some(center);
+        }
+
+        let hd_water = self.hd_water && scene_texture.is_some();
+        let caustics = match &self.water_renderer {
+            Some(water) => {
+                let screen = [
+                    physical_w as f32,
+                    physical_h as f32,
+                    self.camera.near,
+                    self.camera.far,
+                ];
+                water.update(&self.device.queue, elapsed, screen);
+                hd_water
+                    .then(|| water.caustics(elapsed))
+                    .unwrap_or_default()
+            }
+            None => Default::default(),
+        };
+        self.global_uniforms
+            .update_water(&self.device.queue, &caustics);
+
+        if let Some(model) = &mut self.model_renderer { model.update_visibility(&self.camera); }
+        if let Some(animated) = &mut self.animated_model_renderer {
+            // A long stall must not fling props through their whole animation
+            // in one step.
+            animated.update(&self.device.queue, delta.clamp(0.0, 0.25), &self.camera);
+        }
+
+        let view = scene_view;
+        let mut encoder = self
+            .device
+            .device
+            .create_command_encoder(&Default::default());
+
+        {
+            nostalre_profiling::profile_scope!("scene-opaque");
+            let mut pass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
+                label: Some("main"),
+                color_attachments: &[Some(wgpu::RenderPassColorAttachment {
+                    view: &view,
+                    depth_slice: None,
+                    resolve_target: None,
+                    ops: wgpu::Operations {
+                        load: wgpu::LoadOp::Clear(clear_color),
+                        store: wgpu::StoreOp::Store,
+                    },
+                })],
+                depth_stencil_attachment: Some(wgpu::RenderPassDepthStencilAttachment {
+                    view: depth_view,
+                    depth_ops: Some(wgpu::Operations {
+                        load: wgpu::LoadOp::Clear(1.0),
+                        store: wgpu::StoreOp::Store,
+                    }),
+                    stencil_ops: None,
+                }),
+                ..Default::default()
+            });
+
+            match self.background_mode {
+                BackgroundMode::RswMap => {
+                    if let Some(ground) = &self.ground_renderer {
+                        nostalre_profiling::profile_scope!("ground");
+                        ground.render(&mut pass, &self.global_uniforms, &self.texture_cache);
+                    }
+                    if let Some(model) = &self.model_renderer {
+                        nostalre_profiling::profile_scope!("model");
+                        model.render(&mut pass, &self.global_uniforms, &self.texture_cache);
+                    }
+                    if let Some(animated) = &self.animated_model_renderer {
+                        nostalre_profiling::profile_scope!("animated-models");
+                        animated.render(&mut pass, &self.global_uniforms, &self.texture_cache);
+                    }
+                    if !self.skill_unit_models.is_empty() {
+                        nostalre_profiling::profile_scope!("skill-unit-models");
+                        for model in self.skill_unit_models.values() {
+                            model.render(&mut pass, &self.global_uniforms, &self.texture_cache);
+                        }
+                    }
+                    if !self.gr2_models.is_empty() {
+                        nostalre_profiling::profile_scope!("gr2-models");
+                        for model in self.gr2_models.values() {
+                            model.render(&mut pass, &self.gr2_pipeline, &self.global_uniforms);
+                        }
+                    }
+                    if let Some(grid) = &self.grid_selector {
+                        grid.render(&mut pass, &self.global_uniforms, &self.texture_cache);
+                    }
+                }
+                BackgroundMode::GroundProxy => {
+                    if let Some(proxy) = &self.ground_proxy {
+                        proxy.render(&mut pass, &self.global_uniforms, &self.camera);
+                    }
+                }
+                BackgroundMode::Clear => {}
+            }
+        }
+
+        if !effect_draws.behind.is_empty() {
+            nostalre_profiling::profile_scope!("effect-behind");
+            let behind_list = effect_draws.behind_as_list();
+            let mut behind_records = self.effect_behind_dispatcher.record_list();
+            build_effect_records(
+                &behind_list,
+                &self.camera,
+                &self.texture_cache,
+                &self.white_bind_group,
+                logical_w,
+                logical_h,
+                &self.effect_primitives,
+                &mut behind_records,
+            );
+            if !behind_records.is_empty() {
+                self.effect_behind_dispatcher.dispatch(
+                    &behind_records,
+                    &mut encoder,
+                    &view,
+                    depth_view,
+                    &self.device.device,
+                    &self.device.queue,
+                    &self.global_uniforms.bind_group,
+                    &self.effect_sprite_renderer.uniform_bind_group,
+                    &self.effect_sprite_renderer,
+                    &self.effect_primitives,
+                );
+            }
+        }
+
+        if !effect_under_sprite_batches.is_empty() {
+            nostalre_profiling::profile_scope!("effect-under-sprite");
+            self.effect_sprite_renderer.render_second(
+                &mut encoder,
+                view,
+                Some(depth_view),
+                &self.device.device,
+                &self.device.queue,
+                effect_under_sprite_batches,
+            );
+        }
+
+        if !sprite_batches.is_empty() {
+            nostalre_profiling::profile_scope!("sprite");
+            self.sprite_renderer.render(
+                &mut encoder,
+                &view,
+                Some(depth_view),
+                &self.device.device,
+                &self.device.queue,
+                None,
+                sprite_batches,
+            );
+        }
+
+        // Stamp the flat-depth body silhouette after the colour pass so the
+        // effect passes below occlude against the body (effects above the feet
+        // draw on top; ground effects at the feet are hidden).
+        if !silhouette_batches.is_empty() {
+            nostalre_profiling::profile_scope!("silhouette");
+            self.sprite_renderer.render_silhouette(
+                &mut encoder,
+                &view,
+                depth_view,
+                &self.device.device,
+                &self.device.queue,
+                silhouette_batches,
+            );
+        }
+
+        // Water draws after the silhouette, never after the colour pass: the colour
+        // pass writes no depth, so at that point the body's pixels still hold the
+        // depth of the ground behind it and the surface would swallow the whole
+        // sprite. Against the silhouette's flat feet depth the surface cuts the body
+        // at the waterline instead, so a character wading in deep water is submerged
+        // further than one in the shallows.
+        if let (BackgroundMode::RswMap, Some(water)) =
+            (self.background_mode, &mut self.water_renderer)
+        {
+            nostalre_profiling::profile_scope!("water");
+            match scene_texture.filter(|_| hd_water) {
+                Some(scene_texture) => water.render_hd(
+                    &self.device.device,
+                    &mut encoder,
+                    water::HdWaterTarget {
+                        scene_texture,
+                        scene_view: view,
+                        depth_view,
+                    },
+                    &self.global_uniforms,
+                    &self.texture_cache,
+                    elapsed,
+                ),
+                None => {
+                    let mut pass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
+                        label: Some("water"),
+                        color_attachments: &[Some(wgpu::RenderPassColorAttachment {
+                            view: &view,
+                            depth_slice: None,
+                            resolve_target: None,
+                            ops: wgpu::Operations {
+                                load: wgpu::LoadOp::Load,
+                                store: wgpu::StoreOp::Store,
+                            },
+                        })],
+                        depth_stencil_attachment: Some(wgpu::RenderPassDepthStencilAttachment {
+                            view: depth_view,
+                            depth_ops: Some(wgpu::Operations {
+                                load: wgpu::LoadOp::Load,
+                                store: wgpu::StoreOp::Store,
+                            }),
+                            stencil_ops: None,
+                        }),
+                        ..Default::default()
+                    });
+                    water.render(
+                        &mut pass,
+                        &self.global_uniforms,
+                        &self.texture_cache,
+                        elapsed,
+                    );
+                }
+            }
+        }
+
+        if !effect_sprite_batches.is_empty() {
+            nostalre_profiling::profile_scope!("effect-sprite");
+            self.effect_sprite_renderer.render(
+                &mut encoder,
+                &view,
+                Some(depth_view),
+                &self.device.device,
+                &self.device.queue,
+                None,
+                effect_sprite_batches,
+            );
+        }
+
+        let mut records = self.effect_dispatcher.record_list();
+        {
+            nostalre_profiling::profile_scope!("effect-build");
+            build_effect_records(
+                effect_draws,
+                &self.camera,
+                &self.texture_cache,
+                &self.white_bind_group,
+                logical_w,
+                logical_h,
+                &self.effect_primitives,
+                &mut records,
+            );
+        }
+        records.extend(sprite_particle_records);
+        if !records.is_empty() {
+            nostalre_profiling::profile_scope!("effect-dispatch");
+            self.effect_dispatcher.dispatch(
+                &records,
+                &mut encoder,
+                &view,
+                depth_view,
+                &self.device.device,
+                &self.device.queue,
+                &self.global_uniforms.bind_group,
+                &self.effect_sprite_renderer.uniform_bind_group,
+                &self.effect_sprite_renderer,
+                &self.effect_primitives,
+            );
+        }
+
+        {
+            nostalre_profiling::profile_scope!("submit-scene");
+            self.device.queue.submit(std::iter::once(encoder.finish()));
+        }
+
+        let mut encoder = self
+            .device
+            .device
+            .create_command_encoder(&Default::default());
+
+        if !ui_draw_calls.is_empty() {
+            nostalre_profiling::profile_scope!("ui");
+            let resolved: Vec<UiDrawCommand> = ui_draw_calls
+                .iter()
+                .map(|call| {
+                    let bind_group = match &call.texture {
+                        UiTextureRef::FontAtlas => &self.font_atlas_bind_group,
+                        UiTextureRef::White => &self.white_bind_group,
+                        UiTextureRef::Named(name) => self
+                            .texture_cache
+                            .get(name)
+                            .unwrap_or(&self.white_bind_group),
+                        UiTextureRef::Inline(idx) => inline_textures[*idx],
+                    };
+                    UiDrawCommand {
+                        vertices: &call.vertices,
+                        indices: &call.indices,
+                        texture: bind_group,
+                    }
+                })
+                .collect();
+
+            self.ui_renderer.render(
+                &mut encoder,
+                ui_view,
+                &self.device.device,
+                &self.device.queue,
+                &resolved,
+            );
+        }
+
+        after_ui_batches.extend(tooltip_draw_calls.iter().map(|call| {
+            SpriteBatch {
+                vertices: call.vertices.map(|v| SpriteVertex {
+                    position: [v.position[0], v.position[1], 0.0],
+                    tex_coord: v.tex_coord,
+                    color: v.color,
+                }),
+                indices: &call.indices,
+                texture: match &call.texture {
+                    UiTextureRef::FontAtlas => &self.font_atlas_bind_group,
+                    UiTextureRef::White => &self.white_bind_group,
+                    UiTextureRef::Named(name) => self
+                        .texture_cache
+                        .get(name)
+                        .unwrap_or(&self.white_bind_group),
+                    UiTextureRef::Inline(idx) => inline_textures[*idx],
+                },
+                additive: false,
+                no_depth: false,
+                weapon_aura: false,
+            }
+        }));
+
+        if !after_ui_batches.is_empty() {
+            nostalre_profiling::profile_scope!("cursor");
+            self.ui_sprite_renderer.render(
+                &mut encoder,
+                ui_view,
+                None,
+                &self.device.device,
+                &self.device.queue,
+                None,
+                &after_ui_batches,
+            );
+        }
+
+        {
+            nostalre_profiling::profile_scope!("submit-ui");
+            self.device.queue.submit(std::iter::once(encoder.finish()));
+        }
+    }
+
+    pub fn try_load_grf_font(&mut self, grf: &GrfArchive) {
+        let extra_chars = font_atlas::euc_kr_charset();
+        let font_paths = [
+            nostalre_resources::font::NANUM_BARUN_GOTHIC_BOLD,
+            nostalre_resources::font::NANUM_BARUN_GOTHIC,
+        ];
+        for path in &font_paths {
+            if let Ok(data) = grf.read_file(path) {
+                self.set_font_atlas(FontAtlas::build_with_extra_chars(
+                    &data,
+                    self.font_px_height,
+                    self.dpi_scale,
+                    &extra_chars,
+                ));
+                tracing::info!("Loaded GRF font: {path}");
+                return;
+            }
+        }
+        self.set_font_atlas(FontAtlas::from_embedded_cjk(
+            self.font_px_height,
+            self.dpi_scale,
+            &extra_chars,
+        ));
+        tracing::info!("No GRF font found, using embedded CJK font for Korean text");
+    }
+
+    fn set_font_atlas(&mut self, atlas: FontAtlas) {
+        self.font_atlas = atlas;
+        self.font_atlas_bind_group = texture::create_font_atlas_bind_group(
+            &self.device.device,
+            &self.device.queue,
+            &self.font_atlas.image,
+            &self.texture_cache.bind_group_layout,
+            "font_atlas",
+        );
+        self.font_atlas.release_image();
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn background_mode_default_is_rsw_map() {
+        assert_eq!(BackgroundMode::default(), BackgroundMode::RswMap);
+    }
+
+    #[test]
+    fn fog_table_fractions_map_onto_the_original_view_planes() {
+        assert_eq!(fog_world_distance(0.0, 1.0), 10.0);
+        assert_eq!(fog_world_distance(1.0, 1.0), 1500.0);
+        assert_eq!(fog_world_distance(0.2, 1.0), 308.0);
+        assert_eq!(fog_world_distance(0.8, 1.0), 1202.0);
+
+        assert_eq!(fog_world_distance(0.2, 2.0), 616.0);
+        assert_eq!(fog_world_distance(0.8, 2.0), 2404.0);
+    }
+
+    #[test]
+    fn every_shader_is_valid_wgsl() {
+        let shaders: [(&str, &str); 16] = [
+            ("sprite", SPRITE_SHADER_SRC),
+            ("terrain", include_str!("shaders/terrain.wgsl")),
+            ("model", include_str!("shaders/model.wgsl")),
+            (
+                "model_animated",
+                include_str!("shaders/model_animated.wgsl"),
+            ),
+            ("gr2_model", include_str!("shaders/gr2_model.wgsl")),
+            ("water", include_str!("shaders/water.wgsl")),
+            ("water_hd", include_str!("shaders/water_hd.wgsl")),
+            ("ground_proxy", include_str!("shaders/ground_proxy.wgsl")),
+            ("grid_selector", include_str!("shaders/grid_selector.wgsl")),
+            ("ui", include_str!("shaders/ui.wgsl")),
+            (
+                "screen_distortion",
+                include_str!("shaders/screen_distortion.wgsl"),
+            ),
+            (
+                "effect_cylinder",
+                include_str!("shaders/effect_cylinder.wgsl"),
+            ),
+            (
+                "effect_frustum",
+                include_str!("shaders/effect_frustum.wgsl"),
+            ),
+            (
+                "effect_fullscreen",
+                include_str!("shaders/effect_fullscreen.wgsl"),
+            ),
+            (
+                "effect_ground_disc",
+                include_str!("shaders/effect_ground_disc.wgsl"),
+            ),
+            ("effect_sphere", include_str!("shaders/effect_sphere.wgsl")),
+        ];
+
+        for (name, src) in shaders {
+            let module = naga::front::wgsl::parse_str(src).unwrap_or_else(|e| {
+                panic!("{name}.wgsl failed to parse: {}", e.emit_to_string(src))
+            });
+            naga::valid::Validator::new(
+                naga::valid::ValidationFlags::all(),
+                naga::valid::Capabilities::all(),
+            )
+            .validate(&module)
+            .unwrap_or_else(|e| panic!("{name}.wgsl failed validation: {e:?}"));
+        }
+    }
+
+    #[test]
+    fn background_mode_cycle_round_trip() {
+        let mut mode = BackgroundMode::default();
+        let cycle = [
+            BackgroundMode::GroundProxy,
+            BackgroundMode::Clear,
+            BackgroundMode::RswMap,
+        ];
+        for expected in cycle {
+            mode = match mode {
+                BackgroundMode::RswMap => BackgroundMode::GroundProxy,
+                BackgroundMode::GroundProxy => BackgroundMode::Clear,
+                BackgroundMode::Clear => BackgroundMode::RswMap,
+            };
+            assert_eq!(mode, expected);
+        }
+    }
+}

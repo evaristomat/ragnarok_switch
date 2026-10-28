@@ -1,0 +1,608 @@
+# Independent classic profiles and occupation preset.
+Header:
+  Type: POPULATION_ENGINE_DB
+  Version: 2
+Body:
+- Profile: novice_default
+  Jobs:
+    Novice: novice_set
+  BaseLevel:
+  - 1
+  - 3
+  JobLevel:
+  - 1
+  - 3
+  NameProfile: default
+  ChatProfile: default
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  Flags:
+  - mortal
+  TownBehavior: wander
+  FieldBehavior: combat
+  Str:
+  - 2
+  - 6
+  Agi:
+  - 1
+  - 5
+  Vit:
+  - 2
+  - 6
+  Int:
+  - 1
+  - 5
+  Dex:
+  - 2
+  - 7
+  Luk:
+  - 1
+  - 4
+- Profile: combat_pve
+  Jobs:
+    Priest: para_mage
+  BaseLevel:
+  - 35
+  - 58
+  JobLevel:
+  - 25
+  - 50
+  NameProfile: default
+  ChatProfile: default
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  Flags:
+  - mortal
+  TownBehavior: wander
+  FieldBehavior: combat
+  DungeonBehavior: combat
+- Profile: combat_pve_low
+  Jobs:
+    Mage: low_rod
+    Archer: low_bow
+    Acolyte: low_blunt
+    Thief: low_melee
+  BaseLevel:
+  - 10
+  - 26
+  JobLevel:
+  - 8
+  - 30
+  NameProfile: default
+  ChatProfile: default
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  Flags:
+  - mortal
+  TownBehavior: wander
+  FieldBehavior: combat
+  DungeonBehavior: combat
+  Str:
+  - 6
+  - 22
+  Agi:
+  - 4
+  - 18
+  Vit:
+  - 5
+  - 18
+  Int:
+  - 6
+  - 24
+  Dex:
+  - 8
+  - 24
+  Luk:
+  - 1
+  - 8
+- Profile: pve_knight
+  Jobs:
+    Knight: para_knight_base
+  NameProfile: default
+  ChatProfile: default
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  BaseLevel:
+  - 40
+  - 70
+  JobLevel:
+  - 20
+  - 50
+  Str:
+  - 50
+  - 80
+  Agi:
+  - 40
+  - 70
+  Vit:
+  - 50
+  - 80
+  Int:
+  - 1
+  - 20
+  Dex:
+  - 40
+  - 70
+  Luk:
+  - 10
+  - 40
+  Flags:
+  - mortal
+  TownBehavior: wander
+  FieldBehavior: combat
+  DungeonBehavior: combat
+  Script: 'setriding;
+
+    '
+- Profile: pve_paladin
+  Jobs:
+    Crusader: para_crusader
+  NameProfile: default
+  ChatProfile: default
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  BaseLevel:
+  - 40
+  - 70
+  JobLevel:
+  - 20
+  - 50
+  Str:
+  - 40
+  - 70
+  Agi:
+  - 10
+  - 40
+  Vit:
+  - 40
+  - 70
+  Int:
+  - 40
+  - 70
+  Dex:
+  - 40
+  - 70
+  Luk:
+  - 10
+  - 30
+  Flags:
+  - mortal
+  TownBehavior: wander
+  FieldBehavior: combat
+  DungeonBehavior: combat
+  Script: 'setriding;
+
+    '
+- Profile: pve_caster
+  Jobs:
+    Wizard: para_mage
+    Sage: para_mage
+  NameProfile: default
+  ChatProfile: default
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  BaseLevel:
+  - 40
+  - 70
+  JobLevel:
+  - 20
+  - 50
+  Str:
+  - 1
+  - 10
+  Agi:
+  - 10
+  - 30
+  Vit:
+  - 20
+  - 40
+  Int:
+  - 60
+  - 90
+  Dex:
+  - 60
+  - 90
+  Luk:
+  - 1
+  - 10
+  Flags:
+  - mortal
+  TownBehavior: wander
+  FieldBehavior: combat
+  DungeonBehavior: combat
+- Profile: pve_archer
+  Jobs:
+    Hunter: para_bow
+    Bard: para_bow
+    Dancer: para_bow
+  NameProfile: default
+  ChatProfile: default
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  BaseLevel:
+  - 40
+  - 70
+  JobLevel:
+  - 20
+  - 50
+  Str:
+  - 1
+  - 10
+  Agi:
+  - 60
+  - 90
+  Vit:
+  - 10
+  - 30
+  Int:
+  - 10
+  - 30
+  Dex:
+  - 60
+  - 90
+  Luk:
+  - 40
+  - 70
+  Flags:
+  - mortal
+  TownBehavior: wander
+  FieldBehavior: combat
+  DungeonBehavior: combat
+  Script: 'setarrow;
+
+    '
+- Profile: pve_monk
+  Jobs:
+    Monk: para_monk
+  NameProfile: default
+  ChatProfile: default
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  BaseLevel:
+  - 40
+  - 70
+  JobLevel:
+  - 20
+  - 50
+  Str:
+  - 60
+  - 90
+  Agi:
+  - 10
+  - 30
+  Vit:
+  - 60
+  - 90
+  Int:
+  - 10
+  - 30
+  Dex:
+  - 60
+  - 90
+  Luk:
+  - 10
+  - 30
+  Flags:
+  - mortal
+  TownBehavior: social
+  FieldBehavior: combat
+  DungeonBehavior: combat
+- Profile: pve_assassin
+  Jobs:
+    Assassin: para_assassin_katar
+  NameProfile: default
+  ChatProfile: default
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  BaseLevel:
+  - 40
+  - 70
+  JobLevel:
+  - 20
+  - 50
+  Str:
+  - 50
+  - 80
+  Agi:
+  - 60
+  - 90
+  Vit:
+  - 30
+  - 60
+  Int:
+  - 1
+  - 20
+  Dex:
+  - 50
+  - 80
+  Luk:
+  - 30
+  - 60
+  Flags:
+  - mortal
+  TownBehavior: wander
+  FieldBehavior: combat
+  DungeonBehavior: combat
+- Profile: pve_rogue
+  Jobs:
+    Rogue: para_thief
+  NameProfile: default
+  ChatProfile: default
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  BaseLevel:
+  - 40
+  - 70
+  JobLevel:
+  - 20
+  - 50
+  Str:
+  - 40
+  - 70
+  Agi:
+  - 60
+  - 90
+  Vit:
+  - 20
+  - 50
+  Int:
+  - 10
+  - 30
+  Dex:
+  - 60
+  - 90
+  Luk:
+  - 40
+  - 70
+  Flags:
+  - mortal
+  TownBehavior: wander
+  FieldBehavior: combat
+  DungeonBehavior: combat
+- Profile: pve_merchant_cart
+  Jobs:
+    Merchant: para_merchant
+    Blacksmith: para_merchant
+    Alchemist: para_merchant
+  NameProfile: default
+  ChatProfile: default
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  BaseLevel:
+  - 30
+  - 60
+  JobLevel:
+  - 20
+  - 40
+  Str:
+  - 50
+  - 80
+  Agi:
+  - 20
+  - 50
+  Vit:
+  - 40
+  - 70
+  Int:
+  - 20
+  - 50
+  Dex:
+  - 30
+  - 60
+  Luk:
+  - 10
+  - 30
+  Flags:
+  - mortal
+  TownBehavior: vendor
+  FieldBehavior: combat
+  DungeonBehavior: combat
+  Script: 'setcart;
+
+    '
+- Profile: pve_taekwon
+  Jobs:
+    Taekwon: para_taekwon
+  NameProfile: default
+  ChatProfile: default
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  BaseLevel:
+  - 40
+  - 70
+  JobLevel:
+  - 20
+  - 50
+  Str:
+  - 60
+  - 90
+  Agi:
+  - 60
+  - 90
+  Vit:
+  - 40
+  - 70
+  Int:
+  - 20
+  - 50
+  Dex:
+  - 50
+  - 80
+  Luk:
+  - 40
+  - 70
+  Flags:
+  - mortal
+  TownBehavior: sit
+  FieldBehavior: combat
+  DungeonBehavior: combat
+- Profile: pve_gunslinger
+  Jobs:
+    Gunslinger: para_gun
+  NameProfile: default
+  ChatProfile: default
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  BaseLevel:
+  - 40
+  - 70
+  JobLevel:
+  - 20
+  - 50
+  Str:
+  - 20
+  - 50
+  Agi:
+  - 50
+  - 80
+  Vit:
+  - 20
+  - 50
+  Int:
+  - 10
+  - 30
+  Dex:
+  - 70
+  - 99
+  Luk:
+  - 40
+  - 70
+  Flags:
+  - mortal
+  TownBehavior: wander
+  FieldBehavior: combat
+  DungeonBehavior: combat
+- Profile: pve_ninja
+  Jobs:
+    Ninja: para_ninja
+  NameProfile: default
+  ChatProfile: default
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  BaseLevel:
+  - 40
+  - 70
+  JobLevel:
+  - 20
+  - 50
+  Str:
+  - 30
+  - 60
+  Agi:
+  - 50
+  - 80
+  Vit:
+  - 30
+  - 60
+  Int:
+  - 50
+  - 80
+  Dex:
+  - 60
+  - 90
+  Luk:
+  - 30
+  - 60
+  Flags:
+  - mortal
+  TownBehavior: sit
+  FieldBehavior: combat
+  DungeonBehavior: combat

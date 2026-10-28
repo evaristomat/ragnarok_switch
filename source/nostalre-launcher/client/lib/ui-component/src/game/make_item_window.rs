@@ -1,0 +1,680 @@
+use crate::game::inventory_window::INV_WINDOW_ID;
+use crate::helper::scrollbar::{self, SCROLLBAR_W, ScrollbarIds};
+use crate::helper::window_chrome::{
+    ITEMWIN_MID_TEX, SYS_BASE_OFF_TEX, SYS_BASE_ON_TEX, TITLEBAR_TEX, draw_container, draw_footer,
+    draw_titlebar, text_color,
+};
+use crate::{BuildCtx, InGameWindow, Window};
+use nostalre_game::character::Character;
+use nostalre_game::event::GameEvent;
+use nostalre_game::item::{Item, is_forge_element_item, is_forge_material_item};
+use nostalre_ui::draw::{self, DrawCall, TextureRef};
+use nostalre_ui::frame::{ButtonTextures, UiFrame, WidgetId};
+use nostalre_ui::rect::Rect;
+
+pub const MAKE_ITEM_WINDOW_ID: WidgetId = WidgetId(2200);
+const MAKE_ID: WidgetId = WidgetId(2201);
+const CANCEL_ID: WidgetId = WidgetId(2202);
+const OK_ID: WidgetId = WidgetId(2203);
+const SCROLL_UP_ID: WidgetId = WidgetId(2204);
+const SCROLL_DOWN_ID: WidgetId = WidgetId(2205);
+const SCROLL_THUMB_ID: WidgetId = WidgetId(2206);
+const SLOT_BASE_ID: u32 = 2220;
+const ROW_BASE_ID: u32 = 2230;
+
+const MAKE_BTN: ButtonTextures = ButtonTextures {
+    normal: nostalre_resources::ui::BTN_MAKE,
+    hover: nostalre_resources::ui::BTN_MAKE_A,
+    pressed: nostalre_resources::ui::BTN_MAKE_B,
+};
+const OK_BTN: ButtonTextures = ButtonTextures {
+    normal: nostalre_resources::ui::BTN_OK,
+    hover: nostalre_resources::ui::BTN_OK_A,
+    pressed: nostalre_resources::ui::BTN_OK_B,
+};
+const CANCEL_BTN: ButtonTextures = ButtonTextures {
+    normal: nostalre_resources::ui::BTN_CANCEL,
+    hover: nostalre_resources::ui::BTN_CANCEL_A,
+    pressed: nostalre_resources::ui::BTN_CANCEL_B,
+};
+const SLOT_BG_TEX: &str = ITEMWIN_MID_TEX;
+
+const LIST_TITLE: &str = "Item list you can craft";
+const WIN_W: f32 = 240.0;
+const TITLE_H: f32 = 17.0;
+const ROW_H: f32 = 20.0;
+const ICON_SIZE: f32 = 18.0;
+const HEADER_ICON: f32 = 24.0;
+const HEADER_H: f32 = 24.0;
+const PAD: f32 = 6.0;
+const SLOT_SIZE: f32 = 28.0;
+const FOOTER_H: f32 = 28.0;
+const MAX_VISIBLE_ROWS: usize = 7;
+const FALLBACK_BTN_W: f32 = 42.0;
+const FALLBACK_BTN_H: f32 = 20.0;
+const SELECTED_COLOR: [f32; 4] = [0.3, 0.3, 0.5, 0.5];
+
+/// The elemental stones, metals and Star Crumb are made without a material
+/// slot; every other producible (weapons, potions) shows the three slots.
+fn is_weapon_target_item(item_id: u32) -> bool {
+    !matches!(item_id, 994..=1000)
+}
+
+#[derive(Default, Clone, Copy, PartialEq)]
+enum Phase {
+    #[default]
+    List,
+    Process,
+}
+
+#[derive(Clone)]
+struct ProducibleRow {
+    item_id: u32,
+    name: String,
+    icon: Option<String>,
+}
+
+/// The item is held here, out of the inventory, until the forge request goes
+/// out: the server deletes the slotted materials without telling the client.
+#[derive(Clone)]
+struct MaterialSlot {
+    item: Item,
+    icon: Option<String>,
+}
+
+#[derive(Default)]
+pub struct MakeItemWindow {
+    has_grf_textures: bool,
+    open: bool,
+    phase: Phase,
+    rows: Vec<ProducibleRow>,
+    selected: usize,
+    scroll_offset: usize,
+    slots: [Option<MaterialSlot>; 3],
+    btn_size: (f32, f32),
+    /// A cooking list's kind (0x025a): OK sends the pick at once, with no materials to place
+    cooking: Option<u16>,
+}
+
+impl MakeItemWindow {
+    pub fn new() -> Self {
+        Self {
+            btn_size: (FALLBACK_BTN_W, FALLBACK_BTN_H),
+            ..Default::default()
+        }
+    }
+
+    pub fn is_open(&self) -> bool {
+        self.open
+    }
+
+    pub fn open(&mut self, rows: Vec<(u32, String, Option<String>)>) {
+        self.rows = rows
+            .into_iter()
+            .map(|(item_id, name, icon)| ProducibleRow {
+                item_id,
+                name,
+                icon,
+            })
+            .collect();
+        self.selected = 0;
+        self.scroll_offset = 0;
+        self.slots = [None, None, None];
+        self.phase = Phase::List;
+        self.open = !self.rows.is_empty();
+        self.cooking = None;
+    }
+
+    pub fn open_cooking(&mut self, mk_type: u16, rows: Vec<(u32, String, Option<String>)>) {
+        self.open(rows);
+        self.cooking = Some(mk_type);
+    }
+
+    /// What closing the window without a pick tells the server, which keeps the menu skill until it hears one
+    fn cancel_event(&self) -> GameEvent {
+        match self.cooking {
+            Some(mk_type) => GameEvent::RequestCooking {
+                mk_type,
+                item_id: 0,
+            },
+            None => GameEvent::RequestMakingItem {
+                item_id: 0,
+                materials: [0; 3],
+            },
+        }
+    }
+
+    pub fn close(&mut self) {
+        self.open = false;
+        self.phase = Phase::List;
+        self.rows.clear();
+        self.slots = [None, None, None];
+    }
+
+    /// Both phases share this height so the list's OK button and the process
+    /// window's Make button sit at the same screen position (spam-click friendly).
+    /// Anchored to whichever phase needs more room so neither is clipped: the
+    /// process phase's header+slot block is a fixed floor the list must respect.
+    fn window_height(&self) -> f32 {
+        let visible_rows = self.rows.len().min(MAX_VISIBLE_ROWS);
+        let list_h = TITLE_H + PAD + visible_rows as f32 * ROW_H + PAD + FOOTER_H;
+        let process_h = TITLE_H + PAD + HEADER_H + PAD + SLOT_SIZE + PAD + FOOTER_H;
+        list_h.max(process_h)
+    }
+
+    fn build_list(&mut self, ui: &mut UiFrame, events: &mut Vec<GameEvent>) {
+        let grf = self.has_grf_textures;
+        let tc = text_color(grf);
+        let (btn_w, btn_h) = self.btn_size;
+
+        let visible_rows = self.rows.len().min(MAX_VISIBLE_ROWS);
+        let max_scroll = self.rows.len().saturating_sub(visible_rows);
+        let list_h = visible_rows as f32 * ROW_H;
+        let win_h = self.window_height();
+
+        let win = ui.window_at(MAKE_ITEM_WINDOW_ID, WIN_W, win_h, TITLE_H, 260.0, 140.0);
+        let (dx, dy) = (win.x, win.y);
+        ui.interact(MAKE_ITEM_WINDOW_ID, Rect::new(dx, dy, WIN_W, win_h));
+
+        draw_titlebar(ui, dx, dy, WIN_W, TITLE_H, grf);
+        ui.text(dx + 17.0, dy + TITLE_H - 3.0, LIST_TITLE, tc);
+
+        let body_y = dy + TITLE_H;
+        let body_h = win_h - TITLE_H - FOOTER_H;
+        draw_container(ui, dx, body_y, WIN_W, body_h, grf);
+        draw_footer(ui, dx, dy + win_h - FOOTER_H, WIN_W, FOOTER_H, grf);
+
+        let has_scroll = max_scroll > 0;
+        let list_x = dx + PAD;
+        let list_y = body_y + PAD;
+        let list_w = WIN_W - PAD * 2.0 - if has_scroll { SCROLLBAR_W } else { 0.0 };
+
+        let content_rect = Rect::new(list_x, list_y, WIN_W - PAD * 2.0, list_h);
+        if has_scroll {
+            self.scroll_offset = scrollbar::scrollbar(
+                ui,
+                ScrollbarIds {
+                    up: SCROLL_UP_ID,
+                    down: SCROLL_DOWN_ID,
+                    thumb: SCROLL_THUMB_ID,
+                },
+                self.scroll_offset,
+                visible_rows,
+                max_scroll,
+                content_rect,
+                dx + WIN_W - PAD - SCROLLBAR_W,
+                list_y,
+                list_h,
+            );
+        } else {
+            self.scroll_offset = 0;
+        }
+
+        if ui.ctx.key_up && self.selected > 0 {
+            self.selected -= 1;
+        }
+        if ui.ctx.key_down && self.selected + 1 < self.rows.len() {
+            self.selected += 1;
+        }
+        if ui.ctx.key_up || ui.ctx.key_down {
+            if self.scroll_offset > self.selected {
+                self.scroll_offset = self.selected;
+            } else if self.selected >= self.scroll_offset + visible_rows {
+                self.scroll_offset = self.selected + 1 - visible_rows;
+            }
+            self.scroll_offset = self.scroll_offset.min(max_scroll);
+        }
+
+        let mut clicked = None;
+        for vis in 0..visible_rows {
+            let idx = self.scroll_offset + vis;
+            let Some(row) = self.rows.get(idx) else {
+                break;
+            };
+            let row_y = list_y + vis as f32 * ROW_H;
+            let row_rect = Rect::new(list_x, row_y, list_w, ROW_H);
+            let resp = ui.interact(WidgetId(ROW_BASE_ID + vis as u32), row_rect);
+            if resp.hovered() {
+                ui.any_interactive_hovered = true;
+            }
+            if resp.clicked() {
+                clicked = Some(idx);
+            }
+            if idx == self.selected {
+                let (v, i) = draw::quad_vertices(
+                    row_rect.x,
+                    row_rect.y,
+                    row_rect.w,
+                    row_rect.h,
+                    SELECTED_COLOR,
+                );
+                ui.draw_calls.push(DrawCall {
+                    vertices: v.into(),
+                    indices: i.into(),
+                    texture: TextureRef::White,
+                });
+            }
+            let mut text_x = row_rect.x + 2.0;
+            if let Some(icon) = &row.icon {
+                let iy = row_y + (ROW_H - ICON_SIZE) / 2.0;
+                let (v, i) = draw::quad_vertices(text_x, iy, ICON_SIZE, ICON_SIZE, [1.0; 4]);
+                ui.draw_calls.push(DrawCall {
+                    vertices: v.into(),
+                    indices: i.into(),
+                    texture: TextureRef::Named(icon.clone().into()),
+                });
+                text_x += ICON_SIZE + 4.0;
+            }
+            ui.text(text_x, row_y + ROW_H - 5.0, &row.name, tc);
+        }
+        if let Some(idx) = clicked {
+            self.selected = idx;
+        }
+
+        let win_rect = Rect::new(dx, dy, WIN_W, win_h);
+        let btns = win_rect.buttons_bottom_right(2, btn_w, btn_h, 5.0, 5.0, 3.0);
+        let cancel = ui.button(CANCEL_ID, btns[0], &CANCEL_BTN, crate::pt!("Cancel", "Cancelar"));
+        let ok = ui.button(OK_ID, btns[1], &OK_BTN, "OK");
+        if ok.clicked() || ui.ctx.key_enter {
+            match (self.rows.get(self.selected), self.cooking) {
+                (Some(row), Some(mk_type)) => {
+                    events.push(GameEvent::RequestCooking {
+                        mk_type,
+                        item_id: row.item_id,
+                    });
+                    self.close();
+                }
+                (Some(_), None) => {
+                    self.phase = Phase::Process;
+                    self.slots = [None, None, None];
+                }
+                (None, _) => {}
+            }
+        } else if cancel.clicked() {
+            events.push(self.cancel_event());
+            self.close();
+        }
+    }
+
+    fn build_process(
+        &mut self,
+        ui: &mut UiFrame,
+        character: &mut Character,
+        events: &mut Vec<GameEvent>,
+    ) {
+        let grf = self.has_grf_textures;
+        let tc = text_color(grf);
+        let (btn_w, btn_h) = self.btn_size;
+
+        let Some(target) = self.rows.get(self.selected).cloned() else {
+            self.close();
+            return;
+        };
+        let show_slots = is_weapon_target_item(target.item_id);
+        let win_h = self.window_height();
+        let body_h = win_h - TITLE_H - FOOTER_H;
+
+        let win = ui.window_at(MAKE_ITEM_WINDOW_ID, WIN_W, win_h, TITLE_H, 260.0, 140.0);
+        let (dx, dy) = (win.x, win.y);
+        ui.interact(MAKE_ITEM_WINDOW_ID, Rect::new(dx, dy, WIN_W, win_h));
+
+        draw_titlebar(ui, dx, dy, WIN_W, TITLE_H, grf);
+        ui.text(
+            dx + 17.0,
+            dy + TITLE_H - 3.0,
+            &format!("{} Create", target.name),
+            tc,
+        );
+
+        let body_y = dy + TITLE_H;
+        draw_container(ui, dx, body_y, WIN_W, body_h, grf);
+        draw_footer(ui, dx, dy + win_h - FOOTER_H, WIN_W, FOOTER_H, grf);
+
+        let hx = dx + PAD;
+        let hy = body_y + PAD;
+        let mut text_x = hx;
+        if let Some(icon) = &target.icon {
+            let iy = hy + (HEADER_H - HEADER_ICON) / 2.0;
+            let (v, i) = draw::quad_vertices(hx, iy, HEADER_ICON, HEADER_ICON, [1.0; 4]);
+            ui.draw_calls.push(DrawCall {
+                vertices: v.into(),
+                indices: i.into(),
+                texture: TextureRef::Named(icon.clone().into()),
+            });
+            text_x += HEADER_ICON + 6.0;
+        }
+        ui.text(text_x, hy + HEADER_H - 6.0, &target.name, tc);
+
+        if show_slots {
+            let slots_y = hy + HEADER_H + PAD;
+            let strip = Rect::new(hx, slots_y, 3.0 * SLOT_SIZE + 2.0 * PAD, SLOT_SIZE);
+            if let Some((source_id, inv_index)) = ui.drop_zone(strip)
+                && source_id == INV_WINDOW_ID
+            {
+                self.take_material(character, inv_index as u16);
+            }
+            for s in 0..3 {
+                let slot_x = hx + s as f32 * (SLOT_SIZE + PAD);
+                let slot_rect = Rect::new(slot_x, slots_y, SLOT_SIZE, SLOT_SIZE);
+                if grf {
+                    let (v, i) =
+                        draw::quad_vertices(slot_x, slots_y, SLOT_SIZE, SLOT_SIZE, [1.0; 4]);
+                    ui.draw_calls.push(DrawCall {
+                        vertices: v.into(),
+                        indices: i.into(),
+                        texture: TextureRef::Named(SLOT_BG_TEX.into()),
+                    });
+                } else {
+                    let (v, i) = draw::quad_vertices(
+                        slot_x,
+                        slots_y,
+                        SLOT_SIZE,
+                        SLOT_SIZE,
+                        [0.1, 0.1, 0.15, 0.9],
+                    );
+                    ui.draw_calls.push(DrawCall {
+                        vertices: v.into(),
+                        indices: i.into(),
+                        texture: TextureRef::White,
+                    });
+                }
+                let resp = ui.interact(WidgetId(SLOT_BASE_ID + s as u32), slot_rect);
+                if resp.hovered() {
+                    ui.any_interactive_hovered = true;
+                }
+                if resp.clicked() {
+                    self.return_material(character, s);
+                }
+                if let Some(slot) = &self.slots[s]
+                    && let Some(icon) = &slot.icon
+                {
+                    let pad = (SLOT_SIZE - ICON_SIZE) / 2.0;
+                    let (v, i) = draw::quad_vertices(
+                        slot_x + pad,
+                        slots_y + pad,
+                        ICON_SIZE,
+                        ICON_SIZE,
+                        [1.0; 4],
+                    );
+                    ui.draw_calls.push(DrawCall {
+                        vertices: v.into(),
+                        indices: i.into(),
+                        texture: TextureRef::Named(icon.clone().into()),
+                    });
+                }
+            }
+        }
+
+        let win_rect = Rect::new(dx, dy, WIN_W, win_h);
+        let btns = win_rect.buttons_bottom_right(2, btn_w, btn_h, 5.0, 5.0, 3.0);
+        let cancel = ui.button(CANCEL_ID, btns[0], &CANCEL_BTN, crate::pt!("Cancel", "Cancelar"));
+        let make = ui.button(MAKE_ID, btns[1], &MAKE_BTN, crate::pt!("Make", "Criar"));
+        if make.clicked() || ui.ctx.key_enter {
+            let materials = std::array::from_fn(|i| {
+                self.slots[i].as_ref().map(|s| s.item.item_id).unwrap_or(0)
+            });
+            events.push(GameEvent::RequestMakingItem {
+                item_id: target.item_id,
+                materials,
+            });
+            self.close();
+        } else if cancel.clicked() {
+            // The server keeps the character locked (menuskill) until it gets a
+            // making-item reply; answer with itemId 0 so its cancel path clears it.
+            events.push(GameEvent::RequestMakingItem {
+                item_id: 0,
+                materials: [0; 3],
+            });
+            self.restore_materials(character);
+            self.close();
+        }
+    }
+
+    /// Star crumbs and elemental stones only, at most one stone, first free
+    /// slot regardless of where the drop landed.
+    fn take_material(&mut self, character: &mut Character, inv_index: u16) {
+        let Some(free) = self.slots.iter().position(|s| s.is_none()) else {
+            return;
+        };
+        let Some(item) = character.inventory.get_item(inv_index) else {
+            return;
+        };
+        if !is_forge_material_item(item.item_id) {
+            return;
+        }
+        if is_forge_element_item(item.item_id)
+            && self
+                .slots
+                .iter()
+                .flatten()
+                .any(|s| is_forge_element_item(s.item.item_id))
+        {
+            return;
+        }
+        let mut taken = item.clone();
+        taken.count = 1;
+        character.inventory.subtract_item_count(inv_index, 1);
+        self.slots[free] = Some(MaterialSlot {
+            icon: taken.icon_path(),
+            item: taken,
+        });
+    }
+
+    fn return_material(&mut self, character: &mut Character, slot: usize) {
+        if let Some(taken) = self.slots[slot].take() {
+            character.inventory.add_item(taken.item);
+        }
+    }
+
+    fn restore_materials(&mut self, character: &mut Character) {
+        for s in 0..3 {
+            self.return_material(character, s);
+        }
+    }
+}
+
+impl Window for MakeItemWindow {
+    fn has_grf_textures(&self) -> bool {
+        self.has_grf_textures
+    }
+    fn set_has_grf_textures(&mut self, value: bool) {
+        self.has_grf_textures = value;
+    }
+    fn set_texture_sizes(&mut self, size_fn: &dyn Fn(&str) -> Option<(u32, u32)>) {
+        if let Some((w, h)) = size_fn(MAKE_BTN.normal) {
+            self.btn_size = (w as f32, h as f32);
+        }
+    }
+    fn grf_texture_paths() -> Vec<&'static str> {
+        let mut paths = vec![
+            TITLEBAR_TEX,
+            SYS_BASE_OFF_TEX,
+            SYS_BASE_ON_TEX,
+            SLOT_BG_TEX,
+            MAKE_BTN.normal,
+            MAKE_BTN.hover,
+            MAKE_BTN.pressed,
+            OK_BTN.normal,
+            OK_BTN.hover,
+            OK_BTN.pressed,
+            CANCEL_BTN.normal,
+            CANCEL_BTN.hover,
+            CANCEL_BTN.pressed,
+        ];
+        paths.extend(scrollbar::grf_texture_paths());
+        paths
+    }
+}
+
+impl InGameWindow for MakeItemWindow {
+    fn owns_keyboard(&self, _ctx: &BuildCtx) -> bool {
+        self.is_open()
+    }
+
+    fn wants_escape(&self, _ctx: &BuildCtx) -> bool {
+        self.is_open()
+    }
+
+    fn on_escape(&mut self, ctx: &mut BuildCtx) -> Vec<GameEvent> {
+        let cancel = self.cancel_event();
+        self.restore_materials(ctx.character);
+        self.close();
+        vec![cancel]
+    }
+
+    fn build(&mut self, ui: &mut UiFrame, ctx: &mut BuildCtx) -> Vec<GameEvent> {
+        let character = &mut *ctx.character;
+        let _data = ctx.data;
+        if !self.open {
+            return Vec::new();
+        }
+        let mut events = Vec::new();
+
+        let prev_grf = ui.has_grf_textures;
+        ui.has_grf_textures = self.has_grf_textures;
+
+        match self.phase {
+            Phase::List => self.build_list(ui, &mut events),
+            Phase::Process => self.build_process(ui, character, &mut events),
+        }
+
+        ui.has_grf_textures = prev_grf;
+        events
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use nostalre_game::character::Character;
+    use nostalre_game::data_table::DataTable;
+
+    use nostalre_ui::context::UiContext;
+    use nostalre_ui::state::StateCache;
+    use nostalre_ui::test_support::test_frame;
+
+    #[test]
+    fn builds_both_phases_without_panicking() {
+        let mut win = MakeItemWindow::new();
+        win.open(vec![
+            (501, "Red Potion".into(), None),
+            (503, "Yellow Potion".into(), None),
+        ]);
+        assert!(win.is_open());
+
+        let mut character = Character::new();
+        let mut state = StateCache::new();
+        let mut ctx = UiContext::new(800.0, 600.0);
+
+        let mut ui = test_frame(&mut ctx, &mut state);
+        assert!(
+            win.build(
+                &mut ui,
+                &mut crate::BuildCtx::test(&mut character, &DataTable::new())
+            )
+            .is_empty()
+        );
+
+        win.phase = Phase::Process;
+        let mut ui = test_frame(&mut ctx, &mut state);
+        assert!(
+            win.build(
+                &mut ui,
+                &mut crate::BuildCtx::test(&mut character, &DataTable::new())
+            )
+            .is_empty()
+        );
+
+        win.close();
+        assert!(!win.is_open());
+    }
+
+    #[test]
+    fn arrows_move_the_selection_and_enter_walks_both_phases() {
+        let mut win = MakeItemWindow::new();
+        win.open(vec![
+            (501, "Red Potion".into(), None),
+            (503, "Yellow Potion".into(), None),
+        ]);
+
+        let mut character = Character::new();
+        let data = DataTable::new();
+        let mut state = StateCache::new();
+        let mut ctx = UiContext::new(800.0, 600.0);
+
+        let mut frame = |win: &mut MakeItemWindow, key: &dyn Fn(&mut UiContext)| {
+            ctx.key_up = false;
+            ctx.key_down = false;
+            ctx.key_enter = false;
+            key(&mut ctx);
+            let mut ui = test_frame(&mut ctx, &mut state);
+            win.build(&mut ui, &mut crate::BuildCtx::test(&mut character, &data))
+        };
+
+        frame(&mut win, &|c| c.key_down = true);
+        assert_eq!(win.selected, 1);
+        frame(&mut win, &|c| c.key_down = true);
+        assert_eq!(win.selected, 1);
+        frame(&mut win, &|c| c.key_enter = true);
+        assert!(win.phase == Phase::Process);
+
+        let events = frame(&mut win, &|c| c.key_enter = true);
+        assert!(!win.is_open());
+        assert!(events.iter().any(|e| matches!(
+            e,
+            GameEvent::RequestMakingItem {
+                item_id: 503,
+                materials: [0, 0, 0]
+            }
+        )));
+    }
+
+    fn stack(index: u16, item_id: u32, count: i16) -> Item {
+        Item {
+            grade: 0,
+            options: Default::default(),
+            index,
+            item_id,
+            item_type: models::enums::item::ItemType::Etc,
+            count,
+            is_identified: true,
+            is_damaged: false,
+            refining_level: 0,
+            slot: [0; 4],
+            location: 0,
+            wear_state: 0,
+            name: format!("Item {item_id}"),
+            resource_name: None,
+        }
+    }
+
+    #[test]
+    fn forge_slots_take_materials_from_the_inventory_and_give_them_back() {
+        let mut character = Character::new();
+        character.inventory.add_item(stack(1, 1000, 3));
+        character.inventory.add_item(stack(2, 994, 1));
+        character.inventory.add_item(stack(3, 995, 1));
+        character.inventory.add_item(stack(4, 501, 5));
+
+        let mut win = MakeItemWindow::new();
+        win.take_material(&mut character, 4);
+        assert!(win.slots[0].is_none());
+
+        win.take_material(&mut character, 1);
+        win.take_material(&mut character, 2);
+        win.take_material(&mut character, 3);
+        assert_eq!(
+            win.slots
+                .iter()
+                .map(|s| s.as_ref().map(|s| s.item.item_id).unwrap_or(0))
+                .collect::<Vec<_>>(),
+            vec![1000, 994, 0]
+        );
+        assert_eq!(character.inventory.get_item(1).unwrap().count, 2);
+        assert!(character.inventory.get_item(2).is_none());
+
+        win.restore_materials(&mut character);
+        assert_eq!(character.inventory.get_item(1).unwrap().count, 3);
+        assert_eq!(character.inventory.get_item(2).unwrap().count, 1);
+    }
+}

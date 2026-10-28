@@ -1,0 +1,100 @@
+//===== rAthena Script ======================================= 
+//= Advance Class jobchanger after kRO Normals.
+//===== By: ==================================================
+//= Nana
+//= finished, optimized and tested by Lupus
+//===== Current Version: ===================================== 
+//= 1.3
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= Advance Class jobchanger after kRO Normals.
+//===== Additional Comments: ================================= 
+//= 1.1 Made all into functions, additional checks, etc. [Lupus]
+//= 1.2 Made numbers into constants. [Vicious]
+//= 1.3 Now saves/restores all the quest skills [Lupus]
+//============================================================ 
+
+valkyrie,44,58,5	script	Assassin Cross#Valkyrie	725,{
+	if (ADVJOB == 0 || Upper != 1) {
+		set .@karma_d,rand(1,10);
+		if (.@karma_d > 4) {
+			mes "[Cruz Assassina]";
+			mes "Meus parabéns...";
+			next;
+			mes "[Cruz Assassina]";
+			mes "...";
+			next;
+			mes "[Cruz Assassina]";
+			mes "...";
+			mes "......";
+			next;
+			mes "[Cruz Assassina]";
+			mes "...";
+			mes "......";
+			mes "Honra aos";
+			mes "guerreiros.";
+			close;
+		}
+		mes "[Cruz Assassina]";
+		mes "Nós somos os guerreiros";
+		mes "do deserto. Ninguém";
+		mes "nos subestima.";
+		mes "Ninguém...";
+		close;
+	}
+	else if (ADVJOB == Job_Assassin_Cross && Class == Job_Thief_High && JobLevel > 39) {
+		mes "[Cruz Assassina]";
+		mes "Chegou a hora.";
+		mes "O mundo precisa de você...";
+		mes "Mais do que nunca.";
+		next;
+		mes "[Cruz Assassina]";
+		mes "Peço que continue vivendo nas sombras, mas como um Mercenário ainda maior e com uma nova aparência.";
+		next;
+		mes "[Cruz Assassina]";
+		mes "Você se tornará";
+		mes "um Algoz?";
+		next;
+		if (select("Não.:Sim.") == 1) {
+			mes "[Cruz Assassina]";
+			mes "Quando estiver";
+			mes "pronto, volte.";
+			next;
+			mes "[Cruz Assassina]";
+			mes "Honra aos";
+			mes "guerreiros.";
+			close;
+		}
+		if (SkillPoint) {
+			mes "[Cruz Assassina]";
+			mes "Você ainda não";
+			mes "aprendeu tudo";
+			mes "que podia.";
+			next;
+			mes "[Cruz Assassina]";
+			mes "Use todos os seus";
+			mes "Pontos de Habilidade";
+			mes "e então volte.";
+			close;
+		}
+		jobchange Job_Assassin_Cross;
+		set ADVJOB,0;
+		mes "[Cruz Assassina]";
+		mes "Meus parabéns.";
+		mes "Como um Algoz,";
+		mes "espero que lute por um futuro mais brilhante dentro da escuridão.";
+		close;
+	}
+	mes "[Cruz Assassina]";
+	mes "Bem-vindo";
+	mes "a Valhalla,";
+	mes "o Salão da Honra.";
+	next;
+	mes "[Cruz Assassina]";
+	mes "Por favor, sinta-se";
+	mes "à vontade";
+	mes "enquanto estiver aqui.";
+	mes "Honra aos guerreiros.";
+	close;
+}

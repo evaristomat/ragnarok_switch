@@ -1,0 +1,5 @@
+function(add_classic_test_driver)
+ target_sources(char-server PRIVATE /edition/scripts/offline_host_driver.cpp)
+ target_compile_definitions(char-server PRIVATE main=nostalre_test_server_main)
+endfunction()
+cmake_language(DEFER CALL add_classic_test_driver)

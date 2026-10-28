@@ -1,0 +1,87 @@
+[workspace]
+members = [
+    "switch/client",
+    "client",
+    "lib/formats",
+    "lib/resources",
+    "lib/renderer",
+    "lib/game",
+    "lib/ai",
+    "lib/effects",
+    "lib/network",
+    "lib/profiling",
+    "lib/ui-core",
+    "lib/ui-component",
+    "lib/audio",
+    "tools",
+    "tools/grf-editor",
+    "tools/effect-viewer-hot",
+    "tools/rendering-viewer-hot",
+    "tools/rsw-viewer-hot",
+    "tools/ui-component-hot",
+    "rust-ro/models",
+    "rust-ro/packets",
+    "rust-ro/movement",
+    "rust-ro/enum_macro",
+    "rust-ro/accessor",
+    "rust-ro/packets-tool",
+]
+resolver = "2"
+
+[workspace.dependencies]
+# Needed by server's models crate (workspace = true)
+
+tracing = "0.1.41"
+tracing-subscriber = { version = "0.3", default-features = false, features = ["fmt", "env-filter"] }
+# Needed by server's packets crate (workspace = true)
+byteorder = "1.5.0"
+json-flat-parser = "0.1.0"
+flate2 = "1.1"
+encoding_rs = "0.8"
+
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+wgpu = { version = "29.0.4", default-features = false, features = ["std", "wgsl", "vulkan"] }
+winit = "0.30"
+wayland-client = "0.31"
+xkbcommon-dl = "0.4"
+x11rb = "0.13"
+glam = "0.32"
+bytemuck = { version = "1.25", features = ["derive"] }
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "tga", "bmp", "gif"] }
+ab_glyph = "0.2"
+eframe = "0.33.3"
+rfd = "0.15"
+tokio = { version = "1", features = ["net", "rt", "sync", "macros", "io-util", "time"] }
+cpal = "0.17.3"
+symphonia = { version = "0.5", default-features = false, features = ["wav", "pcm", "adpcm", "mp3"] }
+puffin = "0.20"
+puffin_http = "0.17"
+mlua = { version = "0.11.6", features = ["lua51", "vendored"] }
+
+# rust-ro's crates, copied in (rust-ro/README.md)
+models = { path = "rust-ro/models" }
+movement = { path = "rust-ro/movement" }
+packets = { path = "rust-ro/packets" }
+
+# Internal crates
+nostalre-formats = { path = "lib/formats" }
+nostalre-resources = { path = "lib/resources" }
+nostalre-renderer = { path = "lib/renderer" }
+nostalre-game = { path = "lib/game" }
+nostalre-ai = { path = "lib/ai" }
+nostalre-effects = { path = "lib/effects" }
+nostalre-network = { path = "lib/network" }
+nostalre-profiling = { path = "lib/profiling" }
+nostalre-ui = { path = "lib/ui-core" }
+nostalre-ui-component = { path = "lib/ui-component" }
+nostalre-audio = { path = "lib/audio" }
+libloading = "0.8"
+
+
+# winit with gamepad axes on Android (sticks, D-pad hat, triggers as DeviceEvent::Motion): vendor/winit,
+# 0.30.12 plus that change in src/platform_impl/android/mod.rs (search "nostalre-client")
+[patch.crates-io]
+winit = { path = "vendor/winit" }
+

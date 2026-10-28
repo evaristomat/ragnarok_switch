@@ -1,0 +1,150 @@
+{
+  "repository": "zackdreaver/ROenglishPRE",
+  "commit": "c82650ce91e4e00fa6dcefd7042595a600c20f9c",
+  "files": [
+    {
+      "path": "data/alberta.gat",
+      "bytes": 1568014,
+      "sha256": "d8cd2c560c3276e03ab57fbc41816186674396ccb10f250ea39fd1eb890c5d8a",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/alberta.gat"
+    },
+    {
+      "path": "data/alberta.gnd",
+      "bytes": 2528158,
+      "sha256": "387c5d804b32a8c77d9c16b12bf70666bc37e35f9ab45ed9627b984dc9053c61",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/alberta.gnd"
+    },
+    {
+      "path": "data/alberta.rsw",
+      "bytes": 245610,
+      "sha256": "3c859f1f6aad87ec6047eab2202fe8b7b0726a378ac8ef43dbb75308146aa20e",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/alberta.rsw"
+    },
+    {
+      "path": "data/izlude.gat",
+      "bytes": 1436494,
+      "sha256": "2abe26ce9e7b63a86a60c3a175b4900b6e1e2258d65429b9f8d338f1de30df1a",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/izlude.gat"
+    },
+    {
+      "path": "data/izlude.gnd",
+      "bytes": 2307662,
+      "sha256": "cc45d293c640b1881d6feff1a13c6f2d50a2dfd079703cc93fd3af1757e9df6b",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/izlude.gnd"
+    },
+    {
+      "path": "data/izlude.rsw",
+      "bytes": 252558,
+      "sha256": "86e4303cc8d6214f459738dce9b881e56f0ad46ca8527da57b96c6ca8ace33c4",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/izlude.rsw"
+    },
+    {
+      "path": "data/morocc.gat",
+      "bytes": 2048014,
+      "sha256": "07347ea044fecc621220d99d844552e82fe7ea4199b922bb6760fd7d4603014a",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/morocc.gat"
+    },
+    {
+      "path": "data/morocc.gnd",
+      "bytes": 3159454,
+      "sha256": "8c7f561e39d673c3c02df1c6124cc2a1bc213b70b52319b4f668d887a62ecdf0",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/morocc.gnd"
+    },
+    {
+      "path": "data/morocc.rsw",
+      "bytes": 289498,
+      "sha256": "1d33a6a92b8c56ccfce05d328f6ff23309fbfd1e5f4782a09d5e2f325c436c4f",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/morocc.rsw"
+    },
+    {
+      "path": "data/prontera.gat",
+      "bytes": 2446094,
+      "sha256": "2b6d5fc2469bb526825f84969774a81ad332d05e77044a66f7f0519452059796",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/prontera.gat"
+    },
+    {
+      "path": "data/prontera.gnd",
+      "bytes": 3334150,
+      "sha256": "12fc683334c05df0c024da106d63ea78db3fd0b4dafc565c6003f946327ed9c7",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/prontera.gnd"
+    },
+    {
+      "path": "data/prontera.rsw",
+      "bytes": 417262,
+      "sha256": "10938f8e50f150fd53689e0ee86a1e3a24ed70436b8d6c42dd6cb8021db1524f",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/prontera.rsw"
+    },
+    {
+      "path": "data/prt_church.gat",
+      "bytes": 800014,
+      "sha256": "6a625a289e3e1d749693d4fb66426250bce1858f3d990c53d65ab3280d954d8b",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/prt_church.gat"
+    },
+    {
+      "path": "data/prt_church.gnd",
+      "bytes": 744238,
+      "sha256": "31fe42aa5ebb5de2ae477575e07aa043011a8dcdad7f72fa4d96f15e6aa73f19",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/prt_church.gnd"
+    },
+    {
+      "path": "data/prt_church.rsw",
+      "bytes": 109502,
+      "sha256": "775eebce310caeaa7aba04ce43ee0910df334311cfaff19375c06e4172a31e87",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/prt_church.rsw"
+    },
+    {
+      "path": "data/prt_fild05.gat",
+      "bytes": 3200014,
+      "sha256": "3c5d3f1a15556e3d944f2da141f50ac572d058e8fd363e0205c231ad303b5236",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/prt_fild05.gat"
+    },
+    {
+      "path": "data/prt_fild05.gnd",
+      "bytes": 5490878,
+      "sha256": "3c69b1761bb3b3ad898accf92b7dd7224c29fa9a6fa3f9fe58c2811627177b95",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/prt_fild05.gnd"
+    },
+    {
+      "path": "data/prt_fild05.rsw",
+      "bytes": 315414,
+      "sha256": "46d2c39df0c409776a8b8bce31a26f4a27d11b439ca9b734e41f06ed5bf7e2d3",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/prt_fild05.rsw"
+    },
+    {
+      "path": "data/prt_fild08.gat",
+      "bytes": 3200014,
+      "sha256": "bb7908930002a276e59efd0dbc2c46efa15f05a01e6573ee7b78d9a2b1b4a0f0",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/prt_fild08.gat"
+    },
+    {
+      "path": "data/prt_fild08.gnd",
+      "bytes": 5272734,
+      "sha256": "a1bc2e8bca978b3dc2cc897442c5d702b4673a073994dedadd0509974bdae5cc",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/prt_fild08.gnd"
+    },
+    {
+      "path": "data/prt_fild08.rsw",
+      "bytes": 219402,
+      "sha256": "4b7f0c5eeb6d47365111e1fc8487a948391d2bcc25fb5b5d8960dacc116ba7c3",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/prt_fild08.rsw"
+    },
+    {
+      "path": "data/prt_in.gat",
+      "bytes": 1200014,
+      "sha256": "f970d4dcba8612992c9ebe21f96537e6d02dfbc4285603037a286abf11f09744",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/prt_in.gat"
+    },
+    {
+      "path": "data/prt_in.gnd",
+      "bytes": 1629446,
+      "sha256": "7840000f5a278f50741bc6fcfd390c3f2053439691cec465e00cc469ea01a9eb",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/prt_in.gnd"
+    },
+    {
+      "path": "data/prt_in.rsw",
+      "bytes": 211002,
+      "sha256": "823b3f1683688b8def7462cd6bbebb77df46119af8cf946ecdc03b23354e9fd6",
+      "url": "https://raw.githubusercontent.com/zackdreaver/ROenglishPRE/c82650ce91e4e00fa6dcefd7042595a600c20f9c/data/prt_in.rsw"
+    }
+  ]
+}

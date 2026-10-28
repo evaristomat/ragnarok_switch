@@ -1,0 +1,19 @@
+npc/pre-re/jobs/novice/novice.txt	Shion#nv1	RS_CampStage == 0
+npc/pre-re/jobs/novice/novice.txt	Receptionist#nv1	RS_CampStage == 1
+npc/pre-re/jobs/novice/novice.txt	Instructor#nv	RS_CampStage == 2
+npc/pre-re/jobs/novice/novice.txt	Test Examiner#nv1::NovKeyman	RS_CampStage == 3
+npc/custom/nostalre_job_changer.txt	Mestre das Classes	RS_CampStage == 4 || RS_CampStage == 5 || RS_CampStage == 32
+npc/cities/payon.txt	Guardsman#payon	RS_CampStage == 6 || RS_CampStage == 7
+npc/cities/geffen.txt	Meera	RS_CampStage == 8 || RS_CampStage == 9
+npc/cities/alberta.txt	Fabian	RS_CampStage == 10 || RS_CampStage == 11
+npc/cities/umbala.txt	La Ed#um	RS_CampStage == 12
+npc/quests/quests_morocc.txt	Chief Balrog	RS_CampStage == 13 || RS_CampStage == 28 || RS_CampStage == 31
+npc/cities/umbala.txt	Pasto#um	RS_CampStage == 14 || RS_CampStage == 17
+npc/quests/the_sign_quest.txt	Archeologist#sign	RS_CampStage == 15 || RS_CampStage == 16
+npc/quests/quests_lighthalzen.txt	Maku	RS_CampStage == 18 || RS_CampStage == 19
+npc/quests/kiel_hyre_quest.txt	Elly	RS_CampStage == 20 || RS_CampStage == 21
+npc/quests/kiel_hyre_quest.txt	Kiel Hyre#kh	RS_CampStage == 22
+npc/quests/quests_rachel.txt	Sincere Follower Urstia	RS_CampStage == 23 || RS_CampStage == 27
+npc/quests/quests_nameless.txt	Magistrate#Aru	RS_CampStage == 24
+npc/quests/quests_nameless.txt	Secret Agent#Aru	RS_CampStage == 25 || RS_CampStage == 26
+npc/quests/quests_morocc.txt	Continental Guard#01::MocConGuard	RS_CampStage == 29 || RS_CampStage == 30

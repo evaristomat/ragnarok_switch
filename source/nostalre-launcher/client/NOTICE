@@ -1,0 +1,54 @@
+nostalRE
+
+Derived from nostalro-client by Nicolas Meylan (nmeylan),
+https://github.com/nmeylan/nostalro-client, Apache License, Version 2.0 (LICENSE.md).
+Upstream baseline: b4ec4a4. Modified for Renewal protocol version 20250716,
+rendering, interface, input, and platform integration. This standalone export
+has fresh history; the original integration history is not included.
+
+rust-ro/ contains models, packets, movement, enum_macro, accessor, and the
+packet generator from rust-ro by Nicolas Meylan,
+https://github.com/nmeylan/rust-ro, MIT License (rust-ro/LICENSE.md),
+baseline 2e673a2446f1ae98d9edc49ba2d7bc9fe248c4d8. These copies have been
+modified for this client, including removal of the unused client-message dump.
+
+vendor/winit is winit 0.30.12 (https://github.com/rust-windowing/winit),
+Apache License, Version 2.0 (vendor/winit/LICENSE), with Android gamepad-axis
+handling modified in src/platform_impl/android/mod.rs, marked "nostalre-client".
+
+lib/renderer/src/rsm_anim.rs (rsm2_joint) and the RSM 2.2+ handling in
+lib/renderer/src/model.rs follow Korangar by Lucas Pütz,
+https://github.com/vE5li/korangar, at commit e14d3203, specifically
+Node::world_matrix and calculate_matrices_rsm2. Copyright (c) 2023 Lucas Pütz.
+The full MIT notice is in LICENSES/korangar-MIT.txt.
+
+The client links Lua 5.1.5 (https://www.lua.org), built by mlua and lua-src,
+MIT License, Copyright (C) 1994-2012 Lua.org, PUC-Rio. Its full notice is in
+LICENSES/lua-MIT.txt.
+
+Bundled Noto fonts retain the SIL Open Font License in
+lib/renderer/src/fonts/OFL-LICENSE.txt. Their copyright statements are in
+lib/renderer/src/fonts/FONT-NOTICES.txt.
+
+winit's keyboard definitions include material from the W3C UI Events key/code
+specifications. The W3C license and short notice are retained in
+vendor/winit/src/keyboard.rs and reproduced in LICENSES/winit-W3C.txt.
+
+The AI design inherited from nostalro-client credits AzzyAI by Dr. Azzy /
+Spence Konde, https://github.com/SpenceKonde/AzzyAI. Inherited default tactic
+tables closely match its USER_AI/H_Tactics.lua and related tables. Reuse
+permission for this adaptation remains to be clarified; see
+docs/third-party-content.md.
+
+The generated job/item/skill/effect tables and network layout TSVs derive from
+rAthena source/data by the rAthena Development Team, https://github.com/rathena/rathena.
+The integration source records upstream baseline d4b8e7b plus local changes.
+rAthena is licensed under GNU GPL version 3; its database headers specify
+version 3 or later. These files are distributed under GPL-3.0-or-later, and
+released binaries that compile them in are distributed under GPL-3.0-or-later
+as a whole. LICENSES/rathena-GPL-3.0.txt supplies the full version 3 text.
+docs/third-party-content.md lists the files.
+
+The Android app's login, char and map servers are built from rAthena with
+local changes, published under GPL-3.0 at
+https://github.com/si-klyde/rathena-nostalre (tag nostalre-v0.1.0 for v0.1.0).

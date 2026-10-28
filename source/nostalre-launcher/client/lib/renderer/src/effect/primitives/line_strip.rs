@@ -1,0 +1,380 @@
+//! Camera-facing ribbon along a path: the `LineStrip` and `Spline` draw
+//! variants, `PipelineKind::LineStrip`.
+//!
+//! For each point on the path we build a cross-section offset by plus and minus
+//! `half_width` along `tangent x view_dir`, so the ribbon turns to face the
+//! camera; consecutive cross-sections are stitched into a triangle strip.
+//! Positions are world space. `Spline` first tessellates its control points
+//! with a Catmull-Rom curve into `segments + 1` cross-sections, then builds the
+//! same ribbon. UVs run along the accumulated path length (`uv_along` per world
+//! unit), oriented by `u_along`; `LineStrip` may pass per-point `colors`. The
+//! record sorts at the path midpoint so the whole ribbon orders as one. Uses
+//! `effect_frustum.wgsl`.
+//!
+//! Blend is per-record alpha or additive, no depth write, compare `LessEqual`.
+//! `LineStripRenderer` implements `EffectPrimitiveRenderer` and is registered
+//! under this kind. Emitted by `EffectSpec::Custom` effects such as Triple
+//! Attack streaks and hit lines.
+
+use crate::camera::Camera;
+use crate::effect::blend::ADDITIVE_BLEND;
+use crate::effect::pipeline::{PipelineOpts, build_pipeline, effect_pipeline_layout};
+use crate::effect::queue::{BlendBucket, DrawRecord, PipelineKind, view_z};
+use crate::effect::{EffectDrawList, EffectPrimitiveDraw};
+use crate::sprite::SpriteVertex;
+
+pub struct LineStripRenderer {
+    pub pipeline_alpha: wgpu::RenderPipeline,
+    pub pipeline_additive: wgpu::RenderPipeline,
+}
+
+impl LineStripRenderer {
+    pub fn new(
+        device: &wgpu::Device,
+        surface_format: wgpu::TextureFormat,
+        camera_bind_group_layout: &wgpu::BindGroupLayout,
+        texture_bind_group_layout: &wgpu::BindGroupLayout,
+    ) -> Self {
+        let (pipeline_alpha, pipeline_additive) = Self::build_pipelines(
+            device,
+            surface_format,
+            camera_bind_group_layout,
+            texture_bind_group_layout,
+            include_str!("../../shaders/effect_frustum.wgsl"),
+        );
+        Self {
+            pipeline_alpha,
+            pipeline_additive,
+        }
+    }
+
+    pub fn recreate_pipelines(
+        &mut self,
+        device: &wgpu::Device,
+        surface_format: wgpu::TextureFormat,
+        camera_bind_group_layout: &wgpu::BindGroupLayout,
+        texture_bind_group_layout: &wgpu::BindGroupLayout,
+        shader_source: &str,
+    ) {
+        let (alpha, additive) = Self::build_pipelines(
+            device,
+            surface_format,
+            camera_bind_group_layout,
+            texture_bind_group_layout,
+            shader_source,
+        );
+        self.pipeline_alpha = alpha;
+        self.pipeline_additive = additive;
+    }
+
+    fn build_pipelines(
+        device: &wgpu::Device,
+        surface_format: wgpu::TextureFormat,
+        camera_bind_group_layout: &wgpu::BindGroupLayout,
+        texture_bind_group_layout: &wgpu::BindGroupLayout,
+        shader_source: &str,
+    ) -> (wgpu::RenderPipeline, wgpu::RenderPipeline) {
+        let shader = device.create_shader_module(wgpu::ShaderModuleDescriptor {
+            label: Some("effect_line_strip"),
+            source: wgpu::ShaderSource::Wgsl(shader_source.into()),
+        });
+        let layout = effect_pipeline_layout(
+            device,
+            "effect_line_strip",
+            camera_bind_group_layout,
+            texture_bind_group_layout,
+        );
+        let opts = |blend| PipelineOpts {
+            label: "effect_line_strip",
+            blend,
+            topology: wgpu::PrimitiveTopology::TriangleList,
+            cull_mode: None,
+            depth_write: false,
+            depth_compare: wgpu::CompareFunction::LessEqual,
+        };
+        let pipeline_alpha = build_pipeline(
+            device,
+            surface_format,
+            &layout,
+            &shader,
+            &opts(wgpu::BlendState::ALPHA_BLENDING),
+        );
+        let pipeline_additive = build_pipeline(
+            device,
+            surface_format,
+            &layout,
+            &shader,
+            &opts(ADDITIVE_BLEND),
+        );
+        (pipeline_alpha, pipeline_additive)
+    }
+}
+
+fn tessellate_catmull_rom(control: &[[f32; 3]], segments: u32) -> Vec<[f32; 3]> {
+    let n = control.len();
+    if n < 2 || segments == 0 {
+        return control.to_vec();
+    }
+    let spans = (n - 1) as f32;
+    let count = segments + 1;
+    let mut out = Vec::with_capacity(count as usize);
+    let at = |i: isize| -> glam::Vec3 {
+        let idx = i.clamp(0, (n - 1) as isize) as usize;
+        glam::Vec3::from(control[idx])
+    };
+    for s in 0..count {
+        let u = (s as f32 / segments as f32) * spans;
+        let span = (u.floor() as isize).min((n - 2) as isize);
+        let t = u - span as f32;
+        let p0 = at(span - 1);
+        let p1 = at(span);
+        let p2 = at(span + 1);
+        let p3 = at(span + 2);
+        let t2 = t * t;
+        let t3 = t2 * t;
+        let pos = 0.5
+            * ((2.0 * p1)
+                + (-p0 + p2) * t
+                + (2.0 * p0 - 5.0 * p1 + 4.0 * p2 - p3) * t2
+                + (-p0 + 3.0 * p1 - 3.0 * p2 + p3) * t3);
+        out.push([pos.x, pos.y, pos.z]);
+    }
+    out
+}
+
+fn build_ribbon(
+    points: &[[f32; 3]],
+    half_width: f32,
+    uv_along: f32,
+    u_along: bool,
+    color: [f32; 4],
+    colors: Option<&[[f32; 4]]>,
+    eye: glam::Vec3,
+    vertices: &mut Vec<SpriteVertex>,
+    indices: &mut Vec<u32>,
+) {
+    let m = points.len();
+    let mut cum_len = 0.0f32;
+    for i in 0..m {
+        let p = glam::Vec3::from(points[i]);
+        let tangent = if i == 0 {
+            glam::Vec3::from(points[1]) - p
+        } else if i == m - 1 {
+            p - glam::Vec3::from(points[m - 2])
+        } else {
+            glam::Vec3::from(points[i + 1]) - glam::Vec3::from(points[i - 1])
+        };
+        if i > 0 {
+            cum_len += (p - glam::Vec3::from(points[i - 1])).length();
+        }
+
+        let view_dir = (eye - p).normalize_or_zero();
+        let mut side = tangent.cross(view_dir);
+        if side.length_squared() < 1e-8 {
+            // Path points straight at the camera: fall back to a stable
+            // world-up perpendicular so the ribbon keeps a finite width.
+            side = tangent.cross(glam::Vec3::Y);
+            if side.length_squared() < 1e-8 {
+                side = glam::Vec3::X;
+            }
+        }
+        let side = side.normalize() * half_width;
+        let along = cum_len * uv_along;
+        let (uv_left, uv_right) = if u_along {
+            ([along, 0.0], [along, 1.0])
+        } else {
+            ([0.0, along], [1.0, along])
+        };
+        let color = colors.map_or(color, |c| c[i.min(c.len() - 1)]);
+
+        let left = p - side;
+        let right = p + side;
+        vertices.push(SpriteVertex {
+            position: [left.x, left.y, left.z],
+            tex_coord: uv_left,
+            color,
+        });
+        vertices.push(SpriteVertex {
+            position: [right.x, right.y, right.z],
+            tex_coord: uv_right,
+            color,
+        });
+    }
+
+    for i in 0..(m - 1) as u32 {
+        let a = 2 * i;
+        indices.extend_from_slice(&[a, a + 1, a + 2, a + 1, a + 3, a + 2]);
+    }
+}
+
+pub fn prepare_line_strip_records<'tex>(
+    list: &EffectDrawList,
+    camera: &Camera,
+    fallback_texture: &'tex wgpu::BindGroup,
+    texture_lookup: impl Fn(&str) -> Option<&'tex wgpu::BindGroup>,
+    out: &mut Vec<DrawRecord<'tex>>,
+) {
+    let eye = camera.eye();
+    for (emission, prim) in list.primitives.iter().enumerate() {
+        let (points, half_width, uv_along, u_along, texture, color, colors, blend) = match prim {
+            EffectPrimitiveDraw::LineStrip {
+                points,
+                uv_along,
+                u_along,
+                half_width,
+                texture,
+                color,
+                colors,
+                blend,
+            } => (
+                points.clone(),
+                *half_width,
+                *uv_along,
+                *u_along,
+                texture,
+                color,
+                colors.as_deref(),
+                blend,
+            ),
+            EffectPrimitiveDraw::Spline {
+                control_points,
+                segments,
+                half_width,
+                texture,
+                color,
+                blend,
+            } => (
+                tessellate_catmull_rom(control_points, *segments),
+                *half_width,
+                1.0,
+                false,
+                texture,
+                color,
+                None,
+                blend,
+            ),
+            _ => continue,
+        };
+
+        if points.len() < 2 || half_width <= 0.0 {
+            continue;
+        }
+
+        let texture_bg = texture_lookup(texture).unwrap_or(fallback_texture);
+
+        let mut vertices: Vec<SpriteVertex> = Vec::with_capacity(points.len() * 2);
+        let mut indices: Vec<u32> = Vec::with_capacity((points.len() - 1) * 6);
+        build_ribbon(
+            &points,
+            half_width,
+            uv_along,
+            u_along,
+            *color,
+            colors,
+            eye,
+            &mut vertices,
+            &mut indices,
+        );
+
+        // Anchor depth at the path midpoint so the whole ribbon sorts as one.
+        let mid = points[points.len() / 2];
+        out.push(DrawRecord::new(
+            view_z(camera, mid),
+            emission as u32,
+            BlendBucket::from_blend_kind(*blend),
+            PipelineKind::LineStrip,
+            vertices,
+            indices,
+            texture_bg,
+        ));
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::effect::BlendKind;
+
+    fn prepare(list: &EffectDrawList) -> Vec<DrawRecord<'static>> {
+        let mut records = Vec::new();
+        let fallback = &crate::test_support::bind_groups()[0];
+        prepare_line_strip_records(list, &Camera::default(), fallback, |_| None, &mut records);
+        records
+    }
+
+    #[test]
+    fn line_strip_emits_two_verts_per_point() {
+        let mut list = EffectDrawList::new();
+        let points = vec![[0.0, 0.0, 0.0], [0.0, 0.0, 4.0], [0.0, 0.0, 8.0]];
+        let n = points.len();
+        list.push(EffectPrimitiveDraw::LineStrip {
+            points,
+            uv_along: 0.1,
+            u_along: false,
+            half_width: 0.5,
+            texture: "x",
+            color: [1.0, 1.0, 1.0, 1.0],
+            colors: None,
+            blend: BlendKind::Additive,
+        });
+        let records = prepare(&list);
+        assert_eq!(records.len(), 1);
+        assert_eq!(records[0].vertices.len(), 2 * n);
+        assert_eq!(records[0].indices.len(), 6 * (n - 1));
+    }
+
+    #[test]
+    fn spline_tessellates_to_segments_plus_one_cross_sections() {
+        let mut list = EffectDrawList::new();
+        let segments = 8u32;
+        list.push(EffectPrimitiveDraw::Spline {
+            control_points: vec![
+                [0.0, 0.0, 0.0],
+                [0.0, 0.0, 3.0],
+                [0.0, 0.0, 6.0],
+                [0.0, 0.0, 9.0],
+            ],
+            segments,
+            half_width: 0.5,
+            texture: "x",
+            color: [1.0, 1.0, 1.0, 1.0],
+            blend: BlendKind::Additive,
+        });
+        let records = prepare(&list);
+        assert_eq!(records.len(), 1);
+        assert_eq!(records[0].vertices.len(), 2 * (segments as usize + 1));
+    }
+
+    #[test]
+    fn straight_control_points_stay_collinear() {
+        let control = [
+            [0.0, 0.0, 0.0],
+            [0.0, 0.0, 3.0],
+            [0.0, 0.0, 6.0],
+            [0.0, 0.0, 9.0],
+        ];
+        let pts = tessellate_catmull_rom(&control, 12);
+        for p in &pts {
+            assert!(p[0].abs() < 1e-4 && p[1].abs() < 1e-4, "off-axis: {p:?}");
+        }
+        for w in pts.windows(2) {
+            assert!(w[1][2] >= w[0][2] - 1e-4);
+        }
+    }
+
+    #[test]
+    fn degenerate_single_point_produces_no_record() {
+        let mut list = EffectDrawList::new();
+        list.push(EffectPrimitiveDraw::LineStrip {
+            points: vec![[0.0, 0.0, 0.0]],
+            uv_along: 0.1,
+            u_along: false,
+            half_width: 0.5,
+            texture: "x",
+            color: [1.0, 1.0, 1.0, 1.0],
+            colors: None,
+            blend: BlendKind::Additive,
+        });
+        assert!(prepare(&list).is_empty());
+    }
+}

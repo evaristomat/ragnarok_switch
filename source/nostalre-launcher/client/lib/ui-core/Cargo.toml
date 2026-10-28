@@ -1,0 +1,21 @@
+[package]
+name = "nostalre-ui"
+version = "0.1.0"
+edition = "2024"
+
+[features]
+test-support = []
+
+[dependencies]
+nostalre-renderer = { workspace = true }
+nostalre-resources = { workspace = true }
+winit = { workspace = true }
+
+# no clipboard backend on Android (Ctrl+V paste is a desktop feature)
+[target.'cfg(not(any(target_os = "android", target_os = "horizon")))'.dependencies]
+arboard = { version = "3", features = ["wayland-data-control"] }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+wayland-client = { workspace = true }
+xkbcommon-dl = { workspace = true }
+x11rb = { workspace = true }

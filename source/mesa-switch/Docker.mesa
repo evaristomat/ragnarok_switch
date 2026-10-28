@@ -1,0 +1,13 @@
+FROM devkitpro/devkita64:latest
+
+# Pre-install all required Ubuntu packages
+RUN apt-get update && \
+    apt-get install -y python3-pip python3-setuptools python3-wheel ninja-build pkg-config flex bison curl libclang-dev clang && \
+    apt-get clean
+
+# Pre-install all Python packages
+RUN pip3 install --break-system-packages meson mako
+
+# The Switch Nouveau implementation is built entirely from Mesa's in-tree
+# Horizon backend and compatibility facade; no external libdrm_nouveau portlib
+# is required in this image.

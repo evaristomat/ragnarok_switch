@@ -1,0 +1,319 @@
+# Independent classic equipment: basic class weapons and cloth armor.
+Header:
+  Type: POPULATION_ENGINE_DB
+  Version: 2
+Body:
+- GearSetName: novice_set
+  HeadTop: 0
+  HeadMid: 0
+  HeadBottom: 0
+  Armor:
+  - 2301
+  Weapon:
+  - 1201
+  Shield: 0
+  Garment:
+  - 2501
+  Shoes:
+  - 2401
+  AccL: 0
+  AccR: 0
+- GearSetName: para_swordsman
+  HeadTop: 0
+  HeadMid: 0
+  HeadBottom: 0
+  Armor:
+  - 2301
+  Weapon:
+  - 1101
+  Shield: 0
+  Garment:
+  - 2501
+  Shoes:
+  - 2401
+  AccL: 0
+  AccR: 0
+- GearSetName: para_knight_base
+  HeadTop: 0
+  HeadMid: 0
+  HeadBottom: 0
+  Armor:
+  - 2301
+  Weapon:
+  - 1101
+  Shield: 0
+  Garment:
+  - 2501
+  Shoes:
+  - 2401
+  AccL: 0
+  AccR: 0
+- GearSetName: para_crusader
+  HeadTop: 0
+  HeadMid: 0
+  HeadBottom: 0
+  Armor:
+  - 2301
+  Weapon:
+  - 1101
+  Shield: 0
+  Garment:
+  - 2501
+  Shoes:
+  - 2401
+  AccL: 0
+  AccR: 0
+- GearSetName: para_mage
+  HeadTop: 0
+  HeadMid: 0
+  HeadBottom: 0
+  Armor:
+  - 2301
+  Weapon:
+  - 1601
+  Shield: 0
+  Garment:
+  - 2501
+  Shoes:
+  - 2401
+  AccL: 0
+  AccR: 0
+- GearSetName: para_bow
+  HeadTop: 0
+  HeadMid: 0
+  HeadBottom: 0
+  Armor:
+  - 2301
+  Weapon:
+  - 1701
+  Shield: 0
+  Garment:
+  - 2501
+  Shoes:
+  - 2401
+  AccL: 0
+  AccR: 0
+- GearSetName: bare_dagger
+  HeadTop: 0
+  HeadMid: 0
+  HeadBottom: 0
+  Armor:
+  - 2301
+  Weapon:
+  - 1201
+  Shield: 0
+  Garment:
+  - 2501
+  Shoes:
+  - 2401
+  AccL: 0
+  AccR: 0
+- GearSetName: bare_axe
+  HeadTop: 0
+  HeadMid: 0
+  HeadBottom: 0
+  Armor:
+  - 2301
+  Weapon:
+  - 1301
+  Shield: 0
+  Garment:
+  - 2501
+  Shoes:
+  - 2401
+  AccL: 0
+  AccR: 0
+- GearSetName: bare_gun
+  HeadTop: 0
+  HeadMid: 0
+  HeadBottom: 0
+  Armor:
+  - 2301
+  Weapon:
+  - 13100
+  Shield: 0
+  Garment:
+  - 2501
+  Shoes:
+  - 2401
+  AccL: 0
+  AccR: 0
+- GearSetName: bare_kunai
+  HeadTop: 0
+  HeadMid: 0
+  HeadBottom: 0
+  Armor:
+  - 2301
+  Weapon:
+  - 1201
+  Shield: 0
+  Garment:
+  - 2501
+  Shoes:
+  - 2401
+  AccL: 0
+  AccR: 0
+- GearSetName: para_monk
+  HeadTop: 0
+  HeadMid: 0
+  HeadBottom: 0
+  Armor:
+  - 2301
+  Weapon:
+  - 1501
+  Shield: 0
+  Garment:
+  - 2501
+  Shoes:
+  - 2401
+  AccL: 0
+  AccR: 0
+- GearSetName: para_thief
+  HeadTop: 0
+  HeadMid: 0
+  HeadBottom: 0
+  Armor:
+  - 2301
+  Weapon:
+  - 1201
+  Shield: 0
+  Garment:
+  - 2501
+  Shoes:
+  - 2401
+  AccL: 0
+  AccR: 0
+- GearSetName: para_merchant
+  HeadTop: 0
+  HeadMid: 0
+  HeadBottom: 0
+  Armor:
+  - 2301
+  Weapon:
+  - 1501
+  Shield: 0
+  Garment:
+  - 2501
+  Shoes:
+  - 2401
+  AccL: 0
+  AccR: 0
+- GearSetName: para_taekwon
+  HeadTop: 0
+  HeadMid: 0
+  HeadBottom: 0
+  Armor:
+  - 2301
+  Weapon: 0
+  Shield: 0
+  Garment:
+  - 2501
+  Shoes:
+  - 2401
+  AccL: 0
+  AccR: 0
+- GearSetName: para_gun
+  HeadTop: 0
+  HeadMid: 0
+  HeadBottom: 0
+  Armor:
+  - 2301
+  Weapon:
+  - 13100
+  Shield: 0
+  Garment:
+  - 2501
+  Shoes:
+  - 2401
+  AccL: 0
+  AccR: 0
+- GearSetName: para_ninja
+  HeadTop: 0
+  HeadMid: 0
+  HeadBottom: 0
+  Armor:
+  - 2301
+  Weapon:
+  - 1201
+  Shield: 0
+  Garment:
+  - 2501
+  Shoes:
+  - 2401
+  AccL: 0
+  AccR: 0
+- GearSetName: para_assassin_katar
+  HeadTop: 0
+  HeadMid: 0
+  HeadBottom: 0
+  Armor:
+  - 2301
+  Weapon:
+  - 1250
+  Shield: 0
+  Garment:
+  - 2501
+  Shoes:
+  - 2401
+  AccL: 0
+  AccR: 0
+- GearSetName: low_melee
+  HeadTop: 0
+  HeadMid: 0
+  HeadBottom: 0
+  Armor:
+  - 2301
+  Weapon:
+  - 1101
+  Shield: 0
+  Garment:
+  - 2501
+  Shoes:
+  - 2401
+  AccL: 0
+  AccR: 0
+- GearSetName: low_rod
+  HeadTop: 0
+  HeadMid: 0
+  HeadBottom: 0
+  Armor:
+  - 2301
+  Weapon:
+  - 1601
+  Shield: 0
+  Garment:
+  - 2501
+  Shoes:
+  - 2401
+  AccL: 0
+  AccR: 0
+- GearSetName: low_bow
+  HeadTop: 0
+  HeadMid: 0
+  HeadBottom: 0
+  Armor:
+  - 2301
+  Weapon:
+  - 1701
+  Shield: 0
+  Garment:
+  - 2501
+  Shoes:
+  - 2401
+  AccL: 0
+  AccR: 0
+- GearSetName: low_blunt
+  HeadTop: 0
+  HeadMid: 0
+  HeadBottom: 0
+  Armor:
+  - 2301
+  Weapon:
+  - 1501
+  Shield: 0
+  Garment:
+  - 2501
+  Shoes:
+  - 2401
+  AccL: 0
+  AccR: 0

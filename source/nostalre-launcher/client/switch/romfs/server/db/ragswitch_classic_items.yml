@@ -1,0 +1,23 @@
+# Private classic convenience item. No rental timer and no consumption.
+Header:
+  Type: ITEM_DB
+  Version: 3
+Body:
+  - Id: 12887
+    AegisName: C_Wing_Of_Fly
+    Name: Asa de Mosca Infinita
+    Type: Usable
+    Weight: 0
+    Flags:
+      NoConsume: true
+    Trade:
+      NoDrop: true
+      NoTrade: true
+      NoSell: true
+      NoCart: true
+      NoStorage: true
+      NoGuildStorage: true
+      NoMail: true
+      NoAuction: true
+    Script: |
+      itemskill "AL_TELEPORT",1;

@@ -1,0 +1,64 @@
+use super::preload_window;
+use crate::App;
+use nostalre_game::app_state::AppState;
+use nostalre_network::session::Session;
+use nostalre_ui_component::account::server_list_window::ServerListWindow;
+
+impl App {
+    pub(super) fn handle_login_accepted(
+        &mut self,
+        account_id: u32,
+        login_id1: i32,
+        login_id2: u32,
+        sex: u8,
+        servers: Vec<nostalre_game::event::ServerInfo>,
+    ) {
+        tracing::info!("Login accepted, {} server(s)", servers.len());
+        let mut session = Session::new(self.active_packetver);
+        session.store_login(account_id, login_id1, login_id2, sex);
+        self.game.session.login_session = Some(session);
+        let mut server_win = ServerListWindow::new(servers);
+        if let (Some(grf), Some(renderer)) = (&self.grf, &mut self.renderer) {
+            preload_window(&mut server_win, renderer, grf);
+        }
+        let only_server = server_win.servers.len() == 1;
+        self.server_list_window = Some(server_win);
+        self.account_dialog.dismiss();
+        self.game.session.app_state = AppState::ServerSelect;
+        // Solo's hub already chose: its single char server needs no picking
+        if self.config.solo.is_some() && only_server {
+            self.pending_events
+                .push(nostalre_game::event::GameEvent::RequestSelectServer { index: 0 });
+        }
+    }
+
+    pub(super) fn handle_login_refused(&mut self, error_code: u8) {
+        let msg = match error_code {
+            0 => "Unregistered ID",
+            1 => "Incorrect Password",
+            2 => "ID expired",
+            3 => "Rejected from server",
+            4 => "Blocked by GM",
+            5 => "Not latest client",
+            6 => "Banned",
+            _ => "Unknown error",
+        };
+        self.solo_entering = false;
+        self.account_dialog.show(msg, false, |_| {});
+    }
+
+    pub(super) fn handle_char_server_connect_refused(&mut self, error_code: u8) {
+        let msg = match error_code {
+            0 => "Rejected from server",
+            1 => "ID mismatch",
+            _ => "Cannot connect to character server",
+        };
+        self.solo_entering = false;
+        self.account_dialog.show(msg, false, |_| {});
+        self.game.session.app_state = if self.server_list_window.is_some() {
+            AppState::ServerSelect
+        } else {
+            AppState::Login
+        };
+    }
+}

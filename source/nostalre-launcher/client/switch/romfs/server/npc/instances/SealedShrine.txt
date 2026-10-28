@@ -1,0 +1,1491 @@
+//===== rAthena Script ======================================= 
+//= Sealed Shrine
+//===== By: ================================================== 
+//= L0ne_W0lf
+//===== Current Version: ===================================== 
+//= 2.3
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= [Official Conversion]
+//= Seal away the Great Demon Baphomet.
+//===== Additional Comments: ================================= 
+//= 1.0 First version. [L0ne_W0lf]
+//= 1.1 Added setquest for instance cooldown. [L0ne_W0lf]
+//= 1.2 Fixed Torch#12 not being disabled. (bugreport:4044) [L0ne_w0lf]
+//= 1.3 Fixed cutins not being removed. (bugreport:4117) [L0ne_w0lf]
+//= 1.4 Fixed some typos. [Gepard]
+//= 1.5 Fixed not being able to enter dungeon for the first two hours.
+//= 1.6 Players should be able to re-take the quest after 12 hours now.
+//=     Changed quest 3046 to 3040. This is the correct quest id.
+//=     Removed checking quest 3045, unofficial check.
+//= 1.7 Fixed a checkquest condition never setting quest. [L0ne_W0lf]
+//= 1.8 Added 'instance_check_party' command to the script for proper checking if
+//=     the invoking party meets the requirements to join the Memorial Dungeon.
+//= 1.9 Fixed broken else/if chaining. [Joseph]
+//= 2.0 Some optimization. [Euphy]
+//= 2.1 Fixed quest being removed before the 12 hours cool down. [Joseph]
+//= 2.2 Removed extra setquest (quest id:3040).	[Joseph]
+//= 2.3 Instance system rewrite. [Euphy]
+//============================================================ 
+
+// Sealed Catacomb Entrance
+//============================================================
+monk_test,309,146,3	script	Friar Patrick#edq	412,{
+	cutin "ins_cata_pri_n",2;
+	mes "[Frei Patrício]";
+	mes "A paz deste mundo não pode durar para sempre... As mãos do Mal estão alcançando o mundo novamente...";
+	next;
+	mes "[Frei Patrício]";
+	mes "O que o trouxe a este lugar?";
+	next;
+	if (countitem(6004) > 0) {
+		set .@doll,1;
+		set .@selection,select("O que é este lugar?:Eu quero entrar.:Sobre a Boneco de Bafomé Maldito.:Cancelar.");
+	}
+	else {
+		set .@selection,select("O que é este lugar?:Eu quero entrar.:Cancelar.");
+	}
+	switch(.@selection) {
+	case 1:
+		mes "[Frei Patrício]";
+		mes "Huh... Você não sabe? Este é o Mosteiro de St. Capitolina, onde os Irmãos que desejam se tornar monges treinam e oram.";
+		next;
+		mes "[Frei Patrício]";
+		mes "E este lugar é... Como posso dizer... Sim. É o túmulo do Diabo. Túmulo...";
+		next;
+		mes "[Frei Patrício]";
+		mes "O próprio lugar onde o grande Diabo que uma vez devastou este mundo está dormindo.";
+		next;
+		switch(select("Conte-me mais.:Pare de falar.")) {
+		case 1:
+			cutin "ins_cata_pri_n",2;
+			mes "[Frei Patrício]";
+			mes "Bafomé... é o nome do Diabo... Acho que você já ouviu o nome dele.";
+			next;
+			mes "[Frei Patrício]";
+			mes "Inúmeros homens corajosos e irmãos treinaram neste mosteiro...";
+			next;
+			mes "[Frei Patrício]";
+			mes "Sob esta lápide à sua frente... Bafomé está selado.";
+			next;
+			mes "[Frei Patrício]";
+			mes "Mas... Enquanto falamos, Satan Morocc está reunindo sua poderosa magia para afetar toda a vida neste continente.";
+			next;
+			mes "[Frei Patrício]";
+			mes "Bafomé também... despertou e está se preparando para seu retorno a este mundo, enfraquecendo o poder do selo através do poder de Satan Morocc...";
+			next;
+			mes "[Frei Patrício]";
+			mes "Agora... Estou procurando alguém corajoso o suficiente para selar Bafomé novamente em seu santuário... como fizemos uma vez há muitos anos...";
+			next;
+			mes "[Frei Patrício]";
+			mes "Qualquer um que luta pelo bem saberá, no fundo, que o mal está ameaçando conquistar este mundo...";
+			next;
+			mes "[Frei Patrício]";
+			mes "Treine mais e use suas habilidades para proteger o mundo da presença iminente do mal...";
+			break;
+		case 2:
+			cutin "ins_cata_pri_n",2;
+			mes "[Frei Patrício]";
+			mes "Qualquer um que luta pelo bem saberá, no fundo, que o mal está ameaçando conquistar este mundo...";
+			next;
+			mes "[Frei Patrício]";
+			mes "Treine mais e use suas habilidades para proteger o mundo da presença iminente do mal...";
+			break;
+		}
+		break;
+	case 2:
+		if (BaseLevel >= 75) {
+
+			set .@party_id,getcharid(1);
+
+			mes "[Frei Patrício]";
+			mes "Você quer dizer que vai ao santuário selar Bafomé novamente?";
+			next;
+
+			// 12 hour cooldown
+			set .@ins_bapho_check,checkquest(3040,PLAYTIME);
+			// Two hour play limit
+			//set .@ins_bapho_check2,checkquest(3045,PLAYTIME);
+
+			if (.@ins_bapho_check == -1) {
+				if (is_party_leader(.@party_id) == true && instance_check_party(.@party_id,2,75)) {
+					mes "[Frei Patrício]";
+					mes "O nome do grupo é"+getpartyname(.@party_id)+"...";
+					mes "O nome do líder é"+strcharinfo(0)+"...";
+					if (instance_create("Sealed Catacomb") < 0) {
+						mes "Hum... Mas parece que há um problema aqui... Vou verificar rapidamente. Por favor, aguarde.";
+					}
+					else {
+						mes "Certo... Vou ajustar o selo do santuário para que você e seu grupo possam entrar.";
+						next;
+						mes "[Frei Patrício]";
+						mes "Você verá um sinal quando o selo for quebrado. Por favor, espere até que o sinal apareça...";
+						next;
+						mes "[Frei Patrício]";
+						mes "Quando vir o sinal, coloque suas mãos na lápide... Então você poderá entrar.";
+						next;
+						mes "[Frei Patrício]";
+						mes "Uma coisa que você deve se lembrar é... Qualquer um que entrar neste santuário será amaldiçoado por Bafomé e não poderá entrar ou sair enquanto estiver amaldiçoado.";
+						next;
+						mes "[Frei Patrício]";
+						mes "E mais uma coisa... Nesta área amaldiçoada, algumas habilidades, protegidas por poder físico externo, são proibidas pelo efeito do selo.";
+						next;
+						mes "[Frei Patrício]";
+						mes "Por exemplo, habilidades como ^0000FFEscudo Sagrado e Assumptio^000000... Então, é melhor se preparar antes de entrar no santuário.";
+					}
+				}
+				else {
+					mes "[Frei Patrício]";
+					mes "Hum... Reconheço sua coragem, mas... Não posso permitir que ninguém entre neste lugar. Só posso permitir que o líder de um grupo entre primeiro.";
+					next;
+					mes "[Frei Patrício]";
+					mes "Uma vez que o líder do grupo tenha permissão, o restante do grupo pode entrar. Esta é uma regra deste mosteiro, por favor, entenda.";
+				}
+			}
+			else if (.@ins_bapho_check == 0 || .@ins_bapho_check == 1) {
+				mes "[Frei Patrício]";
+				mes "Parece que você entrou neste santuário recentemente... Você não pode entrar novamente porque a Maldição de Bafomé ainda permanece. A Maldição de Bafomé desaparece apenas após um certo tempo ter passado.";
+			}
+			else if (.@ins_bapho_check == 2) {
+				mes "[Frei Patrício]";
+				mes "Hum... Parece que a Maldição de Bafomé enfraqueceu. Posso removê-la agora.";
+				next;
+				mes "[Frei Patrício]";
+				mes "Haaaaaaap... Hocus Pocus Wingardium Abracadabra!!!!!";
+				next;
+				erasequest 3040;
+				if (checkquest(3041)>=0) erasequest 3041;
+				if (checkquest(3045)>=0) erasequest 3045;
+				mes "[Frei Patrício]";
+				mes "Huu... Acabou. Agora que libertei a Maldição de Bafomé, você pode entrar novamente.";
+			}
+		}
+		else {
+			mes "[Frei Patrício]";
+			mes "Hum... Você deveria treinar mais para entrar neste lugar perigoso... Você deve atingir pelo menos o Nv 75 para entrar aqui.";
+			next;
+			mes "[Frei Patrício]";
+			mes "Por favor, treine mais e volte novamente.";
+		}
+		break;
+	case 3:
+		if (.@doll == 1) {
+			mes "[Frei Patrício]";
+			mes "Essa é... a boneca vilanesca que você está segurando... Deixe-me vê-la.";
+			next;
+			mes "[Frei Patrício]";
+			mes "... ... ...";
+			next;
+			mes "[Frei Patrício]";
+			mes "Está correto... Posso sentir o mal de Bafomé dentro dela... Então, o que você fará com a boneca?";
+			next;
+			mes "[Frei Patrício]";
+			mes "É apenas uma coisa perigosa e inútil se você não fizer nada com ela... Vou apresentar alguém que pode ajudá-lo... Você quer vê-lo?";
+			next;
+			mes "[Frei Patrício]";
+			mes "Vá ver ^0000FFRust Blackhand^000000 que está perto do prédio principal do mosteiro... Ele fará desta boneca algo útil para você.";
+			setquest 3042;
+			break;
+		}
+	case 4:
+		mes "[Frei Patrício]";
+		mes "Qualquer um que luta pelo bem saberá, no fundo, que o mal está ameaçando conquistar este mundo...";
+		next;
+		mes "[Frei Patrício]";
+		mes "Treine mais e use suas habilidades para proteger o mundo da presença iminente do mal...";
+		break;
+	}
+	close2;
+	cutin "",255;
+	end;
+}
+
+monk_test,306,151,3	script	Grave of Baphomet#edq	111,{
+	if (countitem(6002)) delitem 6002,countitem(6002); //Token_Of_Apostle
+	mes "Esta lápide tem a escultura de um demônio maligno com chifres grandes. Ela desperta uma sensação sinistra.";
+	next;
+	if(select("Tocar na pedra.:Recuar.") == 2)
+		close;
+
+	// 12 hour cooldown
+	set .@ins_bapho_check,checkquest(3040,PLAYTIME);
+	// Two hour play limit
+	//set .@ins_bapho_check2,checkquest(3045,PLAYTIME);
+
+	if (.@ins_bapho_check == -1) {
+		switch(instance_enter("Sealed Catacomb")) {
+		case IE_OTHER:
+		case IE_NOINSTANCE:
+			mes "Está fria ao toque. Não responde.";
+			close;
+		case IE_NOMEMBER:
+			mes "[Frei Patrício]";
+			mes "Para entrar neste lugar perigoso, você não pode ir sozinho. Volte depois de entrar em um grupo.";
+			close;
+		case IE_OK:
+			mapannounce "monk_test","[" + strcharinfo(0) + "] member of the [" + getpartyname(.@party_id) + "] party has entered the Sealed Shrine.",bc_map,"0x00ff99";
+			setquest 3040;
+			//warp "1@cata",100,224;
+			close;
+		}
+	} else if (.@ins_bapho_check == 0 || .@ins_bapho_check == 1) {
+		mes "[Frei Patrício]";
+		mes "Parece que você entrou neste santuário recentemente... Você não pode entrar novamente porque a maldição de Bafomé ainda permanece.";
+		mes "A maldição de Bafomé desaparece após um certo tempo desde que você entrou.";
+		close;
+	} else if (.@ins_bapho_check == 2) {
+		mes "[Frei Patrício]";
+		mes "Hum... Parece que a maldição de Bafomé enfraqueceu. Vou remover essa maldição maligna.";
+		next;
+		mes "[Frei Patrício]";
+		mes "Haaaaaaap... Wingardium Leviosa Expecto Patronum !!!!!";
+		specialeffect2 EF_HOLYHIT;
+		erasequest 3040;
+		if (checkquest(3041)>=0) erasequest 3041;
+		if (checkquest(3045)>=0) erasequest 3045;
+		next;
+		mes "[Frei Patrício]";
+		mes "Huu... Acabou. Agora eu removi todas as maldições de você. Pode entrar novamente.";
+		close;
+	}
+}
+
+prt_monk,261,91,3	script	Rust Blackhand#edq	826,{
+	set .@new_maje,checkquest(3043);
+	mes "[Ferrugem Mão Negra]";
+	mes "Quem é você? O que quer comigo?";
+	next;
+	mes "[Ferrugem Mão Negra]";
+	mes "Você não é um Monge, então o que deseja?";
+	next;
+	if (.@new_maje == 0 || .@new_maje == 1) {
+		mes "[Ferrugem Mão Negra]";
+		mes "Você trouxe todos os ingredientes?";
+		next;
+		if ((countitem(6004) > 0) && (countitem(2256) > 0) && (countitem(7799) > 29) && (countitem(7798) > 49) && (Zeny > 990000)) {
+			mes "[Ferrugem Mão Negra]";
+			mes "kkk... Você preparou bem os ingredientes. Por que não deixa aí e espera?";
+			next;
+			mes "[Ferrugem Mão Negra]";
+			mes "Hmm... Faz tanto tempo que não vejo esses chifres malignos... kkk... Deixe-me começar...";
+			next;
+			mes "...";
+			next;
+			mes "... ...";
+			next;
+			mes "... ... ...";
+			next;
+			delitem 6004,1; //Bapho_Doll
+			delitem 2256,1; //Magestic_Goat
+			delitem 7799,30; //Dark_Crystal
+			delitem 7798,50; //Dark_Debris
+			set Zeny, Zeny-990000;
+			completequest 3043;
+			getitem 5374,1; //L_Magestic_Goat
+			mes "[Ferrugem Mão Negra]";
+			mes "Está pronto. Você deve estar empolgado, claro. Eu entendo...";
+			next;
+			mes "[Ferrugem Mão Negra]";
+			mes "Não aceito reclamações ou pedidos de assistência, então use com cuidado. Preciso ir...";
+			close;
+		}
+		else {
+			mes "[Ferrugem Mão Negra]";
+			mes "Huu... Você não entendeu o que eu disse. Você não pode fazer nada com esses ingredientes.";
+			next;
+			mes "[Ferrugem Mão Negra]";
+			mes "Vou lhe dizer os ingredientes mais uma vez, então, por favor, reúna-os corretamente.";
+			next;
+			mes "[Ferrugem Mão Negra]";
+			mes "^0000FFBoneco de Bafomé Maldito, Chifres Majestosos, 30 Cristal da Escuridão, 50 Fragmento da Escuridão^000000, e o mais importante, o custo de produção é de ^0000FF990000^000000 Zenys.";
+			close;
+		}
+	}
+	else if ((.@new_maje == -1) && (countitem(6004) > 0)) {
+		switch(select("Sobre a Boneco de Bafomé Maldito:Pare de falar.")) {
+		case 1:
+			mes "[Ferrugem Mão Negra]";
+			mes "O quê?... Hmmm... Você conseguiu a boneca? Você é muito bom, ao contrário da sua aparência...";
+			next;
+			mes "[Ferrugem Mão Negra]";
+			mes "Deixe-me ver... Nem preciso dizer, Patric deve ter mandado você aqui para lidar com a boneca, certo?";
+			next;
+			mes "[Ferrugem Mão Negra]";
+			mes "Legal... Vou ajudar você a tornar a boneca maligna útil. O quê? O que posso fazer?";
+			next;
+			mes "[Ferrugem Mão Negra]";
+			mes "Posso fazer os chifres fortes e grandes do terrível demônio Bafomé para você. Um elmo que possui seu poder imenso.";
+			next;
+			mes "[Ferrugem Mão Negra]";
+			mes "Ele é chamado de ^4d4dffGigante Chifres Majestosos^000000. Você perceberá que o Chifres Majestosos que você conhece não é nada em comparação.";
+			next;
+			mes "[Ferrugem Mão Negra]";
+			mes "A Boneco de Bafomé Maldito é o ingrediente mais importante... Farei para você se quiser. O que gostaria de fazer?";
+			next;
+			switch(select("Eu quero fazer um!:Eu não preciso de um.")) {
+			case 1:
+				mes "[Ferrugem Mão Negra]";
+				mes "kkk... Sim, sábios aproveitam as chances quando a oportunidade aparece. Vou lhe dizer os ingredientes. Não esqueça, e traga todos eles.";
+				next;
+				mes "[Ferrugem Mão Negra]";
+				mes "^0000FFBoneco de Bafomé Maldito, Chifres Majestosos, 30 Cristal da Escuridão, 50 Fragmento da Escuridão^000000, e o mais importante, o custo de produção é de ^0000FF990000^000000 Zenys.";
+				next;
+				mes "[Ferrugem Mão Negra]";
+				mes "Você pode conseguir o Chifres Majestosos do Bafomé fraco na Floresta do Labirinto. O Cristal da Escuridão e o Fragmento da Escuridão são da Encarnação de Morocc.";
+				next;
+				mes "[Ferrugem Mão Negra]";
+				mes "Tenho certeza de que você pode conseguir os ingredientes porque selou o Bafomé real. Não pode? kkk...";
+				next;
+				mes "[Ferrugem Mão Negra]";
+				mes "Você nunca saberá o quão incrível é este chapéu até conseguir um. Se entendeu, vá buscar os ingredientes.";
+				if (isbegin_quest(3042))
+					changequest 3042,3043;
+				else
+					setquest 3043;
+				close;
+			case 2:
+				mes "[Ferrugem Mão Negra]";
+				mes "Huh... É mesmo? Faça o que quiser... Você realmente quer deixar essa oportunidade ser desperdiçada?";
+				next;
+				mes "[Ferrugem Mão Negra]";
+				mes "Tsc, tsc... Não me importo se a boneca maligna ameaçar sua vida o tempo todo!";
+				close;
+			}
+		case 2:
+			mes "[Ferrugem Mão Negra]";
+			mes "Que sujeito entediante... huh...";
+			close;
+		}
+	}
+	else if ((.@new_maje == -1) && (countitem(6004) == 0)) {
+		mes "[Ferrugem Mão Negra]";
+		mes "Se não tem assuntos comigo, vá embora! Como pode ver, fabrico equipamentos para os Irmãos do monastério, não para aventureiros como você. Entendido?";
+		close;
+	}
+	else if ((.@new_maje == 2) && (countitem(6004) > 0)) {
+		switch(select("Sobre a Boneco de Bafomé Maldito:Pare de falar.")) {
+		case 1:
+			mes "[Ferrugem Mão Negra]";
+			mes "O quê?... Você de novo? O que quer desta vez?";
+			next;
+			mes "[Ferrugem Mão Negra]";
+			mes "O quê? Você conseguiu outra boneca do demônio maligno? Hum... Você é muito melhor do que eu pensava...";
+			next;
+			mes "[Ferrugem Mão Negra]";
+			mes "Tudo bem... Vou ajudar você novamente.";
+			next;
+			mes "[Ferrugem Mão Negra]";
+			mes "Se você quer transformar a boneca em um ^4d4dffGigante Chifres Majestosos^000000 novamente, posso fazer outro para você.";
+			next;
+			mes "[Ferrugem Mão Negra]";
+			mes "Vou lhe dizer os ingredientes novamente. Então, quer fazer?";
+			next;
+			switch(select("Eu quero.:Não, eu não quero.")) {
+			case 1:
+				mes "[Ferrugem Mão Negra]";
+				mes "kkk... Sim, sábios aproveitam as chances quando a oportunidade aparece. Vou lhe dizer os ingredientes. Não esqueça, e traga todos eles.";
+				next;
+				mes "[Ferrugem Mão Negra]";
+				mes "^0000FFBoneco de Bafomé Maldito, Chifres Majestosos, 30 Cristal da Escuridão, 50 Fragmento da Escuridão^000000, e o mais importante, o custo de produção é de ^0000FF990000^000000 Zenys.";
+				next;
+				mes "[Ferrugem Mão Negra]";
+				mes "Você pode conseguir o Chifres Majestosos do Bafomé fraco na Floresta do Labirinto. O Cristal da Escuridão e o Fragmento da Escuridão são da Encarnação de Morocc.";
+				next;
+				mes "[Ferrugem Mão Negra]";
+				mes "Tenho certeza de que você consegue os ingredientes, já que selou o verdadeiro Bafomé. Não consegue? kkk...";
+				next;
+				mes "[Ferrugem Mão Negra]";
+				mes "Você nunca saberá o quão incrível este chapéu é até conseguir um. Se entendeu, vá buscar os ingredientes.";
+				//recall_completequest 3043
+				if (isbegin_quest(3042))
+					changequest 3042,3043;
+				else {
+					erasequest 3043;
+					setquest 3043;
+				}
+				close;
+			case 2:
+				mes "[Ferrugem Mão Negra]";
+				mes "Huh... Sério? Faça o que quiser... Você realmente quer deixar essa oportunidade passar?";
+				next;
+				mes "[Ferrugem Mão Negra]";
+				mes "Tsc, tsc... Eu não me importo se a boneca maligna ameaça sua vida o tempo todo!";
+				close;
+			}
+		case 2:
+			mes "[Ferrugem Mão Negra]";
+			mes "Que rapaz entediante ele é... huh...";
+			close;
+		}
+	}
+	else if ((.@new_maje == 2) && (countitem(6004) == 0)) {
+		mes "[Ferrugem Mão Negra]";
+		mes "Por que você está rondando por aqui? Se não quer um ^4d4dffGigantic Magestic Goat^000000, vá embora.";
+		close;
+	}
+}
+
+// Sealed Shrine Interior
+//============================================================
+1@cata,1,2,0	script	ins_baphomet_lotto	-1,{
+OnInstanceInit:
+	// Pick one "true" Gravestone and 12 "false" Gravestones.
+	set .@true, rand(1,13);
+	for(set .@i,1; .@i<=13; set .@i,.@i+1) {
+		disablenpc instance_npcname("Gravestone#1F_"+.@i+((.@i == .@true)?"T":"F"));
+	}
+	disablenpc instance_npcname("ins_baphomet_lotto");
+	end;
+}
+
+1@cata,3,2,0	script	ins_baphomet_lotto2	-1,{
+OnEnable:
+	for(set .@i,1; .@i<=12; set .@i,.@i+1)
+		enablenpc instance_npcname("Bobbing Torch#"+.@i);
+	end;
+}
+
+1@cata,4,2,0	script	ins_baphomet_lotto3	-1,{
+OnEnable:
+	set .@label$, instance_npcname("ins_baphomet_lotto3")+"::OnMyMobDead";
+	set .@map$, instance_mapname("1@cata");
+	monster .@map$,0,0,"Apostle of Baphomet",1869,1,.@label$;
+	monster .@map$,0,0,"Apostle of Baphomet",1291,1,.@label$;
+	monster .@map$,0,0,"Apostle of Baphomet",1869,1,.@label$;
+	monster .@map$,0,0,"Apostle of Baphomet",1291,1,.@label$;
+	monster .@map$,0,0,"Apostle of Baphomet",1869,1,.@label$;
+	monster .@map$,0,0,"Apostle of Baphomet",1291,1,.@label$;
+	monster .@map$,0,0,"Apostle of Baphomet",1869,1,.@label$;
+	monster .@map$,0,0,"Apostle of Baphomet",1132,1,.@label$;
+	monster .@map$,0,0,"Apostle of Baphomet",1117,1,.@label$;
+	monster .@map$,0,0,"Apostle of Baphomet",1132,1,.@label$;
+	monster .@map$,0,0,"Apostle of Baphomet",1117,1,.@label$;
+	monster .@map$,0,0,"Apostle of Baphomet",1132,1,.@label$;
+	monster .@map$,0,0,"Apostle of Baphomet",1291,1,.@label$;
+	monster .@map$,0,0,"Apostle of Baphomet",1117,1,.@label$;
+	monster .@map$,0,0,"Apostle of Baphomet",1869,1,.@label$;
+	end;
+
+OnDisable:
+	killmonster instance_mapname("1@cata"),instance_npcname("ins_baphomet_lotto3")+"::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	set .@map$, instance_mapname("1@cata");
+	if (mobcount(.@map$,instance_npcname("ins_baphomet_lotto3")+"::OnMyMobDead") < 1) {
+		mapannounce .@map$, "Todos os apóstolos de Bafomé estão mortos.!",bc_map,"0x00ff99";
+	}
+	getitem 6002,1; //Token_Of_Apostle
+	end;
+}
+
+// Soul of hero near the north grave
+//============================================================
+1@cata,141,221,0	script	Gravestone#	844,3,3,{
+	set .@party_id,getcharid(1);
+	if ('ins_baphomet == 0) {
+		mes "A lápide está tremendo...";
+		next;
+		mes "Ao tocar a lápide, ouço uma voz.";
+		next;
+		specialeffect2 EF_CONE;
+		mes "[Voz da Lápide]";
+		mes "Esperei e esperei por um aventureiro corajoso como você, que voltaria aqui novamente...";
+		next;
+		while(1) {
+			switch(select("Quem é você?:Esperou por mim?:Cancelar.")) {
+			case 1:
+				mes "[Voz da Lápide]";
+				mes "Eu fui um dos guerreiros que impediram Bafomé, assim como você. Agora, estou morto e apenas minha alma permanece...";
+				next;
+				mes "[Voz da Lápide]";
+				mes "Como você sabe... Não temos muito tempo. Vocês não podem parar Bafomé sozinhos. O poder do demônio se fortaleceu ao longo dos anos.";
+				next;
+				mes "[Voz da Lápide]";
+				mes "No passado, meus companheiros e eu selamos Bafomé no altar localizado no segundo subsolo e bloqueamos a entrada.";
+				next;
+				mes "[Voz da Lápide]";
+				mes "Movi a essência da minha alma para o meu pingente, para que eu pudesse permanecer neste mundo. Foi assim que me tornei o guardião desta tumba.";
+				next;
+				break;
+			case 2:
+				mes "[Voz da Lápide]";
+				mes "O poder de Bafomé está prestes a quebrar o selo que fizemos. Se vocês não reativá-los... o renascimento de Bafomé será apenas uma questão de tempo.";
+				next;
+				mes "[Voz da Lápide]";
+				mes "Para abrir a entrada, você deve materializar minha alma. Eu abrirei a entrada e reativarei os selos enfraquecidos após ser materializado.";
+				next;
+				mes "[Voz da Lápide]";
+				mes "Para materializar minha alma, você deve encontrar meu pingente. Você pode encontrar meu corpo perto de uma lápide aqui.";
+				next;
+				mes "[Voz da Lápide]";
+				mes "Se o seu ^0000FFlíder do grupo^000000 me trouxer o pingente, minha alma poderá ser materializada. Então, apresse-se.";
+				set 'ins_baphomet,1;
+				close;
+			case 3:
+				mes "Sinto a voz ficando fraca.";
+				close;
+			}
+		}
+	}
+	else if ('ins_baphomet == 1) {
+		mes "[Voz da Lápide]";
+		mes "Para abrir a entrada, você deve materializar minha alma. Eu abrirei a entrada e reativarei os selos enfraquecidos após ser materializado.";
+		next;
+		mes "[Voz da Lápide]";
+		mes "Para materializar minha alma, você deve encontrar meu pingente. Você pode encontrar meu corpo perto de uma lápide aqui.";
+		next;
+		mes "[Voz da Lápide]";
+		mes "Se o seu ^0000FFlíder do grupo^000000 me trouxer o pingente, minha alma poderá ser materializada. Então, apresse-se.";
+		close;
+	}
+	else if (('ins_baphomet == 2) && is_party_leader(.@party_id) == true) {
+		mes "[Voz da Lápide]";
+		mes "Você encontrou o pingente?";
+		next;
+		if (countitem(6003) > 0) {
+			specialeffect EF_MAPPILLAR;
+			mes "[Voz da Lápide]";
+			mes "Sim... Este é... Meu pingente...";
+			next;
+			delitem 6003,1; //Soul_Pendant
+			enablenpc instance_npcname("Ancient Hero's Soul#1F");
+			disablenpc instance_npcname("Gravestone#");
+			mes "[Voz da Lápide]";
+			mes "Agora posso materializar minha alma. Esperarei por você em frente ao altar de fogo localizado no centro desta tumba. Vamos nos encontrar lá.";
+			next;
+			mapannounce instance_mapname("1@cata"), "Alma do Herói Ancestral : Esperarei por você em frente ao altar de fogo localizado no centro",bc_map,"0xFFFF00";
+			mes "Sinto a voz ficando fraca.";
+			close;
+		}
+		else {
+			mes "[Voz da Lápide]";
+			mes "Você ainda está aí? Traga meu pingente de volta o mais rápido possível.";
+			next;
+			mes "[Voz da Lápide]";
+			mes "Você pode encontrar meu corpo perto de uma lápide aqui. Vá buscar meu pingente lá.";
+			close;
+		}
+	}
+	else {
+		mes "[Voz da Lápide]";
+		mes "Quero falar com ^0000FFum representante do seu grupo^000000. Todos os outros, esperem aqui.";
+		close;
+	}
+	end;
+
+OnTouch:
+	if ('ins_baphomet == 0) {
+		mes "'Krrrr... Krrrr...'";
+		next;
+		mes "Sinto algo estranho na tumba. É como se alguém estivesse chamando silenciosamente...";
+		close;
+	}
+	end;
+
+OnInstanceInit: // Temporary fix for @reloadscript.
+	set 'ins_baphomet,0;
+	end;
+}
+
+1@cata,176,119,4	script	Ancient Hero's Soul#1F	411,{
+	set .@party_id,getcharid(1);
+	cutin "ins_cata_champ_n",2;
+	if ('ins_baphomet == 2) {
+		mes "[Alma do Herói Antigo]";
+		mes "Com sua ajuda, minha alma pode ser materializada. Quero conversar mais, mas não temos tempo suficiente...";
+		next;
+		mes "[Alma do Herói Antigo]";
+		mes "Devo ser materializado na próxima hora. Para chegar ao Altar Principal subterrâneo, você deve me ajudar a realizar a cerimônia para abrir cada selo.";
+		next;
+		mes "[Alma do Herói Antigo]";
+		mes "Agora vou lhe dizer o que deve fazer. Primeiro, colete ^0000FFEssência de Fogo^000000 das tochas nas lápides...";
+		next;
+		mes "[Alma do Herói Antigo]";
+		mes "Segundo, todos os membros que entrarem no subsolo devem carregar um símbolo, chamado Token de Apóstolo.";
+		next;
+		while(1) {
+			cutin "ins_cata_champ_n",2;
+			switch(select("O que é Essência de Fogo?:O que é um Token de Apóstolo?:O que devo fazer?:Estou pronto.")) {
+			case 1:
+				set .@ins_baphomet_1f_1,.@ins_baphomet_1f_1+1;
+				mes "[Alma do Herói Antigo]";
+				mes "Você pode ver as tochas aqui e ali. Estas tochas são a essência de Thor, o deus do Trovão. Elas foram herdadas de nossos antecessores para deter a escuridão de Bafomé...";
+				next;
+				mes "[Alma do Herói Antigo]";
+				mes "Para abrir o portão subterrâneo selado, devo ser purificado pela ^0000FFEssência de Fogo^000000 que possui o poder de Thor. Colete ^0000FF10 Essência de Fogo^000000 das tochas.";
+				next;
+				mes "[Alma do Herói Antigo]";
+				mes "Uma coisa que você deve lembrar é... ^0000FFEssência de Fogo^000000 só pode ser coletada pelo Herdeiro da Fé.";
+				next;
+				mes "[Alma do Herói Antigo]";
+				mes "Entregarei o símbolo do Herdeiro da Fé ao líder do grupo. Apenas o líder do grupo pode coletar a ^0000FFEssência de Fogo^000000.";
+				next;
+				break;
+			case 2:
+				set .@ins_baphomet_1f_2,.@ins_baphomet_1f_2+1;
+				mes "[Alma do Herói Antigo]";
+				mes "Naquela época, era impossível nos livrarmos do Diabo Bafomé sozinhos. Após o sacrifício de inúmeros heróis, mal conseguimos selá-lo sob esta Abadia.";
+				next;
+				mes "[Alma do Herói Antigo]";
+				mes "No entanto, Bafomé nunca desistiu. Ele fortaleceu seu poder continuamente. E seu poder trouxe uma nova vida a este santuário.";
+				next;
+				mes "[Alma do Herói Antigo]";
+				mes "Alguns desses monstros possuem poderes mágicos. Bafomé os chama de seus 'Apóstolos'.";
+				next;
+				mes "[Alma do Herói Antigo]";
+				mes "Os apóstolos estão se clonando para encher o santuário com sua energia maligna. Eles são os monstros aqui neste catacumba.";
+				next;
+				mes "[Alma do Herói Antigo]";
+				mes "Matem os Apóstolos. Eles só podem ser distinguidos de seus clones porque possuirão um ^0000FFMedalhão do Apóstolo^000000...";
+				next;
+				mes "[Alma do Herói Antigo]";
+				mes "Se cada membro do grupo possuir um ^0000FFMedalhão do Apóstolo^000000, Bafomé não será capaz de perceber sua entrada no Altar Principal no subsolo.";
+				next;
+				mes "[Alma do Herói Antigo]";
+				mes "Se Bafomé perceber você ao passar pelo portão selado, ele poderá liberar seu tremendo poder mágico. Então, esta abadia será demolida.";
+				next;
+				mes "[Alma do Herói Antigo]";
+				mes "Matem os apóstolos e consigam o ^0000FFMedalhão do Apóstolo^000000.";
+				next;
+				break;
+			case 3:
+				set .@ins_baphomet_1f_3,.@ins_baphomet_1f_3+1;
+				if (is_party_leader(.@party_id) == true) {
+					mes "[Alma do Herói Antigo]";
+					mes "Você parece ser o líder deste grupo. Você precisa ir e coletar ^0000FF10 Essências de Fogo^000000 das tochas.";
+					next;
+					mes "[Alma do Herói Antigo]";
+					mes "Agora vou esculpir em você o símbolo que mostra que você é um herdeiro da fé. Esteja ciente de que ninguém em seu grupo, exceto você, pode coletar a Essência de Fogo.";
+					next;
+					specialeffect2 EF_HOLYHIT;
+					mes "[Alma do Herói Antigo]";
+					mes "Você também deve carregar um ^0000FFMedalhão do Apóstolo^000000, então encontre um para você também.";
+					next;
+					mes "[Alma do Herói Antigo]";
+					mes "Quando todos estiverem prontos para ir, me avisem. Abrirei o portão selado quando estiverem prontos.";
+					next;
+				}
+				else {
+					mes "[Alma do Herói Antigo]";
+					mes "Certifique-se de que o líder do seu grupo ouviu minha explicação sobre o que você e seus companheiros devem fazer.";
+					next;
+					mes "[Alma do Herói Antigo]";
+					mes "Matem os Apóstolos de Bafomé e encontrem o ^0000FFMedalhão do Apóstolo^000000 deles.";
+					next;
+					mes "[Alma do Herói Antigo]";
+					mes "Pode ser melhor matar todos eles, pois não há como diferenciá-los de seus clones.";
+					next;
+					mes "[Alma do Herói Antigo]";
+					mes "Vocês estão prontos?";
+					mes "Certifique-se de ter ouvido tudo o que tenho a dizer antes de dizer que estão prontos.";
+					next;
+				}
+				break;
+			case 4:
+				if ((.@ins_baphomet_1f_1 > 0) && (.@ins_baphomet_1f_2 > 0) && (.@ins_baphomet_1f_3 > 0)) {
+					cutin "ins_cata_champ_n",2;
+					mes "[Alma do Herói Antigo]";
+					mes "Estão prontos para ir? Então abrirei este portão selado agora.";
+					next;
+					set .@exitloop,1;
+				}
+				else {
+					cutin "ins_cata_champ_a",2;
+					mes "[Alma do Herói Antigo]";
+					mes "Pode ser difícil, mas desejo-lhes sorte enfrentando os perigos desta catacumba.";
+					next;
+					mes "[Alma do Herói Antigo]";
+					mes "Lembrem-se, vocês precisam coletar ^0000FF10 Essências de Fogo^000000 das tochas e o ^0000FFMedalhão do Apóstolo^000000 dos Apóstolos de Bafomé.";
+					next;
+				}
+				break;
+			}
+			if (.@exitloop) break;
+		}
+		if (is_party_leader(.@party_id) == true) {
+			mes "[Alma do Herói Antigo]";
+			mes "Para lembrá-los novamente, preciso ser materializado na próxima hora. Então, todos, terminem seu trabalho dentro desse tempo!";
+			set 'ins_baphomet,3;
+			donpcevent instance_npcname("ins_baphomet_1f_timer")+"::OnEnable";
+			donpcevent instance_npcname("ins_baphomet_lotto2")+"::OnEnable";
+			donpcevent instance_npcname("ins_baphomet_lotto3")+"::OnEnable";
+		}
+		else {
+			mes "[Alma do Herói Antigo]";
+			mes "Para lembrá-los novamente, posso ser materializado durante a próxima hora. Então, todos, terminem seu trabalho dentro desse tempo.";
+			//set 'ins_baphomet,3;
+		}
+		close2;
+		cutin "",255;
+		end;
+	}
+	else if (('ins_baphomet == 3) && is_party_leader(.@party_id) == true) {
+		cutin "ins_cata_champ_n",2;
+		mes "[Alma do Herói Antigo]";
+		mes "Vocês conseguiram 10 ^0000FFEssências de Fogo^000000 e o ^0000FFMedalhão do Apóstolo^000000?";
+		next;
+		if ((countitem(6001) > 9) && (countitem(6002) > 0)) {
+			delitem 6001,countitem(6001); //Essence_Of_Fire
+			set 'ins_baphomet,4;
+			mes "[Alma do Herói Antigo]";
+			mes "Certo. Vocês fizeram seu trabalho. Agora verifique seus companheiros e me diga quando todos tiverem terminado o trabalho.";
+		}
+		else {
+			mes "[Alma do Herói Antigo]";
+			mes "Ainda não estão prontos? Vocês devem preparar 10 ^0000FFEssências de Fogo^000000 e o ^0000FFMedalhão do Apóstolo^000000.";
+		}
+		close2;
+		cutin "",255;
+		end;
+	}
+	else if ('ins_baphomet == 3) {
+		cutin "ins_cata_champ_n",2;
+		mes "[Alma do Herói Antigo]";
+		mes "Você tem um ^0000FFMedalhão do Apóstolo^000000?";
+		next;
+		if (countitem(6002) > 0) {
+			set 'ins_baphomet,4;
+			mes "[Alma do Herói Antigo]";
+			mes "Certo. Vocês fizeram seu trabalho. Diga ao seu representante para verificar os companheiros e vir até mim quando todos tiverem terminado o trabalho.";
+		}
+		else {
+			mes "[Alma do Herói Antigo]";
+			mes "Ainda não está pronto? Você deve preparar o ^0000FFMedalhão do Apóstolo^000000.";
+		}
+		close2;
+		cutin "",255;
+		end;
+	}
+	else if (('ins_baphomet == 4) && is_party_leader(.@party_id) == true) {
+		cutin "ins_cata_champ_n",2;
+		mes "[Alma do Herói Antigo]";
+		mes "Estão prontos? Abri o portão selado. Para passar pelo portão, você deve carregar um ^0000FFMedalhão do Apóstolo^000000.";
+		next;
+		set 'ins_baphomet,5;
+		specialeffect EF_TELEPORTATION;
+		enablenpc instance_npcname("ins_bapho_to_2f");
+		donpcevent instance_npcname("ins_baphomet_1f_timer")+"::OnDisable";
+		mes "[Alma do Herói Antigo]";
+		mes "Agora vocês podem ir para o altar principal. Ele está localizado no canto inferior direito deste andar.";
+		next;
+		mes "[Alma do Herói Antigo]";
+		mes "Sua verdadeira batalha começará... Seguirei vocês em breve e encontrarei uma maneira de ajudá-los.";
+		next;
+		mes "[Alma do Herói Antigo]";
+		mes "Vão em frente, guerreiros.";
+		cutin "",255;
+		mapannounce instance_mapname("1@cata"), "Ancient Hero's Soul : Agora vocês podem ir para o portão do Altar Principal. Ele está localizado no Sudeste.",bc_map,"0xFFFF00";
+		close;
+	}
+	else if ('ins_baphomet == 4) {
+		cutin "ins_cata_champ_n",2;
+		mes "[Alma do Herói Antigo]";
+		mes "Estão prontos? Abri o portão selado. Para passar pelo portão, você deve carregar um ^0000FFMedalhão do Apóstolo^000000.";
+		next;
+		mes "[Alma do Herói Antigo]";
+		mes "Terminarei de abrir o portão selado quando seu representante me disser que vocês estão prontos.";
+		cutin "",255;
+		close;
+	}
+	else if ('ins_baphomet == 5) {
+		cutin "ins_cata_champ_n",2;
+		mes "[Alma do Herói Antigo]";
+		mes "O que vocês estão fazendo? A entrada do altar principal está aberta agora, vão e lutem! A entrada fica perto do canto inferior direito deste andar.";
+		cutin "",255;
+		close;
+	}
+	else {
+		cutin "ins_cata_champ_n",2;
+		mes "[Alma do Herói Antigo]";
+		mes "Não tenho nada a dizer para você...";
+		cutin "",255;
+		close;
+	}
+
+OnInstanceInit:
+	disablenpc instance_npcname("Ancient Hero's Soul#1F");
+	end;
+}
+
+// To 2F Warp
+//============================================================
+1@cata,281,12,0	script	ins_bapho_to_2f	45,1,1,{
+OnTouch:
+	if (countitem(6002) > 0) {
+		delitem 6002,countitem(6002); //Token_Of_Apostle
+		set 'ins_baphomet,5;
+		warp instance_mapname("2@cata"),80,144;
+		end;
+	}
+	else {
+		mes "[Alma do Herói Antigo]";
+		mes "Onde está seu Medalhão do Apóstolo? Eu disse que você deveria carregar o Medalhão do Apóstolo para passar por este portão.";
+		close;
+	}
+
+OnInstanceInit:
+	disablenpc instance_npcname("ins_bapho_to_2f");
+	end;
+}
+
+// Gravestones
+//============================================================
+-	script	Gravestone#SS1	-1,{
+	if ('ins_baphomet == 1) {
+		getitem 6003,1; //Soul_Pendant
+		set 'ins_baphomet,2;
+		mes "Um pequeno objeto está brilhando sob um túmulo inclinado.";
+		next;
+		mes "[" + strcharinfo(0) + "]";
+		mes "Acho que este é o pingente...";
+		close;
+	}
+	else {
+		mes "Só consigo sentir melancolia desta Lápide.";
+		close;
+	}
+}
+1@cata,86,214,0	duplicate(Gravestone#SS1)	Gravestone#1F_1T	844
+1@cata,200,209,0	duplicate(Gravestone#SS1)	Gravestone#1F_2T	844
+1@cata,230,195,0	duplicate(Gravestone#SS1)	Gravestone#1F_3T	844
+1@cata,118,182,0	duplicate(Gravestone#SS1)	Gravestone#1F_4T	844
+1@cata,193,182,0	duplicate(Gravestone#SS1)	Gravestone#1F_5T	844
+1@cata,253,156,0	duplicate(Gravestone#SS1)	Gravestone#1F_6T	844
+1@cata,88,154,0	duplicate(Gravestone#SS1)	Gravestone#1F_7T	844
+1@cata,127,116,0	duplicate(Gravestone#SS1)	Gravestone#1F_8T	844
+1@cata,90,98,0	duplicate(Gravestone#SS1)	Gravestone#1F_9T	844
+1@cata,188,84,0	duplicate(Gravestone#SS1)	Gravestone#1F_10T	844
+1@cata,244,42,0	duplicate(Gravestone#SS1)	Gravestone#1F_11T	844
+1@cata,127,32,0	duplicate(Gravestone#SS1)	Gravestone#1F_12T	844
+1@cata,267,30,0	duplicate(Gravestone#SS1)	Gravestone#1F_13T	844
+
+-	script	Gravestone#SS2	-1,{
+	mes "Só consigo sentir melancolia desta Lápide.";
+	close;
+}
+1@cata,86,214,0	duplicate(Gravestone#SS2)	Gravestone#1F_1F	844
+1@cata,200,209,0	duplicate(Gravestone#SS2)	Gravestone#1F_2F	844
+1@cata,230,195,0	duplicate(Gravestone#SS2)	Gravestone#1F_3F	844
+1@cata,118,182,0	duplicate(Gravestone#SS2)	Gravestone#1F_4F	844
+1@cata,193,182,0	duplicate(Gravestone#SS2)	Gravestone#1F_5F	844
+1@cata,253,156,0	duplicate(Gravestone#SS2)	Gravestone#1F_6F	844
+1@cata,88,154,0	duplicate(Gravestone#SS2)	Gravestone#1F_7F	844
+1@cata,127,116,0	duplicate(Gravestone#SS2)	Gravestone#1F_8F	844
+1@cata,90,98,0	duplicate(Gravestone#SS2)	Gravestone#1F_9F	844
+1@cata,188,84,0	duplicate(Gravestone#SS2)	Gravestone#1F_10F	844
+1@cata,244,42,0	duplicate(Gravestone#SS2)	Gravestone#1F_11F	844
+1@cata,127,32,0	duplicate(Gravestone#SS2)	Gravestone#1F_12F	844
+1@cata,267,30,0	duplicate(Gravestone#SS2)	Gravestone#1F_13F	844
+
+// Bobbing Torches
+//============================================================
+-	script	Bobbing Torch#SS	-1,{
+	if (is_party_leader() == true) {
+		if (('ins_baphomet == 3) && (countitem(6001) < 11)) {
+			mes "Uma enorme tocha que parece ser capaz de queimar tudo está oscilando para cima e para baixo na minha frente.";
+			next;
+			mes "A aparência grandiosa e o calor do fogo me fazem recuar... Mas crio coragem e estendo a mão para pegar a tocha.";
+			next;
+			specialeffect2 EF_HOLYHIT;
+			getitem 6001,1; //Essence_Of_Fire
+			mes "O símbolo do herdeiro brilha. Então, um pequeno cristal cai da tocha em minha mão.";
+			disablenpc();
+			close;
+		}
+		else if (('ins_baphomet == 3) && (countitem(6001) > 10)) {
+			mes "Você já tem 10 Essências de Fogo, então não precisa coletar mais.";
+			close;
+		}
+		else {
+			mes "Você não precisa mais coletar Essências de Fogo.";
+			close;
+		}
+	}
+	else {
+		mes "Uma tocha enorme, parecendo capaz de queimar tudo, balança para cima e para baixo na minha frente...";
+		next;
+		mes "[Voz desconhecida]";
+		mes "Você não é um herdeiro da fé. Não profane a Essência de Fogo com suas mãos desrespeitosas.";
+		specialeffect2 EF_FIRESPLASHHIT;
+		percentheal -50,0;
+		close;
+	}
+
+OnInstanceInit:
+	disablenpc();
+	end;
+}
+1@cata,267,210,0	duplicate(Bobbing Torch#SS)	Bobbing Torch#1	844
+1@cata,85,182,0	duplicate(Bobbing Torch#SS)	Bobbing Torch#2	844
+1@cata,267,154,0	duplicate(Bobbing Torch#SS)	Bobbing Torch#3	844
+1@cata,157,139,0	duplicate(Bobbing Torch#SS)	Bobbing Torch#4	844
+1@cata,193,138,0	duplicate(Bobbing Torch#SS)	Bobbing Torch#5	844
+1@cata,193,102,0	duplicate(Bobbing Torch#SS)	Bobbing Torch#6	844
+1@cata,157,102,0	duplicate(Bobbing Torch#SS)	Bobbing Torch#7	844
+1@cata,113,112,0	duplicate(Bobbing Torch#SS)	Bobbing Torch#8	844
+1@cata,253,56,0	duplicate(Bobbing Torch#SS)	Bobbing Torch#9	844
+1@cata,239,56,0	duplicate(Bobbing Torch#SS)	Bobbing Torch#10	844
+1@cata,71,42,0	duplicate(Bobbing Torch#SS)	Bobbing Torch#11	844
+1@cata,155,14,0	duplicate(Bobbing Torch#SS)	Bobbing Torch#12	844
+
+1@cata,1,1,0	script	ins_baphomet_1f_timer	-1,{
+OnInstanceInit:
+	disablenpc instance_npcname("ins_baphomet_1f_timer");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("ins_baphomet_1f_timer");
+	initnpctimer;
+	end;
+
+OnDisable:
+	disablenpc instance_npcname("ins_baphomet_1f_timer");
+	stopnpctimer;
+	end;
+
+OnTimer1800000:
+	mapannounce instance_mapname("1@cata"), "Alma do Herói Ancestral : Não temos tempo! Apresse-se!",bc_map,"0xFFFF00";
+	end;
+
+OnTimer2400000:
+	mapannounce instance_mapname("1@cata"), "Alma do Herói Ancestral : Meu corpo está desaparecendo... Apresse-se!",bc_map,"0xFFFF00";
+	end;
+
+OnTimer3000000:
+	mapannounce instance_mapname("1@cata"), "Alma do Herói Ancestral : Tudo acabou... Não há outro caminho a não ser esperar pela próxima chance...",bc_map,"0xFFFF00";
+	end;
+
+OnTimer3050000:
+	mapannounce instance_mapname("1@cata"), "Alma do Herói Ancestral : Falhamos... No entanto... Ainda temos uma chance. Espero que vocês treinem até que o momento chegue.",bc_map,"0xFFFF00";
+	end;
+
+OnTimer3100000:
+	mapannounce instance_mapname("1@cata"), "Você falhou ao abrir o selo do altar principal.",bc_map,"0xFFFF00";
+	end;
+
+OnTimer3500000:
+	instance_warpall "monk_test",310,150, instance_id();
+	stopnpctimer;
+	end;
+}
+
+2@cata,80,144,0	script	ins_2f_enter	-1,3,3,{
+OnTouch_:
+	donpcevent instance_npcname("ins_2f_enter_broad")+"::OnEnable";
+	disablenpc instance_npcname("ins_2f_enter");
+	end;
+}
+
+2@cata,1,1,0	script	ins_2f_enter_broad	-1,{
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("ins_2f_enter_broad");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("ins_2f_enter_broad");
+	initnpctimer;
+	end;
+
+OnTimer10000:
+	mapannounce instance_mapname("2@cata"), "Bafomé : Humanos... interferindo novamente...",bc_map,"0xdb7093";
+	end;
+
+OnTimer13000:
+	mapannounce instance_mapname("2@cata"), "Apóstolo de Bafomé : Humanos! Humanos invadiram nosso santuário!",bc_map,"0xFFFF00";
+	end;
+
+OnTimer16000:
+	mapannounce instance_mapname("2@cata"), "Apóstolo de Bafomé : Matem os humanos! Não impeçam o renascimento do nosso Mestre!",bc_map,"0xFFFF00";
+	end;
+
+OnTimer18000:
+	mapannounce instance_mapname("2@cata"), "Apóstolo de Bafomé : Apressem-se e liberem os selos dos altares! O retorno do nosso Mestre está próximo!",bc_map,"0xFFFF00";
+	stopnpctimer;
+	disablenpc instance_npcname("ins_2f_enter_broad");
+	end;
+}
+
+2@cata,50,67,0	script	slave_left	-1,5,5,{
+OnTouch_:
+	set .@map$, instance_mapname("2@cata");
+	mapannounce .@map$, "Apóstolo de Bafomé : Matem os humanos! Não deixem que eles interrompam o renascimento do nosso Mestre!",bc_map,"0xFFFF00";
+	monster .@map$,55,67,"Apostle of Baphomet",1869,1;
+	monster .@map$,51,67,"Apostle of Baphomet",1291,1;
+	monster .@map$,58,67,"Apostle of Baphomet",1292,1;
+	monster .@map$,53,67,"Apostle of Baphomet",1291,1;
+	monster .@map$,54,67,"Apostle of Baphomet",1869,1;
+	monster .@map$,55,67,"Apostle of Baphomet",1291,1;
+	monster .@map$,56,67,"Apostle of Baphomet",1117,1;
+	monster .@map$,58,66,"Apostle of Baphomet",1869,1;
+	monster .@map$,56,66,"Apostle of Baphomet",1117,1;
+	monster .@map$,60,66,"Apostle of Baphomet",1132,1;
+	monster .@map$,59,66,"Apostle of Baphomet",1117,1;
+	monster .@map$,54,66,"Apostle of Baphomet",1132,1;
+	monster .@map$,55,66,"Apostle of Baphomet",1292,1;
+	monster .@map$,56,66,"Apostle of Baphomet",1132,1;
+	monster .@map$,50,65,"Apostle of Baphomet",1867,1;
+	monster .@map$,61,65,"Apostle of Baphomet",1292,1;
+	disablenpc instance_npcname("slave_left");
+	end;
+}
+
+2@cata,109,67,0	script	slave_right	-1,5,5,{
+OnTouch_:
+	set .@map$, instance_mapname("2@cata");
+	mapannounce .@map$, "Apóstolo de Bafomé : Matem os humanos! Não deixem que eles interrompam o renascimento do nosso Mestre!",bc_map,"0xFFFF00";
+	monster .@map$,105,67,"Apostle of Baphomet",1869,1;
+	monster .@map$,104,67,"Apostle of Baphomet",1291,1;
+	monster .@map$,107,67,"Apostle of Baphomet",1869,1;
+	monster .@map$,106,67,"Apostle of Baphomet",1291,1;
+	monster .@map$,102,67,"Apostle of Baphomet",1869,1;
+	monster .@map$,103,67,"Apostle of Baphomet",1291,1;
+	monster .@map$,103,67,"Apostle of Baphomet",1117,1;
+	monster .@map$,109,66,"Apostle of Baphomet",1117,1;
+	monster .@map$,108,66,"Apostle of Baphomet",1132,1;
+	monster .@map$,101,66,"Apostle of Baphomet",1117,1;
+	monster .@map$,106,66,"Apostle of Baphomet",1292,1;
+	monster .@map$,102,66,"Apostle of Baphomet",1132,1;
+	monster .@map$,104,66,"Apostle of Baphomet",1292,1;
+	monster .@map$,103,66,"Apostle of Baphomet",1132,1;
+	monster .@map$,109,65,"Apostle of Baphomet",1867,1;
+	monster .@map$,108,65,"Apostle of Baphomet",1292,1;
+	disablenpc instance_npcname("slave_right");
+	end;
+}
+
+2@cata,79,39,0	script	slave_down	-1,5,5,{
+OnTouch_:
+	set .@map$, instance_mapname("2@cata");
+	mapannounce .@map$, "Apóstolo de Bafomé : Matem os humanos! Não deixem que eles interrompam o renascimento do nosso Mestre!",bc_map,"0xFFFF00";
+	monster .@map$,78,41,"Apostle of Baphomet",1869,1;
+	monster .@map$,79,42,"Apostle of Baphomet",1291,1;
+	monster .@map$,78,46,"Apostle of Baphomet",1869,1;
+	monster .@map$,81,41,"Apostle of Baphomet",1291,1;
+	monster .@map$,81,42,"Apostle of Baphomet",1869,1;
+	monster .@map$,79,43,"Apostle of Baphomet",1291,1;
+	monster .@map$,77,40,"Apostle of Baphomet",1117,1;
+	monster .@map$,79,41,"Apostle of Baphomet",1132,1;
+	monster .@map$,79,42,"Apostle of Baphomet",1117,1;
+	monster .@map$,79,43,"Apostle of Baphomet",1132,1;
+	monster .@map$,79,48,"Apostle of Baphomet",1117,1;
+	monster .@map$,78,49,"Apostle of Baphomet",1132,1;
+	monster .@map$,78,41,"Apostle of Baphomet",1292,1;
+	monster .@map$,74,42,"Apostle of Baphomet",1292,1;
+	monster .@map$,72,48,"Apostle of Baphomet",1867,1;
+	monster .@map$,72,38,"Apostle of Baphomet",1292,1;
+	disablenpc instance_npcname("slave_down");
+	end;
+}
+
+// Magical Seals
+//============================================================
+-	script	Magical Seal#SS	-1,{
+	set .@seal_check,checkquest(3041,PLAYTIME);
+	if (.@seal_check == 0 || .@seal_check == 1) {
+		specialeffect2 EF_SILENCEATTACK;
+		percentheal -50,0;
+		sc_start SC_Stone,30000,0;
+		mes "Seu SP ainda não se recuperou. Você perdeu seu SP no altar, mas parece que o poder do selo retornou.";
+		close;
+	}
+	if (.@seal_check == 2) erasequest 3041;
+	specialeffect EF_LEXDIVINA;
+	disablenpc();
+	set .@map$, instance_mapname("2@cata");
+	if (strnpcinfo(2) == "0") areamobuseskill .@map$,79,81,10,1929,"NPC_INVINCIBLEOFF",1,0,0,ET_HELP,0;
+	else if (strnpcinfo(2) == "2") areamobuseskill .@map$,123,109,10,1929,"NPC_INVINCIBLEOFF",1,0,0,ET_HELP,0;
+	else if (strnpcinfo(2) == "4") areamobuseskill .@map$,123,22,10,1929,"NPC_INVINCIBLEOFF",1,0,0,ET_HELP,0;
+	else if (strnpcinfo(2) == "8") areamobuseskill .@map$,35,21,10,1929,"NPC_INVINCIBLEOFF",1,0,0,ET_HELP,0;
+	else if (strnpcinfo(2) == "10") areamobuseskill .@map$,35,109,10,1929,"NPC_INVINCIBLEOFF",1,0,0,ET_HELP,0;
+	percentheal -50,0;
+	sc_start SC_Stone,20000,0;
+	setquest 3041;
+	mapannounce .@map$, "O selo foi ativado ao canalizar poder mágico para o altar.",bc_map,"0x87ceeb";
+	mes "Posso sentir o poder do altar retornando ao adicionar poder mágico.";
+	next;
+	mes "Mas você não pode usar sua magia por 3 minutos, pois utilizou seu SP no altar.";
+	close;
+
+OnInstanceInit:
+	disablenpc();
+	end;
+}
+2@cata,79,81,0	duplicate(Magical Seal#SS)	Magical Seal#0	844
+2@cata,123,109,0	duplicate(Magical Seal#SS)	Magical Seal#2	844
+2@cata,123,22,0	duplicate(Magical Seal#SS)	Magical Seal#4	844
+2@cata,35,21,0	duplicate(Magical Seal#SS)	Magical Seal#8	844
+2@cata,35,109,0	duplicate(Magical Seal#SS)	Magical Seal#10	844
+
+2@cata,79,65,0	script	The Main Altar#ss	844,{
+	if (('ins_baphomet == 5) && is_party_leader() == true) {
+		mes "Um poder maligno, terrível demais para descrever, jaz sob o grande altar irradiando uma cor violeta.";
+		next;
+		mes "Letras de Runas Mágicas complicadas piscam rapidamente, tentando suprimir o poder terrível contido ali.";
+		next;
+		mes "A base do Altar Principal treme furiosamente.";
+		next;
+		specialeffect EF_METEORSTORM;
+		specialeffect EF_METEORSTORM;
+		mes "[" + strcharinfo(0) + "]";
+		mes "Cuidado! Algo... Algo está vindo.";
+		set 'ins_baphomet,6;
+		donpcevent instance_npcname("ins_2f_hero_broad")+"::OnEnable";
+		disablenpc instance_npcname("The Main Altar#ss");
+		close;
+	}
+	else {
+		mes "Um poder maligno, terrível demais para descrever, jaz sob o grande altar irradiando uma cor violeta.";
+		next;
+		mes "Letras de Runas Mágicas complicadas piscam rapidamente, tentando suprimir o poder terrível contido ali.";
+		close;
+	}
+	end;
+}
+
+2@cata,80,63,4	script	Ancient Hero's Soul#2F	411,{
+	cutin "ins_cata_champ_s",2;
+	if (checkquest(3041)>=0) erasequest 3041;
+	mes "[Alma do Herói Antigo]";
+	mes "Bom trabalho, meus descendentes... Vocês concluíram a tarefa tão desejada que eu e meus irmãos não conseguimos completar.";
+	next;
+	mes "[Alma do Herói Antigo]";
+	mes "Agradeço imensamente pela sua ajuda.";
+	mes "Nossas almas finalmente podem descansar em paz...";
+	next;
+	mes "[Alma do Herói Antigo]";
+	mes "A luta pela paz neste mundo nunca terminará. Mas... meu papel aqui finalmente acabou, porque existem heróis corajosos como vocês.";
+	next;
+	switch(select("Deixe-me sair do santuário.:Pare de falar.")) {
+	case 1:
+		mes "[Alma do Herói Antigo]";
+		mes "Tudo bem. Deixarei você e seu grupo saírem daqui em segurança.";
+		next;
+		mes "[Alma do Herói Antigo]";
+		mes "Se você sair, por favor, diga olá ao Patrick por mim.";
+		cutin "",255;
+		set 'ins_baphomet,0;
+		warp "monk_test",310,150;
+		close;
+	case 2:
+		mes "[Alma do Herói Antigo]";
+		mes "Você ainda tem algo a fazer aqui? Se tiver terminado, deixarei vocês saírem em segurança...";
+		cutin "",255;
+		close;
+	}
+
+OnInstanceInit:
+	disablenpc instance_npcname("Ancient Hero's Soul#2F");
+	end;
+}
+
+2@cata,1,2,0	script	ins_2f_hero_broad	-1,{
+OnEnable:
+	enablenpc instance_npcname("ins_2f_hero_broad");
+	initnpctimer;
+	end;
+
+OnDisable:
+	disablenpc instance_npcname("ins_2f_hero_broad");
+	end;
+
+OnTimer3000:
+	mapannounce instance_mapname("2@cata"), "Alma do Herói Ancestral : Meu Deus! O selo do Altar Principal está enfraquecendo!",bc_map,"0xFFFF00";
+	end;
+
+OnTimer6000:
+	mapannounce instance_mapname("2@cata"), "Alma do Herói Ancestral : Meus descendentes... Ouçam com atenção o que vou dizer.",bc_map,"0xFFFF00";
+	end;
+
+OnTimer9000:
+	mapannounce instance_mapname("2@cata"), "Alma do Herói Ancestral : Os altares que controlam o poder do Altar Principal estão localizados nos cantos Nordeste, Sudeste, Sudoeste e Noroeste desta sala.",bc_map,"0xFFFF00";
+	end;
+
+OnTimer12000:
+	mapannounce instance_mapname("2@cata"), "Alma do Herói Ancestral : Encontrem esses altares e ativem seus selos antes que Bafomé ressuscite.",bc_map,"0xFFFF00";
+	end;
+
+OnTimer15000:
+	mapannounce instance_mapname("2@cata"), "Bafomé : É tarde demais, fracos... Agora, vocês sentirão o desespero da morte!",bc_map,"0xdb7093";
+	end;
+
+OnTimer17000:
+	mapannounce instance_mapname("2@cata"), "Bafomé : Ninguém pode me ferir aqui. Vocês serão meu primeiro sacrifício.",bc_map,"0xdb7093";
+	donpcevent instance_npcname("control_baphomet")+"::OnEnable";
+	donpcevent instance_npcname("ins_2f_hero_broad2")+"::OnEnable";
+	stopnpctimer;
+	disablenpc instance_npcname("ins_2f_hero_broad");
+	end;
+}
+
+2@cata,3,3,0	script	control_baphomet	-1,{
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("control_baphomet");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("control_baphomet");
+	donpcevent instance_npcname("2f_callmon_pattern_c")+"::OnEnable";
+	monster instance_mapname("2@cata"),79,64,"Baphomet#",1929,1,instance_npcname("control_baphomet")+"::OnMyMobDead";
+	end;
+
+OnMyMobDead:
+	set .@map$, instance_mapname("2@cata");
+	if (mobcount(.@map$,instance_npcname("control_baphomet")+"::OnMyMobDead") < 1) {
+		set 'ins_baphomet,7;
+		if (isbegin_quest(3041))
+			erasequest 3041;
+		mapannounce .@map$, "Bafomé: Não! Não, não, não! Como esses fracos ousam me derrotar!... Não!!...",bc_map,"0xdb7093";
+		enablenpc instance_npcname("Ancient Hero's Soul#2F");
+		disablenpc instance_npcname("slave_down");
+		disablenpc instance_npcname("slave_left");
+		disablenpc instance_npcname("slave_right");
+		donpcevent instance_npcname("ins_2f_hero_broad")+"::OnDisable";
+		donpcevent instance_npcname("ins_2f_hero_broad2")+"::OnDisable";
+		donpcevent instance_npcname("ins_2f_hero_pattern_c")+"::OnDisable";
+		donpcevent instance_npcname("2f_callmon_pattern_c")+"::OnDisable";
+		donpcevent instance_npcname("2f_callmon_pattern")+"::OnDisable";
+		donpcevent instance_npcname("ins_2f_hero_pattern")+"::OnDisable";
+		donpcevent instance_npcname("ins_2f_enter_broad")+"::OnDisable";
+		donpcevent instance_npcname("control_baphomet")+"::OnDisable";
+		disablenpc instance_npcname("control_baphomet");
+	}
+	end;
+}
+
+2@cata,2,2,0	script	ins_2f_hero_broad2	-1,{
+OnInstanceInit:
+OnDisable:
+	disablenpc instance_npcname("ins_2f_hero_broad2");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("ins_2f_hero_broad2");
+	initnpctimer;
+	end;
+
+OnTimer8000:
+	mapannounce instance_mapname("2@cata"), "Alma do Herói Ancestral : Não desanimem, Bafomé ainda pode ser derrotado!",bc_map,"0xFFFF00";
+	end;
+
+OnTimer11000:
+	mapannounce instance_mapname("2@cata"), "Alma do Herói Ancestral : Vão aos altares e ativem seus selos.",bc_map,"0xFFFF00";
+	end;
+
+OnTimer13000:
+	mapannounce instance_mapname("2@cata"), "Alma do Herói Ancestral : Assim que os selos recuperarem seu poder, Bafomé ficará vulnerável.",bc_map,"0xFFFF00";
+	end;
+
+OnTimer16000:
+	mapannounce instance_mapname("2@cata"), "Alma do Herói Ancestral : Você deve atrair Bafomé para os Altares sem selo. Caso contrário, seus esforços serão inúteis.",bc_map,"0xFFFF00";
+	end;
+
+OnTimer19000:
+	mapannounce instance_mapname("2@cata"), "Alma do Herói Ancestral : Temos apenas 1 hora para parar Bafomé. Se o tempo acabar, o poder dos selos será inútil.",bc_map,"0xFFFF00";
+	end;
+
+OnTimer22000:
+	mapannounce instance_mapname("2@cata"), "Bafomé : É inútil. Façam mais selos. Eu esmagarei todos eles. Nenhum de vocês sobreviverá!",bc_map,"0xdb7093";
+	end;
+
+OnTimer26000:
+	mapannounce instance_mapname("2@cata"), "Alma do Herói Ancestral : O poder mágico do selo central está acabando. Vá até o selo central e restaure o poder mágico.",bc_map,"0xFFFF00";
+	enablenpc instance_npcname("Magical Seal#0");
+	disablenpc instance_npcname("Magical Seal#2");
+	disablenpc instance_npcname("Magical Seal#4");
+	disablenpc instance_npcname("Magical Seal#8");
+	disablenpc instance_npcname("Magical Seal#10");
+	donpcevent instance_npcname("ins_2f_hero_pattern_c")+"::OnEnable";
+	stopnpctimer;
+	disablenpc instance_npcname("ins_2f_hero_broad2");
+	end;
+}
+
+2@cata,4,1,0	script	2f_callmon_pattern_c	-1,{
+OnInstanceInit:
+	disablenpc instance_npcname("2f_callmon_pattern_c");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("2f_callmon_pattern_c");
+	initnpctimer;
+	donpcevent instance_npcname("2f_callmon_pattern_c")+"::Ongo";
+	end;
+
+OnDisable:
+	stopnpctimer;
+	disablenpc instance_npcname("2f_callmon_pattern_c");
+	end;
+
+Ongo:
+	donpcevent instance_npcname("2f_callmon_pattern")+"::OnEnable";
+	end;
+
+OnTimer3600000:
+	donpcevent instance_npcname("2f_callmon_pattern_c")+"::OnDisable";
+	end;
+}
+
+2@cata,4,2,0	script	2f_callmon_pattern	-1,{
+OnInstanceInit:
+	disablenpc instance_npcname("2f_callmon_pattern");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("2f_callmon_pattern");
+	stopnpctimer;
+	initnpctimer;
+	end;
+
+OnDisable:
+	disablenpc instance_npcname("2f_callmon_pattern");
+	stopnpctimer;
+	end;
+
+OnTimer300000:
+	enablenpc instance_npcname("slave_down");
+	enablenpc instance_npcname("slave_left");
+	enablenpc instance_npcname("slave_right");
+	donpcevent instance_npcname("2f_callmon_pattern_c")+"::Ongo";
+	end;
+}
+
+2@cata,3,1,0	script	ins_2f_hero_pattern_c	-1,{
+OnInstanceInit:
+	disablenpc instance_npcname("ins_2f_hero_pattern_c");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("ins_2f_hero_pattern_c");
+	initnpctimer;
+	donpcevent instance_npcname("ins_2f_hero_pattern_c")+"::Ongo";
+	end;
+
+Ongo:
+	donpcevent instance_npcname("ins_2f_hero_pattern")+"::OnEnable";
+	end;
+
+OnDisable:
+	stopnpctimer;
+	disablenpc instance_npcname("Magical Seal#0");
+	disablenpc instance_npcname("Magical Seal#2");
+	disablenpc instance_npcname("Magical Seal#4");
+	disablenpc instance_npcname("Magical Seal#8");
+	disablenpc instance_npcname("Magical Seal#10");
+	donpcevent instance_npcname("ins_2f_hero_pattern")+"::OnDisable";
+	disablenpc instance_npcname("ins_2f_hero_pattern_c");
+	end;
+
+OnTimer3600000:
+	mapannounce instance_mapname("2@cata"), "Bafomé : krrrr... Agora vocês não podem me parar com os selos. Tudo o que podem fazer é esperar pela morte!",bc_map,"0xdb7093";
+	end;
+
+OnTimer3605000:
+	mapannounce instance_mapname("2@cata"), "Alma do Herói Ancestral : Não podemos mais deter Bafomé com o poder mágico dos selos. Agora tudo depende de Deus...",bc_map,"0xFFFF00";
+	donpcevent instance_npcname("ins_2f_hero_pattern_c")+"::OnDisable";
+	end;
+}
+
+2@cata,3,2,0	script	ins_2f_hero_pattern	-1,{
+OnInstanceInit:
+	disablenpc instance_npcname("ins_2f_hero_pattern");
+	end;
+
+OnEnable:
+	enablenpc instance_npcname("ins_2f_hero_pattern");
+	initnpctimer;
+	end;
+
+OnDisable:
+	disablenpc instance_npcname("ins_2f_hero_pattern");
+	stopnpctimer;
+	end;
+
+OnTimer70000:
+	switch(rand(1,5)) {
+	case 1:
+		mapannounce instance_mapname("2@cata"), "Alma do Herói Ancestral : O selo do Altar Principal está acabando. Fortaleça o selo do Altar Principal!",bc_map,"0xFFFF00";
+		enablenpc instance_npcname("Magical Seal#0");
+		disablenpc instance_npcname("Magical Seal#2");
+		disablenpc instance_npcname("Magical Seal#4");
+		disablenpc instance_npcname("Magical Seal#8");
+		disablenpc instance_npcname("Magical Seal#10");
+		break;
+	case 2:
+		mapannounce instance_mapname("2@cata"), "Alma do Herói Ancestral : O poder mágico do selo das 2 horas está acabando. Vá até as 2 horas e restaure o poder mágico no selo.",bc_map,"0xFFFF00";
+		disablenpc instance_npcname("Magical Seal#0");
+		enablenpc instance_npcname("Magical Seal#2");
+		disablenpc instance_npcname("Magical Seal#4");
+		disablenpc instance_npcname("Magical Seal#8");
+		disablenpc instance_npcname("Magical Seal#10");
+		break;
+	case 3:
+		mapannounce instance_mapname("2@cata"), "Alma do Herói Ancestral : O poder mágico do selo das 4 horas está acabando. Vá até as 4 horas e restaure o poder mágico no selo.",bc_map,"0xFFFF00";
+		disablenpc instance_npcname("Magical Seal#0");
+		disablenpc instance_npcname("Magical Seal#2");
+		enablenpc instance_npcname("Magical Seal#4");
+		disablenpc instance_npcname("Magical Seal#8");
+		disablenpc instance_npcname("Magical Seal#10");
+		break;
+	case 4:
+		mapannounce instance_mapname("2@cata"), "Alma do Herói Ancestral : O poder mágico do selo das 8 horas está acabando. Vá até as 8 horas e restaure o poder mágico no selo.",bc_map,"0xFFFF00";
+		disablenpc instance_npcname("Magical Seal#0");
+		disablenpc instance_npcname("Magical Seal#2");
+		disablenpc instance_npcname("Magical Seal#4");
+		enablenpc instance_npcname("Magical Seal#8");
+		disablenpc instance_npcname("Magical Seal#10");
+		break;
+	case 5:
+		mapannounce instance_mapname("2@cata"), "Alma do Herói Ancestral : O poder mágico do selo das 10 horas está acabando. Vá até as 10 horas e restaure o poder mágico no selo.",bc_map,"0xFFFF00";
+		disablenpc instance_npcname("Magical Seal#0");
+		disablenpc instance_npcname("Magical Seal#2");
+		disablenpc instance_npcname("Magical Seal#4");
+		disablenpc instance_npcname("Magical Seal#8");
+		enablenpc instance_npcname("Magical Seal#10");
+	}
+	stopnpctimer;
+	donpcevent instance_npcname("ins_2f_hero_pattern_c")+"::Ongo";
+	end;
+}
+
+
+1@cata,1,1,0	script	ins_1f_spawn_mobs	-1,{
+OnInstanceInit:
+	set .@map$, instance_mapname("1@cata");
+	monster .@map$,0,0,"Zombie Master",1298,10;
+	monster .@map$,0,0,"Wraith Dead",1291,10;
+	//monster .@map$,0,0,"Ancient Mimic",1699,10;
+	monster .@map$,0,0,"Flame Skull",1869,10;
+	monster .@map$,0,0,"Skeleton General",1290,10;
+	monster .@map$,0,0,"Zombie Master",1298,10;
+	monster .@map$,0,0,"Skeleton General",1290,10;
+	monster .@map$,0,0,"Flame Skull",1869,10;
+	monster .@map$,0,0,"Wraith Dead",1291,10;
+	monster .@map$,0,0,"Wraith Dead",1291,10;
+	monster .@map$,0,0,"Khalitzburg",1132,10;
+	monster .@map$,0,0,"Khalitzburg",1132,10;
+	monster .@map$,0,0,"Flame Skull",1869,10;
+	monster .@map$,0,0,"Flame Skull",1869,10;
+	monster .@map$,0,0,"Ancient Mimic",1699,10;
+	monster .@map$,0,0,"Zombie Master",1298,10;
+	monster .@map$,0,0,"Ancient Mimic",1699,10;
+	monster .@map$,0,0,"Zombie Master",1298,10;
+	monster .@map$,0,0,"Wraith Dead",1291,10;
+	monster .@map$,0,0,"Skeleton General",1290,10;
+	monster .@map$,0,0,"Skeleton General",1290,10;
+	monster .@map$,0,0,"Wind Ghost",1263,10;
+	monster .@map$,0,0,"Wind Ghost",1263,10;
+	monster .@map$,0,0,"Wind Ghost",1263,10;
+	monster .@map$,0,0,"Lude",1509,10;
+	monster .@map$,0,0,"Lude",1509,10;
+	monster .@map$,0,0,"Evil Druid",1117,10;
+	monster .@map$,0,0,"Evil Druid",1117,10;
+	monster .@map$,0,0,"Evil Druid",1117,10;
+	monster .@map$,0,0,"Banshee",1867,10;
+	monster .@map$,0,0,"Dark Illusion",1302,1;
+	disablenpc instance_npcname("ins_1f_spawn_mobs");
+	end;
+}

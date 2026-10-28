@@ -1,0 +1,22 @@
+# Fixed ordinary stock; prices use each classic item buy value.
+Header:
+  Type: POPULATION_VENDORS_DB
+  Version: 1
+Body:
+- VendorKey: classic_supplies
+  Title: Consumíveis
+  Type: Static
+  MaxSlots: 6
+  Stock:
+  - Item: 501
+    Amount: 40
+  - Item: 502
+    Amount: 25
+  - Item: 506
+    Amount: 20
+  - Item: 602
+    Amount: 15
+  - Item: 611
+    Amount: 20
+  - Item: 1750
+    Amount: 100

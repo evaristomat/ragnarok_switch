@@ -1,0 +1,201 @@
+use crate::helper::dialog_container::DialogContainer;
+use crate::{BuildCtx, InGameWindow, Window};
+use nostalre_game::event::GameEvent;
+use nostalre_ui::draw::{self, DrawCall, TextureRef};
+use nostalre_ui::frame::UiFrame;
+
+const DISPLAY_DURATION: f32 = 3.0;
+const FADE_OUT_DURATION: f32 = 1.0;
+const PADDING: f32 = 4.0;
+const ICON_SIZE: f32 = 24.0;
+const TOP_Y: f32 = 50.0;
+
+struct PickupEntry {
+    item_name: String,
+    count: u16,
+    icon_texture: Option<String>,
+    start_time: Option<f32>,
+}
+
+pub struct ItemPickupNotification {
+    pub has_grf_textures: bool,
+    pub container: DialogContainer,
+    entry: Option<PickupEntry>,
+}
+
+impl Default for ItemPickupNotification {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl ItemPickupNotification {
+    pub fn new() -> Self {
+        Self {
+            has_grf_textures: false,
+            container: DialogContainer::new(),
+            entry: None,
+        }
+    }
+
+    pub fn show(&mut self, item_name: String, count: u16, icon_texture: Option<String>) {
+        self.entry = Some(PickupEntry {
+            item_name,
+            count,
+            icon_texture,
+            start_time: None,
+        });
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.entry.is_none()
+    }
+}
+
+impl InGameWindow for ItemPickupNotification {
+    fn build(&mut self, ui: &mut UiFrame, ctx: &mut BuildCtx) -> Vec<GameEvent> {
+        let _character = &mut *ctx.character;
+        let _data = ctx.data;
+        let Some(entry) = &mut self.entry else {
+            return vec![];
+        };
+
+        let start = *entry.start_time.get_or_insert(ui.elapsed_secs);
+        let age = ui.elapsed_secs - start;
+        let total = DISPLAY_DURATION + FADE_OUT_DURATION;
+
+        if age > total {
+            self.entry = None;
+            return vec![];
+        }
+
+        let alpha = if age > DISPLAY_DURATION {
+            1.0 - (age - DISPLAY_DURATION) / FADE_OUT_DURATION
+        } else {
+            1.0
+        };
+
+        let text = format!("Recebeu: {} x{}.", entry.item_name, entry.count);
+        let text_w = ui.atlas.measure_text(&text);
+        let has_icon = entry.icon_texture.is_some();
+        let icon_space = if has_icon { ICON_SIZE + PADDING } else { 0.0 };
+        let bar_w = PADDING + icon_space + text_w + PADDING;
+        let bar_h = PADDING + ICON_SIZE + PADDING;
+
+        let x = ((ui.ctx.screen_width - bar_w) / 2.0).floor();
+        let y = TOP_Y;
+
+        self.container.draw(
+            &mut ui.draw_calls,
+            x,
+            y,
+            bar_w,
+            bar_h,
+            [1.0, 1.0, 1.0, alpha],
+        );
+
+        if let Some(icon_path) = &entry.icon_texture {
+            let ix = x + PADDING;
+            let iy = y + PADDING;
+            let (v, i) = draw::quad_vertices(ix, iy, ICON_SIZE, ICON_SIZE, [1.0, 1.0, 1.0, alpha]);
+            ui.draw_calls.push(DrawCall {
+                vertices: v.into(),
+                indices: i.into(),
+                texture: TextureRef::Named(icon_path.clone().into()),
+            });
+        }
+
+        let tx = x + PADDING + icon_space;
+        let ty = y + PADDING + ui.atlas.line_height + (ICON_SIZE - ui.atlas.line_height) / 2.0;
+        let mut color = self.container.text_color();
+        color[3] = alpha;
+        ui.text(tx, ty, &text, color);
+        vec![]
+    }
+}
+
+impl Window for ItemPickupNotification {
+    fn has_grf_textures(&self) -> bool {
+        self.has_grf_textures
+    }
+    fn set_has_grf_textures(&mut self, value: bool) {
+        self.has_grf_textures = value;
+    }
+
+    fn set_texture_sizes(&mut self, size_fn: &dyn Fn(&str) -> Option<(u32, u32)>) {
+        self.container.has_grf_textures = true;
+        self.container.set_texture_sizes(size_fn);
+    }
+
+    fn grf_texture_paths() -> Vec<&'static str> {
+        DialogContainer::grf_texture_paths()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use nostalre_game::character::Character;
+    use nostalre_game::data_table::DataTable;
+
+    use nostalre_ui::context::UiContext;
+    use nostalre_ui::frame::TextInputBg::Default;
+
+    use nostalre_ui::state::StateCache;
+    use nostalre_ui::test_support::TestFrame;
+
+    #[test]
+    fn empty_notification_no_draws() {
+        let mut notif = ItemPickupNotification::new();
+        let mut state = StateCache::new();
+        let mut ctx = UiContext::new(800.0, 600.0);
+        let mut ui = TestFrame::new().elapsed(0.0).build(&mut ctx, &mut state);
+        let mut character = Character::new();
+        notif.build(
+            &mut ui,
+            &mut crate::BuildCtx::test(&mut character, &DataTable::default()),
+        );
+        assert!(ui.draw_calls.is_empty());
+    }
+
+    #[test]
+    fn visible_after_show() {
+        let mut notif = ItemPickupNotification::new();
+        notif.show("Red Potion".to_string(), 5, None);
+        let mut state = StateCache::new();
+        let mut ctx = UiContext::new(800.0, 600.0);
+        let mut ui = TestFrame::new().elapsed(1.0).build(&mut ctx, &mut state);
+        let mut character = Character::new();
+        notif.build(
+            &mut ui,
+            &mut crate::BuildCtx::test(&mut character, &DataTable::default()),
+        );
+        assert!(!ui.draw_calls.is_empty());
+        assert!(!notif.is_empty());
+    }
+
+    #[test]
+    fn expires_after_duration() {
+        let mut notif = ItemPickupNotification::new();
+        notif.show("Red Potion".to_string(), 5, None);
+
+        let mut state = StateCache::new();
+        let mut ctx = UiContext::new(800.0, 600.0);
+
+        let mut ui = TestFrame::new().elapsed(0.0).build(&mut ctx, &mut state);
+        let mut character = Character::new();
+        notif.build(
+            &mut ui,
+            &mut crate::BuildCtx::test(&mut character, &DataTable::default()),
+        );
+        assert!(!notif.is_empty());
+
+        let mut ui = TestFrame::new().elapsed(5.0).build(&mut ctx, &mut state);
+        let mut character = Character::new();
+        notif.build(
+            &mut ui,
+            &mut crate::BuildCtx::test(&mut character, &DataTable::default()),
+        );
+        assert!(notif.is_empty());
+    }
+}

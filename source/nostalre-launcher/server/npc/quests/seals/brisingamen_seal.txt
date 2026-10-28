@@ -1,0 +1,4543 @@
+//===== rAthena Script ======================================= 
+//= God Item Quest - Brisingamen Seal
+//===== By: ================================================== 
+//= SinSloth
+//===== Current Version: ===================================== 
+//= 1.7
+//===== Compatible With: ===================================== 
+//= rAthena Project
+//===== Description: ========================================= 
+//= Quest for breaking the seal of Brisingamen.
+//===== Additional Comments: =================================
+//= 1.0 First version. Thanks to SinSloth for scripting it. [MasterOfMuppets]
+//= 1.0a Removed duplicates [Toms]
+//= 1.1 Corrected NPC names to fall within proper restrictions. [L0ne_W0lf]
+//= 1.2 Updated several aspects of the script. [L0ne_W0lf]
+//= 1.3 Minor Touchups to quest. [L0ne_W0lf]
+//= 1.3a Changed some " + name +" to strcharinfo(0) [Samuray22]
+//= 1.4 Replaced effect numerics with constants. [Samuray22]
+//= 1.5 Corrected serverwide announcement. [L0ne_W0lf]
+//= 1.6 Updated RE/Pre-RE EXP. [Euphy]
+//= 1.7 Renewal script update. [Euphy]
+//= 1.8 Renewal script update for ep16.1 [Capuche]
+//============================================================
+
+prt_fild08,175,374,3	script	Bard#brising	51,{
+	cutin "god_nelluad01",2;
+	if ($God2 >= $@god_check1 && $God3 < $@god_check2) {
+		if (god_brising > 49) {
+			mes "[Nelliorde]";
+			mes "Ah, imagino que tudo esteja indo bem para você. Então, como tem passado?";
+			next;
+			mes "[Nelliorde]";
+			mes "Posso estar sendo sensível demais, mas sinto que algo pode acontecer em breve. Ah, não ligue para mim. Não é nada importante. Talvez eu só esteja sendo estranho.";
+			next;
+			mes "[Nelliorde]";
+			mes "Certo, certo, deixe-me tocar uma música para você. Você gostaria de ouvir?";
+			next;
+			switch(select("Claro, por que não~:Que tal algumas novidades?:Não, obrigado.")) {
+			case 1:
+				mes "[Nelliorde]";
+				mes "Então, qual música";
+				mes "você gostaria de ouvir?";
+				mes "Vá em frente, escolha uma~";
+				next;
+				switch(select("Poema de Bragi:Caos Eterno:Mercenário no Pôr do Sol:Der Ring des Nibelungen")) {
+				case 1:
+					cutin "god_nelluad02",2;
+					mes "[Nelliorde]";
+					mes "Poema de Bragi!";
+					mes "Que bela escolha!";
+					mes "Devo dizer que esta música";
+					mes "representa o";
+					mes "coração de um poeta!";
+					soundeffect "bragis_poem.wav",1;
+					close2;
+					break;
+				case 2:
+					cutin "god_nelluad02",2;
+					mes "[Nelliorde]";
+					mes "Caos Eterno...";
+					mes "Soa muito caótico.";
+					mes "Aliás, eu me pergunto";
+					mes "o que o título realmente";
+					mes "significa. Seria o caos";
+					mes "do inferno ou nossa própria realidade?";
+					soundeffect "chaos_of_eternity.wav",1;
+					close2;
+					break;
+				case 3:
+					cutin "god_nelluad02",2;
+					mes "[Nelliorde]";
+					mes "Mercenário no Pôr do Sol!";
+					mes "Sim, ninguém parece mais legal do que um Mercenário, o portador da morte, parado sozinho no pôr do sol! He he~";
+					soundeffect "assassin_of_sunset.wav",1;
+					close2;
+					break;
+				case 4:
+					cutin "god_nelluad02",2;
+					mes "[Nelliorde]";
+					mes "Der Ring des Nibelungen.....";
+					mes "Certo, você está pronto para ouvir?";
+					mes "Hum hum hum....";
+					next;
+					soundeffect "ring_of_nibelungen.wav",1;
+					mes "^4D4DFFOuro do Reno...";
+					mes "Escondido no rio Reno.";
+					mes "Se for transformado em um anel,";
+					mes "poderia governar o mundo~^000000";
+					next;
+					mes "^4D4DFFProtegido por um feitiço";
+					mes "Amaldiçoando seu Gatuno";
+					mes "Para nunca encontrar o amor.";
+					mes "Alberich sabia disso";
+					mes "Mas ainda assim o roubou.";
+					mes "O amor foi abandonado pelo poder.^000000";
+					next;
+					mes "^4D4DFFGigantes construíram o belo Valhalla";
+					mes "Matrimônio com Freya";
+					mes "Deusa da beleza";
+					mes "Como pagamento esperado.";
+					mes "Ao não recebê-la";
+					mes "Eles a levaram à força.^000000";
+					next;
+					mes "^4D4DFFOs deuses entregariam";
+					mes "o tesouro de Alberich";
+					mes "Aos Gigantes pelo retorno de Freya.";
+					mes "Loki enganou Alberich,";
+					mes "Roubando seu anel ou poder.^000000";
+					next;
+					mes "^4D4DFFMas Alberich amaldiçoou seu anel";
+					mes "Antes que fosse devolvido a ele,";
+					mes "Inveja e morte cairiam";
+					mes "sobre seus portadores.^000000";
+					next;
+					mes "^4D4DFFO anel foi entregue aos gigantes";
+					mes "Freya foi devolvida aos deuses";
+					mes "Os gigantes se mataram";
+					mes "Lutando pelo ouro do Reno,";
+					mes "Vítimas da maldição de Alberich~^000000";
+					close2;
+					break;
+				}
+				break;
+			case 2:
+				mes "[Nelliorde]";
+				mes "Algumas novidades, você disse..";
+				mes "Sobre que tipo de novidades";
+				mes "você deseja ouvir?";
+				next;
+				switch(select("Sobre Prontera!:Sobre áreas litorâneas.:O deserto ainda é quente?:E quanto às fronteiras?")) {
+				case 1:
+					mes "[Nelliorde]";
+					mes "O quê?! Prontera?!";
+					mes "Você não consegue ver que o portão";
+					mes "da frente de Prontera está logo à sua frente? Você deveria pelo menos saber onde está, aventureiro.";
+					next;
+					mes "[Nelliorde]";
+					mes "De qualquer forma, tenho uma novidade interessante sobre Prontera. Mas é um segredo. Shh! Você é... Solteiro?";
+					next;
+					cutin "god_nelluad04",2;
+					mes "[Nelliorde]";
+					mes "Se for, visite a taverna. Conheci um cara lá que me levou a um lugar legal. Ah sim. Ele me levou ao \"lugar\" onde solteiros são proibidos~!";
+					close2;
+					break;
+				case 2:
+					mes "[Nelliorde]";
+					mes "Áreas litorâneas?";
+					mes "Essa é uma pergunta engraçada. Quero dizer, existe Alberta e alguns outros lugares onde você pode ver o mar.";
+					next;
+					mes "[Nelliorde]";
+					mes "A sudoeste, existe a";
+					mes "Praia de Kokomo. Mas suponho que seja perigoso demais apenas ir lá para um passeio.";
+					next;
+					mes "[Nelliorde]";
+					cutin "god_nelluad03",2;
+					mes "A Praia de Kokomo é uma grande";
+					mes "extensão de areia. A água próxima está cheia de animais marinhos, então você pode se divertir pegando mariscos.";
+					next;
+					mes "[Nelliorde]";
+					mes "No entanto, sempre há valentões nesse tipo de lugar. Uma vez, conheci um bandido de aparência ameaçadora com cabelo vermelho espetado.";
+					next;
+					mes "[Nelliorde]";
+					cutin "god_nelluad04",2;
+					mes "Ele estava mastigando algo e cuspiu no chão. Aquele brutamontes conseguiu me intimidar a ponto de eu entregar todo o meu Zeny!";
+					next;
+					mes "[Nelliorde]";
+					mes "^333333*Suspiro...*^000000";
+					mes "Este mundo é perigoso";
+					mes "demais para um Bardo";
+					mes "jovem e frágil.";
+					next;
+					mes "[Nelliorde]";
+					mes "Aliás, Alberta não parece ter mudado. O Navio Naufragado parece o mesmo também, com todos os seus Piratas Esqueletos e tudo mais. Você sabe como é.";
+					next;
+					mes "[Nelliorde]";
+					cutin "god_nelluad01",2;
+					mes "A agência de eventos responsável pelas expedições ao Navio Naufragado continua ganhando muito dinheiro. Se não tem nada para fazer, por que não caça monstros lá embaixo?";
+					close2;
+					break;
+				case 3:
+					mes "[Nelliorde]";
+					mes "Ah, com certeza!";
+					mes "Quando é que não está?";
+					mes "O deserto é quente, tem";
+					mes "sido quente e provavelmente";
+					mes "sempre será...!";
+					next;
+					mes "[Nelliorde]";
+					mes "Vermes gigantes ainda saltam do nada, assustando viajantes inocentes como eu, e os Sandmen ainda chutam as pessoas onde... Bem, você sabe onde.";
+					next;
+					mes "[Nelliorde]";
+					mes "Mesmo que o deserto esteja cheio de monstros horríveis, a vista do oceano lá é tão magnífica. Hah, isso me faz querer tocar uma música.";
+					next;
+					mes "[Nelliorde]";
+					mes "Devo dizer que há";
+					mes "um lugar que você talvez queira";
+					mes "ver no deserto.";
+					next;
+					mes "[Nelliorde]";
+					cutin "god_nelluad02",2;
+					mes "Estou falando da Guilda dos Mercenário. Supostamente, fica escondida atrás de uma tempestade de areia no Deserto de Morocc!";
+					if (Class == Job_Assassin || Class == Job_Assassin_Cross) {
+						mes "Mas você deveria saber do que estou falando! Então, quando você vai me levar à guilda, hein?";
+					}
+					else {
+						mes "Você já esteve lá antes?";
+					}
+					close2;
+					break;
+				case 4:
+					mes "[Nelliorde]";
+					mes "Bem, ao norte fica a República de Schwaltzwald.";
+					mes "Lá, você encontrará Juno,";
+					mes "a \"Cidade dos Sábios\".";
+					next;
+					mes "[Nelliorde]";
+					cutin "god_nelluad03",2;
+					mes "As pessoas lá dizem que há um incômodo principal, um homem conhecido como";
+					mes "o \"Cientista Louco\". Ele é antissocial e causa muitos distúrbios públicos com seus experimentos.";
+					next;
+					mes "[Nelliorde]";
+					mes "Parece que todos em Juno";
+					mes "o odeiam com paixão. Até mesmo um dos donos da Loja de Ferramentas implorou a um aventureiro que passava para parar a pesquisa desse Cientista Louco!";
+					next;
+					mes "[Nelliorde]";
+					mes "Mas tenho uma opinião diferente sobre ele. Acredito que não seja uma boa ideia interromper o trabalho de qualquer cientista.";
+					next;
+					mes "[Nelliorde]";
+					mes "Afinal, ele pode descobrir algo importante, mesmo que seus experimentos sejam um pouco arriscados.";
+					next;
+					mes "[Nelliorde]";
+					mes "Falando em descobertas, você sabe que Juno flutua no ar, certo?";
+					next;
+					mes "[Nelliorde]";
+					cutin "god_nelluad01",2;
+					mes "Dizem que um pedaço do Coração de Ymir gera energia suficiente";
+					mes "para manter a cidade inteira flutuando no céu. Não é incrível?";
+					next;
+					mes "[Nelliorde]";
+					mes "Ainda mais recente é a notícia sobre a descoberta do Livro de Ymir. Você pode lê-lo no Castelo dos Sábio em Juno. Ouvi dizer que ele contém o segredo para encontrar a Valquíria...";
+					close2;
+					break;
+				}
+				break;
+			case 3:
+				mes "[Nelliorde]";
+				mes "Hã? Tudo bem então, a gente se fala depois. Que Bragi te abençoe em suas jornadas.";
+				close2;
+				break;
+			}
+		}
+		else if ((god_brising > 0) && (god_brising < 50)){
+			mes "[Nelliorde]";
+			mes "Então, você já";
+			mes "conheceu o Sr. Kaili?";
+			mes "Por favor, dê o seu melhor.";
+			mes "Afinal de contas, eu";
+			mes "recomendei você especialmente~";
+			next;
+			switch(select("Conte-me uma história.:Cante uma música para mim.")) {
+			case 1:
+				cutin "god_nelluad02",2;
+				mes "[Nelliorde]";
+				mes "Hum. Qual seria";
+				mes "uma boa história para";
+				mes "você desta vez...? Ah, sim, já sei. Deixe-me contar sobre uma das minhas próprias aventuras. Foi uma experiência e tanto.";
+				next;
+				mes "[Nelliorde]";
+				mes "Eu fui para Morocc, a cidade do deserto. No caminho, fiquei exausto por causa do calor. Por sorte, encontrei um buraco sob a sombra e entrei para descansar.";
+				next;
+				mes "[Nelliorde]";
+				mes "Meu Deus...";
+				mes "Se eu soubesse";
+				mes "como era, eu nunca";
+				mes "teria entrado naquele lugar...";
+				next;
+				mes "[Nelliorde]";
+				mes "Na verdade, eu entrei no infame ^FF0000Formigueiro^000000! Eu não pareço um covarde para você, pareço?";
+				next;
+				mes "[Nelliorde]";
+				mes "Bem, as formigas não são as únicas que vivem lá. Eu não tive medo delas. Exceto, é claro, quando me atacavam em grupo.";
+				next;
+				cutin "god_nelluad03",2;
+				mes "[Nelliorde]";
+				mes "O que eu realmente temia era aquele tipo de coisa... cor de morango... com língua. Phreeoni!";
+				next;
+				mes "[Nelliorde]";
+				mes "Felizmente, sobrevivi a todo o incidente, embora ainda tenha pesadelos com aquela língua do tamanho de um homem.";
+				next;
+				mes "[Nelliorde]";
+				mes "Assim que saí de lá, desejei a companhia de humanos para restaurar meu senso de normalidade. O lugar mais próximo que conhecia era o Farol de Paros.";
+				next;
+				mes "[Nelliorde]";
+				mes "Mais uma vez, decidi atravessar o deserto, apesar do fato de que as Kafrazetes oferecem um serviço de teletransporte muito conveniente para lá.";
+				next;
+				cutin "god_nelluad01",2;
+				mes "[Nelliorde]";
+				mes "Enfim, a fortaleza de Sandaruman fica no caminho para o Farol de Paros. Lembro-me de Serutero, um cara que conheci ao sul de Morocc, me contando sobre sua beleza cênica.";
+				next;
+				mes "[Nelliorde]";
+				mes "Eu estava tão animado";
+				mes "para ver aquilo";
+				mes "com meus próprios olhos. Afinal, 'Sandaruman' não soa como o";
+				mes "nome de um lugar bonito?";
+				next;
+				mes "[Nelliorde]";
+				mes "Mas me arrependi da minha decisão assim que cheguei. É claro, a vista era de tirar o fôlego: as colinas arenosas perto do oceano,";
+				mes "assim como as ruínas.";
+				next;
+				mes "[Nelliorde]";
+				mes "E, claro, esqueci o aviso de Serutero sobre todos os monstros. Argh! Foi um pesadelo! Em vez de apreciar a paisagem, acabei correndo pela minha vida.";
+				next;
+				mes "[Nelliorde]";
+				mes "Eu ainda estava tentando escapar daqueles monstros quando me deparei com";
+				mes "uma casa velha, a oeste de Sandaruman, que parecia estar em ruínas.";
+				next;
+				mes "[Nelliorde]";
+				mes "Lembrei-me que Serutero disse que ninguém vivia naquela área, então comecei a ficar um pouco preocupado. Ainda assim, eu estava desesperado e precisava de refúgio.";
+				next;
+				mes "[Nelliorde]";
+				mes "Em pânico, bati violentamente na porta e gritei para alguém me deixar entrar. Então, sabe o que ouvi?";
+				next;
+				mes "[Nelliorde]";
+				cutin "god_nelluad03",2;
+				mes "^FF0000Quem está aí?!";
+				mes "Quem ousa invadir";
+				mes "o meu território?^000000";
+				mes "Fiquei apavorado! Quem quer que fosse o dono daquela casa devia ser algum";
+				mes "tipo de lunático!";
+				next;
+				mes "[Nelliorde]";
+				mes "E-então, com o espectro da morte em meus calcanhares, ele me mandou sumir! Felizmente, fui salvo por um Super Aprendiz misterioso e errante, mas essa é outra história.";
+				next;
+				mes "[Nelliorde]";
+				mes "De qualquer forma, finalmente cheguei ao Farol de Paros. Lá, soube que a casa velha era um acampamento secreto da guilda dos Arruaceiro.";
+				next;
+				mes "[Nelliorde]";
+				mes "É incrível como eles conseguem viver em áreas tão perigosas. Só Renegados seriam capazes de sobreviver lá, sabe?";
+				next;
+				mes "[Nelliorde]";
+				cutin "god_nelluad01",2;
+				mes "Ah...";
+				mes "Estou tão cansado de falar tanto. Mas se eu tiver outra aventura, compartilharei esse conto com você.";
+				close2;
+				break;
+			case 2:
+				cutin "god_nelluad02",2;
+				mes "[Nelliorde]";
+				mes "Ah, você deseja";
+				mes "ouvir uma música?";
+				mes "Tudo bem! Então vou";
+				mes "apresentar minha favorita.";
+				next;
+				mes "[Nelliorde]";
+				mes "Persegui a fama.";
+				mes "Ela me escapou.";
+				mes "Corri atrás da felicidade";
+				mes "Mas nunca a alcancei.";
+				next;
+				mes "[Nelliorde]";
+				mes "Mas o amanhã ainda";
+				mes "estará lá, tenho certeza.";
+				mes "Como o Moinho de Água";
+				mes "em Al De Baran";
+				mes "Que gira enquanto";
+				mes "a vida segue.";
+				next;
+				cutin "god_nelluad04",2;
+				mes "[Nelliorde]";
+				mes "Anime-se! A vida continua.";
+				mes "Tão certo quanto o Moinho";
+				mes "de Água que gira, o amanhã";
+				mes "virá.";
+				close2;
+				break;
+			}
+		}
+		else {
+			mes "[Nelliorde]";
+			mes "Diga...";
+			mes "Nós já nos vimos antes?";
+			mes "Hum? Nunca? Bem...";
+			mes "Isso é bem estranho.";
+			next;
+			mes "[Nelliorde]";
+			mes "Parece-me lembrar que você me pediu para te dar alguma informação se eu tivesse. Bem, agora eu tenho e vou compartilhar com você~";
+			next;
+			mes "[Nelliorde]";
+			mes "A utilidade dessa informação depende de você. Agora, você já ouviu falar da ^3333CCOrganização de Pesquisa de Monstros^000000?";
+			next;
+			mes "[Nelliorde]";
+			mes "Por acaso consegui essa informação na sede deles em Juno. Então, o que acha?";
+			next;
+			switch(select("Uaa~ eu quero ouvir!:Que chato~")) {
+			case 1:
+				mes "[Nelliorde]";
+				mes "Bem...!";
+				mes "Você parece estar";
+				mes "muito empolgado com";
+				mes "essa nova migalha de";
+				mes "conhecimento que tenho~";
+				next;
+				if (BaseLevel < 70) {
+					cutin "god_nelluad03",2;
+					mes "[Nelliorde]";
+					mes "Infelizmente, essa informação não parece ser muito valiosa para alguém como você.";
+					next;
+					mes "[Nelliorde]";
+					mes "Sinto muito por ter te deixado empolgado, mas apenas pessoas fortes o suficiente para lidar com trabalhos extenuantes podem se beneficiar disso.";
+					next;
+					mes "[Nelliorde]";
+					mes "Por que você não viaja por aí e ganha mais experiências? Eu te avisarei quando você estiver pronto, sabe~";
+					close2;
+				}
+				else {
+					cutin "god_nelluad02",2;
+					mes "[Nelliorde]";
+					mes "Ooh...";
+					mes "E você parece";
+					mes "alguém que pode lidar";
+					mes "com esse tipo de informação.";
+					mes "Vou compartilhar tudo o que sei!";
+					next;
+					mes "[Nelliorde]";
+					mes "Um dia, um aventureiro descobriu um objeto estranho e misterioso. Sem conseguir entender o que ele fazia, ele visitou a Organização de Monstros.";
+					next;
+					cutin "god_nelluad01",2;
+					mes "[Nelliorde]";
+					mes "Lá, o objeto foi confiado a um estudioso chamado Sr. Kaili. Ele ainda não desvendou a verdade sobre esse item e deseja ajuda em sua investigação.";
+					next;
+					mes "[Nelliorde]";
+					mes "O Sr. Kaili suspeita que o item possa ser parte de uma relíquia antiga ainda não descoberta. Felizmente, ele também está pesquisando relíquias antigas como um projeto atribuído pela corte real.";
+					next;
+					mes "[Nelliorde]";
+					mes "Então, o que você acha? Não é interessante? É claro, é melhor você falar com o Sr. Kaili se quiser saber mais. Se quiser, escreverei uma carta de recomendação para você.";
+					next;
+					switch(select("Claro! Parece bom.:Desculpe, não estou tão interessado.")) {
+					case 1:
+						mes "[Nelliorde]";
+						mes "Excelente...!";
+						mes "Então seu nome é...";
+						mes "" + strcharinfo(0) + "?";
+						next;
+						mes "[Nelliorde]";
+						mes "Tudo bem, entrarei em contato com ele imediatamente! Ah, e você pode encontrar a Organização de Monstros a oeste da praça central de Juno. Não deve ser difícil de encontrar. Boa sorte!";
+						set god_brising,1;
+						close2;
+						break;
+					case 2:
+						cutin "god_nelluad02",2;
+						mes "[Nelliorde]";
+						mes "Ah, é decepcionante ouvir isso. Achei que você seria perfeito para ajudar o Sr. Kaili. Bem, nos falamos mais tarde~";
+						close2;
+						break;
+					}
+				}
+				break;
+			case 2:
+				mes "[Nelliorde]";
+				mes "Entediante, você diz?";
+				mes "Talvez, mas não tão";
+				mes "entediante quanto um aventureiro";
+				mes "que deixa passar uma chance";
+				mes "de uma aventura, não é?";
+				next;
+				switch(select("Conte-me uma história.:Cante uma música para mim.")) {
+				case 1:
+					cutin "god_nelluad02",2;
+					mes "[Nelliorde]";
+					mes "Hmm. Qual seria";
+					mes "uma boa história para";
+					mes "você desta vez...? Ah, sim, eu já sei. Deixe-me contar sobre uma das minhas próprias aventuras. Foi uma experiência incrível.";
+					next;
+					mes "[Nelliorde]";
+					mes "Fui para Morocc, a cidade do deserto. No caminho, fiquei exausto por causa do calor. Por sorte, encontrei um buraco sob as sombras e entrei para descansar.";
+					next;
+					mes "[Nelliorde]";
+					mes "Oh, meu Deus...";
+					mes "Se eu soubesse";
+					mes "o que me esperava,";
+					mes "nunca teria entrado";
+					mes "naquele lugar...";
+					next;
+					mes "[Nelliorde]";
+					mes "Na verdade, eu rastejei para o infame ^FF0000Inferno das Formigas^000000! Não pareço um covarde para você, pareço?";
+					next;
+					mes "[Nelliorde]";
+					mes "Bem, as formigas não são as únicas que vivem lá. Eu não tive medo delas. Exceto, é claro, quando elas atacavam em grupos.";
+					next;
+					cutin "god_nelluad03",2;
+					mes "[Nelliorde]";
+					mes "O que eu realmente temia era aquele tipo de coisa com uma língua cor de morango. Phreeoni!";
+					next;
+					mes "[Nelliorde]";
+					mes "Felizmente, sobrevivi a todo o incidente, embora ainda tenha pesadelos com aquela língua do tamanho de um homem.";
+					next;
+					mes "[Nelliorde]";
+					mes "Assim que saí de lá, desejei a companhia humana para restaurar meu senso de normalidade. O lugar mais próximo que eu conhecia era o Farol de Paros.";
+					next;
+					mes "[Nelliorde]";
+					mes "Mais uma vez, decidi atravessar o deserto, apesar do fato de as Kafra oferecerem um serviço de teletransporte muito conveniente para lá.";
+					next;
+					cutin "god_nelluad01",2;
+					mes "[Nelliorde]";
+					mes "De qualquer forma, a fortaleza de Sandaruman fica no caminho para o Farol de Paros. Lembro-me de Serutero, um cara que conheci no sul de Morocc, me falando sobre sua beleza cênica.";
+					next;
+					mes "[Nelliorde]";
+					mes "Eu estava tão animado";
+					mes "em ver com meus próprios";
+					mes "olhos. Afinal, 'Sandaruman' não soa como o";
+					mes "nome de um lugar bonito?";
+					next;
+					mes "[Nelliorde]";
+					mes "Mas me arrependi da minha decisão assim que cheguei. É claro, a vista era de tirar o fôlego: as colinas arenosas perto do oceano, assim";
+					mes "como as ruínas.";
+					next;
+					mes "[Nelliorde]";
+					mes "E, claro, esqueci o aviso de Serutero sobre todos os monstros. Argh! Foi um pesadelo! Em vez de apreciar a paisagem, acabei correndo pela minha vida.";
+					next;
+					mes "[Nelliorde]";
+					mes "Eu ainda estava tentando escapar daqueles monstros quando me deparei com";
+					mes "uma casa antiga, a oeste de Sandaruman, que parecia estar em ruínas.";
+					next;
+					mes "[Nelliorde]";
+					mes "Lembrei-me que Serutero disse que ninguém morava naquela área, então comecei a me preocupar um pouco. Ainda assim, eu estava desesperado e precisava de refúgio.";
+					next;
+					mes "[Nelliorde]";
+					mes "Em pânico, bati violentamente na porta e gritei para alguém me deixar entrar. Então, você sabe o que eu ouvi?";
+					next;
+					cutin "god_nelluad04",2;
+					mes "[Nelliorde]";
+					mes "^FF0000Quem está aí?!";
+					mes "Quem ousaria invadir";
+					mes "o meu território?^000000";
+					mes "Fiquei assustado! Quem fosse o dono daquela casa devia ser algum";
+					mes "tipo de lunático!";
+					next;
+					mes "[Nelliorde]";
+					mes "E-então, com o espectro da Morte em meu encalço, ele me mandou sumir! Felizmente, fui salvo por um Super Aprendiz errante misterioso, mas essa é outra história.";
+					next;
+					mes "[Nelliorde]";
+					mes "De qualquer forma, finalmente cheguei ao Farol de Paros. Lá, soube que a casa velha era um acampamento secreto da Guilda dos Arruaceiro.";
+					next;
+					mes "[Nelliorde]";
+					mes "É incrível como eles podem viver em áreas tão perigosas. Só os Rogues seriam capazes de sobreviver lá, sabe?";
+					next;
+					cutin "god_nelluad01",2;
+					mes "[Nelliorde]";
+					mes "Ah...";
+					mes "Estou tão cansado de tanto falar. Mas se eu tiver outra aventura, compartilharei esse conto com você.";
+					close2;
+					break;
+				case 2:
+					cutin "god_nelluad02",2;
+					mes "[Nelliorde]";
+					mes "Ah, você deseja";
+					mes "ouvir uma música?";
+					mes "Ok! Então vou";
+					mes "apresentar a minha favorita.";
+					next;
+					mes "[Nelliorde]";
+					mes "Eu persegui a fama.";
+					mes "Ela me escapou.";
+					mes "Corri atrás da felicidade";
+					mes "Mas nunca a alcancei.";
+					next;
+					mes "[Nelliorde]";
+					mes "Mas o amanhã ainda";
+					mes "Estará lá, tenho certeza.";
+					mes "Como o Moinho de Água";
+					mes "Em Al De Baran";
+					mes "Que gira enquanto";
+					mes "A vida continua.";
+					next;
+					cutin "god_nelluad04",2;
+					mes "[Nelliorde]";
+					mes "Anime-se! A vida continua.";
+					mes "Tão certamente quanto o Moinho";
+					mes "de Água gira, o amanhã";
+					mes "virá.";
+					close2;
+					break;
+				}
+				break;
+			}
+		}
+	}
+	else {
+		mes "[Nelliorde]";
+		mes "Olá!";
+		mes "Não é um";
+		mes "dia glorioso?";
+		mes "Você sabe quem eu sou,";
+		mes "não sabe?";
+		next;
+		mes "[Nelliorde]";
+		if (Sex == SEX_MALE) {
+			mes "Hahahaha, perdoe minha grosseria,";
+			mes "mas não me lembro do seu nome, embora seu rosto me pareça bastante familiar.";
+		}
+		else {
+			mes "Ora, ora...";
+			mes "Como eu poderia";
+			mes "esquecer a adorável";
+			mes ""+ strcharinfo(0) +"?";
+		}
+		next;
+		cutin "god_nelluad01",2;
+		mes "[Nelliorde]";
+		mes "Então, você não está curioso sobre mim? Sinta-se à vontade para me perguntar o que quiser! Sou o vagabundo que errará a terra até o fim de seus dias, seu amigo que adora cantar sob o luar~";
+		next;
+		switch(select("Quem é você?:O que há de novo?:Você pode cantar?")) {
+		case 1:
+			mes "[Nelliorde]";
+			mes "Ora, eu sou Nelliorde, o Bardo.";
+			mes "Na verdade, meu nome real é Elliorde.";
+			next;
+			cutin "god_nelluad03",2;
+			mes "[Nelliorde]";
+			mes "No entanto, enquanto eu cantava em uma taverna, como de costume, um homem com longos cabelos loiros exigiu furiosamente que eu mudasse meu nome!";
+			next;
+			mes "[Nelliorde]";
+			mes "Nunca antes vi tanto escândalo e confusão por causa de alguém que, por coincidência, compartilhava o mesmo nome!";
+			next;
+			mes "[Nelliorde]";
+			mes "E assim, aquele pequeno desentendimento";
+			mes "foi resolvido comigo passando a me chamar Nelliorde.";
+			next;
+			cutin "god_nelluad04",2;
+			mes "[Nelliorde]";
+			mes "Eu não pareço um covarde para você, pareço? Você acredita que eu deveria ter lutado pelo direito de manter meu nome original?";
+			next;
+			mes "[Nelliorde]";
+			mes "Se você acha isso, está enganado! Eu simplesmente não acredito que a violência possa resolver qualquer coisa, como o romântico Bardo";
+			mes "que preza pela paz...";
+			next;
+			mes "^3355FFVendo que não vale a pena";
+			mes "ouvir as mentiras de Nelliorde, você decide simplesmente ignorá-lo.^000000";
+			next;
+			mes "^3355FF...";
+			mes "......^000000";
+			next;
+			mes "^3355FF...";
+			mes "......";
+			mes ".........^000000";
+			next;
+			cutin "god_nelluad03",2;
+			mes "[Nelliorde]";
+			mes "E foi assim que convenci o sábio";
+			mes "e benevolente Rei Tristram III a construir um paraíso onde amantes casados pudessem desfrut--Hm? Você está mesmo me ouvindo?!";
+			close2;
+			break;
+		case 2:
+			mes "[Nelliorde]";
+			mes "Você deseja";
+			mes "ouvir algumas novidades?";
+			mes "Que tipo de novidade";
+			mes "você deseja saber?";
+			next;
+			switch(select("Sobre Prontera!:Sobre áreas litorâneas.:O deserto ainda está quente?:E quanto às áreas de fronteira?")) {
+			case 1:
+				mes "[Nelliorde]";
+				mes "O quê?! Prontera?!";
+				mes "Você não consegue ver que o portão";
+				mes "principal de Prontera está bem diante de você? Você deveria pelo menos saber onde está, aventureiro.";
+				next;
+				mes "[Nelliorde]";
+				mes "De qualquer forma, sei de uma notícia interessante sobre Prontera. Mas é um segredo. Shh! Você é... Solteiro?";
+				next;
+				mes "[Nelliorde]";
+				mes "Se for, visite a taverna. Conheci um cara lá que me levou a um lugar legal. Ah, sim. Ele me levou ao lugar onde solteiros são proibidos~!";
+				close2;
+				break;
+			case 2:
+				mes "[Nelliorde]";
+				mes "Áreas litorâneas?";
+				mes "Essa é uma pergunta engraçada. Digo, existem Alberta e alguns outros lugares onde você pode ver o mar.";
+				next;
+				mes "[Nelliorde]";
+				mes "Ao sudoeste, existe a";
+				mes "Praia de Kokomo. Mas suponho que seja perigoso demais ir até lá apenas para um passeio.";
+				next;
+				mes "[Nelliorde]";
+				mes "A Praia de Kokomo é uma grande";
+				mes "extensão de areia. A água próxima é cheia de animais marinhos, então você pode se divertir pescando Mariscos.";
+				next;
+				mes "[Nelliorde]";
+				mes "No entanto, sempre há valentões nesse tipo de lugar. Uma vez, encontrei um bandido de aparência ameaçadora com cabelos vermelhos espetados.";
+				next;
+				cutin "god_nelluad04",2;
+				mes "[Nelliorde]";
+				mes "Ele estava mastigando algo e cuspiu no chão. O grande bobalhão conseguiu me intimidar a ponto de eu entregar todo o meu Zeny!";
+				next;
+				mes "[Nelliorde]";
+				mes "^333333*Suspiro...*^000000";
+				mes "Este mundo é perigoso";
+				mes "demais para um Bardo";
+				mes "jovem e frágil.";
+				next;
+				mes "[Nelliorde]";
+				mes "Aliás, Alberta não parece ter mudado. O Navio Naufragado parece o mesmo também, com todos os seus Piratas Esqueletos e coisas do tipo. Você sabe como é.";
+				next;
+				cutin "god_nelluad01",2;
+				mes "[Nelliorde]";
+				mes "A agência de eventos encarregada das expedições ao Navio Naufragado continua ganhando muito dinheiro. Se você não tem nada para fazer, por que não caçar monstros lá embaixo?";
+				close2;
+				break;
+			case 3:
+				mes "[Nelliorde]";
+				mes "Ah, sim!";
+				mes "Quando não é?";
+				mes "O deserto é quente, tem";
+				mes "sido quente e provavelmente";
+				mes "sempre será...!";
+				next;
+				mes "[Nelliorde]";
+				mes "Vermes Gigantes ainda saltam do nada, assustando viajantes inocentes como eu, e os Arenosos ainda chutam as pessoas onde... Bem, você sabe onde.";
+				next;
+				cutin "god_nelluad02",2;
+				mes "[Nelliorde]";
+				mes "Mesmo que o deserto esteja cheio de monstros horríveis, a vista do oceano lá é tão magnífica. Hah, isso me faz querer tocar uma música.";
+				next;
+				mes "[Nelliorde]";
+				mes "Devo dizer que há";
+				mes "um lugar que você pode";
+				mes "querer ver no deserto.";
+				next;
+				mes "[Nelliorde]";
+				mes "Estou falando da guilda dos Mercenário. Supostamente, ela fica escondida atrás de uma tempestade de areia no Deserto de Morocc!";
+				if ((Class == Job_Assassin) || (Class == Job_Assassin_Cross)) {
+					mes "Mas você deveria saber do que estou falando! Então, quando você vai me levar à guilda, hein?";
+				}
+				else {
+					mes "Deserto! Você já esteve lá antes?";
+				}
+				close2;
+				break;
+			case 4:
+				mes "[Nelliorde]";
+				mes "Bem, ao norte fica a República de Schwaltzwald.";
+				mes "Lá, você encontrará Juno,";
+				mes "a 'Cidade dos Sábios'.";
+				next;
+				mes "[Nelliorde]";
+				mes "As pessoas de lá dizem que há um grande incômodo, um homem conhecido";
+				mes "como o 'Cientista Louco'. Ele é antissocial e causa muitos distúrbios públicos com seus experimentos.";
+				next;
+				cutin "god_nelluad03",2;
+				mes "[Nelliorde]";
+				mes "Parece que todos em Juno o odeiam";
+				mes "com paixão. Até mesmo um dos donos de Lojas de Ferramentas implorou a um aventureiro que passava por lá para parar a pesquisa deste Cientista Louco!";
+				next;
+				mes "[Nelliorde]";
+				mes "Mas eu tenho uma opinião diferente sobre ele. Acredito que não seja uma boa ideia interromper o trabalho de qualquer cientista.";
+				next;
+				mes "[Nelliorde]";
+				mes "Afinal, ele pode acabar descobrindo algo importante, mesmo que seus experimentos sejam um pouco perigosos.";
+				next;
+				mes "[Nelliorde]";
+				mes "Falando em descobertas, você sabe que Juno flutua no ar, certo?";
+				next;
+				cutin "god_nelluad01",2;
+				mes "[Nelliorde]";
+				mes "Dizem que um pedaço do Coração de Ymir gera energia suficiente";
+				mes "para manter a cidade inteira no céu. Isso não é incrível?";
+				next;
+				mes "[Nelliorde]";
+				mes "Ainda mais recente é a notícia sobre a descoberta do Livro de Ymir. Você pode lê-lo no castelo dos Sábio em Juno. Ouvi dizer que ele contém o segredo para encontrar a Valquíria...";
+				close2;
+				break;
+			}
+			break;
+		case 3:
+			mes "[Nelliorde]";
+			mes "Se eu sei cantar, você pergunta?";
+			mes "Certamente, e se posso dizer, de forma prazerosa. Qual música você";
+			mes "gostaria de ouvir?";
+			next;
+			switch(select("Poema de Bragi:Caos Eterno:Mercenário no Pôr do Sol")) {
+			case 1:
+				if (Zeny > 499) {
+					cutin "god_nelluad02",2;
+					mes "[Nelliorde]";
+					mes "Poema de Bragi!";
+					mes "Que ótima escolha!";
+					mes "Devo dizer que esta música";
+					mes "representa o";
+					mes "coração de um poeta!";
+					soundeffect "bragis_poem.wav",1;
+					set Zeny,Zeny-500;
+					close2;
+				}
+				else {
+					mes "[Nelliorde]";
+					mes "Por favor, me perdoe, mas não posso tocar uma música de graça. O mundo é difícil, e um Bardo frágil como eu precisa ter algum meio";
+					mes "de sobreviver~";
+					close2;
+				}
+				break;
+			case 2:
+				if (Zeny > 499) {
+					cutin "god_nelluad02",2;
+					mes "[Nelliorde]";
+					mes "Você deve gostar de música";
+					mes "robusta e energética, hein?";
+					mes "Como desejar~";
+					soundeffect "chaos_of_eternity.wav",1;
+					set Zeny,Zeny-500;
+					close2;
+				}
+				else {
+					mes "[Nelliorde]";
+					mes "Por favor, me perdoe, mas não posso tocar uma música de graça. O mundo é cruel, e um frágil Bardo como eu precisa ter algum meio";
+					mes "de sobreviver~";
+					close2;
+				}
+				break;
+			case 3:
+				if (Zeny > 499) {
+					cutin "god_nelluad02",2;
+					mes "[Nelliorde]";
+					mes "Excelente escolha!";
+					mes "De alguma forma, a imagem do";
+					mes "pôr do sol combina";
+					mes "bem com os Mercenários.";
+					mes "Você não concorda?";
+					soundeffect "assassin_of_sunset.wav",1;
+					set Zeny,Zeny-500;
+					close2;
+				}
+				else {
+					mes "[Nelliorde]";
+					mes "Por favor, me perdoe, mas não posso tocar uma música de graça. O mundo é cruel, e um frágil Bardo como eu precisa ter algum meio";
+					mes "de sobreviver~";
+					close2;
+				}
+				break;
+			}
+			break;
+		}
+	}
+	cutin "",255;
+	end;
+}
+
+yuno_in04,47,113,1	script	Studying Scholar#1	749,{
+	if (checkweight(908,200) == 0) {
+		mes "^3355FFEspere um segundo! Agora você está carregando muitos itens. Por favor, volte depois de colocar algumas de suas coisas no Armazém da Kafra.^000000";
+		close;
+	}
+	if ($God3 == $@god_check2) {
+		mes "[Estudando Acadêmico]";
+		mes "Hmmm...";
+		mes "A Poção Vermelha da mais alta qualidade que já vi...";
+		next;
+		mes "[Estudando Acadêmico]";
+		mes "Se ao menos eu pudesse descobrir uma maneira de equilibrar a consistência das Ervas Vermelhas moídas com a água. Essa parte é crucial...";
+		close;
+	}
+	if ($God2 >= $@god_check1) {
+		if (god_brising == 50) {
+			mes "[Enrico Kaili]";
+			mes "Ah," + strcharinfo(0) + ",";
+			mes "você voltou.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Aprender sobre Brisingamen foi realmente fascinante. Mas como estagnamos por enquanto, comecei um novo projeto de pesquisa.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Hahahaha~";
+			mes "Sinto muito, mas não posso lhe contar sobre isso agora, já que é confidencial. Mas assim que eu tiver uma chance, pedirei sua ajuda.";
+			close;
+		}
+		else if (god_brising == 49) {
+			mes "[Enrico Kaili]";
+			mes "Ah, entendo. Então é verdade que Berling se selou na ondulação onde a lágrima da deusa";
+			mes "caiu nas águas.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Oh! Estou tão animado! Não sei o que fazer primeiro! Devo me reportar a Sua Majestade, publicar minhas descobertas ou...";
+			next;
+			select("^333333*Ehem!*^000000 Minha recompensa!");
+			mes "[Enrico Kaili]";
+			mes "Ah, é verdade.";
+			mes "Obrigado por todo o esforço que você suportou por mim. Você é realmente um dos melhores pesquisadores que já conheci.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Então, como prometido...";
+			mes "Vou lhe dar algo da minha preciosa coleção! Agora, deixe-me ver o que temos aqui...";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Por favor...";
+			mes "Pegue isto.";
+			set god_brising,50;
+			getitem 616,1; // Old_Card_Album
+			getexp (checkre(3))?60000:600000,0;
+			next;
+			mes "[Enrico Kaili]";
+			mes "Por favor, aceite isso como minha forma de agradecer por ter ajudado em minha";
+			mes "pesquisa. Se surgir a oportunidade, gostaria de pedir sua ajuda novamente. Agora, por favor, cuide-se.";
+			if ($God3 < $@god_check2)
+				set $God3,$God3 +1;
+			if ($God3 == $@god_check1)
+				announce "O 3º Selo de [Brisingamen] apareceu.",bc_all;
+			else if ($God3 == $@god_check2) {
+				if ($God1 == $@god_check2 && $God2 == $@god_check2 && $God3 == $@god_check2 && $God4 == $@god_check2)
+					announce "Quatro selos foram liberados ao mesmo tempo com o selo de [Brisingamen].",bc_all;
+				else
+					announce "O 3º selo de [Brisingamen] foi liberado.",bc_all;
+			}
+			close;
+		}
+		else if (god_brising == 48) {
+			mes "[Enrico Kaili]";
+			mes "Por que você ainda está aqui?";
+			mes "Pedi que fosse encontrar Alfrik.";
+			mes "Ah~ Mal posso esperar...";
+			emotion ET_SPARK;
+			close;
+		}
+		else if (god_brising == 47) {
+			mes "[Enrico Kaili]";
+			mes "Acho que é verdade que";
+			mes "os quatro Anões foram";
+			mes "despertados. Isso significa que Brisingamen pode ser criada agora?";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Se tal coisa for possível, do que precisamos para criá-la? Vamos revisar as informações que você coletou...";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Há o Cristal da Lágrima de Freya, a Joia de Freya, o Cristal de Neve Eterna encontrado onde Alfrik";
+			mes "costumava ficar, o Ar Deriva do caminho onde Dvalin dormia. Hmm.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Talvez pudéssemos encontrar algo no lago das Lágrimas Douradas de Freya onde Berling está dormindo,";
+			mes "embora eu não tenha certeza.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Também presumo que o esplêndido Ornamento de Prata construído por";
+			mes "Gher também seja necessário para criar Brisingamen.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Então, o que";
+			mes "você acha?";
+			next;
+			switch(select("Não tenho certeza...:Suponho que você esteja certo.")) {
+			case 1:
+				mes "[" + strcharinfo(0) + "]";
+				mes "Não tenho certeza...";
+				mes "Quero dizer, talvez";
+				mes "Alfrik";
+				mes "provavelmente saiba, mas...";
+				next;
+				mes "[Enrico Kaili]";
+				mes "É claro!";
+				mes "Essa é uma ótima ideia! Vou esperar aqui enquanto você vai perguntar a Alfrik. Você é minha única esperança de completar esta pesquisa!";
+				next;
+				emotion ET_SCRATCH, playerattached();
+				mes "[" + strcharinfo(0) + "]";
+				mes "(^333333Eu não deveria ter dito nada...^000000)";
+				next;
+				mes "[Enrico Kaili]";
+				mes "Bem, o que você está";
+				mes "esperando? Por favor,";
+				mes "volte assim que";
+				mes "possível.";
+				set god_brising,48;
+				close;
+			case 2:
+				mes "[" + strcharinfo(0) + "]";
+				mes "Suponho que";
+				mes "você esteja certo.";
+				next;
+				mes "[" + strcharinfo(0) + "]";
+				mes "Ainda assim, quem sabe o que exatamente há no Lago das Lágrimas Douradas de Freya.";
+				next;
+				mes "[Enrico Kaili]";
+				mes "Sim.";
+				mes "Ah! Certo.";
+				mes "Hm, talvez fosse";
+				mes "melhor perguntar a Alfrik primeiro?";
+				next;
+				mes "[Enrico Kaili]";
+				mes "Apresse-se e procure";
+				mes "por ele! E agradeço";
+				mes "antecipadamente.";
+				set god_brising,48;
+				close;
+			}
+		}
+		else if (god_brising == 46) {
+			mes "[Enrico Kaili]";
+			mes "Acho que ele finalmente cantou para você?";
+			mes "A propósito, por que você não falou com o Anão Grer? Ah, certo, a mina é densamente povoada por monstros.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Sei que não será fácil,";
+			mes "mas por favor, procure-o";
+			mes "e obtenha mais informações.";
+			mes "Agradeço antecipadamente.";
+			close;
+		}
+		else if (god_brising == 45) {
+			mes "[Enrico Kaili]";
+			mes "Hm...?";
+			mes "Você esqueceu a letra da música? Bem, eu também não as anotei. Hahahaha! Acho que só há uma coisa que você pode fazer~";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Você precisa voltar a Berling e pedir a letra novamente. Boa sorte, e não se esqueça de memorizá-la desta vez.";
+			close;
+		}
+		else if (god_brising == 44) {
+			mes "[Enrico Kaili]";
+			mes "Parece que você conseguiu responder ao enigma. Bom trabalho!";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Aquela sensação estranha e sobrenatural de umidade... Ah, você trouxe as Lágrimas da Lágrima de Freya! Isso significa que Grer deve ter despertado por conta própria agora.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Suponho que seu próximo passo deva ser entrar na mina. Sinto muito pelo incômodo, mas fico mais animado a cada nova coisa que aprendemos.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "É somente com a sua ajuda que fui capaz de fazer tanto progresso na minha pesquisa. De qualquer forma, compartilharei minhas conclusões com você mais tarde.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Então, você está indo para a mina agora? Tenha cuidado com aqueles monstros.";
+			close;
+		}
+		else if (god_brising == 43) {
+			mes "[Enrico Kaili]";
+			mes "O enigma de Dvalin?";
+			mes "Ele deve ter estado";
+			mes "falando sobre a";
+			mes "guerra sem fim que";
+			mes "Freya teve que causar.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Havia dois reis que";
+			mes "tinham vinte cavaleiros cada um. Os reis e esses cavaleiros lutavam e matavam uns aos outros, e eram trazidos de volta à vida na manhã seguinte por Freya até que milhares de Valquírias preenchessem Valhalla.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Todos os quarenta e dois";
+			mes "deles faziam isso...";
+			mes "Todos os dias. É uma";
+			mes "história antiga que todos conhecem.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "De qualquer forma, já está na hora de você investigar Berling. Existe";
+			mes "um riacho que começa a noroeste de Prontera e passa por uma mina no Monte Mjolnir.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Pode ser prudente";
+			mes "começar sua busca por lá e investigar quaisquer riachos e";
+			mes "poças que puder encontrar.";
+			close;
+		}
+		else if (god_brising == 42) {
+			mes "[Enrico Kaili]";
+			mes "Você tem certeza?!";
+			mes "Aqueles itens foram";
+			mes "destinados a criar";
+			mes "o colar de Freya,";
+			mes "Brisingamen?";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Se os quatro Anões";
+			mes "despertarem, Brisingamen poderá";
+			mes "aparecer diante dos olhos humanos?";
+			mes "Fascinante. Simplesmente fascinante.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Vejamos...";
+			mes "O lugar onde";
+			mes "Dvalin está dormindo?";
+			mes "Suponho que possa ser perto";
+			mes "de onde os Monges";
+			mes "treinam, mas não tenho certeza.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "De qualquer forma, não faria";
+			mes "mal investigar";
+			mes "quaisquer pistas, certo? O mosteiro,";
+			mes "acredito, fica a leste";
+			mes "de Prontera.";
+			close;
+		}
+		else if (god_brising == 41) {
+			mes "[Enrico Kaili]";
+			mes "O quê...?";
+			mes "Você realmente";
+			mes "encontrou Alfrik...?";
+			mes "Eu não consigo acreditar";
+			mes "que o lendário Alfrik";
+			mes "ainda esteja vivo...";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Alfrik é um dos quatro Anões que criaram Brisingamen, o colar mais bonito do mundo, para a deusa Freya.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Agora eu percebo...";
+			mes "Nós estivemos reunindo informações relacionadas a um item que contém o poder dos deuses!";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Vejamos...";
+			mes "Existe outro Anão, Dvalin.";
+			mes "Alfrik lhe disse alguma coisa sobre onde Dvalin pode estar dormindo? Hmm...";
+			close;
+		}
+		else if (god_brising == 40) {
+			mes "[Enrico Kaili]";
+			mes "Por enquanto, suponho que";
+			mes "seria melhor";
+			mes "investigar Lutie.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Em algum lugar lá, tenho";
+			mes "certeza de que você encontrará um vestígio restante da deusa Freya. Se você foi capaz de encontrar a Valquíria, tenho certeza de que será capaz de fazer isso.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Eu estive pensando...";
+			mes "Sobre aquelas palavras";
+			mes "que a Valquíria disse";
+			mes "para você se lembrar...";
+			next;
+			mes "[Enrico Kaili]";
+			mes "^4d4dffA beleza das estrelas";
+			mes "empalidece em comparação.";
+			mes "Nós perdemos nossos corações";
+			mes "para aquele cabelo dourado";
+			mes "e aqueles olhos deslumbrantes.^000000";
+			next;
+			mes "[Enrico Kaili]";
+			mes "O que isso poderia significar?";
+			mes "Estou começando a duvidar";
+			mes "do que penso saber...";
+			close;
+		}
+		else if (god_brising == 35) {
+			mes "[Enrico Kaili]";
+			mes "Posso dizer que você";
+			mes "passou por muita coisa...";
+			mes "Então, o que você ouviu";
+			mes "de Hermite?";
+			next;
+			mes "^3355FFVocê conta a Enrico Kaili";
+			mes "o que lhe foi dito por Hermite,";
+			mes "bem como as suas experiências";
+			mes "com a Valquíria.^000000";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Eu mal posso acreditar nisso!";
+			mes "Mas se o que você diz for verdade, pode ser possível que humanos possuam poder divino.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Hm? Há uma reação vindo";
+			mes "desta coisa que foi enviada pela corte real. Hm, chegue mais perto e dê uma olhada.";
+			next;
+			mes "^3355FFEnrico abriu um baú trancado, revelando uma joia incrivelmente clara e brilhante.^000000";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Não é incrível?";
+			mes "Se o que a Valquíria disse for verdade, esta joia deve ser um cristal da lágrima de Freya.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Eu não entendo por que tudo isso está acontecendo tão de repente. Por enquanto, terei que pensar sobre o poema que você ouviu da Valquíria.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Um caminho frio e nevado no";
+			mes "qual a deusa caminhou.";
+			mes "Um rio azul que a deusa atravessou.";
+			mes "Um caminho estreito por onde a deusa passou.";
+			mes "Quatro Anões que a deusa encontrou...";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Tenho certeza de que os quatro Anões são os famosos artesãos que estudei, mas não consigo determinar o que o restante do poema significa.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Agora...";
+			mes "Vou precisar da sua";
+			mes "ajuda mais uma vez!";
+			next;
+			switch(select("Wah? Não acabou?!:O que é desta vez?")) {
+			case 1:
+				mes "[Enrico Kaili]";
+				mes "Hah...!";
+				mes "Nosso trabalho acabou de começar!";
+				mes "Agora, vá até Lutie";
+				mes "e encontre algumas pistas.";
+				next;
+				mes "[Enrico Kaili]";
+				mes "O poema menciona um caminho nevado, e esta joia foi encontrada lá, então Lutie é um palpite bem fundamentado para a localização da nossa próxima pista.";
+				next;
+				mes "[Enrico Kaili]";
+				mes "Espero que possamos";
+				mes "aprender o que";
+				mes "a deusa Freya";
+				mes "deixou para trás em Midgard...";
+				set god_brising,40;
+				close;
+			case 2:
+				mes "[Enrico Kaili]";
+				mes "Hahahaha...!";
+				mes "Gosto da sua atitude!";
+				mes "Mais uma vez, Nelliorde";
+				mes "provou ser uma excelente";
+				mes "juíza de caráter.";
+				next;
+				mes "[Enrico Kaili]";
+				mes "O poema menciona";
+				mes "um caminho nevado, e esta joia foi encontrada em Lutie. Então Lutie seria um bom lugar para procurar a próxima pista.";
+				next;
+				mes "[Enrico Kaili]";
+				mes "Espero que possamos";
+				mes "aprender o que";
+				mes "a deusa Freya";
+				mes "deixou para trás em Midgard...";
+				set god_brising,40;
+				close;
+			}
+		}
+		else if ((god_brising > 9) && (god_brising < 35)) {
+			mes "[Enrico Kaili]";
+			mes "Hmm...?";
+			mes "Entendo...";
+			mes "Sei que o trabalho";
+			mes "que estou pedindo para você fazer pode";
+			mes "ser bastante problemático...";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Mas tenha certeza,";
+			mes "eu o recompensarei";
+			mes "assim que nosso trabalho for concluído.";
+			mes "Uma boa ajuda como o tipo";
+			mes "que você oferece é difícil de encontrar.";
+			close;
+		}
+		else if ((god_brising > 3) && (god_brising < 10)) {
+			mes "[Enrico Kaili]";
+			mes "Então, você";
+			mes "encontrou Hermite? Hm?";
+			mes "Ele realmente pediu";
+			mes "para você fazer isso?";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Por ora, parece que você não tem alternativa. Provavelmente seria sábio fazer o que ele quer. Conhecendo o Charles, provavelmente não será tão ruim assim.";
+			close;
+		}
+		else if (god_brising == 3) {
+			mes "[Enrico Kaili]";
+			mes "Hermite...?";
+			mes "Você precisa de mais";
+			mes "informações sobre ele?";
+			mes "Vejamos...";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Ah, é verdade!";
+			mes "Ele é um membro registrado daquela Organização de Pesquisa de Monstros. Por que você não pergunta àquela moça ali para obter mais informações sobre ele?";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Se ela permitir que você veja os registros dela, provavelmente poderá descobrir onde ele mora. Por que você não fala com aquela moça na parte esquerda desta sala?";
+			close;
+		}
+		else if (god_brising == 2) {
+			mes "[Enrico Kaili]";
+			mes "Então, você já";
+			mes "considerou minha proposta?";
+			mes "Trabalhe para mim e eu";
+			mes "certamente o recompensarei.";
+			next;
+			switch(select("Não, obrigado.:Claro, por que não.")) {
+			case 1:
+				mes "[Enrico Kaili]";
+				mes "O quê...?!";
+				mes "Então, por que se dar ao";
+				mes "trabalho de falar comigo?";
+				mes "Se você pretende apenas";
+				mes "me incomodar, então, por favor,";
+				mes "vá embora agora mesmo.";
+				close;
+			case 2:
+				mes "[Enrico Kaili]";
+				mes "Sério?";
+				mes "Se você pudesse me ajudar, seria ótimo! Antes de começarmos, você poderia dar uma olhada nisto?";
+				next;
+				mes "^3355FFEnrico Kaili mostrou a você uma pequena cristalização branca dentro de uma caixa. Parecia muito frágil, mas emanava uma aura intensamente";
+				mes "fria.^000000";
+				next;
+				mes "[Enrico Kaili]";
+				mes "Eu chamo isso de Cristal de Neve.";
+				mes "Parece um floco de neve, não parece? Estranhamente,";
+				mes "ele nunca derreteu.";
+				next;
+				mes "[Enrico Kaili]";
+				mes "Alguns anos atrás,";
+				mes "um jovem aventureiro";
+				mes "me deu isso. Preciso encontrar essa pessoa para descobrir exatamente o que é isso e de onde veio.";
+				next;
+				mes "[Enrico Kaili]";
+				mes "Bem, a pessoa";
+				mes "que me trouxe";
+				mes "isso é, vejamos, ah...";
+				mes "Hermite Charles.";
+				next;
+				mes "[Enrico Kaili]";
+				mes "Quando você o encontrar,";
+				mes "por favor, entregue esta carta a ele.";
+				next;
+				mes "^3355FFEnrico lhe entregou uma pequena";
+				mes "carta endereçada a Hermite";
+				mes "Charles, selada com";
+				mes "cera vermelha.^000000";
+				set god_brising,3;
+				close;
+			}
+		}
+		else if (god_brising == 1) {
+			mes "[Enrico Kaili]";
+			mes "Ah, você chegou!";
+			mes "" + strcharinfo(0) + ", certo?";
+			mes "Sim, Nelliorde me avisou que você viria. Ele sempre consegue";
+			mes "encontrar uma ajuda boa e confiável para mim.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "Como Nelliorde provavelmente mencionou,";
+			mes "preciso de ajuda para concluir minha pesquisa. Como vocês, aventureiros, estão sempre viajando, eu esperava que você me ajudasse a encontrar alguém.";
+			next;
+			switch(select("Não sou bom em encontrar pessoas.:Eu posso fazer isso!")) {
+			case 1:
+				mes "[Enrico Kaili]";
+				mes "Oh... Sério?";
+				mes "Eu realmente esperava que você pudesse me ajudar. Mas entendo se não estiver ao seu alcance.";
+				next;
+				mes "[Enrico Kaili]";
+				mes "Suponho que posso tentar encontrar outro aventureiro para me ajudar. Mas, se mudar de ideia depois, por favor, não hesite em me oferecer sua assistência.";
+				set god_brising,2;
+				close;
+			case 2:
+				mes "[Enrico Kaili]";
+				mes "Sério?";
+				mes "Se você pudesse me ajudar, seria ótimo! Antes de começarmos, você poderia dar uma olhada nisto?";
+				next;
+				mes "^3355FFEnrico Kaili mostrou a você uma pequena cristalização branca dentro de uma caixa. Parecia muito frágil, mas emanava uma aura intensamente";
+				mes "fria.^000000";
+				next;
+				mes "[Enrico Kaili]";
+				mes "Eu chamo isso de Cristal de Neve.";
+				mes "Parece um floco de neve, não parece? Estranhamente,";
+				mes "ele nunca derreteu.";
+				next;
+				mes "[Enrico Kaili]";
+				mes "Alguns anos atrás,";
+				mes "um jovem aventureiro";
+				mes "me deu isso. Preciso encontrar essa pessoa para descobrir exatamente o que é isso e de onde veio.";
+				next;
+				mes "[Enrico Kaili]";
+				mes "Bem, a pessoa";
+				mes "que me trouxe";
+				mes "isso é, vejamos, ah...";
+				mes "Hermite Charles.";
+				next;
+				mes "[Enrico Kaili]";
+				mes "Quando você o encontrar,";
+				mes "por favor, entregue esta carta a ele.";
+				next;
+				mes "^3355FFEnrico lhe entregou uma pequena";
+				mes "carta endereçada a Hermite";
+				mes "Charles, selada com";
+				mes "cera vermelha.^000000";
+				set god_brising,3;
+				close;
+			}
+		}
+		else {
+			mes "[Enrico Kaili]";
+			mes "Não sei exatamente por que você veio até mim, mas peço desculpas por não poder ajudá-lo.";
+			next;
+			mes "[Enrico Kaili]";
+			mes "No momento, estou muito";
+			mes "ocupado tentando";
+			mes "concluir minha pesquisa.";
+			mes "Por favor, deixe-me";
+			mes "sozinho para trabalhar.";
+			close;
+		}
+	}
+	else {
+		mes "[Estudando Acadêmico]";
+		mes "Você sabe como";
+		mes "fazer foodPoções Vermelhasfood?";
+		mes "Você tritura muitas foodErvas Vermelhasfood e agita o líquido cuidadosamente até obter a consistência desejada.";
+		next;
+		mes "[Estudando Acadêmico]";
+		mes "Se eu pudesse encontrar uma maneira";
+		mes "de produzi-las muito mais rápido,";
+		mes "eu ficaria rico em pouco tempo...";
+		close;
+	}
+}
+
+prt_church,113,103,1	script	Praying Man	798,{
+ 	if ($God2 < $@god_check1) {
+		mes "[Homem orando]";
+		mes "Que todos vivam uma vida";
+		mes "de felicidade. Que haja";
+		mes "paz no mundo...";
+		next;
+		mes "[Homem orando]";
+		mes "Que eu fique rico com esta";
+		mes "Caixa Azul Antiga na qual gastei";
+		mes "o salário deste mês...";
+		close;
+	}
+	if ($God3 >= $@god_check2) {
+		mes "[Homem orando]";
+		mes "Agora é o momento de refletir sobre o passado para se preparar para o futuro.";
+		next;
+		mes "[Homem orando]";
+		mes "É na quietude que encontramos a sabedoria para saber quais passos devemos dar para seguir em frente. Vamos orar.";
+		close;
+	}
+	if (god_brising > 34) {
+		mes "^3355FFHermite Charles continua a orar fervorosamente. Seus olhos estão fechados e suas mãos estão postas sobre o peito. Parece haver um ar de leve tristeza ao seu redor.^000000";
+		close;
+	}
+	else if (god_brising == 34) {
+		mes "[Hermite Charles]";
+		mes "O que você acabou de dizer?";
+		mes "Ela realmente se tornou uma";
+		mes "Einherjar? Essa é a maior honra para qualquer guerreiro...";
+		next;
+		mes "[Hermite Charles]";
+		mes "Ela deve";
+		mes "estar tão feliz.";
+		mes "Acho que, no fim,";
+		mes "eu nunca tive";
+		mes "um lugar no coração dela.";
+		mes "Lowen...";
+		next;
+		mes "[Hermite Charles]";
+		mes "Mas eu sei de uma coisa";
+		mes "com certeza. Ela deveria ter me culpado pelo que aconteceu. Por que ela assumiu tudo sozinha?";
+		next;
+		mes "[Hermite Charles]";
+		mes "Acho que ela apenas me via como um irmão mais novo. Obviamente, ela não me levava muito a sério.";
+		next;
+		mes "[Hermite Charles]";
+		mes "Haha... Hahaha...";
+		mes "Agora me sinto melhor!";
+		mes "Então, o que você disse?";
+		next;
+		mes "[Hermite Charles]";
+		mes "Sim, correto.";
+		mes "Por favor, diga isso ao Enrico.";
+		mes "O objeto em que ele está interessado foi dado por Sua Majestade a uma guilda que possuía um castelo.";
+		next;
+		mes "[Hermite Charles]";
+		mes "Ele nunca poderia ser feito apenas com tecnologia humana. Mas imagino que Sua Majestade permitirá que estudiosos o pesquisem e que homens o possuam, se provarem ser capazes.";
+		next;
+		mes "[Hermite Charles]";
+		mes "Eu não era forte o suficiente para";
+		mes "merecê-lo. Francamente, eu o roubei. Mas logo comecei a temer sua presença e meu coração batia com trepidação quando eu o via.";
+		next;
+		mes "[Hermite Charles]";
+		mes "Um dia, acho que ele realmente me possuiu e acabei";
+		mes "saindo em uma jornada. Não tenho certeza de para onde, exatamente...";
+		next;
+		mes "[Hermite Charles]";
+		mes "Tudo o que me lembro é que eu estava em Lutie, a cidade da neve. Atravessei uma ponte em direção a uma colina a oeste...";
+		next;
+		mes "[Hermite Charles]";
+		mes "Mas assim que cheguei lá, fui tomado por um sentimento de terror que não consigo explicar.";
+		next;
+		mes "[Hermite Charles]";
+		mes "Acabei fugindo.";
+		mes "É por isso que o dei ao Sr. Enrico. Você pode rir de mim por ser um covarde, se quiser.";
+		next;
+		mes "[Hermite Charles]";
+		mes "Você já sabe de tudo agora.";
+		mes "Por favor, deixe-me em paz.";
+		mes "^333333*Suspiro...*^000000";
+		set god_brising,35;
+		close;
+	}
+	else if (god_brising > 19 && god_brising < 34) {
+		mes "[Hermite Charles]";
+		mes "Estarei esperando.";
+		mes "Por alguma razão, acredito que você será capaz de encontrar algum tipo de pista sobre o que aconteceu nestes últimos";
+		mes "dois anos, um dia desses.";
+		close;
+	}
+	else if (god_brising == 12) {
+		mes "[Hermite Charles]";
+		mes "Lohen Phelicia?";
+		mes "A pessoa que pedi para você encontrar é Lowen, não Lohen. Lowen Ellenen.";
+		next;
+		mes "[Hermite Charles]";
+		mes "Sinto muito";
+		mes "pelo transtorno,";
+		mes "mas acho que é melhor";
+		mes "você tentar de novo.";
+		set god_brising,10;
+		close;
+	}
+	else if (god_brising == 11) {
+		mes "[Hermite Charles]";
+		mes "Sim...";
+		mes "Lowen não está";
+		mes "mais conosco.";
+		next;
+		mes "[Hermite Charles]";
+		mes "Ouvi vários rumores, mas ela definitivamente faleceu. Eu até estive no funeral dela.";
+		next;
+		mes "[Hermite Charles]";
+		mes "A última vez que a vi viva";
+		mes "foi em Geffen. Dois anos depois disso, vi ela sendo enterrada em seu túmulo. Eu não te contei isso?";
+		next;
+		mes "[Hermite Charles]";
+		mes "Eu queria que você descobrisse o que aconteceu naqueles dois anos antes de ela morrer. Eu queria saber o que levou à morte dela.";
+		next;
+		mes "[Hermite Charles]";
+		mes "O que diabos";
+		mes "a matou?!";
+		mes "Você não entende";
+		mes "o que estou sentindo?";
+		set god_brising,20;
+		close;
+	}
+	else if (god_brising == 10) {
+		mes "[Hermite Charles]";
+		mes "Lowen era uma Templário, uma Cavaleiro a serviço da santidade, preparando-se para a Guerra Santa.";
+		next;
+		mes "[Hermite Charles]";
+		mes "Eu sempre esperei que ela";
+		mes "se tornasse uma Cavaleiro na cavalaria de Prontera, mas de repente ela mudou de ideia e se tornou uma Templário.";
+		mes "Eu a vi pela última vez em Geffen.";
+		next;
+		mes "[Hermite Charles]";
+		mes "Eu imploro...";
+		mes "Por favor, descubra";
+		mes "qualquer coisa que puder";
+		mes "sobre o que aconteceu";
+		mes "com Lowen.";
+		close;
+	}
+	else if (god_brising == 5) {
+		if (rand(1,4) == 1) {
+			mes "[Hermite Charles]";
+			mes "Você ainda está aqui.";
+			mes "Isso significa que você";
+			mes "quer ouvir a minha";
+			mes "história, afinal?";
+			next;
+			switch(select("Sim, eu gostaria.:Não, obrigado.")) {
+			case 1:
+				mes "[Hermite Charles]";
+				mes "Obrigado...";
+				mes "Talvez você esteja fazendo isso";
+				mes "meramente por consideração,";
+				mes "mas ainda assim agradeço sua bondade. A história que vou";
+				mes "te contar é muito antiga.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Há muito tempo, havia um garotinho que nunca conheceu seus pais. Apenas";
+				mes "para sobreviver, ele se tornou um Gatuno e, eventualmente, juntou-se à guilda de Arruaceiro.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Sem objetivos ou sonhos, sua vida era bastante sem rumo. Ele praticamente só vivia para que pudesse ver o amanhã.";
+				next;
+				mes "[Hermite Charles]";
+				mes "No entanto, o garotinho conheceu alguém que estava cheio de esperança e bondade. Ele a admirava e ela se tornou sua razão de viver.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Ela nunca saberá que o garotinho a amava mais do que tudo. Diferente do garoto, o sonho dela era dedicar sua vida a Deus.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Embora ele nunca tenha entendido isso, ele sabia que ficaria feliz apenas por estar perto dela, observando à distância.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Mas um dia, por causa de um erro fatal, ele a perdeu e ela nunca mais voltou.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Desde então, aquele garoto vem ao Santuário todos os dias";
+				mes "para rezar pela segurança dela, mesmo depois de adulto.";
+				next;
+				mes "[Hermite Charles]";
+				mes "...";
+				mes "^333333*Soluço*^000000";
+				mes "Por favor, encontre";
+				mes "ela para mim.";
+				mes "Encontre a Lowen.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Sei que o Enrico enviou você. Imagino que ele precise de algo meu. Estou errado?";
+				next;
+				mes "[Hermite Charles]";
+				mes "Farei o que você quiser se você fizer o que eu quero. É simples: descubra tudo o que puder sobre a Lowen.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Não importa quão insignificantes as pistas possam ser, qualquer coisa servirá. Quero saber tudo relacionado a ela!";
+				next;
+				switch(select("Uhhhhh...:Desculpe, eu não posso.:Quando foi a última vez que você a viu?")) {
+				case 1:
+					mes "[Hermite Charles]";
+					mes "Por favor, considere minha";
+					mes "proposta. Se você conseguir";
+					mes "encontrar a Lowen para mim, eu";
+					mes "darei o que você deseja.";
+					next;
+					mes "[Hermite Charles]";
+					mes "Por favor, eu imploro.";
+					mes "Você é um aventureiro forte e experiente. Isso não é uma coisa simples para você fazer?";
+					next;
+					mes "[Hermite Charles]";
+					mes "Se você já amou alguém profundamente, então saberia o quão desesperado estou. Por favor, encontre a Lowen para mim. Por favor...";
+					next;
+					switch(select("...Tudo bem.:Sinto muito, acho que não posso fazer isso.")) {
+					case 1:
+						mes "[" + strcharinfo(0) + "]";
+						mes "Tudo bem.";
+						mes "Farei o meu melhor para encontrá-la. Você poderia me contar mais sobre a Lowen?";
+						next;
+						mes "[Hermite Charles]";
+						mes "Ela é uma Templário.";
+						mes "A última vez que a vi foi";
+						mes "nas profundezas do calabouço de Geffen.";
+						next;
+						mes "[Hermite Charles]";
+						mes "Há muito tempo, alguns Templários entraram na Dungeon de Geffen em uma expedição de subjugação de monstros.";
+						next;
+						mes "[Hermite Charles]";
+						mes "Por favor, descubra";
+						mes "qualquer coisa que";
+						mes "você puder. Eu lhe";
+						mes "imploro...";
+						set god_brising,10;
+						close;
+					case 2:
+						mes "[Hermite Charles]";
+						mes "^333333*Suspiro*^000000";
+						mes "Eu entendo.";
+						mes "Mas se você não me ajudar, então Kaili não receberá a ajuda de que precisa...";
+						set god_brising,9;
+						close;
+					}
+				case 2:
+					mes "[Hermite Charles]";
+					mes "Você não entende!";
+					mes "Se eu não fosse um covarde, eu mesmo já teria saído para descobrir o que pudesse.";
+					next;
+					mes "[Hermite Charles]";
+					mes "Não tenho medo de monstros ou de morrer. O que eu temo é o fato de que ela pode me odiar agora. É isso que temo: a reprovação de Lowen.";
+					next;
+					mes "[Hermite Charles]";
+					mes "Tudo o que posso fazer por ela é rezar sinceramente. Eu não fazia ideia de que seria tão horrível não poder mais vê-la...";
+					set god_brising,9;
+					close;
+				case 3:
+					mes "[Hermite Charles]";
+					mes "A última vez";
+					mes "que a vi foi nas profundezas";
+					mes "da Dungeon de Geffen.";
+					next;
+					mes "[Hermite Charles]";
+					mes "Embora tenha sido criada por humanos, essa dungeon agora está amaldiçoada e habitada por monstros terríveis.";
+					next;
+					mes "[Hermite Charles]";
+					mes "Imagino que os Templários viram que era necessário exterminar os monstros de lá para evitar que a situação piorasse.";
+					next;
+					mes "[Hermite Charles]";
+					mes "Lowen acompanhou";
+					mes "um grupo de outros Templários";
+					mes "para o bem do povo,";
+					mes "mas não soube de nada";
+					mes "sobre ela desde então...";
+					next;
+					mes "[Hermite Charles]";
+					mes "Aquela foi a última vez...";
+					mes "Por favor, descubra qualquer coisa";
+					mes "que puder. Eu lhe imploro...";
+					set god_brising,10;
+					close;
+				}
+			case 2:
+				mes "[Hermite Charles]";
+				mes "Eu entendi errado sobre você.";
+				mes "Eu deveria ter percebido que as pessoas nunca ouvem de verdade, a menos que haja algum benefício para elas.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Não vou desperdiçar mais";
+				mes "do seu tempo. Vou aceitar a carta de Kaili e esperar até encontrar alguém que queira ouvir";
+				mes "minha história e me ajudar.";
+				set god_brising,5;
+				close;
+			}
+		}
+		else {
+			mes "[Hermite Charles]";
+			mes "...";
+			mes "^333333*Soluço...*^000000";
+			mes "Sinto muito.";
+			mes "Sinto muito, Lowen.";
+			mes "A culpa foi toda minha...";
+			close;
+		}
+	}
+	else if (god_brising == 4) {
+		mes "[Hermite Charles]";
+		mes "O que você";
+		mes "quer de mim?";
+		mes "Você foi enviado";
+		mes "pela guilda dos Arruaceiro?";
+		next;
+		mes "[Hermite Charles]";
+		mes "Diga a eles";
+		mes "que eu já pedi demissão.";
+		mes "Me deixe em paz!";
+		next;
+		switch(select("Deixe-o em paz.:Entregue a ele a Carta de Kaili.")) {
+		case 1:
+			mes "^3355FFVocê não tem certeza do porquê ele está tão chateado, mas não parece ser o melhor momento para tentar falar com ele. Talvez seja melhor mais tarde...^000000";
+			set god_brising,4;
+			close;
+		case 2:
+			mes "[Hermite Charles]";
+			mes "Huh...";
+			mes "Enrico Kaili.";
+			mes "É, eu me lembro";
+			mes "dele. E daí..?";
+			next;
+			mes "^3355FFHermite nonchalantly";
+			mes "joga a carta de volta para você.^000000";
+			next;
+			mes "[Hermite Charles]";
+			mes "...";
+			mes "^333333*Suspiro...*^000000";
+			next;
+			mes "[Hermite Charles]";
+			mes "Você...";
+			mes "Você gostaria de";
+			mes "ouvir minha história?";
+			next;
+			switch(select("Claro!:Na verdade, estou ocupado.")) {
+			case 1:
+				mes "[Hermite Charles]";
+				mes "Obrigado...";
+				mes "Talvez você esteja fazendo isso";
+				mes "apenas por consideração,";
+				mes "mas ainda aprecio sua bondade. A história que vou";
+				mes "lhe contar é muito antiga.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Há muito tempo, havia um garotinho que nunca conheceu seus pais. Apenas";
+				mes "para sobreviver, ele se tornou um Gatuno e acabou entrando na guilda dos Arruaceiro.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Sem objetivos ou sonhos, sua vida era bastante sem rumo. Ele praticamente só vivia para poder ver o dia de amanhã.";
+				next;
+				mes "[Hermite Charles]";
+				mes "No entanto, o garotinho conheceu alguém que era cheia de esperança e bondade. Ele a admirava e ela se tornou sua razão de viver.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Ela nunca saberá que o garotinho a amava mais do que tudo. Diferente do garoto, o sonho dela era dedicar sua vida a Deus.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Embora ele nunca tenha entendido isso, ele sabia que seria feliz apenas por estar perto dela, observando-a à distância.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Mas um dia, devido a um erro fatal, ele a perdeu e ela nunca mais voltou.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Desde então, aquele rapaz vem ao Santuário todos os dias";
+				mes "para rezar pela segurança dela, mesmo já adulto.";
+				next;
+				mes "[Hermite Charles]";
+				mes "...";
+				mes "^333333*Soluço*^000000";
+				mes "Por favor, encontre";
+				mes "ela para mim.";
+				mes "Encontre Lowen.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Eu sei que Enrico enviou você. Imagino que ele precise de algo de mim. Estou errado?";
+				next;
+				mes "[Hermite Charles]";
+				mes "Farei o que você quiser se você fizer o que eu quero. É simples: descubra qualquer coisa que puder sobre Lowen.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Não importa quão insignificantes as pistas possam ser, qualquer coisa servirá. Quero saber tudo relacionado a ela!";
+				next;
+				switch(select("Uhhhhh...:Desculpe, não posso.:Quando foi a última vez que você a viu?")) {
+				case 1:
+					mes "[Hermite Charles]";
+					mes "Por favor, considere minha";
+					mes "proposta. Se você puder";
+					mes "encontrar Lowen para mim, eu lhe";
+					mes "darei o que você quiser.";
+					next;
+					mes "[Hermite Charles]";
+					mes "Por favor, eu lhe imploro.";
+					mes "Você é um aventureiro forte e experiente. Isso não é algo simples para você fazer?";
+					next;
+					mes "[Hermite Charles]";
+					mes "Se você já amou alguém profundamente, sabe o quão desesperado estou. Por favor, encontre Lowen para mim. Por favor...";
+					next;
+					switch(select("...Tudo bem.:Sinto muito, não acho que posso fazer isso.")) {
+					case 1:
+						mes "[" + strcharinfo(0) + "]";
+						mes "Tudo bem.";
+						mes "Farei o meu melhor para encontrá-la. Você poderia me contar mais sobre a Lowen?";
+						next;
+						mes "[Hermite Charles]";
+						mes "Ela é uma Templário.";
+						mes "A última vez que a vi";
+						mes "foi nas profundezas da Dungeon de Geffen.";
+						next;
+						mes "[Hermite Charles]";
+						mes "Há muito tempo, alguns Crusaders entraram na Dungeon de Geffen em uma expedição de subjugação de monstros.";
+						next;
+						mes "[Hermite Charles]";
+						mes "Por favor, encontre";
+						mes "qualquer coisa que";
+						mes "você puder. Eu lhe";
+						mes "imploro...";
+						set god_brising,10;
+						close;
+					case 2:
+						mes "[Hermite Charles]";
+						mes "^333333*Suspiro*^000000";
+						mes "Eu entendo.";
+						mes "Mas se você não me ajudar, o Kaili não conseguirá a ajuda que ele precisa...";
+						set god_brising,9;
+						close;
+					}
+				case 2:
+					mes "[Hermite Charles]";
+					mes "Você não entende!";
+					mes "Se eu não fosse um covarde, já teria saído por conta própria para descobrir o que pudesse.";
+					next;
+					mes "[Hermite Charles]";
+					mes "Não tenho medo de monstros ou da morte. O que eu temo é que ela possa me odiar agora. É isso que eu temo: a reprovação da Lowen.";
+					next;
+					mes "[Hermite Charles]";
+					mes "Tudo o que posso fazer por ela é rezar fervorosamente. Eu não fazia ideia de que seria tão horrível não poder mais vê-la...";
+					set god_brising,9;
+					close;
+				case 3:
+					mes "[Hermite Charles]";
+					mes "A última vez";
+					mes "que a vi foi nas profundezas";
+					mes "da Dungeon de Geffen.";
+					next;
+					mes "[Hermite Charles]";
+					mes "Embora tenha sido criada por humanos, aquela dungeon agora está amaldiçoada e habitada por monstros terríveis.";
+					next;
+					mes "[Hermite Charles]";
+					mes "Imagino que os Crusaders tenham visto que era necessário exterminar os monstros de lá para evitar que a situação piorasse ainda mais.";
+					next;
+					mes "[Hermite Charles]";
+					mes "Lowen acompanhou";
+					mes "um grupo de outros Crusaders";
+					mes "para o bem das pessoas,";
+					mes "mas não soube de nada";
+					mes "sobre ela desde então...";
+					next;
+					mes "[Hermite Charles]";
+					mes "Aquela foi a última vez...";
+					mes "Por favor, descubra qualquer coisa";
+					mes "que você puder. Eu lhe imploro...";
+					set god_brising,10;
+					close;
+				}
+			case 2:
+				mes "[Hermite Charles]";
+				mes "Eu entendi mal você.";
+				mes "Eu deveria ter percebido que as pessoas nunca ouvem de verdade a menos que haja algum benefício para elas.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Não vou perder mais";
+				mes "do seu tempo. Vou aceitar a carta de Kaili e esperar até encontrar alguém que ouça";
+				mes "minha história e me ajude.";
+				set god_brising,5;
+				close;
+			}
+		}
+	}
+	else if (god_brising == 3) {
+		mes "[Homem de aparência triste]";
+		mes "...";
+		mes "^333333*Soluço...*^000000";
+		mes "Sinto";
+		mes "tanto, Lowen.";
+		mes "A culpa é toda minha...";
+		next;
+		mes "[" + strcharinfo(0) + "]";
+		mes "Com licença.";
+		mes "Estou procurando";
+		mes "por alguém chamado...";
+		mes "Hermite?";
+		next;
+		mes "[Hermite Charles]";
+		mes "Hm...?";
+		mes "Hermite? Sou eu.";
+		mes "Mas se não se importa,";
+		mes "eu quero ficar sozinho...";
+		next;
+		switch(select("Deixe-o em paz.:Entregue a ele a Carta de Kaili.")) {
+		case 1:
+			mes "^3355FFVocê não tem certeza do porquê dele estar tão chateado, mas não parece ser o melhor momento para tentar falar com ele. Talvez fosse melhor mais tarde...^000000";
+			set god_brising,4;
+			close;
+		case 2:
+			mes "[Hermite Charles]";
+			mes "Huh...";
+			mes "Enrico Kaili.";
+			mes "Sim, eu me lembro";
+			mes "dele. Então, o quê..?";
+			next;
+			mes "^3355FFHermite nonchalantemente";
+			mes "joga a carta de volta para você.^000000";
+			next;
+			mes "[Hermite Charles]";
+			mes "...";
+			mes "^333333*Suspiro...*^000000";
+			next;
+			mes "[Hermite Charles]";
+			mes "Você...";
+			mes "Você gostaria de";
+			mes "ouvir minha história?";
+			next;
+			switch(select("Com certeza!:Estou ocupado, na verdade.")) {
+			case 1:
+				mes "[Hermite Charles]";
+				mes "Obrigado...";
+				mes "Talvez você esteja fazendo isso";
+				mes "apenas por consideração,";
+				mes "mas ainda assim agradeço sua bondade. A história que";
+				mes "vou lhe contar é muito antiga.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Há muito tempo, havia um garotinho que nunca conheceu seus pais. Apenas";
+				mes "para sobreviver, ele se tornou um Gatuno e eventualmente entrou para a Guilda dos Arruaceiro.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Sem objetivos ou sonhos, sua vida era bastante sem rumo. Ele praticamente vivia apenas para ver o dia de amanhã.";
+				next;
+				mes "[Hermite Charles]";
+				mes "No entanto, o garotinho conheceu alguém que estava cheio de esperança e bondade. Ele a admirava e ela se tornou sua razão de viver.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Ela nunca saberá que o garotinho a amava mais do que tudo. Diferente dele, o sonho dela era dedicar sua vida a Deus.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Embora ele nunca tenha entendido isso, ele sabia que ficaria feliz apenas em estar perto dela, observando de longe.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Mas um dia, por causa de um erro fatal, ele a perdeu e ela nunca mais voltou.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Desde então, aquele rapaz tem vindo ao Santuário todos os dias";
+				mes "para rezar pela segurança dela, mesmo já adulto.";
+				next;
+				mes "[Hermite Charles]";
+				mes "...";
+				mes "^333333*Soluço*^000000";
+				mes "Por favor, encontre";
+				mes "ela para mim.";
+				mes "Encontre a Lowen.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Eu sei que o Enrico enviou você. Imagino que ele precise de algo meu. Estou errado?";
+				next;
+				mes "[Hermite Charles]";
+				mes "Farei o que você quiser se você fizer o que eu quero que faça. É simples: descubra qualquer coisa que puder sobre a Lowen.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Não importa o quão insignificantes as pistas possam ser, qualquer coisa servirá. Quero saber tudo relacionado a ela!";
+				next;
+				switch(select("Uhhhhh...:Desculpe, não posso.:Quando foi a última vez que você a viu?")) {
+				case 1:
+					mes "[Hermite Charles]";
+					mes "Por favor, considere minha";
+					mes "proposta. Se você puder";
+					mes "encontrar a Lowen para mim, eu";
+					mes "darei a você o que deseja.";
+					next;
+					mes "[Hermite Charles]";
+					mes "Por favor, eu lhe imploro.";
+					mes "Você é um aventureiro forte e bem experiente. Isso não é algo simples para você fazer?";
+					next;
+					mes "[Hermite Charles]";
+					mes "Se você já amou alguém profundamente, sabe como estou desesperado. Por favor, encontre Lowen para mim. Por favor...";
+					next;
+					switch(select("...Tudo bem.:Sinto muito, não acho que posso fazer isso.")) {
+					case 1:
+						mes "[" + strcharinfo(0) + "]";
+						mes "Tudo bem.";
+						mes "Farei o meu melhor para encontrá-la. Você poderia me contar mais sobre Lowen?";
+						next;
+						mes "[Hermite Charles]";
+						mes "Ela é uma Templário.";
+						mes "A última vez que a vi foi";
+						mes "nas profundezas da Dungeon de Geffen.";
+						next;
+						mes "[Hermite Charles]";
+						mes "Há muito tempo, alguns Templário entraram na Dungeon de Geffen em uma expedição de subjugação de monstros.";
+						next;
+						mes "[Hermite Charles]";
+						mes "Por favor, encontre";
+						mes "qualquer coisa que";
+						mes "puder. Eu lhe";
+						mes "imploro...";
+						set god_brising,10;
+						close;
+					case 2:
+						mes "[Hermite Charles]";
+						mes "^333333*Suspiro*^000000";
+						mes "Eu entendo.";
+						mes "Mas se você não me ajudar, o Kaili não receberá a ajuda de que precisa...";
+						set god_brising,9;
+						close;
+					}
+				case 2:
+					mes "[Hermite Charles]";
+					mes "Você não entende!";
+					mes "Se eu não fosse um covarde, eu mesmo já teria ido lá fora descobrir o que pudesse.";
+					next;
+					mes "[Hermite Charles]";
+					mes "Não tenho medo de monstros ou da morte. O que temo é o fato de que ela pode me odiar agora. É isso que temo: a reprovação de Lowen.";
+					next;
+					mes "[Hermite Charles]";
+					mes "Tudo o que posso fazer por ela é rezar fervorosamente. Eu não fazia ideia de que seria tão horrível não poder mais vê-la...";
+					set god_brising,9;
+					close;
+				case 3:
+					mes "[Hermite Charles]";
+					mes "A última vez";
+					mes "que a vi foi nas profundezas";
+					mes "da Dungeon de Geffen.";
+					next;
+					mes "[Hermite Charles]";
+					mes "Embora tenha sido criada por humanos, essa dungeon agora está amaldiçoada e habitada por monstros terríveis.";
+					next;
+					mes "[Hermite Charles]";
+					mes "Imagino que os Templário viram que era necessário exterminar os monstros de lá para evitar que a situação piorasse ainda mais.";
+					next;
+					mes "[Hermite Charles]";
+					mes "Lowen acompanhou";
+					mes "um grupo de outros Templário";
+					mes "para o bem do povo,";
+					mes "mas não ouvi nada";
+					mes "sobre ela desde então...";
+					next;
+					mes "[Hermite Charles]";
+					mes "Aquela foi a última vez...";
+					mes "Por favor, descubra qualquer";
+					mes "coisa que puder. Eu imploro...";
+					set god_brising,10;
+					close;
+				}
+			case 2:
+				mes "[Hermite Charles]";
+				mes "Eu entendi errado.";
+				mes "Deveria ter percebido que as pessoas nunca ouvem de verdade, a menos que haja algum benefício para elas.";
+				next;
+				mes "[Hermite Charles]";
+				mes "Não desperdiçarei mais";
+				mes "o seu tempo. Aceitarei a carta de Kaili e esperarei até encontrar alguém que queira ouvir";
+				mes "a minha história e me ajudar.";
+				set god_brising,5;
+				close;
+			}
+		}
+	} 
+	else {
+		mes "[Homem de aparência triste]";
+		mes "...";
+		mes "^333333*Soluço...*";
+		mes "Lowen...";
+		mes "Sinto muito.";
+		mes "A culpa é toda minha.";
+		mes "Por favor, fique bem...";
+		close;
+	}
+}
+
+//-----------librarian----------------------------------------------------------
+-	script	Librarian#2_	-1,{
+	if ($God2 < $@god_check1) {
+		mes "[Bibliotecário]";
+		mes "O que você está fazendo aqui?";
+		mes "Não toque em nada!";
+		close;
+	}
+ 	if ($God3 >= $@god_check2) {
+		mes "[Bibliotecário]";
+		mes "O que você está fazendo aqui?";
+		mes "Não toque em nada!";
+		close;
+	}
+ 	if (god_brising > 24 && god_brising < 27) {
+		mes "[Bibliotecário]";
+		mes "Zzzzz...";
+		mes "...Zzzzz...";
+		mes "......Zzzzzz...";
+		next;
+		mes "^3355FFEste bibliotecário parece estar em um sono profundo. Seria mais inteligente não acordá-lo se você quiser verificar os Registros de Pessoal dos Templário.^000000";
+		close;
+	}
+ 	else if (god_brising == 10) {
+		mes "[Bibliotecário]";
+		mes "Todos os registros confidenciais de pessoal são mantidos aqui na biblioteca real. No entanto, você precisa de autorização";
+		mes "para acesso total.";
+		next;
+		mes "[Bibliotecário]";
+		mes "Você disse que";
+		mes "precisa encontrar uma pessoa?";
+		mes "Por favor, me dê o";
+		mes "nome dessa pessoa, bem como";
+		mes "o seu relacionamento com ela.";
+		next;
+		switch(select("Lowen, Irmão:Lowen, Esposo:Lowen, Inimigo:Lowen, um Amigo")) {
+		case 1:
+			if (Sex == SEX_MALE) {
+				mes "[Bibliotecário]";
+				mes "Como ousa";
+				mes "mentir para o";
+				mes "bibliotecário real!";
+				next;
+				mes "[Bibliotecário]";
+				mes "Diz aqui";
+				mes "nos registros";
+				mes "que Lowen não";
+				mes "tinha nenhum irmão!";
+				next;
+				mes "[Bibliotecário]";
+				mes "^333333(Droga...!";
+				mes "Acabei de revelar";
+				mes "^666666informações confidenciais!^000000)^000000";
+				next;
+				mes "[Bibliotecário]";
+				mes "A Biblioteca Real não";
+				mes "tolera fraude de identidade!";
+				mes "Por favor, retire-se!";
+				close;
+			}
+			else {
+				mes "[Bibliotecário]";
+				mes "Você é parente da Srta. Lowen? Como você não recebeu nenhuma notícia sobre ela antes?";
+				next;
+				mes "[Bibliotecário]";
+				mes "Entendo...";
+				mes "Separados no nascimento,";
+				mes "isso é realmente trágico.";
+				mes "Ok, deixe-me verificar.";
+				next;
+				mes "[Bibliotecário]";
+				mes "Sinto muito em lhe dizer isso, mas é tarde demais para encontrar Lowen Ellenen, de acordo com os registros.";
+				next;
+				mes "[Bibliotecário]";
+				mes "Durante a missão de subjugação de monstros na dungeon de Geffen, ela desapareceu e... foi posteriormente declarada morta.";
+				next;
+				mes "[Bibliotecário]";
+				mes "Sinto muito, mas";
+				mes "isso é tudo que sei.";
+				mes "Obrigado...";
+				set god_brising,11;
+				close;
+			}
+		case 2:
+			if (Sex == SEX_MALE) {
+				mes "[Bibliotecário]";
+				mes "Esposo...?";
+				mes "Bem, acho que você tem jeito de marido. Heh, eu mesmo tenho uma namorada. Bem, pelo menos eu acho que tenho. De qualquer forma...";
+				next;
+				mes "[Bibliotecário]";
+				mes "Lowen Ellenen,";
+				mes "a Templário, certo?";
+				mes "Sinto muito... muito mesmo.";
+				mes "Você talvez queira";
+				mes "se sentar.";
+				next;
+				mes "[Bibliotecário]";
+				mes "Durante a subjugação";
+				mes "de monstros na Dungeon de";
+				mes "Geffen, ela, segundo consta,";
+				mes "desapareceu. E mais tarde,";
+				mes "ela foi declarada morta.";
+				next;
+				mes "[Bibliotecário]";
+				mes "Essa é toda a";
+				mes "informação que tenho,";
+				mes "senhor. Sinto muito";
+				mes "pela sua perda.";
+				set god_brising,11;
+				close;
+			}
+			else {
+				mes "[Bibliotecário]";
+				mes "Hmmm...?";
+				mes "Esposo?";
+				mes "Ou ^333333*Ahem*^000000";
+				mes "parceiros de coabitação?";
+				next;
+				mes "^3355FFO bibliotecário";
+				mes "agora parece terrivelmente";
+				mes "distraído, como se";
+				mes "estivesse perdido em";
+				mes "um devaneio vívido...^000000";
+				close;
+			}
+		case 3:
+			mes "["+ strcharinfo(0) +"]";
+			mes "Estou procurando";
+			mes "por Ellenen.";
+			mes "Lowen Ellenen.";
+			mes "Minha arqui-inimiga jurada.";
+			next;
+			mes "[Bibliotecário]";
+			mes "Arqui-inimiga...?";
+			mes "Hum, uh ^666666*Ahem!*^000000";
+			mes "Tudo o que posso lhe dizer é que havia uma Templário com esse nome.";
+			next;
+			mes "[Bibliotecário]";
+			mes "Sinto muito, mas";
+			mes "não posso lhe contar";
+			mes "mais do que isso.";
+			next;
+			mes "[Bibliotecário]";
+			mes "^333333*Tosse*^000000";
+			mes "^666666Louca!^000000";
+			close;
+		case 4:
+			mes "[Bibliotecário]";
+			mes "Uma amiga...?";
+			mes "Bem, temos um";
+			mes "registro de alguém";
+			mes "chamada Lohen Phelica.";
+			next;
+			mes "[Bibliotecário]";
+			mes "Ela se aposentou do serviço há alguns anos. Eu gostaria de te dar o endereço dela, mas não temos nenhuma dessas informações.";
+			set god_brising,12;
+			close;
+		}
+	}
+	else if (god_brising > 10 && god_brising < 13) {
+		mes "[Bibliotecário]";
+		mes "Agora, posso";
+		mes "me retirar?";
+		mes "Obrigado!";
+		close;
+	}
+	else  {
+		mes "[Bibliotecário]";
+		mes "Todos os registros confidenciais de pessoal são mantidos aqui na biblioteca real. No entanto, você precisa de autorização";
+		mes "para ter acesso total.";
+		close;
+	}
+
+}
+
+prontera,260,354,4	script	Woman#Rosa Ellenen	101,{
+	if ($God2 < $@god_check1){ 
+		mes "[Mulher]";
+		mes "Hm?";
+		mes "O que traz";
+		mes "você aqui? É";
+		mes "um tanto estranho";
+		mes "vir apenas para";
+		mes "dar uma caminhada.";
+		close;
+	}
+	if ($God3 >= $@god_check2) {
+		mes "[Mulher]";
+		mes "Hm?";
+		mes "O que traz";
+		mes "você aqui? É";
+		mes "um tanto estranho";
+		mes "vir apenas para";
+		mes "dar uma caminhada.";
+		close;
+	}
+	if (god_brising > 33) {
+		mes "[Rosa Ellenen]";
+		mes "É você quem";
+		mes "me visitou antes?";
+		mes "Ah, claro.";
+		next;
+		mes "[Rosa Ellenen]";
+		mes "Não sei como";
+		mes "te dizer isso, mas...";
+		mes "Este é o túmulo de Lowen.";
+		mes "E obrigado.";
+		close;
+	}
+	else if (god_brising == 21) {
+		mes "[Rosa Ellenen]";
+		mes "Do que você";
+		mes "está falando?";
+		mes "Uma mensagem de Lowen?";
+		next;
+		mes "[Rosa Ellenen]";
+		mes "O quê?!";
+		mes "Por que ela ainda";
+		mes "não foi para o céu?";
+		next;
+		mes "[Rosa Ellenen]";
+		mes "Espero que você se lembre";
+		mes "de tudo o que vou";
+		mes "te dizer. Ela deveria";
+		mes "ir para o céu agora mesmo!";
+		mes "Eu ainda não entendo...";
+		next;
+		mes "[Rosa Ellenen]";
+		mes "E, por favor, diga àquele tolo que vive rezando para ele não perder tempo se culpando. ^333333*Suspiro*^000000 Ainda não sei por que ela escolheu";
+		mes "falar com você.";
+		next;
+		mes "[Rosa Ellenen]";
+		mes "Deixe-me te contar uma coisa. Lowen era um prodígio na esgrima. No entanto, ela sempre teve dificuldade em suportar o treinamento rigoroso e carregar o peso da armadura...";
+		next;
+		mes "[Rosa Ellenen]";
+		mes "Mas ela adorava esgrima e sempre se esforçava o dobro para desenvolver sua força física para que pudesse servir a Deus na batalha.";
+		next;
+		mes "[Rosa Ellenen]";
+		mes "Finalmente, ela se tornou uma Templário.";
+		mes "Por um tempo tudo foi ótimo, mas então ela desapareceu repentinamente durante uma missão na Dungeon de Geffen.";
+		next;
+		mes "[Rosa Ellenen]";
+		mes "Dois anos depois, ela foi enterrada neste túmulo após seu corpo ser encontrado por alguns aventureiros. Recebi os cacos quebrados de sua armadura e uma fita manchada de sangue que ela deixou para trás.";
+		next;
+		mes "[Rosa Ellenen]";
+		mes "Nunca soube exatamente o que aconteceu. E Hermite sempre a seguia como se ela fosse sua irmã de verdade. Desde que ela morreu, ele mudou. Espero que ele não se machuque...";
+		next;
+		mes "[Rosa Ellenen]";
+		mes "Algo suspeito parece ter acontecido no exército, mas eles nem querem falar comigo sobre isso. O que será que aconteceu?!";
+		next;
+		mes "[Rosa Ellenen]";
+		mes "No fim das contas, desisti de tentar descobrir a verdade. Afinal, nada pode trazê-la de volta...";
+		next;
+		mes "[Rosa Ellenen]";
+		mes "Por favor, diga a ela que estou bem,";
+		mes "mas quero saber por que a alma";
+		mes "dela não seguiu para";
+		mes "o céu! Talvez...";
+		next;
+		mes "[Rose Ellenen]";
+		mes "Talvez haja";
+		mes "algo nos";
+		mes "Registros de Pessoal de Templário";
+		mes "que possa";
+		mes "explicar algo?";
+		set god_brising,25;
+		close;
+	}
+ 	else if ((god_brising) > 9 && (god_brising < 20)) {
+		mes "[Rosa Ellenen]";
+		mes "Este é o túmulo da";
+		mes "minha irmãzinha...";
+		mes "O nome dela era Lowen.";
+		next;
+		mes "[Rosa Ellenen]";
+		mes "Você é um amigo";
+		mes "da Lowen? Hmmm?";
+		mes "O homem no Santuário?";
+		mes "Deve ser o Hermite.";
+		next;
+		mes "[Rosa Ellenen]";
+		mes "Ele ficou chocado quando Lowen";
+		mes "morreu, mas ele não precisa se culpar pela morte dela. Não quero que ele sofra com a culpa.";
+		next;
+		mes "[Rosa Ellenen]";
+		mes "De qualquer forma, obrigado por visitar";
+		mes "minha irmãzinha. É bom saber que ela tem amigos, mesmo depois de ter partido.";
+		set god_brising,11;
+		close;
+	}
+	else {
+		mes "[Rosa Ellenen]";
+		mes "Ah, olá...";
+		mes "Você veio";
+		mes "prestar suas homenagens";
+		mes "a alguém aqui também?";
+		close;
+	}
+
+}
+
+prontera,262,353,0	script	Gravestone	111,{
+	if ($God2 > $@god_check1) {
+		if (god_brising > 33) {
+			mes "Lowen Ellenen";
+			mes " ";
+			mes "XXXX. XX. XX.";
+			mes "Seu espírito nobre";
+			mes "foi enviado ao lugar";
+			mes "sagrado pela vontade da Valquíria.";
+			close;
+		}
+		else {
+			mes "^3355FFVocê não conseguiu ler o restante do epitáfio, pois a lápide foi erodida pelo tempo.^000000";
+			close;
+		}
+	}
+	else {
+		mes "^3355FFÉ apenas uma";
+		mes "lápide comum.^000000";
+		next;
+		mes "^3355FFNada a diferencia";
+		mes "do resto das lápides aqui no cemitério de Prontera.^000000";
+		close;
+	}
+}
+ 
+gef_dun01,89,192,0	script	#lowentrace	111,3,3,{
+	if ($God2 < $@god_check1) {
+		mes "^3355FFÉ apenas um";
+		mes "pedaço de madeira velho e seco.^000000";
+		close;
+	}
+	if ($God3 >= $@god_check2) {
+		mes "^3355FFÉ apenas um";
+		mes "pedaço de madeira velho e seco.^000000";
+		close;
+	}
+	if ((god_brising > 20) && (god_brising < 34)) {
+		mes "^3355FFVocê vai";
+		mes "invocá-la?^000000";
+		next;
+		switch(select("Sim:Não")) {
+		case 1:
+			input @lowenstring$;
+			if (@lowenstring$ == "Lowen") {
+				if (god_brising == 30) {
+					mes "[Lowen Ellenen]";
+					mes "^6E7B8B...V-você é...";
+					mes "E-eu não posso ficar muito tempo,";
+					mes "estou me sentindo muito fraca.";
+					mes "Chegue mais perto, quero";
+					mes "te mostrar algo...^000000";
+					next;
+					mes "^3355FFA voz dela ficou";
+					mes "cada vez mais suave";
+					mes "até que você não pôde";
+					mes "mais ouvi-la.^000000";
+					close;
+				}
+				else if (god_brising == 21) {
+					mes "[Lowen Ellenen]";
+					mes "^6E7B8BPor favor, diga a Rosa";
+					mes "para não se preocupar mais comigo. Talvez você consiga encontrá-la ao lado do meu túmulo. Não quero que ela sofra mais...^000000";
+					close;
+				}
+				else if (god_brising == 25) {
+					mes "[Lowen Ellenen]";
+					mes "^6E7B8BVocê voltou.";
+					mes "Você encontrou a Rosa?";
+					mes "Hm, sim, parece algo que ela diria. Mas obrigada por levar a ela a minha mensagem.^000000";
+					next;
+					mes "[Lowen Ellenen]";
+					mes "^6E7B8BAh, é muito perigo--";
+					mes "Este lugar é perigoso demais para você. Eu me odeio por não ter conseguido ajudar a protegê-lo dessas";
+					mes "criaturas malignas. Tenha cuidado...^000000";
+					close;
+				}
+				else {
+					mes "[Lowen Ellenen]";
+					mes "^6E7B8BMeu espírito está";
+					mes "ficando mais fraco...";
+					mes "Por favor, tenha cuidado...";
+					mes "Este lugar é perigoso demais.^000000";
+					close;
+				}
+			} 
+			else {
+				close;
+			}
+		case 2:
+			close;
+		}
+	}
+	else if (god_brising == 20) {
+		mes "[A voz de uma mulher]";
+		mes "^6E7B8BÉ-É perigoso...";
+		mes "Tenha cuidado...^000000";
+		next;
+		switch(select("Ignorar.:Do que você está falando?")) {
+		case 1:
+			close;
+		case 2:
+			mes "[A voz de uma mulher]";
+			mes "^6E7B8B...De jeito nenhum...";
+			mes "Você pode me ouvir?";
+			mes "Não consigo acreditar nisso.";
+			mes "É impossível...";
+			mes "Mas se não se importar,";
+			mes "posso conversar com você...?^000000";
+			next;
+			switch(select("Santo Deus...! Corra!:O que é você?!")) {
+			case 1:
+				close;
+			case 2:
+				mes "[A voz de uma mulher]";
+				mes "^6E7B8BEu...";
+				mes "Eu não tenho mais meu corpo, então... Acho que sou um fantasma. Sim, tenho vagado por este lugar desde que cheguei aqui.^000000";
+				next;
+				mes "[A voz de uma mulher]";
+				mes "^6E7B8BAinda não tenho certeza de por que estou";
+				mes "presa a este reino. Se você";
+				mes "não se importar, poderia visitar";
+				mes "minha irmã para mim?";
+				next;
+				mes "[A voz de uma mulher]";
+				mes "^6E7B8BPor favor, diga a ela...";
+				mes "Por favor, diga a ela que sua";
+				mes "irmã mais nova, Lowen, está bem.^000000";
+				next;
+				mes "[A voz de uma mulher]";
+				mes "^6E7B8BHum...";
+				mes "Se quiser me encontrar de novo, apenas diga meu nome em voz alta. '^000000Lowen^6E7B8B.'^000000";
+				set god_brising,21;
+				close;
+			}
+		}
+	}
+	else {
+		mes "^3355FFVocê encontra um pedaço de madeira retorcido e seco. Olhar para ele parece trazer uma sensação de tristeza dentro de você por algum motivo.^000000";
+		close;
+	}
+
+OnTouch_:
+	if ((god_brising > 9) && (god_brising < 34)) {
+		emotion ET_SURPRISE;
+	}
+	end;
+}
+
+gef_dun01,203,48,0	script	#lowentrace1	111,3,3,{
+	if ($God2 < $@god_check1) {
+		mes "^3355FFÉ apenas um pedaço de madeira";
+		mes "velho e seco.^000000";
+		close;
+	}
+	if ($God3 >= $@god_check2) {
+		mes "^3355FFÉ apenas um pedaço de madeira";
+		mes "velho e seco.^000000";
+		close;
+	}
+	if ((god_brising > 20) && (god_brising < 34)) {
+		mes "Você gostaria";
+		mes "de invocá-la?";
+		next;
+		switch(select("Sim:Não")) {
+		case 1:
+			input @lowenstring$;
+				if (@lowenstring$ == "Lowen") {
+					if (god_brising == 31) {
+					mes "[Lowen Ellenen]";
+					mes "^6E7B8BVocê voltou!";
+					mes "Você ficará comigo";
+					mes "...Não vai?^000000";
+					next;
+					switch(select("Claro.:Desculpe, acho que não posso...")) {
+					case 1:
+						mes "[Lowen Ellenen]";
+						mes "^6E7B8BObrigada,";
+						mes "muito obrigada...^000000";
+						close2;
+						warp "que_god02",47,53;
+						end;
+					case 2:
+						mes "[Lowen Ellenen]";
+						mes "^6E7B8BEu entendo.";
+						mes "Por favor, cuide";
+						mes "de si mesma...^000000";
+						close;
+					}
+				} else if (god_brising == 30) {
+					mes "[Lowen Ellenen]";
+					mes "^6E7B8BAh, sim. É isto.";
+					mes "Você parece muito curioso a meu respeito, e ainda assim me surpreende que você consiga ouvir minha voz. Por favor, deixe-me lhe contar uma velha história.^000000";
+					close2;
+					warp "que_god02",47,53;
+					end;
+				}
+				else if (god_brising == 25) {
+					mes "[Lowen Ellenen]";
+					mes "^6E7B8BVocê voltou.";
+					mes "Você encontrou a Rosa?";
+					mes "Hm, sim, parece algo que ela diria. Mas obrigada por levar a ela a minha mensagem.^000000";
+					next;
+					mes "[Lowen Ellenen]";
+					mes "^6E7B8BAh, é muito perigo--";
+					mes "Este lugar é perigoso demais para você. Eu me odeio por não ter conseguido ajudar a protegê-lo dessas";
+					mes "criaturas malignas. Tenha cuidado...^000000";
+					close;
+				}
+				else {
+					mes "[Lowen Ellenen]";
+					mes "^6E7B8BMeu espírito está";
+					mes "ficando mais fraco...";
+					mes "Por favor, tenha cuidado...";
+					mes "Este lugar é perigoso demais.^000000";
+					close;
+				}
+			}
+			else {
+				close;
+			}
+		case 2:
+			close;
+		}
+	}
+	else if (god_brising == 20) {
+		mes "[A voz de uma mulher]";
+		mes "^6E7B8BÉ-É perigoso...";
+		mes "Tenha cuidado...^000000";
+		next;
+		switch(select("Ignorar.:Do que você está falando?")) {
+		case 1:
+			close;
+		case 2:
+			mes "[A voz de uma mulher]";
+			mes "^6E7B8B...De jeito nenhum...";
+			mes "Você pode me ouvir?";
+			mes "Não consigo acreditar nisso.";
+			mes "É impossível...";
+			mes "Mas se não se importar,";
+			mes "posso conversar com você...?^000000";
+			next;
+			switch(select("Santo Deus...! Corra!:O que é você?!")) {
+			case 1:
+				close;
+			case 2:
+				mes "[A voz de uma mulher]";
+				mes "^6E7B8BEu...";
+				mes "Eu não tenho mais meu corpo, então... Acho que sou um fantasma. Sim, tenho vagado por este lugar desde que cheguei aqui.^000000";
+				next;
+				mes "[A voz de uma mulher]";
+				mes "^6E7B8BAinda não tenho certeza de por que estou";
+				mes "presa a este reino. Se você";
+				mes "não se importar, poderia visitar";
+				mes "minha irmã para mim?";
+				next;
+				mes "[A voz de uma mulher]";
+				mes "^6E7B8BPor favor, diga a ela...";
+				mes "Por favor, diga a ela que sua";
+				mes "irmã mais nova, Lowen, está bem.^000000";
+				next;
+				mes "[A voz de uma mulher]";
+				mes "^6E7B8BHum...";
+				mes "Se quiser me encontrar de novo, apenas diga meu nome em voz alta. '^000000Lowen^6E7B8B.'^000000";
+				set god_brising,21;
+				close;
+			}
+		}
+	}
+	else {
+		mes "^3355FFVocê encontra um pedaço de madeira retorcido e seco. Olhar para ele parece trazer uma sensação de tristeza dentro de você por algum motivo.^000000";
+		close;
+	}
+
+OnTouch_:
+	if ((god_brising > 9) && (god_brising < 34)) {
+		emotion ET_SURPRISE;
+	}
+	end;
+}
+
+que_god02,48,55,3	script	Lowen Ellenen	745,{
+	if (god_brising == 30) {
+		mes "[Lowen Ellenen]";
+		mes "Você consegue me ver agora?";
+		mes "Você deve estar surpreso.";
+		mes "Esta é a história que";
+		mes "compartilharei com você.";
+		next;
+		mes "[Lowen Ellenen]";
+		mes "Olhe ao redor.";
+		mes "Reconhece isto?";
+		mes "Ainda estamos no mesmo lugar, exceto que agora estamos no meu passado.";
+		next;
+		mes "[Lowen Ellenen]";
+		mes "Todos nós viemos aqui para Geffen para limpar esta área de espíritos malignos. Você perguntou o motivo de eu ter permanecido neste lugar horrível?";
+		next;
+		mes "[Lowen Ellenen]";
+		mes "Eu não consegui me perdoar pelo que fiz aos meus companheiros. Eles";
+		mes "foram mortos por minha causa.";
+		next;
+		switch(select("Você foi amaldiçoada...?:Você ainda tem algo a fazer.")) {
+		case 1:
+			mes "["+ strcharinfo(0) +"]";
+			mes "Você está dizendo que...";
+			mes "A raiva de seus";
+			mes "companheiros se manifestou";
+			mes "em uma maldição?";
+			next;
+			mes "[Lowen Ellenen]";
+			mes "Amaldiçoado pelos meus companheiros caídos... Sim, foi o que pensei a princípio. Então tentei me redimir e vingar as mortes deles.";
+			next;
+			mes "[Lowen Ellenen]";
+			mes "Tenho me esforçado ao máximo para confortar os espíritos deles por 2 anos.";
+			next;
+			mes "[" + strcharinfo(0) + "]";
+			mes "Desde que vocês falharam em uma missão, vocês passaram dois anos aqui matando monstros?";
+			next;
+			mes "[Lowen Ellenen]";
+			mes "Sim, é verdade.";
+			mes "Achei que isso traria conforto aos espíritos dos meus companheiros.";
+			next;
+			mes "[Lowen Ellenen]";
+			mes "Mas, depois que morri, encontrei todos os meus velhos amigos em Niflheim, a cidade dos mortos. Você já ouviu falar dela, não ouviu?";
+			next;
+			mes "[Lowen Ellenen]";
+			mes "Ninguém parecia";
+			mes "me culpar pelo que";
+			mes "tinha acontecido. Na verdade, todos pareciam preocupados comigo.";
+			next;
+			select("Então por que?");
+			mes "[Lowen Ellenen]";
+			mes "Eles me esperaram em Niflheim por dois anos, pois não queriam que eu os interpretasse mal. Eles nunca me culparam pelo que aconteceu.";
+			next;
+			mes "[Lowen Ellenen]";
+			mes "Mas ainda sinto que algo está errado. De todos nós, sou o único incapaz de descansar em paz. Todos os outros foram selecionados para ir a Valhalla.";
+			next;
+			mes "[Lowen Ellenen]";
+			mes "Mas Valhalla é para onde todos os honrados Templário deveriam ir. O que eu fiz de errado?";
+			close;
+		case 2:
+			mes "[Lowen Ellenen]";
+			mes "Não acho que tenho assuntos inacabados. Mas quem sabe, talvez haja algo que eu precise fazer.";
+			next;
+			mes "[Lowen Ellenen]";
+			mes "Todos os meus falecidos companheiros que encontrei em Niflheim foram selecionados pela Valquíria e enviados a Valhalla. É assim que Templário honrados passam a vida após a morte. Mas parece que não mereço isso...";
+			next;
+			select("Eu posso te ajudar!");
+			mes "[Lowen Ellenen]";
+			mes "Você pode";
+			mes "me ajudar?";
+			mes "Como...?";
+			next;
+			mes "[" + strcharinfo(0) + "]";
+			mes "Você disse que este é o lugar onde a missão de subjugação aconteceu, certo? Eu lutarei com você!";
+			next;
+			mes "["+ strcharinfo(0) +"]";
+			mes "Agora vamos lá, você não merece se sentir culpado assim. Vamos pensar em como vamos lutar contra esses monstros!";
+			next;
+			mes "[Lowen Ellenen]";
+			mes "...";
+			mes "Obrigado.";
+			mes "Muito obrigado.";
+			next;
+			mes "[" + strcharinfo(0) + "]";
+			mes "Agora,";
+			mes "vamos entrar?";
+			set god_brising,31;
+			close;
+		}
+	}
+	else if (god_brising == 31) {
+		mes "[Lowen Ellenen]";
+		mes "Desça as escadas";
+		mes "à frente. A partir deste ponto";
+		mes "eu só posso viajar com";
+		mes "você em sua mente...";
+		close;
+	}
+	else {
+		mes "[Lowen Ellenen]";
+		mes "Como assim...";
+		mes "Você está aqui?";
+		close2;
+		warp "geffen",120,101;
+		end;
+	}
+}
+
+que_god02,54,64,4	script	Soldier#1_brising	105,1,1,{
+ 	if (god_brising == 31) {
+		mes "[Soldado]";
+		mes "Você se voluntariou para a subjugação de monstros? Você gostaria de começar a missão agora?";
+		next;
+		switch(select("Sim.:Preciso de mais tempo.")) {
+		case 1:
+			mes "[Soldado]";
+			mes "Quando estiver pronto,";
+			mes "venha e fique na";
+			mes "minha frente.";
+			close;
+		case 2:
+			mes "[Soldado]";
+			mes "Sem problemas, volte quando seus preparativos estiverem concluídos.";
+			close;
+		}
+	}
+	else {
+		mes "[Soldado]";
+		mes "Por favor, afaste-se.";
+		mes "Você não tem permissão";
+		mes "para entrar!";
+		close;
+	}
+
+OnTouch_:
+	if (god_brising == 31) {
+		warp "que_god02",174,49;
+		donpcevent "#brisinsold::OnSold1Off";
+		donpcevent "#brisinsold2::OnSold2On";
+		end;
+	}
+	else {
+		mes "[Soldado]";
+		mes "Por favor, afaste-se.";
+		mes "Você não tem permissão";
+		mes "para entrar!";
+		close2;
+		warp "que_god02",51,59;
+		end;
+	}
+	end;
+}
+
+que_god02,55,64,4	script	Soldier#2_brising	105,1,1,{
+	mes "[Soldado]";
+	mes "Por favor, afaste-se.";
+	mes "Você não tem permissão";
+	mes "para entrar!";
+	close;
+}
+
+que_god02,1,1,1	script	#brisinsold2	-1,{
+OnInit:
+	hideonnpc "Soldier#2_brising";
+	areawarp "que_god02",15,125,185,131,"geffen",120,100;
+	end;
+
+OnSold2On:
+	hideoffnpc "Soldier#2_brising";
+	initnpctimer;
+	end;
+
+OnTimer420000:
+	mapannounce "que_god02","O espírito de Lowen está começando a enfraquecer...",0,0x70DBDB;
+	end;
+
+OnTimer480000:
+	mapannounce "que_god02","Sua presença no passado dela não pode ser mantida por muito mais tempo...",0,0x70DBDB;
+	end;
+
+OnTimer540000:
+	mapannounce "que_god02","O espírito de Lowen não pode mais mantê-lo no passado.",0,0x70DBDB;
+	end;
+
+OnTimer542000:
+	areawarp "que_god02",15,125,185,131,"geffen",120,100;
+	end;
+
+OnTimer550000:
+	donpcevent "#brisinsummon::OnReset";
+	end;
+
+OnTimer550500:
+	stopnpctimer;
+	end;
+
+}
+	
+que_god02,1,1,1	script	#brisinsummon	-1,{
+
+OnInit:
+	hideonnpc "#doppelganger1";
+	hideonnpc "#doppelganger2";
+	hideonnpc "#knight1";
+	hideonnpc "#knight2";
+	hideonnpc "#knight3";
+	hideonnpc "#lowen";
+	hideonnpc "Valkyrie#1";
+	hideoffnpc "#hermite";
+	end;
+
+OnDoppel1On:
+	hideoffnpc "#doppelganger1";
+	end;
+
+OnDoppel1Off:
+	hideonnpc "#doppelganger1";
+	end;
+
+OnDoppel2On:
+	hideoffnpc "#doppelganger2";
+	end;
+
+OnDoppel2Off:
+	hideonnpc "#doppelganger2";
+	end;
+
+OnKnight1On:
+	hideoffnpc "#knight1";
+	end;
+
+OnKnight2On:
+	hideoffnpc "#knight2";
+	end;
+
+OnKnight3On:
+	hideoffnpc "#knight3";
+	end;
+
+OnKnight1Off:
+	hideonnpc "#knight1";
+	end;
+
+OnKnight2Off:
+	hideonnpc "#knight2";
+	end;
+
+OnKnight3Off:
+	hideonnpc "#knight3";
+	end;
+
+OnLowenOn:
+	hideoffnpc "#lowen";
+	end;
+
+OnLowenOff:
+	hideonnpc "#lowen";
+	end;
+
+OnHermiteOff:
+	hideonnpc "#hermite";
+	end;
+
+OnLowen2Off:
+	hideonnpc "Lowen Ellenen#2";
+	end;
+
+OnSummon:
+	set .brisinmobdead,9;
+	monster "que_god02",34,128,"",1015,1,"#brisinsummon::OnMobDeath";
+	monster "que_god02",34,127,"",1015,1,"#brisinsummon::OnMobDeath";
+	monster "que_god02",80,127,"",1015,1,"#brisinsummon::OnMobDeath";
+	monster "que_god02",102,128,"",1036,1,"#brisinsummon::OnMobDeath";
+	monster "que_god02",130,128,"",1036,1,"#brisinsummon::OnMobDeath";
+	monster "que_god02",62,128,"",1041,1,"#brisinsummon::OnMobDeath";
+	monster "que_god02",64,127,"",1041,1,"#brisinsummon::OnMobDeath";
+	monster "que_god02",150,127,"",1041,1,"#brisinsummon::OnMobDeath";
+	monster "que_god02",176,127,"",1041,1,"#brisinsummon::OnMobDeath";
+	end;
+
+OnMobDeath:
+	set .brisinmobdead,.brisinmobdead -1;
+	if (.brisinmobdead > 0) end;
+	set god_brising,31;
+	hideoffnpc "Valkyrie#1";
+	end;
+
+OnReset:
+	hideonnpc "#doppelganger1";
+	hideonnpc "#doppelganger2";
+	hideonnpc "#knight1";
+	hideonnpc "#knight2";
+	hideonnpc "#knight3";
+	hideonnpc "#lowen";
+	hideoffnpc "Soldier#1_brising";
+	hideonnpc "Soldier#2_brising";
+	hideoffnpc "#hermite";
+	hideoffnpc "Lowen Ellenen#2";
+	hideonnpc "Valkyrie#1";
+	killmonster "que_god02","#brisinsummon::OnMobDeath";
+	end;
+}
+
+que_god02,173,58,4	script	#doppelganger1	739,{ end; }
+que_god02,175,55,4	script	#doppelganger2	739,{ end; }
+que_god02,175,54,1	script	#lowen	745,{ end; }
+que_god02,178,49,1	script	#knight1	751,{ end; }
+que_god02,168,53,7	script	#knight2	734,{ end; }
+que_god02,167,58,4	script	#knight3	752,{ end; }
+
+que_god02,174,49,0	script	#lowenone	139,0,0,{
+
+OnTouch_:
+	donpcevent "brisinsold2::OnSold2On";
+	mes "[" + strcharinfo(0) + "]";
+	mes "Onde estou?";
+	mes "Não é isto...?!";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Ah, entendo.";
+	mes "Este deve ser o lugar onde tudo aconteceu há dois anos. Ótimo, ótimo...";
+	next;
+	mes "[Lowen Ellenen]";
+	mes "Shiu...";
+	mes "Isto é apenas um reflexo do passado. Aqui, você verá o que aconteceu na época por si mesmo.";
+	next;
+	mes "[Lowen Ellenen]";
+	mes "Não houve problemas";
+	mes "para descer aqui. Mas...";
+	mes "Temos problemas agora.";
+	next;
+	mapannounce "que_god02","D...Doppelganger!!!",0,0x9CFF00;
+	mes "[" + strcharinfo(0) + "]";
+	mes "O que...?!";
+	mes "Doppelganger?!";
+	next;
+	donpcevent "#brisinsummon::OnDoppel1On";
+	donpcevent "#brisinsummon::OnKnight1On";
+	donpcevent "#brisinsummon::OnKnight2On";
+	donpcevent "#brisinsummon::OnKnight3On";
+	donpcevent "#brisinsummon::OnLowenOn";
+	mes "[" + strcharinfo(0) + "]";
+	mes "O que está acontecendo?";
+	mes "Você realmente lutou contra essa criatura? E-ei! Me responda!";
+	next;
+	mes "[Lowen Ellenen]";
+	mes "Sim, este era o lugar...";
+	mes "O comandante deu as ordens";
+	mes "e então... O que aconteceu?";
+	next;
+	mapannounce "que_god02","Todos, mantenham a calma! Entrem em suas posições!",0,0x9CFF00;
+	mes "^4E2F2F[Comandante Templário]";
+	mes "Todos, entrem em suas posições! Linha de frente, bloqueiem o movimento! Linha de retaguarda, apoiem a defesa!^000000";
+	emotion ET_GO, getnpcid(0, "#knight1");
+	emotion ET_GO, getnpcid(0, "#knight2");
+	emotion ET_GO, getnpcid(0, "#knight3");
+	emotion ET_SURPRISE, getnpcid(0, "#doppelganger1");
+	next;
+	mes "[Lowen Ellenen]";
+	mes "N-não!";
+	mes "Eu não vou fugir!";
+	next;
+	mes "^3355FFVocê é tomado por uma grande ansiedade e experimenta por si mesmo o medo e a pressão que Lowen sentiu naqueles exatos momentos.^000000";
+	next;
+	mes "^4E2F2F[Comandante Templário]";
+	mes "Vá, Lowen!";
+	mes "Lance o Grand Cross, agora!^000000";
+	next;
+	specialeffect EF_BEGINSPELL7,AREA,"#lowen";
+	mapannounce "que_god02","Mwahaha! Mortais são tão tolos...",0,0xA8A8A8;
+	donpcevent "#brisinsummon::OnDoppel1Off";
+	donpcevent "#brisinsummon::OnDoppel2On";
+	emotion ET_SURPRISE, getnpcid(0, "#knight1");
+	emotion ET_SURPRISE, getnpcid(0, "#knight2");
+	emotion ET_SURPRISE, getnpcid(0, "#knight3");
+	emotion ET_SURPRISE, getnpcid(0, "#lowen");
+	mes "[" + strcharinfo(0) + "]";
+	mes " ??!!!";
+	next;
+	specialeffect EF_BEGINSPELL7,AREA,"#doppelganger2";
+	mes "[Voz Masculina]";
+	mes "Lowen!";
+	mes "Nãoooooooooo!!!";
+	close2;
+	warp "que_god02",120,52;
+	donpcevent "#brisinsummon::OnDoppel2Off";
+	donpcevent "#brisinsummon::OnKnight1Off";
+	donpcevent "#brisinsummon::OnKnight2Off";
+	donpcevent "#brisinsummon::OnKnight3Off";
+	donpcevent "#brisinsummon::OnLowenOff";
+	end;
+}
+
+que_god02,124,59,7	script	#hermite	798,{ end; }
+ 
+que_god02,120,52,0	script	#monologue	139,0,0,{
+
+OnTouch_:
+	mes "[" + strcharinfo(0) + "]";
+	mes "Onde estou?";
+	mes "Aquilo não é...";
+	mes "O que Hermite está";
+	mes "fazendo aqui?!";
+	next;
+	mes "[Hermite Charles]";
+	mes "Não, não, não!";
+	mes "Lowen, não...!";
+	mes "Ele vai te matar!";
+	next;
+	mes "[Hermite Charles]";
+	mes "Grand Cross?!";
+	mes "Usar isso é";
+	mes "cometer suicídio!";
+	mes "Lowen, não faça isso!";
+	mes "Não faça isso, Lowen!";
+	next;
+	mapannounce "que_god02","Mwahaha! Mortais são tão tolos...",0,0xA8A8A8;
+	mes "[Hermite Charles]";
+	mes "Lowen!";
+	mes "Nãoooooooooo!!!";
+	next;
+	donpcevent "#brisinsummon::OnHermiteOff";
+	mes "[" + strcharinfo(0) + "]";
+	mes "Para onde ele foi?";
+	mes "Aquilo era... Aquilo era";
+	mes "da mente dele?";
+	mapannounce "que_god02","O que aconteceu?! L-Lowen se foi!!",0,0xA8A8A8;
+	next;
+	mes "[Lowen Ellenen]";
+	mes "...";
+	mes "Agora eu entendo.";
+	mes "Eu sei...";
+	mes "O que aconteceu...";
+	close2;
+	warp "que_god02",18,127;
+	end;
+
+}
+
+que_god02,21,127,3	script	Lowen Ellenen#2	745,{
+	mes "[Lowen Ellenen]";
+	mes "Eu fui um tolo.";
+	mes "Agora me lembro de Hermite. Ele deve ter sido quem me resgatou. Mas quando recuperei os sentidos, não havia ninguém lá.";
+	next;
+	mes "[Lowen Ellenen]";
+	mes "Eu me culpei por ter sobrevivido sozinho. Eu deveria ter morrido lá com meus amigos. Eu me sentia tão inútil.";
+	next;
+	mes "[Lowen Ellenen]";
+	mes "Agora percebo que havia muitas pessoas que me amavam. Mas, na época, eu só sentia culpa.";
+	next;
+	mes "[Lowen Ellenen]";
+	mes "Retornei 3 dias depois ao meu comandante. Foi estúpido, mas naquele momento eu não conseguia pensar em mais nada.";
+	next;
+	mes "[Lowen Ellenen]";
+	mes "Os superiores e os políticos procuravam um bode expiatório para o fracasso da missão.";
+	next;
+	mes "[Lowen Ellenen]";
+	mes "Então eu fui o culpado. Depois, tiraram tudo o que eu tinha. Meu status, o poder sagrado concedido a mim...";
+	next;
+	mes "[Lowen Ellenen]";
+	mes "Eu achei que merecia aquele castigo. Afinal, por que";
+	mes "eu deveria ter sobrevivido quando todos os meus camaradas morreram?";
+	next;
+	mes "[Lowen Ellenen]";
+	mes "Foi então que decidi vingar meus amigos e salvar";
+	mes "o que restava do meu senso de honra.";
+	next;
+	mes "[Lowen Ellenen]";
+	mes "Voltei àquele lugar.";
+	mes "Lutei e lutei, tentando fazer penitência pelo que";
+	mes "eu tinha feito de errado...";
+	next;
+	mapannounce "que_god02","Se desejar, continue sua batalha. Prometo que o vencedor se tornará um Einherjar...",0,0x70DB93;
+	mes "[Lowen Ellenen]";
+	mes "Aquela voz...";
+	mes "Não é...?";
+	next;
+	mes "[Lowen Ellenen]";
+	mes "Você está me dando outra chance? Mas eu não tenho mais um corpo para lutar contra monstros...";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Não se preocupe,";
+	mes "estou com você!";
+	mes "Vamos nessa!";
+	close2;
+	donpcevent "#brisinsummon::OnSummon";
+	donpcevent "#brisinsummon::OnLowen2Off";
+	end;
+}
+
+que_god02,178,127,3	script	Valkyrie#1	811,{
+
+	if (god_brising == 31) {
+		mes "[Valkyrie]";
+		mes "Você passou";
+		mes "no teste, Lowen.";
+		mes "Não tenho muito";
+		mes "tempo para falar.";
+		next;
+		mes "[Valkyrie]";
+		mes "Você encontrou forças para se libertar da culpa e da dor? Eu estive esperando por você. Você aceitará meu convite para Valhalla?";
+		next;
+		switch(select("Sim, eu seguirei você.:Hm... eu não sou o Lowen.")) {
+		case 1:
+			mes "[Valkyrie]";
+			mes "Lowen Ellenen, herói incompreendido. Agora eu o promovo";
+			mes "a Einherjar com";
+			mes "a vontade de Deus.";
+			next;
+			mes "[Valkyrie]";
+			mes "Sua alma e espírito renascerão em Valhalla como um guerreiro sagrado preparando-se para a guerra santa.";
+			specialeffect2 EF_BLESSING;
+			next;
+			mes "[Valkyrie]";
+			mes "E...";
+			mes ""+ strcharinfo(0) +",";
+			mes "Seus feitos são conhecidos por mim. Mas estou curioso sobre o que o trouxe aqui?";
+			next;
+			mes "^3355FFVocê explicou o que aconteceu para a Valquíria, começando pelo Cristal de Neve que nunca derrete.^000000";
+			next;
+			mes "[Valkyrie]";
+			mes "Eu entendo.";
+			mes "A história começa há muito, muito tempo com Freya, a deusa padroeira da beleza e do amor.";
+			next;
+			mes "[Valkyrie]";
+			mes "Sua lágrima tornou-se uma bela joia. A neve sobre a qual as lágrimas de Freya caíram sempre manterá sua beleza cristalina.";
+			next;
+			mes "[Valkyrie]";
+			mes "Você busca vestígios da deusa? Talvez este seja um sinal do fim da paz de mil anos. Quando o tempo chegar, espero que os humanos não abandonem sua fé.";
+			next;
+			mes "[Valkyrie]";
+			mes "Talvez, eu também tenha sido enviada para encontrá-lo. Desejo que os humanos usem o poder derivado dos vestígios dos deuses para proteger a justiça.";
+			next;
+			mes "[Valkyrie]";
+			mes ""+ strcharinfo(0) +"...";
+			mes "Escute. Isto é";
+			mes "o que você deve encontrar.";
+			next;
+			mes "[Valkyrie]";
+			mes "Um caminho frio e nevado pelo";
+			mes "qual a deusa caminhou.";
+			mes "Um rio azul que a deusa atravessou.";
+			mes "Um caminho estreito por onde a deusa passou.";
+			mes "Quatro anões que a deusa encontrou...";
+			next;
+			mes "[Valkyrie]";
+			mes "^4d4dffA beleza das estrelas";
+			mes "Empalidece em comparação.";
+			mes "Perdemos nossos corações";
+			mes "Àquele cabelo dourado";
+			mes "E àqueles olhos deslumbrantes.^000000";
+			next;
+			mes "[Valkyrie]";
+			mes "Lembre-se disso.";
+			mes "Eu enviarei você";
+			mes "de volta para onde";
+			mes "você pertence.";
+			set god_brising,34;
+			next;
+			mes "[Valkyrie]";
+			mes "Pela honra de Odin...";
+			close2;
+			hideonnpc "#doppelganger1";
+			hideonnpc "#doppelganger2";
+			hideonnpc "#knight1";
+			hideonnpc "#knight2";
+			hideonnpc "#knight3";
+			hideonnpc "#lowen";
+			hideoffnpc "Soldier#1_brising";
+			hideonnpc "Soldier#2_brising";
+			hideoffnpc "#hermite";
+			hideoffnpc "Lowen Ellenen#2";
+			hideonnpc "Valkyrie#1";
+			warp "geffen",120,101;
+			end;
+		case 2:
+			mes "[Valkyrie]";
+			mes "Hahahaha...";
+			mes "Faz tempo que";
+			mes "um mortal não";
+			mes "me fazia rir.";
+			mes "me fazia rir.";
+			next;
+			mes "[Valkyrie]";
+			mes ""+ strcharinfo(0) +",";
+			mes "Estou falando com o";
+			mes "espírito que repousa em você, a garota a quem você emprestou seu corpo para que ela possa aprender a verdade do passado.";
+			next;
+			mes "[Valkyrie]";
+			mes "Lowen Ellenen,";
+			mes "herói incompreendido.";
+			mes "Agora, pela vontade de Deus, eu lhe promoverei a Einherjar.";
+			next;
+			mes "[Valkyrie]";
+			mes "Sua alma e";
+			mes "espírito renascerão em Valhalla como um guerreiro sagrado, preparando-se para a guerra santa.";
+			specialeffect2 EF_BLESSING;
+			next;
+			mes "[Valkyrie]";
+			mes "E...";
+			mes ""+ strcharinfo(0) +",";
+			mes "Seus feitos são do meu conhecimento. Mas estou curioso: o que o trouxe aqui?";
+			next;
+			mes "^3355FFVocê explicou o que aconteceu com a Valquíria, começando pelo Cristal de Neve que nunca derrete.^000000";
+			next;
+			mes "[Valkyrie]";
+			mes "Eu entendo.";
+			mes "A história começa há muito, muito tempo com Freya, a deusa patrona da beleza e do amor.";
+			next;
+			mes "[Valkyrie]";
+			mes "Sua lágrima tornou-se uma joia linda. A neve sobre a qual as lágrimas de Freya caíram sempre manterá sua beleza cristalina.";
+			next;
+			mes "[Valkyrie]";
+			mes "Você busca vestígios da deusa? Talvez este seja um sinal do fim da paz de mil anos. Quando chegar a hora, espero que os humanos não abandonem sua fé.";
+			next;
+			mes "[Valkyrie]";
+			mes "Talvez, eu também tenha sido enviado para encontrá-lo. Desejo que os humanos usem o poder derivado dos vestígios dos deuses para proteger a justiça.";
+			next;
+			mes "[Valkyrie]";
+			mes ""+ strcharinfo(0) +"...";
+			mes "Ouça. Isto é";
+			mes "o que você deve encontrar.";
+			next;
+			mes "[Valkyrie]";
+			mes "Um caminho nevado e frio por";
+			mes "onde a deusa trilhou.";
+			mes "Um rio azul que a deusa atravessou.";
+			mes "Um caminho estreito por onde a deusa passou.";
+			next;
+			mes "[Valkyrie]";
+			mes "^4d4dffA beleza das estrelas";
+			mes "empalidece em comparação.";
+			mes "Nós perdemos nossos corações";
+			mes "Para aquele cabelo dourado";
+			mes "E aqueles olhos deslumbrantes.^000000";
+			next;
+			mes "[Valkyrie]";
+			mes "Lembre-se disso.";
+			mes "Eu enviarei você";
+			mes "de volta para onde";
+			mes "você pertence.";
+			set god_brising,34;
+			next;
+			mes "[Valkyrie]";
+			mes "Pela honra de Odin...";
+			close2;
+			hideonnpc "#doppelganger1";
+			hideonnpc "#doppelganger2";
+			hideonnpc "#knight1";
+			hideonnpc "#knight2";
+			hideonnpc "#knight3";
+			hideonnpc "#lowen";
+			hideoffnpc "Soldier#1_brising";
+			hideonnpc "Soldier#2_brising";
+			hideoffnpc "#hermite";
+			hideoffnpc "Lowen Ellenen#2";
+			hideonnpc "Valkyrie#1";
+			warp "geffen",120,101;
+			end;
+		}
+	}
+}
+
+xmas,38,105,0	script	#brisindwarf1	111,3,3,{
+	if ($God2 < $@god_check1) {
+		mes "^3355FFMuita neve";
+		mes "está acumulada";
+		mes "aqui no chão.^000000";
+		close;
+	}
+	if ($God3 >= $@god_check2) {
+		mes "^3355FFMuita neve";
+		mes "está acumulada";
+		mes "aqui no chão.^000000";
+		close;
+	}
+	if ((god_brising > 39) && (god_brising < 50)) {
+		mes "^3355FFMuita neve";
+		mes "está acumulada";
+		mes "aqui no chão.^000000";
+		next;
+		mes "^3355FFNo entanto, este monte em particular lhe parece curioso por algum motivo.^000000";
+		next;
+		switch(select("Varrer a neve com a mão.:Cutucar a neve com o dedo.:Cancelar.")) {
+		case 1:
+			mes "^3355FFAo varrer a neve com a palma da mão, parte dela derrete, revelando um estranho cubo de quebra-cabeça. Ele é multifacetado, mas você consegue ler que cada face está inscrita com uma letra de música.";
+			next;
+			switch(select("Ajustar o quebra-cabeça.:Sair.")) {
+			case 1:
+				mes "[" + strcharinfo(0) + "]";
+				mes "Certo, hum...";
+				mes "Acho que deveria";
+				mes "escolher um verso...";
+				next;
+				switch(select("Empalidece em comparação:Para aquele cabelo bonito:Todos os nossos corações:A beleza das estrelas:Para aqueles olhos deslumbrantes")) {
+				case 1:
+					mes "[" + strcharinfo(0) + "]";
+					mes "nós demos...";
+					break;
+				case 2:
+					mes "[" + strcharinfo(0) + "]";
+					mes "Para aquele cabelo bonito";
+					break;
+				case 3:
+					mes "[" + strcharinfo(0) + "]";
+					mes "Todos os nossos corações em";
+					break;
+				case 4:
+					mes "[" + strcharinfo(0) + "]";
+					mes "A beleza das estrelas";
+					set .@point,.@point + 10;
+					break;
+				case 5:
+					mes "[" + strcharinfo(0) + "]";
+					mes "Para aqueles olhos deslumbrantes";
+					break;
+				}
+				switch(select("Nós demos:Empalidece em comparação.:Todos os nossos corações em:Para os passos em:Para aqueles olhos deslumbrantes")) {
+				case 1:
+					mes "nós demos..";
+					break;
+				case 2:
+					mes "Empalidece em comparação.";
+					set .@point,.@point + 10;
+					break;
+				case 3:
+					mes "Todos os nossos corações em";
+					break;
+				case 4:
+					mes "Para os passos em";
+					break;
+				case 5:
+					mes "Para aqueles olhos deslumbrantes";
+					break;
+				}
+				switch(select("Nós demos:Para aquele cabelo bonito:Todos os nossos corações em:Para os passos em:Nós perdemos nossos corações")) {
+				case 1:
+					mes "Nós demos";
+					break;
+				case 2:
+					mes "Para aquele cabelo bonito";
+					break;
+				case 3:
+					mes "Todos os nossos corações em";
+					break;
+				case 4:
+					mes "Para os passos em";
+					break;
+				case 5:
+					mes "Perdemos nossos corações";
+					set .@point,.@point + 10;
+					break;
+				}
+				switch(select("Para aquele cabelo dourado:Para aquele cabelo lindo:Todos os nossos corações em:Para os passos em:Para aqueles olhos deslumbrantes")) {
+				case 1:
+					mes "Para aquele cabelo dourado";
+					set .@point,.@point + 10;
+					break;
+				case 2:
+					mes "Para aquele cabelo lindo";
+					break;
+				case 3:
+					mes "Todos os nossos corações em";
+					break;
+				case 4:
+					mes "Para os passos em";
+					break;
+				case 5:
+					mes "Para aqueles olhos deslumbrantes";
+					break;
+				}
+				switch(select("Nós demos:Para aquele cabelo lindo:E aqueles olhos deslumbrantes.:Para os passos em:Para aqueles olhos deslumbrantes")) {
+				case 1:
+					mes "Nós demos";
+					break;
+				case 2:
+					mes "Para aquele cabelo lindo";
+					break;
+				case 3:
+					mes "E aqueles olhos deslumbrantes.";
+					set .@point,.@point + 10;
+					break;
+				case 4:
+					mes "Para os passos em";
+					break;
+				case 5:
+					mes "Para aqueles olhos deslumbrantes";
+					break;
+				}
+				next;
+				if (.@point > 40) {
+					hideoffnpc "Alfrik#1";
+					mes "[Velho anão]";
+					mes "Quem é você?!";
+					mes "E por que diabos";
+					mes "você me acordou?";
+					close;
+				}
+				close;
+			case 2:
+				mes "["+ strcharinfo(0) +"]";
+				mes "Huh...?";
+				mes "Nada aconteceu.";
+				mes "Eu fiz algo errado, ou este é apenas um cubo de quebra-cabeça comum?";
+				close;
+			}
+		case 2:
+			mes "["+ strcharinfo(0) +"]";
+			mes "Isso...";
+			mes "É melhor que isso";
+			mes "não seja apenas um";
+			mes "cubo de quebra-cabeça comum";
+			mes "que alguém largou na neve!";
+			close;
+		case 3:
+			mes "^3355FFVocê usa seu dedo para cutucar a pilha de neve. No entanto, você fere um pouco o dedo após bater em algo realmente sólido.^000000";
+			emotion ET_ANGER, playerattached();
+			percentheal -20,0;
+			close;
+		case 4:
+			close;
+		}
+	}
+	else {
+		mes "^3355FFMuita neve";
+		mes "está fortemente empilhada";
+		mes "aqui no chão.^000000";
+		close;
+	}
+
+OnTouch_:
+	if (god_brising > 39) {
+		emotion ET_SURPRISE, playerattached();
+	}
+	end;
+}
+
+xmas,36,103,4	script	Alfrik#1	826,{
+	if (god_brising == 49) {
+		mes "[Alfrik]";
+		mes "Não tenho nada";
+		mes "mais a dizer! Agora";
+		mes "saia daqui!";
+		mes "Eu não quero";
+		mes "ser encontrado!";
+		close2;
+		hideonnpc "Alfrik#1";
+		end;
+	}
+	else if (god_brising == 48) {
+		mes "[Alfrik]";
+		mes "E aí, humano?";
+		mes "Todos nós despertamos.";
+		next;
+		switch(select("Eu só queria dizer olá.:Quais são os materiais do Brisingamen?")) {
+		case 1:
+			mes "[Alfrik]";
+			mes "Seu gesto é apreciado, mas eu prefiro me esconder a socializar. Não quero ser encontrado pelos corvos de Odin!";
+			close2;
+			hideonnpc "Alfrik#1";
+			end;
+		case 2:
+			mes "[Alfrik]";
+			mes "Materiais para o Brisingamen? Para a imitação humana, os materiais são bem fáceis de reunir...";
+			next;
+			mes "[Alfrik]";
+			mes "O poder das armas usadas pelos deuses, quando lutaram contra demônios mil anos atrás, e tudo o que se desprendeu do Brisingamen. É basicamente isso que você precisa.";
+			next;
+			mes "[Alfrik]";
+			mes "Se você quer";
+			mes "criar um Brisingamen,";
+			mes "você precisará de.....";
+			next;
+			mes "[Alfrik]";
+			mes "^4d4dffJoia de Freya";
+			mes "Ornamento de Prata";
+			mes "Cristal de Neve";
+			mes "Ondulação";
+			mes "Ar Deriva^000000";
+			next;
+			mes "[Alfrik]";
+			mes "Você pode precisar de algumas gemas, como Safira, Pérola, Opala, Rubi Amaldiçoado e talvez até um pouco de Ouro para decorar o colar.";
+			next;
+			mes "[Alfrik]";
+			mes "Embora eu dê meus conselhos livremente, nós quatro Anões não faremos mais trabalhos de ferraria, a menos que seja sob o comando de Freya.";
+			next;
+			mes "[Alfrik]";
+			mes "Mas posso lhe prometer uma coisa. Já que nós quatro despertamos, os humanos certamente obterão o Brisingamen.";
+			next;
+			mes "[Alfrik]";
+			mes "Agora...";
+			mes "Deixe-me";
+			mes "em paz.";
+			set god_brising,49;
+			close2;
+			hideonnpc "Alfrik#1";
+			end;
+		}
+	}
+	else if (god_brising == 40) {
+		mes "[Alfrik]";
+		mes "^333333*Bocejo...*^000000";
+		mes "Faz muito tempo desde que estive lá fora! E-espere! Você não é...";
+		next;
+		mes "[Alfrik]";
+		mes "Quem te enviou?!";
+		mes "Loki? Heimdall?";
+		mes "Ou foi Freya?";
+		next;
+		switch(select("Ninguém, foi um acidente!:Foi a Valquíria.")) {
+		case 1:
+			mes "[Alfrik]";
+			mes "Nem pense em mentir para mim, humano! Não há como você ter me despertado sem saber";
+			mes "a senha! Agora, fale!";
+			next;
+			switch(select("A Valquíria me contou.:Foi uma coincidência!")) {
+			case 1:
+				mes "[Alfrik]";
+				mes "Valquíria...?";
+				mes "A guerreira de Odin?";
+				mes "O que Odin poderia querer,";
+				mes "eu não fiz nada de errado!";
+				next;
+				mes "^3355FFVocê explicou tudo para Alfrik, que parece preocupado em ser alvo de Odin.^000000";
+				next;
+				mes "[Alfrik]";
+				mes "Então é isso.";
+				mes "Procurando nossa";
+				mes "obra-prima? Vocês";
+				mes "humanos devem desejar";
+				mes "o poder dos deuses.";
+				mes "Interessante.";
+				next;
+				mes "[Alfrik]";
+				mes "O momento para nós despertarmos pode ter finalmente chegado! Muito bem então,";
+				mes "eu, Alfrik, cooperarei com vocês, humanos.";
+				next;
+				mes "[Alfrik]";
+				mes "Afinal, ficar do lado bom de Odin desse jeito é muito melhor do que ser torturado por Loki.";
+				next;
+				mes "[Alfrik]";
+				mes "Agora...";
+				mes "Entenda que";
+				mes "só pode haver";
+				mes "um verdadeiro Brisingamen.";
+				mes "Afinal, ele é a nossa";
+				mes "obra-prima.";
+				next;
+				mes "[Alfrik]";
+				mes "No entanto, isso não significa que uma imitação, com o mesmo poder daquele item divino, não possa ser feita. Não é tentador, o poder de um deus?";
+				next;
+				mes "[Alfrik]";
+				mes "Primeiro as primeiras coisas. Se você quer fazer o colar, você deve";
+				mes "despertar a todos nós quatro. Por causa da ameaça de Loki, todos nós nos escondemos em lugares diferentes.";
+				next;
+				mes "[Alfrik]";
+				mes "Vá acordar todos os meus irmãos!";
+				mes "Vamos ver se o Brisingamen pode ser feito mais uma vez! Primeiro, vá e acorde Dvalin antes que os deuses e gigantes descubram!";
+				set god_brising,41;
+				close2;
+				hideonnpc "Alfrik#1";
+				end;
+			case 2:
+				mes "[Alfrik]";
+				mes "Coincidência?";
+				mes "Impossível! Como você ousa mentir! Nunca mais volte, ou os deuses me encontrarão!";
+				close2;
+				hideonnpc "Alfrik#1";
+				end;
+			}
+		case 2:
+			mes "[Alfrik]";
+			mes "Valquíria...?";
+			mes "A belicista de Odin?";
+			mes "O que Odin poderia querer,";
+			mes "eu não fiz nada de errado!";
+			next;
+			mes "^3355FFVocê explicou tudo a Alfrik, que parece preocupado em ser alvo de Odin.^000000";
+			next;
+			mes "[Alfrik]";
+			mes "Então é isso.";
+			mes "Procurando pela nossa";
+			mes "obra-prima? Vocês";
+			mes "humanos devem desejar";
+			mes "o poder dos deuses.";
+			mes "Interessante.";
+			next;
+			mes "[Alfrik]";
+			mes "O momento para nós despertarmos pode ter finalmente chegado! Muito bem então,";
+			mes "eu, Alfrik, cooperarei com vocês, humanos.";
+			next;
+			mes "[Alfrik]";
+			mes "Afinal, ficar do lado bom de Odin desse jeito é muito melhor do que ser torturado por Loki.";
+			next;
+			mes "[Alfrik]";
+			mes "Agora...";
+			mes "Entenda que";
+			mes "só pode haver";
+			mes "um verdadeiro Brisingamen.";
+			mes "Afinal, ele é a nossa";
+			mes "obra-prima.";
+			next;
+			mes "[Alfrik]";
+			mes "No entanto, isso não significa que uma imitação, com o mesmo poder daquele item divino, não possa ser feita. Não é tentador, o poder de um deus?";
+			next;
+			mes "[Alfrik]";
+			mes "Primeiro as primeiras coisas. Se você quer fazer o colar, você deve";
+			mes "despertar a todos nós quatro. Por causa da ameaça de Loki, todos nós nos escondemos em lugares diferentes.";
+			next;
+			mes "[Alfrik]";
+			mes "Vá acordar todos os meus irmãos!";
+			mes "Vamos ver se o Brisingamen pode ser feito mais uma vez! Primeiro, vá e acorde Dvalin antes que os deuses e gigantes descubram!";
+			set god_brising,41;
+			close2;
+			hideonnpc "Alfrik#1";
+			end;
+		}
+	}
+	else if (god_brising == 41) {
+		mes "[Alfrik]";
+		mes "Por que você ainda está aqui?";
+		mes "Eu disse para você ir acordar Dvalin!";
+		next;
+		switch(select("Onde ele está?:Conte-me mais sobre o Brisingamen.")) {
+		case 1:
+			mes "[Alfrik]";
+			mes "Ah. Certo.";
+			mes "Esqueci de te";
+			mes "contar. Pobre Dvalin.";
+			mes "Agora, onde ele estava?";
+			next;
+			mes "[Alfrik]";
+			mes "Nós tínhamos medo de que Odin e Heimdall nos punissem porque, bem, aos olhos deles, nós desonramos a deusa.";
+			next;
+			mes "[Alfrik]";
+			mes "É claro que eles nunca teriam ficado irritados se não fosse pela trapaça de Loki.";
+			next;
+			mes "[Alfrik]";
+			mes "Nós amávamos Freya tanto que decidimos nos esconder sob o caminho que ela trilhava. Para estar o mais perto possível de qualquer rastro dela.";
+			next;
+			mes "[Alfrik]";
+			mes "O pobre Dvalin está dormindo";
+			mes "sob o caminho no Leste. Uma vez lá, você sentirá o perfume da deusa. Não consigo me lembrar de onde os outros estão dormindo, mas você não pode esquecer estas palavras...";
+			next;
+			mes "[Alfrik]";
+			mes "^4d4dffO perfume adorável dela";
+			mes "Ainda paira ao vento.";
+			mes "Entregamos nossos corações";
+			mes "Àquelas ternas lágrimas";
+			mes "Àqueles lábios vermelhos sedutores.^000000";
+			set god_brising,42;
+			close2;
+			hideonnpc "Alfrik#1";
+			end;
+		case 2:
+			mes "[Alfrik]";
+			mes "Brisingamen é nossa obra-prima, um colar que forjamos para Freya. Mesmo se tentássemos fazê-lo novamente, duvido que ficaria tão bom.";
+			next;
+			mes "[Alfrik]";
+			mes "Ele parecia perfeito em Freya. É muito difícil criar joias que realmente realcem a atratividade da deusa da beleza.";
+			next;
+			mes "[Alfrik]";
+			mes "Talvez nossa maior recompensa fosse aquele belo sorriso de satisfação que ela nos dava quando entregávamos aquele colar. Nós a amávamos tanto.";
+			next;
+			mes "[Alfrik]";
+			mes "É tão errado para anões amarem uma deusa? Talvez tenhamos sido punidos porque os deuses, até mesmo Odin, a amavam também.";
+			next;
+			mes "[Alfrik]";
+			mes "De qualquer forma, nunca mais vimos o verdadeiro Brisingamen. Mas algo muito semelhante a ele pode ser criado...";
+			next;
+			mes "[Alfrik]";
+			mes "Você precisará de materiais que foram agraciados pela presença da deusa. Vestígios da deusa na terra, na água e no vento.";
+			next;
+			mes "[Alfrik]";
+			mes "E se o Brisingamen for recriado, o poder de um deus estará nas mãos de um humano. Esse humano poderia ser você!";
+			next;
+			mes "[Alfrik]";
+			mes "O pobre Dvalin está dormindo sob o caminho no Leste. Uma vez lá, você sentirá o perfume da deusa.";
+			next;
+			mes "[Alfrik]";
+			mes "Não consigo me lembrar de onde os outros estão dormindo, mas você não pode esquecer estas palavras...";
+			next;
+			mes "[Alfrik]";
+			mes "^4d4dffO perfume adorável dela";
+			mes "Ainda paira ao vento.";
+			mes "Entregamos nossos corações";
+			mes "Àquelas ternas lágrimas";
+			mes "Àqueles lábios vermelhos sedutores.^000000";
+			set god_brising,42;
+			close2;
+			hideonnpc "Alfrik#1";
+			end;
+		}
+	}
+	else if (god_brising == 42) {
+		mes "[Alfrik]";
+		mes "Por favor!";
+		mes "Vá embora antes que Loki e Heimdall descubram que eu despertei! Agora apresse-se, encontre Dvalin e acorde-o!";
+		close2;
+		hideonnpc "Alfrik#1";
+		end;
+	}
+	else if ((god_brising > 42) && (god_brising < 48)) {
+		mes "[Alfrik]";
+		mes "Oh, finalmente todos nós despertamos! Agora, o poder da deusa pode ser recuperado da terra, da água e do vento!";
+		next;
+		mes "[Alfrik]";
+		mes "Hahahahaha!";
+		mes "Isso deve ser";
+		mes "interessante!";
+		close2;
+		hideonnpc "Alfrik#1";
+		end;
+	}
+	else {
+		mes "[Alfrik]";
+		mes "Mmm...?";
+		mes "Eu não tenho";
+		mes "nada a ver";
+		mes "com você.";
+		close2;
+		hideonnpc "Alfrik#1";
+		end;
+	}
+
+OnInit:
+	hideonnpc "Alfrik#1";
+	end;
+}
+
+prt_fild02,185,269,0	script	#brisindwarf2	111,3,3,{
+	if ($God2 < $@god_check1) {
+		mes "^3355FFÉ apenas uma";
+		mes "rocha comum.^000000";
+		close;
+	}
+	if ($God3 >= $@god_check2) {
+		mes "^3355FFÉ apenas uma";
+		mes "rocha comum.^000000";
+		close;
+	}
+	if (god_brising > 41) {
+		mes "^3355FFÉ apenas uma rocha comum sob a sombra de";
+		mes "uma árvore. Mas ao observar com atenção, você nota que o musgo no topo da rocha parece perfeitamente plano.^000000";
+		next;
+		switch(select("Pisar nela.:Varrer a superfície.:Arranhar a superfície.:Chutar a rocha.")) {
+		case 1:
+			mes "^3355FFVocê coloca cuidadosamente o pé no topo da pedra. A rocha inteira oscila subitamente para baixo";
+			mes "em direção ao chão, e você cai desamparado...^000000";
+			close2;
+			warp "prt_fild02",165,224;
+			end;
+		case 2:
+			mes "^3355FFAo varrer o musgo com a mão, você corta a palma da mão nas bordas afiadas da rocha.^000000";
+			emotion ET_SURPRISE, playerattached();
+			next;
+			mes "[" + strcharinfo(0) + "]";
+			mes "Droga...!";
+			mes "Estou sangrando!";
+			mes "Mas por que nada";
+			mes "mais aconteceu?!";
+			mes "happen?!";
+			next;
+			mes "["+ strcharinfo(0) +"]";
+			mes "É melhor que esta rocha";
+			mes "seja uma daquelas";
+			mes "rochas secretas!";
+			mes "Ou então...!";
+			close;
+		case 3:
+			mes "^3355FFVocê arranha";
+			mes "o musgo e sente que a superfície da rocha possui reentrâncias uniformes.";
+			next;
+			mes "^3355FFApós remover o musgo, uma série de peças, gravadas com palavras fracas, é revelada no topo da rocha. Essas peças podem ser movidas, como em um quebra-cabeça.^000000";
+			next;
+			mes "[" + strcharinfo(0) + "]";
+			mes "Outro quebra-cabeça?";
+			mes "Isso é igual a quando tive que dar a senha de Alfrik. Certo, deixe-me ver...";
+			set .@point,0;
+			next;
+			switch(select("Às gotas de lágrimas que caem no caminho:Seu perfume adorável:Nós demos:Aos lábios vermelhos sedutores:Nossos corações em")) {
+			case 1:
+				mes "["+ strcharinfo(0) +"]";
+				mes "Às gotas de lágrimas que caem no caminho";
+			break;
+			case 2:
+				mes "["+ strcharinfo(0) +"]";
+				mes "Seu perfume adorável";
+				set .@point,.@point + 10;
+			break;
+			case 3:
+				mes "["+ strcharinfo(0) +"]";
+				mes "Nós demos";
+			break;
+			case 4:
+				mes "["+ strcharinfo(0) +"]";
+				mes "Aos lábios vermelhos sedutores";
+				break;
+			case 5:
+				mes "["+ strcharinfo(0) +"]";
+				mes "Nossos corações em";
+				break;
+			}
+			switch(select("Ainda permanece no vento.:Ao perfume que flutua no vento:Nós demos:Aos lábios vermelhos sedutores:Nossos corações em")) {
+			case 1:
+				mes "Ainda permanece no vento.";
+				set .@point,.@point + 10;
+				break;
+			case 2:
+				mes "Ao perfume que flutua no vento";
+				break;
+			case 3:
+				mes "Nós demos";
+				break;
+			case 4:
+				mes "Aos lábios vermelhos sedutores";
+			case 5:
+				mes "Nossos corações em";
+				break;
+			}
+			switch(select("Às gotas de lágrimas que caem no caminho:Ao perfume que flutua no vento:Nós demos:Nós entregamos nossos corações:Nossos corações em")) {
+			case 1:
+				mes "Às gotas de lágrimas que caem no caminho";
+				break;
+			case 2:
+				mes "Ao perfume que flutua no vento";
+				break;
+			case 3:
+				mes "Nós demos";
+				break;
+			case 4:
+				mes "Nós entregamos nossos corações";
+				set .@point,.@point + 10;
+			case 5:
+				mes "Nossos corações em";
+				break;
+			}
+			switch(select("Às gotas de lágrimas que caem no caminho:Ao perfume que flutua no vento:Àquelas ternas gotas de lágrimas:Aos lábios vermelhos sedutores:Nossos corações em")) {
+			case 1:
+				mes "Às gotas de lágrimas que caem no caminho";
+				break;
+			case 2:
+				mes "Ao perfume que flutua no vento";
+				break;
+			case 3:
+				mes "Àquelas ternas gotas de lágrimas";
+				set .@point,.@point + 10;
+				break;
+			case 4:
+				mes "Aos lábios vermelhos sedutores";
+				break;
+			case 5:
+				mes "Nossos corações em";
+				break;
+			}
+			switch(select("Às gotas de lágrimas que caem no caminho:Ao perfume que flutua no vento:Nós demos:Aos lábios vermelhos sedutores:Aqueles lábios vermelhos sedutores")) {
+			case 1:
+				mes "Às gotas de lágrimas que caem no caminho";
+				break;
+			case 2:
+				mes "Ao perfume que flutua no vento";
+				break;
+			case 3:
+				mes "Nós demos";
+				break;
+			case 4:
+				mes "Aos lábios vermelhos sedutores";
+				break;
+			case 5:
+				mes "Aqueles lábios vermelhos sedutores";
+				set .@point,.@point + 10;
+				break;
+			}
+			next;
+			if (.@point > 40) {
+				hideoffnpc "Dvalin#1";
+				mes "[Dvalin]";
+				mes "...?";
+				mes "Alfrik?";
+				mes "É você?";
+				close;
+			}
+			close;
+		case 4:
+			mes "["+ strcharinfo(0) +"]";
+			mes "^333333*Tosse tosse!*";
+			mes "Aaaah!";
+			mes "Está cheio de poeira!";
+			close;
+		}
+	}
+	else {
+		mes "^3355FFApenas uma rocha";
+		mes "comum, coberta de musgo.^000000";
+		close;
+	}
+
+OnTouch_:
+	if (god_brising > 41) {
+		emotion ET_SURPRISE, playerattached();
+	}
+	end;
+}
+
+prt_fild02,185,270,3	script	Dvalin#1	826,{
+	if (god_brising > 43) {
+		mes "[Dvalin]";
+		mes "Um humano?";
+		mes "Você me acordou?";
+		next;
+		mes "[Dvalin]";
+		mes "Hmm...";
+		mes "E você estaria agindo de forma bem insistente agora se estivesse agindo em nome de um deus. O que você poderia querer...?";
+		next;
+		mes "[Dvalin]";
+		mes "Faz sentido você querer uma réplica de Brisingamen por causa de seu poder. Mas lembre-se, nós originalmente fizemos Brisingamen como um colar digno de uma deusa.";
+		next;
+		mes "[Dvalin]";
+		mes "Alguns podem dizer que seduzimos Freya com o colar, mas nós realmente a amávamos com todo o nosso coração.";
+		close2;
+		hideonnpc "Dvalin#1";
+		end;
+	}
+	else if (god_brising == 42) {
+		mes "[Dvalin]";
+		mes "Ué, não é Alfrik?";
+		mes "Quem é você para acordar Dvalin?";
+		mes "Me diga agora, ou eu...";
+		mes "Eu vou acabar com você!";
+		next;
+		switch(select("Socorro!:Alfrik me enviou para acordar você!")) {
+		case 1:
+			mes "[Dvalin]";
+			mes "Eu não sei";
+			mes "que diabos";
+			mes "você está fazendo aqui,";
+			mes "mas vá embora!";
+			close2;
+			hideonnpc "Dvalin#1";
+			end;
+		case 2:
+			mes "[Dvalin]";
+			mes "Você acabou de dizer que Alfrik te enviou? Como você conhece meu irmão?!";
+			next;
+			mes "[Dvalin]";
+			mes "Brisingamen?!";
+			mes "Então isso significa";
+			mes "que podemos encontrar Freya novamente?!";
+			next;
+			mes "[" + strcharinfo(0) + "]";
+			mes "Hum...";
+			mes "Receio que não.";
+			mes "Ou, pelo menos, não é";
+			mes "por isso que estou aqui.";
+			next;
+			mes "[Dvalin]";
+			mes "Entendo...";
+			mes "Compreendo.";
+			mes "Desculpe, eu só";
+			mes "esperava que você fosse um";
+			mes "arauto de Freya.";
+			next;
+			mes "[Dvalin]";
+			mes "Então, uma imitação";
+			mes "de Brisingamen...";
+			mes "Mesmo que não seja o original, tenho certeza de que pode possuir um poder comparável ao verdadeiro. Sim...";
+			next;
+			mes "[Dvalin]";
+			mes "Não adianta tentar prever o futuro, mas não consigo evitar de me perguntar o que a humanidade faria com o poder dos deuses?";
+			next;
+			mes "[Dvalin]";
+			mes "Se meu irmão Alfrik já aprovou você, então eu vou te ajudar. Vou te contar como acordar meu irmão Berling.";
+			next;
+			mes "[Dvalin]";
+			mes "Nós nos escondemos perto de vestígios de Freya. O caminho onde estou é um que minha deusa percorreu.";
+			next;
+			mes "[Dvalin]";
+			mes "O ar que flutua silenciosamente aqui contém seu aroma perfumado. Você pode usar este vento para tomar emprestado o poder dela.";
+			next;
+			mes "[Dvalin]";
+			mes "Além de Freya, não tenho";
+			mes "nenhum amor especial pelos deuses ou gigantes. Mas estou intrigado com vocês, humanos. Sua raça é feita tanto de amor quanto de ódio, vida e destruição.";
+			next;
+			mes "[Dvalin]";
+			mes "Vá agora e procure Berling. Ele está dormindo perto de um rio ligado ao Monte Mjolnir. Viaje para o Oeste para encontrar o rio onde as Lágrimas de Freya caíram.";
+			next;
+			mes "[Dvalin]";
+			mes "Se o fantasma da água te fizer uma pergunta, responda. A resposta é o castigo que Odin deu à nossa deusa.";
+			next;
+			mes "[Dvalin]";
+			mes "Até que milhares de Valquírias preenchessem Valhalla, elas tinham que viver, morrer e renascer repetidamente no dia seguinte, apenas para morrer novamente.";
+			next;
+			mes "[Dvalin]";
+			mes "Pense sobre";
+			mes "quem elas eram.";
+			mes "É tudo o que posso te dizer.";
+			next;
+			mes "[Dvalin]";
+			mes "De alguma forma, eu sei";
+			mes "que você é quem";
+			mes "pode responder à pergunta.";
+			mes "Hahahaha!";
+			set god_brising,43;
+			close2;
+			hideonnpc "Dvalin#1";
+			end;
+		}
+	}
+	else if (god_brising == 43) {
+		mes "[Dvalin]";
+		mes "Por que você continua me chamando? Eu fiz tudo o que podia por você. Eu até te dei a chave para a pergunta.";
+		next;
+		mes "[Dvalin]";
+		mes "De agora em diante,";
+		mes "tudo depende de você.";
+		mes "Agora, vá acordar Berling...";
+		close2;
+		hideonnpc "Dvalin#1";
+		end;
+	}
+
+OnInit:
+	hideonnpc "Dvalin#1";
+	end;
+
+}
+
+mjolnir_09,85,129,0	script	#brisindwarf3	111,3,3,{
+	if ($God2 < $@god_check1) {
+		mes "^3355FFA visão deste riacho borbulhante te refresca só de olhar.^000000";
+		close;
+	}
+	if ($God3 >= $@god_check2) {
+		mes "^3355FFA visão deste riacho borbulhante te refresca só de olhar.^000000";
+		close;
+	}
+	if ((god_brising > 42) && (god_brising < 50)) {
+		specialeffect EF_BUBBLE;
+		mes "[Ecoando Voz]";
+		mes "Alfrik: confirmado.";
+		mes "Dvalin: confirmado.";
+		next;
+		mes "[Ecoando Voz]";
+		mes "Por favor, me responda.";
+		mes "Odin puniu a bela";
+		mes "Freya e a fez amaldiçoar";
+		mes "alguns humanos com seu poder.";
+		next;
+		mes "[Ecoando Voz]";
+		mes "Freya causou uma batalha eterna, onde todos os combatentes morriam e voltavam à vida todos os dias. Quantos humanos foram amaldiçoados para participar?";
+		next;
+		switch(select("20!","Como eu vou saber?!","40!","42!" )) {
+		case 1:
+			specialeffect EF_BUBBLE;
+			mes "[Ecoando Voz]";
+			mes "Falhou.";
+			mes "Falhou...";
+			close;
+		case 2:
+			specialeffect EF_BUBBLE;
+			mes "[Ecoando Voz]";
+			mes "Falhou.";
+			mes "Falhou...";
+			close;
+		case 3:
+			specialeffect EF_BUBBLE;
+			mes "[Ecoando Voz]";
+			mes "Falhou.";
+			mes "Falhou...";
+			close;
+		case 4:
+			specialeffect EF_BUBBLE;
+			mes "[Ecoando Voz]";
+			mes "...Confirmado.";
+			mes "Desativando barreira.";
+			mes "Iniciando invocação.";
+			next;
+			hideoffnpc "Berling#1";
+			mes "[Berling]";
+			mes "^333333*Ofegante--!*^000000";
+			mes "Pensei que eu";
+			mes "fosse me afogar!";
+			mes "Quem me acordou?";
+			close;
+		}
+	}
+	else {
+		mes "^3355FFA visão deste riacho borbulhante te refresca só de olhar.^000000";
+		close;
+	}
+
+OnTouch_:
+	if (god_brising > 42) {
+		emotion ET_SURPRISE, playerattached();
+	}
+	end;
+}
+
+mjolnir_09,87,129,3	script	Berling#1	826,{
+	if (god_brising > 44) {
+		mes "[Berling]";
+		mes "Você é quem nos despertou? Hahaha, talvez isso seja um sinal de que possamos ver Freya novamente! Hahahaha!";
+		next;
+		mes "[Berling]";
+		mes "Estamos em dívida com você por nos reviver. Certo, eu sei o que você quer e vou te ajudar a obter o poder dos deuses.";
+		close2;
+		hideonnpc "OnBerling#1";
+		end;
+	}
+	else if (god_brising == 43) {
+		mes "[Berling]";
+		mes "O que é isso...?";
+		mes "É um humano?!";
+		mes "O que você quer?";
+		mes "Qu-quem é você?";
+		next;
+		switch(select("Dvalin quer que você acorde!:Diga-me quem você é primeiro!")) {
+		case 1:
+			mes "[Berling]";
+			mes "Dvalin?!";
+			mes "Você quer dizer meu irmão!";
+			mes "Mas ele só pode ser revivido se Alfrik for revivido. O que aconteceu?";
+			next;
+			mes "[" + strcharinfo(0) + "]";
+			mes "Hum...";
+			mes "Deixe-me explicar...";
+			next;
+			mes "...";
+			mes "......";
+			mes ".........";
+			next;
+			mes "["+ strcharinfo(0) +"]";
+			mes "...Então suponho que eu precise acordar todos os quatro anões para que o Brisingamen, que detém o poder de Freya, possa ser feito novamente.";
+			next;
+			mes "[Berling]";
+			mes "Oh! Diga esse nome mais uma vez! Freya, a deusa que tomou meu corpo e minha alma! Você acabou de dizer que quer fazer o colar dela?";
+			next;
+			mes "[Berling]";
+			mes "Hahahaha!";
+			mes "Pare de brincadeira.";
+			mes "O Brisingamen é";
+			mes "uma obra-prima";
+			mes "única!";
+			next;
+			switch(select("Não me refiro ao original, mas...")) {
+			case 1:
+				mes "[Berling]";
+				mes "Ah, agora entendo! Você quer uma réplica que tenha aproximadamente o mesmo poder.";
+				mes "Um Brisingamen usado por humanos!";
+				mes "Muito esperto!";
+				next;
+				mes "[Berling]";
+				mes "Eu, por outro lado, não desejo poder. Eu ficaria feliz em possuir apenas uma mecha do cabelo da minha deusa.";
+				next;
+				mes "[Berling]";
+				mes "Oh Freya...";
+				mes "Quanto mais da beleza dela existir neste mundo, mais feliz eu ficarei. Estou mais do que disposto a ajudá-lo a recriar esta lembrança de Freya.";
+				next;
+				mes "[Berling]";
+				mes "Agora, por favor, vá e encontre o último dos meus irmãos! Pobre Grer, talvez ele ainda esteja cavando prata naquela mina por ela...";
+				next;
+				mes "[Berling]";
+				mes "Vá e encontre Grer. Eu lhe darei a lágrima dourada de Freya, mas ele pode ter revivido por conta própria...";
+				next;
+				mes "[Berling]";
+				mes "Se ele não confiar em você, cante esta canção. Você deve se lembrar de cada";
+				mes "uma das palavras...";
+				next;
+				mes "[Berling]";
+				mes "^4d4dffNenhuma joia no mundo se compara.^000000";
+				next;
+				mes "[Berling]";
+				mes "^4d4dffNossa obra-prima feita de amor.^000000";
+				next;
+				mes "[Berling]";
+				mes "^4d4dffEla queria o colar deslumbrante.^000000";
+				next;
+				mes "[Berling]";
+				mes "^4d4dffNós queríamos a deusa da beleza.^000000";
+				next;
+				mes "[Berling]";
+				mes "^4d4dffNossos tempos mais felizes foram com ela.^000000";
+				next;
+				mes "[Berling]";
+				mes "Memorize todas as cinco linhas desta canção exatamente. Agora leve esta lágrima dourada e, por favor, procure por Grer.";
+				specialeffect2 EF_IMPOSITIO;
+				set god_brising,44;
+				close2;
+				hideonnpc "Berling#1";
+				end;
+			}
+		case 2:
+			mes "[Berling]";
+			mes "De onde diabos";
+			mes "você veio?";
+			mes "Eu, Berling, me recuso a";
+			mes "dar meu nome a um humano rude";
+			mes "e mal-educado como você!";
+			next;
+			mes "[" + strcharinfo(0) + "]";
+			mes "Espere...";
+			mes "Seu nome";
+			mes "é Berling?";
+			next;
+			mes "[Berling]";
+			mes "Baaaaahhh!";
+			mes "Quieto você!";
+			mes "Cuide da sua";
+			mes "própria vida!";
+			close2;
+			hideonnpc "Berling#1";
+			end;
+		}
+	}
+	else if (god_brising == 44) {
+		mes "[Berling]";
+		mes "Você já esqueceu a letra? Deixe-me dizer a você novamente, então não se esqueça desta vez.";
+		next;
+		mes "[Berling]";
+		mes "^4d4dffNenhuma joia no mundo se compara.^000000";
+		next;
+		mes "[Berling]";
+		mes "^4d4dffNossa obra-prima feita de amor.^000000";
+		next;
+		mes "[Berling]";
+		mes "^4d4dffEla queria o colar deslumbrante.^000000";
+		next;
+		mes "[Berling]";
+		mes "^4d4dffNós queríamos a deusa da beleza.^000000";
+		next;
+		mes "[Berling]";
+		mes "^4d4dffNossos tempos mais felizes foram com ela.^000000";
+		close2;
+		hideonnpc "Berling#1";
+		end;
+	}
+
+OnInit:
+	hideonnpc "Berling#1";
+	end;
+}
+
+mjo_dun02,126,36,0	script	#brisindwarf4	111,3,3,{
+	if ($God2 < $@god_check1) {
+		mes "[" + strcharinfo(0) + "]";
+		mes "Bah, sem saída.";
+		close;
+	}
+	if ($God3 >= $@god_check2) {
+		mes "[" + strcharinfo(0) + "]";
+		mes "Bah, sem saída.";
+		close;
+	}
+	if ((god_brising > 45) && (god_brising < 50)) {
+		mes "[Grer]";
+		mes "O quê!";
+		hideoffnpc "Grer#1";
+		close;
+	}
+	else if (god_brising == 45) {
+		mes "[" + strcharinfo(0) + "]";
+		mes "Vamos ver.";
+		mes "Hum, aquela canção.";
+		mes "Qual era a primeira linha...?";
+		next;
+		input @dwarfsong1$;
+		if (@dwarfsong1$ == "No jewel in the world can compare.") set @point,@point +1;
+		mes "[" + strcharinfo(0) + "]";
+		mes " " + @dwarfsong1$ + "";
+		mes "Então... hummm..";
+		mes "A segunda linha?";
+		next;
+		input @dwarfsong2$;
+		if (@dwarfsong2$ == "Our masterpiece made from love.") set @point,@point +1;
+		mes "[" + strcharinfo(0) + "]";
+		mes " " + @dwarfsong2$ + "";
+		mes "Agora, qual era";
+		mes "a terceira linha...?";
+		next;
+		input @dwarfsong3$;
+		if (@dwarfsong3$ == "She wanted the dazzling necklace.") set @point,@point +1;
+		mes "[" + strcharinfo(0) + "]";
+		mes " " + @dwarfsong3$ + "";
+		mes "Agora, a quarta";
+		mes "linha depois dessa...";
+		next;
+		input @dwarfsong4$;
+		if (@dwarfsong4$ == "We wanted the goddess of beauty.") set @point,@point +1;
+		mes "[" + strcharinfo(0) + "]";
+		mes " " + @dwarfsong4$ + "";
+		mes "Certo, agora";
+		mes "a última linha...";
+		next;
+		input @dwarfsong5$;
+		if (@dwarfsong5$ == "Our happiest times were with her.") set @point,@point +1;
+		mes "[" + strcharinfo(0) + "]";
+		mes " " + @dwarfsong5$ + "";
+		mes "Certo, vamos tentar.";
+		next;
+		mes "[" + strcharinfo(0) + "]";
+		mes "" + @dwarfsong1$ + "";
+		mes "" + @dwarfsong2$ + "";
+		mes "" + @dwarfsong3$ + "";
+		mes "" + @dwarfsong4$ + "";
+		mes "" + @dwarfsong5$ + "";
+		next;
+		if (@point > 4) {
+			hideoffnpc "Grer#1";
+			mes "[Grer]";
+			mes "O que--?";
+			mes "Berling";
+			mes "te enviou!";
+			set god_brising,46;
+			stopnpctimer;
+			close;
+		}
+		else {
+			mes "[Grer]";
+			mes "Bah!";
+			mes "Eu sabia!";
+			mes "Eu não posso confiar em você!";
+			close2;
+			warp "mjo_dun02",118,56;
+			end;
+		}
+	}
+	else {
+		mes "^3355FFVocê encontrou um buraco cheio de terra e um pedaço de carvão.^000000";
+		close;
+	}
+
+OnTouch_:
+	if ($God2 < $@god_check1) {
+		mes "[" + strcharinfo(0) + "]";
+		mes "Beh, sem saída.";
+		close;
+	}
+	if ($God3 >= $@god_check2) {
+		mes "[" + strcharinfo(0) + "]";
+		mes "Beh, sem saída.";
+		close;
+	}
+	if (god_brising == 44) {
+		emotion ET_SURPRISE, playerattached();
+		mes "[Voz Masculina]";
+		mes "Não chegue mais perto!";
+		mes "Como diabos eu sinto";
+		mes "a presença de Freya em você?";
+		mes "Diga-me quem é você!";
+		next;
+		switch(select("Eu fui enviado por Berling.:Wah, você me deu um susto!")) {
+		case 1:
+			mes "[Voz Masculina]";
+			mes "Mentiras! Mentiras!";
+			mes "Prove isso!";
+			mes "Prove o seu valor!";
+			set god_brising,45;
+			initnpctimer;
+			close;
+		case 2:
+			mes "[Voz Masculina]";
+			mes "Saia daqui!";
+			close;
+		}
+	}
+	else if (god_brising == 45) {
+		mes "[Voz Masculina]";
+		mes "Prove isso!";
+		mes "Caso contrário, deixe-me em paz e me deixe minerar prata. Prata...! Heh heh heh...";
+		stopnpctimer;
+		startnpctimer;
+		close;
+	}
+	else {
+		warp "mjo_dun02",118,56;
+	}
+	end;
+
+OnTimer1000:
+	mapannounce "mjo_dun02","Grer: Apresse-se e mostre que posso confiar em você!",0,0x70DBDB;
+	end;
+
+OnTimer240000:
+	mapannounce "mjo_dun02","Grer: Grrr, não vou esperar muito mais!",0,0x70DBDB;
+	end;
+
+OnTimer298000:
+	mapannounce "mjo_dun02","Grer: Adeus, humano!",0,0x70DBDB;
+	end;
+
+OnTimer300000:
+	warp "mjo_dun02",118,56;
+	hideonnpc "Grer#1";
+	end;
+
+OnTimer301000:
+	stopnpctimer;
+	end;
+}
+
+mjo_dun02,126,34,1	script	Grer#1	826,{
+	if (god_brising > 47) {
+		mes "[Grer]";
+		mes "Como prometemos,";
+		mes "o Brisingamen aparecerá diante dos olhos dos humanos. Mas até lá, farei joias de prata. Mwahahaha~";
+		close2;
+		hideonnpc "Grer#1";
+		end;
+	}
+	else if (god_brising == 46) {
+		mes "[Grer]";
+		mes "Meu nome é Grer.";
+		mes "Eu deveria ter sido";
+		mes "o último a ser despertado. Agora vejo que não minerei tanta prata quanto precisaria.";
+		next;
+		mes "[Grer]";
+		mes "Você pode pensar que o ouro combinaria melhor com uma deusa, mas não. A prata é o que torna seu cabelo dourado mais bonito.";
+		next;
+		mes "[Grer]";
+		mes "Agora que fomos revividos, há uma boa chance de a vermos novamente. Eu realmente não me importo com mais nada.";
+		next;
+		mes "[Grer]";
+		mes "Quero que seu espírito e perfume preencham este mundo. Não quero que Odin ou Heimdall saibam do nosso plano.";
+		next;
+		mes "[Grer]";
+		mes "Agora, isso não significa";
+		mes "que eu prefiro humanos a";
+		mes "deuses ou gigantes, mas se for por Freya, farei qualquer coisa.";
+		next;
+		mes "[Grer]";
+		mes "De qualquer forma, agora meus irmãos";
+		mes "foram revividos. Por isso, deixo meus agradecimentos. Algum dia, você terá o poder de desafiar os deuses.";
+		next;
+		mes "[Grer]";
+		mes "Agora, preciso";
+		mes "voltar ao meu trabalho.";
+		mes "Você precisará de um ornamento de prata para o colar, então continuarei minerando prata.";
+		next;
+		mes "[Grer]";
+		mes "Trabalharei";
+		mes "duro para fazer o mais";
+		mes "belo ornamento";
+		mes "do mundo.";
+		next;
+		mes "[Grer]";
+		mes "Tudo bem, você";
+		mes "pode voltar agora!";
+		mes "Adeus.";
+		set god_brising,47;
+		close2;
+		hideonnpc "Grer#1";
+		end;
+	}
+	else if (god_brising == 47) {
+		mes "[Grer]";
+		mes "Heh heh...";
+		mes "Por que você ainda";
+		mes "está aqui? Seu trabalho terminou.";
+		mes "Agora, volte para onde";
+		mes "você veio!";
+		close2;
+		hideonnpc "Grer#1";
+		end;
+	}
+	else {
+		mes "[Grer]";
+		mes "Quem diabos";
+		mes "é você?!";
+		close2;
+		hideonnpc "Grer#1";
+		end;
+	}
+OnInit:
+	hideonnpc "Grer#1";
+	end;
+}

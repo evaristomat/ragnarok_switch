@@ -1,0 +1,12 @@
+[package]
+name="nostalre-offline-probe"
+version="0.1.0"
+edition="2024"
+[workspace]
+[dependencies]
+nostalre-network={path="../nostalre-launcher/client/lib/network"}
+nostalre-game={path="../nostalre-launcher/client/lib/game"}
+models={path="../nostalre-launcher/client/rust-ro/models"}
+tracing="0.1"
+tracing-subscriber={version="0.3",default-features=false,features=["fmt","env-filter"]}
+tokio={version="1",features=["net","rt","sync","macros","io-util","time"]}

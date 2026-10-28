@@ -1,0 +1,1025 @@
+//===== rAthena Script =======================================
+//= Einbech Town
+//===== By: ==================================================
+//= Muad_Dib
+//===== Current Version: =====================================
+//= 1.5
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Einbech Town Script
+//===== Additional Comments: =================================
+//= 0.1  Started writing Einbech npc's. [Muad_Dib]
+//= 0.1a Conversion to eA format [MasterOfMuppets]
+//= 0.1b Added missing tabs. [Mass Zero] 0.1c more missing tabs [Lupus]
+//= 0.2 Added reddozen's NPCs, fixedmissing '";' [Lupus]
+//= 0.2a Removed a few npcs never intended to be there [MasterOfMuppets]
+//= 0.3 Added some more npcs, thanks to Muad_Dib [MasterOfMuppets]
+//= 1.0 Added the last of the town npcs, [MasterOfMuppets]
+//=     all credits to muad_dib for scripting them.
+//= 1.1 Made some changes according to the Shinokas quest, [MasterOfMuppets]
+//=     thanks to Dj-Yhn for scripting them.
+//= 1.2 Removed Duplicates [Silent]
+//= 1.3 Implemented the Lover's quest. [MasterOfMuppets]
+//= 1.4 Moved quests to quests/quests_ein.txt [Evera]
+//= 1.5 Optimized some of the NPCs and fixed some typos [DZeroX]
+//= 1.6 Replaced occurrences of PcName. [L0ne_W0lf]
+//============================================================
+
+einbech,172,113,4	script	Nemuk#ein	855,{
+	mes "[Nemuk]";
+	mes "Você parece ser";
+	mes "um forasteiro, então";
+	mes "deixe-me perguntar algo.";
+	mes "O que você acha";
+	mes "de Einbech?";
+	next;
+	switch(select("É bom.:Parece difícil viver aqui.")) {
+	case 1:
+		mes "[Nemuk]";
+		mes "Hein...?";
+		mes "Não sei bem o que";
+		mes "você viu, mas estou";
+		mes "surpreso em ouvir você";
+		mes "dizer algo assim.";
+		next;
+		mes "[Nemuk]";
+		mes "Faz dez anos desde que";
+		mes "comecei a pensar em";
+		mes "me mudar. No entanto, ainda";
+		mes "estou indeciso. Se eu fosse rico, sairia daqui num instante, mas é difícil conseguir dinheiro para se mudar.";
+		next;
+		mes "[Nemuk]";
+		mes "^333333*Suspiro...*^000000";
+		mes "Talvez se eu tivesse sido";
+		mes "um aventureiro quando era";
+		mes "mais jovem, eu não teria";
+		mes "esses problemas hoje...";
+		close;
+	case 2:
+		mes "[Nemuk]";
+		mes "Eu imaginei.";
+		mes "Bem, peço desculpas se";
+		mes "coloquei você em uma situação embaraçosa.";
+		next;
+		mes "[Nemuk]";
+		mes "Todos aqui têm tido";
+		mes "dificuldades apenas para";
+		mes "viver o dia a dia desde que";
+		mes "me entendo por gente. É como";
+		mes "se as coisas nunca fossem";
+		mes "melhorar, não importa o que façamos.";
+		next;
+		mes "[Nemuk]";
+		mes "Eu realmente quero sair daqui,";
+		mes "mas é apenas um desejo";
+		mes "vazio. Meu corpo está preso";
+		mes "aqui, enquanto meu coração anseia";
+		mes "por uma vida muito melhor. ^333333*Suspiro*^000000";
+		mes "Será que não há esperança? O que posso fazer?";
+		close;
+	}
+}
+
+einbech,197,139,4	script	Young Man#air2	855,{
+	mes "[Heinz]";
+	mes "Uau...";
+	mes "Um aventureiro de";
+	mes "Rune-Midgard, é?";
+	mes "O que te traz aqui?";
+	next;
+	mes "[Heinz]";
+	mes "Einbech não oferece muito";
+	mes "em termos de turismo, mas";
+	mes "você veio para ver a mina?";
+	mes "Agora, ela está infestada de";
+	mes "monstros e não conseguimos minerar";
+	mes "nenhum minério porque é muito perigoso.";
+	next;
+	mes "[Heinz]";
+	mes "Agora, se alguns aventureiros fossem";
+	mes "generosos o suficiente para caçar";
+	mes "essas criaturas malignas, poderíamos minerar novamente e eles poderiam ganhar uns zenys extras. É como matar dois coelhos com uma cajadada só. Hahaha!";
+	next;
+	mes "[Heinz]";
+	mes "Oh, espere... Desculpe-me.";
+	mes "Não sei o que há de errado";
+	mes "comigo, pedindo a completos";
+	mes "estranhos que façam favores para";
+	mes "mim. É uma falta de educação!";
+	mes "Digo, quem faria isso?";
+	next;
+	mes "[Heinz]";
+	mes "Mas... já passei da conta de";
+	mes "me preocupar com meu orgulho. Por";
+	mes "tudo que é bom e sagrado, eu te imploro, por favor, mate essas criaturas vis e malignas. Por favor~!";
+	close;
+}
+
+einbech,128,238,5	script	Mogan#ein	848,{
+	mes "[Mogan]";
+	mes "Recentemente, houve alguns";
+	mes "desabamentos onde muitos mineiros";
+	mes "ficaram feridos. Isso foi discutido";
+	mes "no Conselho da Cidade e, na minha";
+	mes "opinião, acho que os mineiros cavaram";
+	mes "fundo demais e perturbaram... ^FF0000aquilo^000000.";
+	next;
+	mes "[Mogan]";
+	mes "Sim, eles acordaram Ungoliant,";
+	mes "a mestra das cavernas que";
+	mes "existe desde os tempos antigos.";
+	mes "Não sei quantos mais serão";
+	mes "vítimas de Ungoliant no";
+	mes "futuro. Não há como saber...";
+	next;
+	mes "[Mogan]";
+	mes "Aventureiro, tenha cuidado";
+	mes "se você viajar dentro das";
+	mes "minas, para que seus passos";
+	mes "não perturbem o sono de Ungoliant.";
+	close;
+}
+
+einbech,129,234,5	script	Hander#ein	848,{
+	mes "[Hander]";
+	mes "Aqueles bastardos de Einbroch!";
+	mes "Vivendo dos recursos que";
+	mes "escavamos enquanto continuamos";
+	mes "trabalhando para eles como otários! Droga!";
+	next;
+	mes "[Hander]";
+	mes "Todos os dias, arriscamos nossas";
+	mes "malditas vidas só para";
+	mes "conseguir ganhar a vida! Por que os";
+	mes "anciãos não fazem algo sobre";
+	mes "isso, como aumentar o preço dos minérios?";
+	next;
+	mes "[Hander]";
+	mes "O cronograma de trabalho";
+	mes "não é razoável, a esposa de";
+	mes "Cavitar foi atacada por uma criatura";
+	mes "da mina, o hospital é longe";
+	mes "demais e não temos food";
+	mes "nenhuma para comer! Por que...?!";
+	close;
+}
+
+einbech,105,218,5	script	Gushenmu#ein	848,{
+	mes "[Gushenmu]";
+	mes "Eu moro aqui há muito tempo";
+	mes "e, acredite ou não, as coisas";
+	mes "não eram tão difíceis no passado";
+	mes "quanto são agora.";
+	next;
+	mes "[Gushenmu]";
+	mes "Por muitos motivos diferentes,";
+	mes "o trabalho está mais perigoso";
+	mes "e estamos realmente com pouca";
+	mes "mão de obra. E as fábricas em";
+	mes "Einbroch fazem tanta fumaça,";
+	mes "que nem conseguimos ver a luz do sol aqui.";
+	next;
+	mes "[Gushenmu]";
+	mes "A triste realidade da mineração";
+	mes "atualmente é que nós";
+	mes "acordamos, vamos trabalhar e, ao";
+	mes "fim do dia, alguns de nós";
+	mes "estão feridos, enquanto outros nunca mais voltam ao trabalho.";
+	next;
+	mes "[Gushenmu]";
+	mes "E conforme Einbech e Einbroch";
+	mes "cresceram, ouço cada vez";
+	mes "mais rumores de que monstros";
+	mes "desconhecidos estão começando";
+	mes "a aparecer nos arredores da cidade. Este";
+	mes "é realmente o pior momento de Einbech...";
+	close;
+}
+
+einbech,39,215,5	script	Train Station Staff#ein3	852,{
+	mes "[Staff]";
+	mes "Bem-vindo à";
+	mes "Estação de Trem.";
+	mes "A passagem para pegar o";
+	mes "trem para Einbroch é";
+	mes "200 zenys. Você";
+	mes "gostaria de viajar?";
+	next;
+	switch(select("Sim.:Não.")) {
+	case 1:
+		if (Zeny > 199) {
+			mes "[Staff]";
+			mes "Obrigado e";
+			mes "esperamos que aproveite";
+			mes "a viagem. Todos a bordo!";
+			close2;
+			set Zeny, Zeny-200;
+			warp "einbroch",226,276;
+			end;
+		}
+		else {
+			mes "[Staff]";
+			mes "Sinto muito,";
+			mes "mas você não";
+			mes "tem zeny suficiente";
+			mes "para pagar a passagem do trem.";
+			close;
+		}
+	case 2:
+		mes "[Staff]";
+		mes "Por favor, aproveite";
+		mes "sua estadia aqui";
+		mes "em Einbech.";
+		close;
+	}
+}
+
+einbech,157,215,3	script	Train Station Manager#ei	852,{
+	mes "[Gerente de Estação Ferroviária]";
+	mes "Esta estação de trem";
+	mes "é estritamente para trens";
+	mes "que circulam de Einbech";
+	mes "para Einbroch. Por favor, fale";
+	mes "com a equipe na direção das 11 horas se desejar embarcar.";
+	close;
+}
+
+einbech,151,168,3	script	Tollaf#ein	855,{
+	mes "[Tollaf]";
+	mes "Ah...!";
+	mes "Isso está me matando!";
+	mes "Eu não tenho o dinheiro";
+	mes "para me mudar, mas eu não quero";
+	mes "mais morar nesta cidade!";
+	next;
+	mes "[Tollaf]";
+	mes "As pessoas em qualquer outro lugar";
+	mes "vivem muito melhor do que nós,";
+	mes "especialmente aqueles esnobes de";
+	mes "Einbroch! Einbech deve ser a";
+	mes "pior cidade da República de Schwarzwald. Não, é a pior do mundo!";
+	close;
+}
+
+einbech,93,139,5	script	Raust#ein	847,{
+	mes "[Raust]";
+	mes "Eu não entendo!";
+	mes "Einbroch fica maior";
+	mes "e mais chique, e nossa";
+	mes "cidade fica mais suja e";
+	mes "imunda. Que droga é essa?!";
+	next;
+	mes "[Raust]";
+	mes "Não apenas as pessoas aqui";
+	mes "parecem mais maltrapilhas, nós";
+	mes "estamos mais cansados e com aparência mais velha";
+	mes "ainda! É sujo, é lotado,";
+	mes "tudo nesta cidade é uma porcaria completa! O quê, você quer uma lista?!";
+	next;
+	mes "[Raust]";
+	mes "A food, literalmente, é";
+	mes "lixo! Os trabalhos aqui têm";
+	mes "que ser violações dos direitos humanos. Quase não há mulheres aqui e as que temos são todas fedorentas de qualquer jeito! Você já está convencido?!";
+	next;
+	mes "[Raust]";
+	mes "Por que tudo";
+	mes "que é bom fica em";
+	mes "Einbroch?! Eu odeio isso!";
+	mes "^333333*Resmunga*^000000";
+	close;
+}
+
+einbech,149,154,3	script	Mjunia#ein	850,{
+	mes "[Mjunia]";
+	mes "É difícil ser uma mulher";
+	mes "nesta cidade. Por ter nascido";
+	mes "aqui, é como se o destino tivesse decidido ser especialmente cruel comigo.";
+	next;
+	mes "[Mjunia]";
+	mes "Minha pele e minhas mãos";
+	mes "estão calejadas de tanto";
+	mes "trabalho. Mas o pior de";
+	mes "tudo... é que eu... eu... eu desenvolvi";
+	mes "músculos maiores do que os da";
+	mes "maioria dos rapazes! Waaaaaah~!";
+	next;
+	mes "[Mjunia]";
+	mes "Eu queria poder encontrar";
+	mes "um cara legal de Einbroch";
+	mes "e me casar para que eu possa";
+	mes "sair desta cidade.";
+	mes "Mas não parece que";
+	mes "isso vá acontecer...";
+	next;
+	mes "[Mjunia]";
+	mes "E eu nunca me casaria";
+	mes "com alguém de Einbech!";
+	mes "Prefiro morrer com frio e";
+	mes "sozinha do que com frio e casada";
+	mes "com algum arruaceiro de Einbech.";
+	next;
+	mes "[Mjunia]";
+	mes "Olhe para estes";
+	mes "músculos. O que";
+	mes "você acha? Sou bonita?";
+	mes "^333333*Sniff*^000000 Eu desisti de tentar";
+	mes "ser feminina há anos.";
+	mes "Eu tenho que trabalhar tão duro...";
+	close;
+}
+
+einbech,130,253,1	script	Ekuri#ein	848,{
+	mes "[Ekuri]";
+	mes "Heave, ho!";
+	mes "Heave, ho~!";
+	next;
+	mes "[Ekuri]";
+	mes "O que estou fazendo aqui?";
+	mes "Caramba, estou morrendo de";
+	mes "medo de entrar na mina! Mas";
+	mes "eu consigo ganhar a vida aqui";
+	mes "na entrada coletando";
+	mes "sucata! Inteligente, né?";
+	next;
+	mes "[Ekuri]";
+	mes "Às vezes eu tenho sorte";
+	mes "e consigo um minério inteiro!";
+	mes "Claro, sou um covarde, mas";
+	mes "pelo menos estou vivo. Bom,";
+	mes "pelo menos por enquanto.";
+	next;
+	mes "[Ekuri]";
+	mes "Agora você sabe o que";
+	mes "estou fazendo aqui. Então,";
+	mes "por que não me deixa";
+	mes "com o meu trabalho? Heave-ho!";
+	mes "Minérios, venham a mim!";
+	close;
+}
+
+einbech,135,250,5	script	Bulletin Board#einbech11	858,{
+	mes " ";
+	mes "Entrada da Masmorra da Mina";
+	mes " ";
+	close;
+}
+
+einbech,90,214,5	script	Bulletin Board#einbech22	858,{
+	mes " ";
+	mes "Estação de Trem";
+	mes " ";
+	close;
+}
+
+einbech,158,189,4	script	Bulletin Board#einbech33	858,{
+	mes " ";
+	mes "Estação de Trem de Carga";
+	mes " ";
+	close;
+}
+
+einbech,180,136,5	script	Bulletin Board#einbech44	858,{
+	mes " ";
+	mes "Loja de Ferramentas";
+	mes " ";
+	close;
+}
+
+einbech,133,114,5	script	Bulletin Board#einbech55	858,{
+	mes " ";
+	mes "Taberna";
+	mes " ";
+	close;
+}
+
+einbech,77,105,5	script	Bulletin Board#einbech01	858,{
+	mes "Bem-vindo a 'Einbech'.";
+	next;
+	mes "Leste - Taberna, Loja de Ferramentas";
+	mes "Norte - Estação de Trem, Masmorra da Mina";
+	close;
+}
+
+einbech,181,127,5	script	Bulletin Board#einbech03	858,{
+	mes "Noroeste - Estação de Trem";
+	mes "Sul - Taberna";
+	mes "Norte - Loja de Ferramentas, Masmorra da Mina";
+	close;
+}
+
+ein_in01,279,92,3	script	Tavern Lady#ein	854,{
+	mes "[Senhora da Taverna]";
+	mes "A maioria dos homens de Einbech";
+	mes "são chauvinistas primitivos e";
+	mes "grosseiros! Eles me dão nojo!";
+	next;
+	mes "[Senhora da Taverna]";
+	mes "Digo, não há nada de bom";
+	mes "neles! São selvagens, violentos,";
+	mes "simplórios e ignorantes. Eles";
+	mes "resolvem todas as suas brigas";
+	mes "na força bruta e são tão...";
+	mes "mente fechada!";
+	next;
+	mes "[Senhora da Taverna]";
+	mes "Como eles podem não saber";
+	mes "que as mulheres querem homens";
+	mes "gentis e sensíveis com quem";
+	mes "possam compartilhar seus sentimentos";
+	mes "e tomar chá de camomila sobre";
+	mes "toalhinhas de crochê recém-feitas?";
+	close;
+}
+
+ein_in01,277,95,7	script	Ryan Danger#air#einbech	855,{
+	mes "[RD Kim]";
+	mes "Oooh...";
+	next;
+	mes "[RD Kim]";
+	mes "Oh...";
+	mes "Mamãe.";
+	next;
+	mes "[RD Kim]";
+	mes "Oh...";
+	mes "Mamãe.";
+	mes "Você é tão...";
+	next;
+	mes "[RD Kim]";
+	mes "Oooh...";
+	mes "Mamãe.";
+	mes "Você é tão...";
+	mes "^FF0000Gata^000000!";
+	next;
+	mes "[RD Kim]";
+	mes "Por que você não tira";
+	mes "essas roupas pesadas e";
+	mes "desconfortáveis? Eu compro o que";
+	mes "você quiser, é por minha conta! Vamos~";
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "N-não...!";
+	mes "E-e-e-e...";
+	mes "^666666(Esse é o";
+	mes "cara mais suspeito";
+	mes "que já vi!)^000000";
+	next;
+	mes "[RD Kim]";
+	mes "Hm? Não...?";
+	mes "Absolutamente não?";
+	mes "Tem certeza?";
+	mes "Tudo bem, tudo bem.";
+	mes "Sinto muito, peço desculpas.";
+	mes "Eu fui totalmente inconveniente.";
+	next;
+	mes "[RD Kim]";
+	mes "...";
+	mes "Ou será que não?";
+	mes "Bwahahahaha!";
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "(E-esse cara";
+	mes "deve estar fora de";
+	mes "si de tão bêbado!)";
+	close;
+}
+
+ein_in01,281,85,3	script	Drunken Man#einbech	849,{
+	mes "[Homem bêbado]";
+	mes "...^333333*Soluço*^000000...";
+	mes "^333333*Soluço*^000000...";
+	mes "^333333*Bocejo*^000000.....";
+	mes ".................";
+	mes "..^333333*Soluço*^000000.....";
+	mes "^333333*Soluço*^000000..";
+	close;
+}
+
+einbech,46,107,6	script	Shena#ein::EinMonsters	846,{
+	mes "[Shena]";
+	mes "Acho isso estranho!";
+	mes "Como vocês, jovens,";
+	mes "não aprendem nada disso?";
+	next;
+	mes "[Luda]";
+	mes "Bem, tenho certeza de que o";
+	mes "conflito de gerações tem";
+	mes "algo a ver com isso,";
+	mes "mas me surpreende que os mais";
+	mes "velhos saibam tanto~";
+	next;
+	switch(select("Do que vocês estão falando?:Passando reto")) {
+	case 1:
+		mes "[Shena]";
+		mes "Oh? Ora, ora!";
+		mes "Você não é a garotinha";
+		mes "mais adorável que existe?";
+		mes "Olá, queridinha~";
+		next;
+		if (Sex == SEX_MALE) {
+			select("Com licença, mas eu sou um rapaz.");
+			mes "[Shena]";
+			mes "Oh, é mesmo?";
+			mes "Talvez minha visão esteja";
+			mes "piorando por causa da";
+			mes "minha idade. Está ficando";
+			mes "difícil distinguir hoje em dia...";
+			next;
+		}
+		mes "[Shena]";
+		mes "Enfim, eu e Luda";
+		mes "estávamos apenas batendo um";
+		mes "papo sobre todos os monstros";
+		mes "perto de Einbroch. Aparentemente,";
+		mes "vocês, jovens, não sabem tanto";
+		mes "sobre eles quanto deveriam.";
+		next;
+		mes "[Shena]";
+		mes "Se aventurar é o seu";
+		mes "trabalho, você deveria";
+		mes "saber o que vai enfrentar.";
+		mes "Você tem alguma dúvida";
+		mes "sobre os monstros por";
+		mes "aqui, mocinha?";
+		next;
+		if (Sex == SEX_MALE) {
+			select("Eu já disse, eu sou um rapaz...!");
+			mes "[Shena]";
+			mes "Hmm. ''Rapaz.'' Acho que";
+			mes "já ouvi isso antes.";
+			mes "Ho ho~ Você terá que";
+			mes "perdoar esta velha.";
+			mes "Eu não entendo bem";
+			mes "todos os termos que vocês usam.";
+			next;
+			mes "[Shena]";
+			mes "Então, queridinha,";
+			mes "sobre qual monstro";
+			mes "você gostaria";
+			mes "de ouvir?";
+			next;
+		}
+		while(1) {
+			switch(select("Metalling:Mineral:Pit Man:Old Stove:Sair")) {
+			case 1:
+				mes "[Shena]";
+				mes "Bem, os Metalings";
+				mes "foram criados durante";
+				mes "a época em que os deuses";
+				mes "governavam este mundo.";
+				next;
+				mes "[Shena]";
+				mes "Não sei se você sabia";
+				mes "disso, mas de acordo";
+				mes "com o mito, Porings e Drops";
+				mes "foram criados a partir da";
+				mes "saliva de Odin. Você talvez";
+				mes "não queira saber sobre o Poporing...";
+				next;
+				mes "[Shena]";
+				mes "Os Metalings, por";
+				mes "outro lado, foram feitos";
+				mes "do sangue de máquinas vivas";
+				mes "que eu acredito que eram";
+				mes "chamadas de ''Gigantes.''";
+				next;
+				mes "[Shena]";
+				mes "Metalling ainda são como";
+				mes "aquelas outras bolhas de";
+				mes "gelatina saltitantes que";
+				mes "engolem qualquer coisa que";
+				mes "estiver caída no chão.";
+				next;
+				mes "[Shena]";
+				mes "Se você derrotar um Metalling,";
+				mes "ele pode deixar cair Geleia de Fruta,";
+				mes "Minério de Ferro ou até Ferro. É";
+				mes "bom saber disso, não é?";
+				next;
+				mes "[Shena]";
+				mes "Há mais";
+				mes "alguma coisa que";
+				mes "você gostaria de";
+				mes "perguntar, querido(a)?";
+				next;
+				break;
+			case 2:
+				mes "[Shena]";
+				mes "Você sabia que estalactites";
+				mes "e cristais de caverna";
+				mes "crescem por milhares";
+				mes "e milhares de anos?";
+				next;
+				mes "[Shena]";
+				mes "Agora, se algo tem crescido";
+				mes "por milhares de anos, faria sentido";
+				mes "se estivesse realmente vivo. Bem,";
+				mes "monstros Minerais são, na verdade, estalactites vivas.";
+				mes "[NOME PRÓPRIO][Shena]";
+				next;
+				mes "[Shena]";
+				mes "Há rumores de que eles";
+				mes "crescem em uma caverna escura";
+				mes "onde algo em seu interior";
+				mes "exerce algum tipo de";
+				mes "influência maligna sobre eles.";
+				next;
+				mes "[Shena]";
+				mes "Minerais podem se defender,";
+				mes "mas podem derrubar Fragmento de Cristal, Topázio ou Emvertacon se você derrotar um. Também há uma pequena chance de deixarem cair uma joia rara, mas não tenho certeza.";
+				next;
+				mes "[Shena]";
+				mes "Existem outros";
+				mes "monstros por aqui";
+				mes "sobre os quais você";
+				mes "gostaria de aprender";
+				mes "um pouco mais?";
+				next;
+				break;
+			case 3:
+				mes "[Shena]";
+				mes "Pit Men são os fantasmas";
+				mes "de mineradores mortos que assombram";
+				mes "antigos carrinhos de mina enferrujados.";
+				mes "Por algum motivo, eles não conseguem";
+				mes "deixar este mundo, então apenas";
+				mes "vagam pelas minas.";
+				next;
+				mes "[Shena]";
+				mes "Se você conseguir derrotá-los,";
+				mes "eles deixarão cair";
+				mes "Picareta Velha, Lanterna, Ferro,";
+				mes "Aço, Carvão, Lanterna e";
+				mes "Placa de Ferro Velha.";
+				next;
+				mes "[Shena]";
+				mes "Você gostaria";
+				mes "de me perguntar";
+				mes "sobre algum outro";
+				mes "monstro local?";
+				next;
+				break;
+			case 4:
+				mes "[Shena]";
+				mes "É apenas um fogão maligno";
+				mes "comedor de gente.";
+				next;
+				switch(select("...Só isso?:H-horripilante!")) {
+				case 1:
+					mes "[Shena]";
+					mes "Agora você conhece a importância";
+					mes "da reciclagem e da preservação dos";
+					mes "nossos recursos naturais, certo? Faria";
+					mes "bem ao meu coração se você reciclasse o sucata de ferro";
+					mes "desses monstros Fogão Velho.";
+					next;
+					mes "[Shena]";
+					mes "Fogões Velhos geralmente";
+					mes "deixam cair Panela Amassada, Madeira Queimada,";
+					mes "Ferro, Minério de Ferro e Placa de Ferro Velha. Mas, de vez em quando, podem derrubar itens interessantes como Ferro Enferrujado ou até Galho Seco.";
+					next;
+					break;
+				case 2:
+					mes "[Shena]";
+					mes "Sim. Criação de Deus,";
+					mes "aquela criatura é cruel";
+					mes "e impiedosa, talvez";
+					mes "um símbolo do mais puro mal,";
+					mes "se é que já vi um.";
+					next;
+					mes "[Shena]";
+					mes "Diferente dos aparelhos modernos,";
+					mes "Fogões Velhos eram feitos à mão por";
+					mes "mestres artesãos que, suponho,";
+					mes "desenvolveram suas próprias almas. Eles";
+					mes "costumavam ser máquinas benevolentes, contentes em proporcionar um calor amoroso.";
+					next;
+					mes "[Shena]";
+					mes "Por anos, serviram aos";
+					mes "seus donos com lealdade. Mas,";
+					mes "à medida que a tecnologia avançava e";
+					mes "se tornaram obsoletos, foram";
+					mes "descartados como lixo. Isso distorceu seus corações para o ^FF0000mal^000000.";
+					next;
+					mes "[Shena]";
+					mes "Fogões Velhos geralmente";
+					mes "deixam cair Panela Amassada, Madeira Queimada,";
+					mes "Ferro, Minério de Ferro e Placa de Ferro Velha. Mas, de vez em quando, podem derrubar itens interessantes como Ferro Enferrujado ou até Galho Seco.";
+					next;
+					break;
+				}
+				mes "[Shena]";
+				mes "Então, tem mais";
+				mes "alguma coisa que";
+				mes "você gostaria que";
+				mes "eu lhe contasse?";
+				next;
+				break;
+			case 5:
+				mes "[Shena]";
+				mes "Muito bem, então.";
+				mes "Tenha um bom";
+				mes "dia, jovem moça.";
+				next;
+				mes "[Luda]";
+				mes "Desculpe-me pela minha";
+				mes "mãe! Ela pode ser";
+				mes "amigável demais, suponho.";
+				mes "Mas se você estiver entediado(a),";
+				mes "sinta-se à vontade para nos visitar. Fique";
+				mes "em segurança em suas viagens, aventureiro(a)~";
+				close;
+			}
+		}
+	case 2:
+		mes "[Shena]";
+		mes "Luda...";
+		mes "Você não vive";
+		mes "até ficar tão velha";
+		mes "quanto eu sem aprender";
+		mes "um pouco sobre";
+		mes "este nosso mundo~";
+		close;
+	}
+}
+
+einbech,48,107,4	duplicate(EinMonsters)	Luda#ein	850
+
+einbech,148,242,5	script	Jung#ein	855,{
+	mes "[Jung]";
+	mes "Sou uma das poucas";
+	mes "pessoas que viveu";
+	mes "tanto em Einbech quanto";
+	mes "em Einbroch por muito tempo.";
+	mes "Então, acho que sou um dos";
+	mes "melhores guias desta região.";
+	next;
+	mes "[Jung]";
+	mes "Diga, se você está pensando em";
+	mes "entrar na Dungeon da Mina,";
+	mes "posso lhe contar tudo o que sei sobre";
+	mes "os monstros de lá, para que";
+	mes "você esteja melhor preparado(a).";
+	next;
+	switch(select("Claro, por que não?:Não, obrigado(a).")) {
+	case 1:
+		mes "[Jung]";
+		mes "Vejamos. Ah, os monstros exclusivos da Dungeon da Mina";
+		mes "são Noxious, Venomous, Pollcellio e Obsidian. Sobre qual deles";
+		mes "você quer saber mais?";
+		next;
+		switch(select("Nocivo e Venenoso:Polcelio:Obsidiana")) {
+		case 1:
+			mes "[Jung]";
+			mes "Sabe, ninguém parece";
+			mes "saber de onde Noxious e";
+			mes "Venomous vieram.";
+			mes "É como se tivessem aparecido do";
+			mes "nada quando Einbroch";
+			mes "começou a se industrializar.";
+			next;
+			mes "[Jung]";
+			mes "Agora que penso nisso,";
+			mes "não acho que sejam monstros criados naturalmente. Eles têm";
+			mes "um olhar fixo de desespero e";
+			mes "sofrimento e agem como se quisessem que seus inimigos os matassem.";
+			next;
+			mes "[Jung]";
+			mes "Ainda assim, é melhor ter cuidado!";
+			mes "Noxious e Venomous";
+			mes "são monstros furtivos que podem";
+			mes "deslizar silenciosamente pelo ar";
+			mes "e atacar você antes";
+			mes "que você perceba...";
+			next;
+			mes "[Jung]";
+			mes "Você deve saber que";
+			mes "Noxious é da propriedade Fantasma";
+			mes "e Venomous é de Veneno.";
+			mes "Ambos são monstros de tamanho médio,";
+			mes "sem forma definida.";
+			next;
+			mes "[Jung]";
+			mes "Ambos deixam cair Maçã,";
+			mes "Poeira Poluente, Gás Tóxico,";
+			mes "Pó Venenoso, Bacilo,";
+			mes "Pó de Mofo e Anodyne.";
+			next;
+			mes "[Jung]";
+			mes "Isso é tudo por enquanto.";
+			mes "Sinta-se à vontade para me perguntar";
+			mes "se tiver dúvidas sobre";
+			mes "os monstros da Dungeon da";
+			mes "Mina. Fique em segurança, aventureiro(a).";
+			close;
+		case 2:
+			mes "[Jung]";
+			mes "Pollcellio é um inseto que";
+			mes "vive em cavernas e bebe água";
+			mes "que pinga das estalactites. É";
+			mes "diferente de Ungoliant, já que";
+			mes "gosta de ficar perto de diferentes";
+			mes "tipos de minerais e minérios.";
+			next;
+			mes "[Jung]";
+			mes "Pollcellio derruba Jubileu,";
+			mes "Antena de Inseto, Célula Única,";
+			mes "Musgo de Orvalho, Líquido Neon";
+			mes "e algumas outras coisas";
+			mes "que não consigo me lembrar bem.";
+			next;
+			mes "[Jung]";
+			mes "Por último, Pollcellio é um";
+			mes "monstro de propriedade Terra.";
+			mes "É tudo o que sei sobre ele.";
+			mes "Mas se quiser saber mais";
+			mes "sobre outro monstro na";
+			mes "Dungeon da Mina, sinta-se à vontade.";
+			close;
+		case 3:
+			mes "[Jung]";
+			mes "Você conhece a crença de que";
+			mes "minerais subterrâneos que contêm";
+			mes "enormes quantidades de energia";
+			mes "na verdade possuem almas?";
+			mes "Obsidian é uma dessas rochas vivas.";
+			mes "[NOME PRÓPRIO][Jung]";
+			next;
+			mes "[Jung]";
+			mes "Supostamente, apenas um pedaço de Obsidian em um Processador Jung tem energia suficiente para iluminar o céu noturno. Infelizmente, é impossível capturar um vivo e caçá-los não é tão fácil.";
+			next;
+			mes "[Jung]";
+			mes "Obsidian é um monstro pequeno";
+			mes "e sem forma que";
+			mes "derruba Joia Limpa, Fragmento de";
+			mes "Cristal Preto, Carvão, Elunium,";
+			mes "Ferro e Aço.";
+			next;
+			mes "[Jung]";
+			mes "É tudo por hoje sobre o Obsidiana.";
+			mes "Se você tiver alguma dúvida";
+			mes "sobre outros monstros que vivem";
+			mes "na Masmorra da Mina, fique";
+			mes "à vontade para me perguntar.";
+			close;
+		}
+	case 2:
+		mes "[Jung]";
+		mes "Eu entendo se você estiver";
+		mes "com um pouco de pressa. Ainda assim,";
+		mes "se você for novo por";
+		mes "aqui, deveria aprender o";
+		mes "máximo que puder antes";
+		mes "de entrar em qualquer masmorra.";
+		next;
+		mes "[Jung]";
+		mes "Tudo bem então,";
+		mes "mantenha-se em segurança em suas";
+		mes "aventuras, certo?";
+		close;
+	}
+}
+
+einbech,148,246,5	script	Franz#ein	851,{
+	mes "[Franz]";
+	mes "Tão entediado...";
+	mes "Faminto por...";
+	mes "Conversa.";
+	mes "A-alguém...";
+	next;
+	mes "[Franz]";
+	mes "Ei, um viajante!";
+	mes "Você planeja explorar";
+	mes "a Masmorra da Mina ou os campos";
+	mes "por aqui? Vamos conversar um pouco e talvez você aprenda algo.";
+	next;
+	switch(select("Tudo bem, certo.:Não, obrigado.")) {
+	case 1:
+		mes "[Franz]";
+		mes "Ooh, você ouviu falar";
+		mes "sobre a criatura na";
+		mes "Masmorra da Mina ou o que";
+		mes "aconteceu na cidade recentemente?";
+		mes "Sobre o que você gostaria";
+		mes "de saber mais?";
+		next;
+		switch(select("Criatura da Masmorra da Mina:Incidente na Cidade")) {
+		case 1:
+			mes "[Franz]";
+			mes "A criatura de quem estou falando é Ungoliant, também chamada de Mestra das Cavernas por aqui.";
+			mes "Dizem que vive nas profundezas das cavernas, onde guarda minérios e minerais peculiares com poderes estranhos.";
+			next;
+			mes "[Franz]";
+			mes "A princípio, eu pensei que fosse";
+			mes "apenas um conto de fadas antigo, mas ela";
+			mes "começou a aparecer";
+			mes "de fato novamente há dez anos,";
+			mes "quando os desmoronamentos";
+			mes "nos túneis começaram a acontecer.";
+			next;
+			mes "[Franz]";
+			mes "Conforme os avistamentos de Ungoliant";
+			mes "aumentaram, mais e mais";
+			mes "desmoronamentos de túneis ocorreram.";
+			mes "Acho que os mineradores";
+			mes "invadiram inadvertidamente";
+			mes "o território dela.";
+			next;
+			mes "[Franz]";
+			mes "Segundo a lenda,";
+			mes "gigantes antigos entraram escondidos";
+			mes "em uma mina para roubar carvão";
+			mes "dos humanos. Mas eles fizeram";
+			mes "muito barulho enquanto";
+			mes "escavavam e despertaram Ungoliant.";
+			next;
+			mes "[Franz]";
+			mes "Quando os mineradores foram trabalhar";
+			mes "na manhã seguinte, encontraram os corpos ensanguentados daqueles gigantes.";
+			mes "Depois disso, as pessoas passaram a temer";
+			mes "a ameaça que Ungoliant representa";
+			mes "para qualquer um que entre nas minas.";
+			next;
+			mes "[Franz]";
+			mes "Agora, um aventureiro que";
+			mes "conseguiu matar uma Ungoliant";
+			mes "me disse que ela derruba Mandíbula de Formiga, Concha Colorida, Casco";
+			mes "Muito Resistente, Perna Longa, Líquido";
+			mes "Neon e Zircônio.";
+			mes "[Nota: Zircônio está listado como Zilcon no original.]";
+			close;
+		case 2:
+			mes "[Franz]";
+			mes "Em Einbroch, houve";
+			mes "uma moda passageira de ursinhos de pelúcia.";
+			mes "No entanto, uma série de";
+			mes "acidentes misteriosos e";
+			mes "assassinatos onde famílias inteiras";
+			mes "foram mortas também ocorreram.";
+			next;
+			mes "[Franz]";
+			mes "Descobriu-se que cada família";
+			mes "que tinha sido assassinada havia";
+			mes "comprado um desses ursinhos de pelúcia. Havia até boatos de que esses ursinhos ganhavam vida.";
+			next;
+			mes "[Franz]";
+			mes "Após uma investigação, as";
+			mes "autoridades descobriram que todos os mercadores que vendiam esses ursos";
+			mes "os tinham comprado do";
+			mes "mesmo atacadista, um estranho";
+			mes "sobre quem ninguém sabia nada.";
+			next;
+			mes "[Franz]";
+			mes "Como os ursinhos de pelúcia";
+			mes "claramente não foram feitos para serem meros";
+			mes "brinquedos inofensivos, tropas foram";
+			mes "enviadas para apreender todos os ursinhos";
+			mes "e descartá-los";
+			mes "fora da cidade.";
+			next;
+			mes "[Franz]";
+			mes "Mas assim que os ursinhos";
+			mes "de pelúcia foram deixados fora da";
+			mes "cidade, ganharam vida e";
+			mes "começaram a causar tumulto! Esta é uma prova clara";
+			mes "de que esses ursos são";
+			mes "controlados por alguma força maligna.";
+			next;
+			mes "[Franz]";
+			mes "Agora, aqueles ursinhos de pelúcia";
+			mes "agressivos estão espalhados por todo";
+			mes "o lugar e o governo";
+			mes "os classificou como monstros. Elimine-os com força total!";
+			next;
+			mes "[Franz]";
+			mes "De acordo com aventureiros";
+			mes "que capturaram esses ursos,";
+			mes "eles são monstros pequenos e neutros";
+			mes "que derrubam Mel, Parafuso, Biscoito Bem Assado e Martelo de Oridecon.";
+			next;
+			mes "[Franz]";
+			mes "É tudo o que sei";
+			mes "sobre isso. Cuidado";
+			mes "com esses ursos se você";
+			mes "for explorar, ok? Eles";
+			mes "podem ser fofos, mas são";
+			mes "conhecidos por serem extremamente cruéis!";
+			close;
+		}
+	case 2:
+		mes "[Franz]";
+		mes "Ah, ok.";
+		mes "Você está ocupado e tem";
+		mes "coisas a fazer, eu entendo.";
+		mes "Você provavelmente tem que";
+		mes "seguir para algum lugar imediatamente.";
+		mes "Certo. Entendido.";
+		next;
+		mes "[Franz]";
+		mes "Eu...";
+		mes "Eu tenho coisas";
+		mes "nas quais deveria estar";
+		mes "trabalhando. Sim. Tão ocupado.";
+		close;
+	}
+}

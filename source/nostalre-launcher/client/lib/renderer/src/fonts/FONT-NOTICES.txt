@@ -1,0 +1,15 @@
+Bundled Noto fonts
+
+NotoSans-Regular.ttf and NotoSans-Bold.ttf:
+Copyright 2022 The Noto Project Authors (https://github.com/notofonts/latin-greek-cyrillic)
+Noto is a trademark of Google LLC.
+
+NotoSansKR-Regular.otf:
+© 2014-2021 Adobe (http://www.adobe.com/).
+
+Copyright and trademark statements above are transcribed from the bundled
+font files' name-table metadata. These font files are retained from the
+nostalro-client baseline b4ec4a4, unchanged.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+The full license is in OFL-LICENSE.txt beside this file.

@@ -1,0 +1,46 @@
+# RagSWITCH Pre-Renewal: independently maintained classic data.
+Header:
+  Type: POPULATION_ENGINE_DB
+  Version: 2
+Body:
+- Profile: vendor_field_drops
+  Jobs:
+    Merchant: para_merchant
+  NameProfile: default
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  Flags:
+  - mortal
+  TownBehavior: vendor
+  VendorKey: field_drops
+  Script: 'setcart;
+
+    '
+- Profile: vendor_dungeon_drops
+  Jobs:
+    Blacksmith: para_merchant
+    Whitesmith: para_merchant
+  NameProfile: default
+  Hair:
+  - 0
+  - 42
+  HairColor:
+  - 0
+  - 8
+  ClothesColor:
+  - 0
+  - 7
+  Flags:
+  - mortal
+  TownBehavior: vendor
+  VendorKey: dungeon_drops
+  Script: 'setcart;
+
+    '

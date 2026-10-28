@@ -1,0 +1,1 @@
+SPRITE_ROBE_IDs = { ROBE_WINGS = 1, ROBE_BAG = 2 }

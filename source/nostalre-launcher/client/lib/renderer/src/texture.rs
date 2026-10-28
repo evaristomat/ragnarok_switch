@@ -1,0 +1,787 @@
+use nostalre_formats::grf::GrfArchive;
+use std::collections::HashMap;
+
+mod emotion;
+
+pub use emotion::EMOTION_ICON_PREFIX;
+
+pub struct TextureCache {
+    pub sprite_sheets: crate::sprite::SpriteTextureCache,
+    textures: HashMap<String, wgpu::BindGroup>,
+    sizes: HashMap<String, (u32, u32)>,
+    pub bind_group_layout: wgpu::BindGroupLayout,
+    filter_world: bool,
+    world_textures: Vec<String>,
+    /// Ground textures, sampled without wrapping. A cell maps the whole texture,
+    /// so a repeating sampler blends the far edge in at every cell boundary.
+    ground: HashMap<String, wgpu::BindGroup>,
+}
+
+impl TextureCache {
+    pub fn new(device: &wgpu::Device) -> Self {
+        let bind_group_layout = device.create_bind_group_layout(&wgpu::BindGroupLayoutDescriptor {
+            label: Some("texture"),
+            entries: &[
+                wgpu::BindGroupLayoutEntry {
+                    binding: 0,
+                    visibility: wgpu::ShaderStages::FRAGMENT,
+                    ty: wgpu::BindingType::Texture {
+                        multisampled: false,
+                        view_dimension: wgpu::TextureViewDimension::D2,
+                        sample_type: wgpu::TextureSampleType::Float { filterable: true },
+                    },
+                    count: None,
+                },
+                wgpu::BindGroupLayoutEntry {
+                    binding: 1,
+                    visibility: wgpu::ShaderStages::FRAGMENT,
+                    ty: wgpu::BindingType::Sampler(wgpu::SamplerBindingType::Filtering),
+                    count: None,
+                },
+            ],
+        });
+
+        Self {
+            sprite_sheets: crate::sprite::SpriteTextureCache::default(),
+            textures: HashMap::new(),
+            sizes: HashMap::new(),
+            bind_group_layout,
+            filter_world: true,
+            world_textures: Vec::new(),
+            ground: HashMap::new(),
+        }
+    }
+
+    /// Filters ground and model textures instead of point-sampling them.
+    /// Textures already uploaded are rebuilt when a `grf` is given.
+    pub fn set_world_filtering(
+        &mut self,
+        on: bool,
+        grf: Option<&GrfArchive>,
+        device: &wgpu::Device,
+        queue: &wgpu::Queue,
+    ) {
+        if self.filter_world == on {
+            return;
+        }
+        self.filter_world = on;
+        let Some(grf) = grf else {
+            return;
+        };
+        for name in std::mem::take(&mut self.world_textures) {
+            self.remove(&name);
+            self.get_or_load(&name, grf, device, queue, false);
+        }
+        for name in self.ground.keys().cloned().collect::<Vec<_>>() {
+            self.ground.remove(&name);
+            self.get_or_load_ground(&name, grf, device, queue);
+        }
+    }
+
+    pub fn get_or_load(
+        &mut self,
+        name: &str,
+        grf: &GrfArchive,
+        device: &wgpu::Device,
+        queue: &wgpu::Queue,
+        dpi_upscale: bool,
+    ) -> Option<&wgpu::BindGroup> {
+        if name.starts_with(EMOTION_ICON_PREFIX) {
+            if !self.textures.contains_key(name) {
+                for (icon_name, bind_group, w, h) in
+                    emotion::load_emotion_icons(grf, device, queue, &self.bind_group_layout)
+                {
+                    self.textures.insert(icon_name.clone(), bind_group);
+                    self.sizes.insert(icon_name, (w, h));
+                }
+            }
+            return self.textures.get(name);
+        }
+        if !self.textures.contains_key(name) {
+            let mut img = decode_texture(name, grf)?;
+
+            let is_bmp = name.to_ascii_lowercase().ends_with(".bmp");
+            if is_bmp {
+                apply_magenta_transparency(&mut img);
+            }
+
+            let logical_w = img.width();
+            let logical_h = img.height();
+
+            let bind_group = if is_bmp {
+                if dpi_upscale {
+                    create_texture_bind_group_filtered(
+                        device,
+                        queue,
+                        &img,
+                        &self.bind_group_layout,
+                        name,
+                        wgpu::FilterMode::Linear,
+                        wgpu::AddressMode::ClampToEdge,
+                    )
+                } else if !self.filter_world {
+                    create_texture_bind_group_filtered(
+                        device,
+                        queue,
+                        &img,
+                        &self.bind_group_layout,
+                        name,
+                        wgpu::FilterMode::Nearest,
+                        wgpu::AddressMode::Repeat,
+                    )
+                } else {
+                    create_world_texture_bind_group(
+                        device,
+                        queue,
+                        &img,
+                        &self.bind_group_layout,
+                        name,
+                        wgpu::AddressMode::Repeat,
+                    )
+                }
+            } else {
+                create_texture_bind_group(device, queue, &img, &self.bind_group_layout, name)
+            };
+            if !dpi_upscale {
+                self.world_textures.push(name.to_string());
+            }
+            self.textures.insert(name.to_string(), bind_group);
+            self.sizes.insert(name.to_string(), (logical_w, logical_h));
+        }
+        self.textures.get(name)
+    }
+
+    pub fn get_or_load_ground(
+        &mut self,
+        name: &str,
+        grf: &GrfArchive,
+        device: &wgpu::Device,
+        queue: &wgpu::Queue,
+    ) -> Option<&wgpu::BindGroup> {
+        if !self.ground.contains_key(name) {
+            let mut img = decode_texture(name, grf)?;
+            apply_magenta_transparency(&mut img);
+            let bind_group = if self.filter_world {
+                create_world_texture_bind_group(
+                    device,
+                    queue,
+                    &img,
+                    &self.bind_group_layout,
+                    name,
+                    wgpu::AddressMode::ClampToEdge,
+                )
+            } else {
+                create_texture_bind_group_filtered(
+                    device,
+                    queue,
+                    &img,
+                    &self.bind_group_layout,
+                    name,
+                    wgpu::FilterMode::Nearest,
+                    wgpu::AddressMode::ClampToEdge,
+                )
+            };
+            self.sizes
+                .insert(name.to_string(), (img.width(), img.height()));
+            self.ground.insert(name.to_string(), bind_group);
+        }
+        self.ground.get(name)
+    }
+
+    pub fn get_ground(&self, name: &str) -> Option<&wgpu::BindGroup> {
+        self.ground.get(name)
+    }
+
+    /// Map art is not shared with the UI/effect caches. Drop it before the next
+    /// map allocates its own textures instead of retaining every visited map.
+    pub fn clear_map_textures(&mut self) {
+        for name in std::mem::take(&mut self.world_textures) {
+            self.remove(&name);
+        }
+        for (name, _) in self.ground.drain() {
+            if !self.textures.contains_key(&name) {
+                self.sizes.remove(&name);
+            }
+        }
+    }
+
+    pub fn get(&self, name: &str) -> Option<&wgpu::BindGroup> {
+        self.textures.get(name)
+    }
+
+    pub fn texture_size(&self, name: &str) -> Option<(u32, u32)> {
+        self.sizes.get(name).copied()
+    }
+
+    pub fn remove(&mut self, name: &str) {
+        self.textures.remove(name);
+        self.sizes.remove(name);
+    }
+
+    pub fn insert(&mut self, name: &str, bind_group: wgpu::BindGroup, width: u32, height: u32) {
+        self.textures.insert(name.to_string(), bind_group);
+        self.sizes.insert(name.to_string(), (width, height));
+    }
+}
+
+/// Emblems are 24x24; anything larger than this from another player is refused before it is decoded.
+pub const MAX_EMBLEM_SIDE: u32 = 64;
+
+/// A guild emblem: the map server's zlib-compressed BMP, or the web server's BMP or GIF as uploaded. None for
+/// anything else, or past `MAX_EMBLEM_SIDE` (the web server checks only the file size: 50 KB of GIF can be a huge
+/// image).
+pub fn decode_emblem(blob: &[u8]) -> Option<image::RgbaImage> {
+    let bytes = nostalre_formats::zlib_decompress(blob).unwrap_or_else(|| blob.to_vec());
+    let format = match bytes.get(..3) {
+        Some(b"GIF") => image::ImageFormat::Gif,
+        _ => image::ImageFormat::Bmp,
+    };
+    let mut reader = image::ImageReader::with_format(std::io::Cursor::new(&bytes), format);
+    let mut limits = image::Limits::default();
+    limits.max_image_width = Some(MAX_EMBLEM_SIDE);
+    limits.max_image_height = Some(MAX_EMBLEM_SIDE);
+    limits.max_alloc = Some(1 << 20);
+    reader.limits(limits);
+    let img = reader.decode().ok()?;
+    let mut rgba = img.to_rgba8();
+    nostalre_formats::apply_magenta_transparency(rgba.as_mut());
+    Some(rgba)
+}
+
+#[cfg(test)]
+mod emblem_tests {
+    use super::*;
+
+    fn bmp_24x24() -> Vec<u8> {
+        let mut img = image::RgbImage::new(24, 24);
+        img.put_pixel(0, 0, image::Rgb([255, 0, 255]));
+        img.put_pixel(1, 1, image::Rgb([10, 20, 30]));
+        let mut out = std::io::Cursor::new(Vec::new());
+        image::DynamicImage::ImageRgb8(img)
+            .write_to(&mut out, image::ImageFormat::Bmp)
+            .unwrap();
+        out.into_inner()
+    }
+
+    #[test]
+    fn decode_emblem_refuses_a_huge_image() {
+        let img = image::RgbaImage::new(MAX_EMBLEM_SIDE + 1, 24);
+        let mut out = std::io::Cursor::new(Vec::new());
+        image::DynamicImage::ImageRgba8(img)
+            .write_to(&mut out, image::ImageFormat::Gif)
+            .unwrap();
+        assert!(decode_emblem(&out.into_inner()).is_none());
+    }
+
+    #[test]
+    fn decode_emblem_reads_the_web_servers_gif() {
+        let mut img = image::RgbaImage::new(24, 24);
+        img.put_pixel(1, 1, image::Rgba([10, 20, 30, 255]));
+        let mut out = std::io::Cursor::new(Vec::new());
+        image::DynamicImage::ImageRgba8(img)
+            .write_to(&mut out, image::ImageFormat::Gif)
+            .unwrap();
+        let rgba = decode_emblem(&out.into_inner()).expect("decode");
+        assert_eq!(rgba.dimensions(), (24, 24));
+        assert_eq!(rgba.get_pixel(1, 1).0, [10, 20, 30, 255]);
+    }
+
+    #[test]
+    fn decode_emblem_zlib_bmp_makes_magenta_transparent() {
+        let blob = nostalre_formats::zlib_compress(&bmp_24x24());
+        let rgba = decode_emblem(&blob).expect("decode");
+        assert_eq!(rgba.dimensions(), (24, 24));
+        assert_eq!(rgba.get_pixel(0, 0).0, [0, 0, 0, 0]);
+        assert_eq!(rgba.get_pixel(1, 1).0, [10, 20, 30, 255]);
+    }
+}
+
+pub fn load_keyed_texture(
+    path: &str,
+    grf: &GrfArchive,
+    device: &wgpu::Device,
+    queue: &wgpu::Queue,
+    layout: &wgpu::BindGroupLayout,
+    address_mode: wgpu::AddressMode,
+    filter: wgpu::FilterMode,
+) -> Option<(wgpu::BindGroup, u32, u32)> {
+    let (data, resolved_path) = read_with_ext_fallback(path, grf)?;
+
+    let img = match image::load_from_memory(&data) {
+        Ok(i) => i,
+        Err(_) => {
+            let fmt = format_from_extension(&resolved_path)?;
+            image::load_from_memory_with_format(&data, fmt).ok()?
+        }
+    };
+
+    let mut rgba = img.to_rgba8();
+    key_effect_texture(&mut rgba, !img.color().has_alpha());
+
+    let w = rgba.width();
+    let h = rgba.height();
+    let bg = create_texture_bind_group_from_rgba(
+        device,
+        queue,
+        rgba.as_raw(),
+        w,
+        h,
+        layout,
+        path,
+        filter,
+        wgpu::TextureFormat::Rgba8UnormSrgb,
+        address_mode,
+    );
+    Some((bg, w, h))
+}
+
+fn read_with_ext_fallback(path: &str, grf: &GrfArchive) -> Option<(Vec<u8>, String)> {
+    if let Ok(d) = grf.read_file(path) {
+        return Some((d, path.to_string()));
+    }
+    let alt = if let Some(stem) = path.strip_suffix(".tga") {
+        format!("{stem}.bmp")
+    } else if let Some(stem) = path.strip_suffix(".bmp") {
+        format!("{stem}.tga")
+    } else {
+        return None;
+    };
+    grf.read_file(&alt).ok().map(|d| (d, alt))
+}
+
+fn format_from_extension(name: &str) -> Option<image::ImageFormat> {
+    let ext = name.rsplit('.').next()?.to_ascii_lowercase();
+    match ext.as_str() {
+        "tga" => Some(image::ImageFormat::Tga),
+        "bmp" => Some(image::ImageFormat::Bmp),
+        "png" => Some(image::ImageFormat::Png),
+        "jpg" | "jpeg" => Some(image::ImageFormat::Jpeg),
+        _ => None,
+    }
+}
+
+fn decode_texture(name: &str, grf: &GrfArchive) -> Option<image::RgbaImage> {
+    let data = match grf.read_file(name) {
+        Ok(d) => d,
+        Err(e) => {
+            tracing::warn!("Failed to load texture {name}: {e}");
+            return None;
+        }
+    };
+    match image::load_from_memory(&data) {
+        Ok(i) => Some(i.to_rgba8()),
+        Err(_) => match format_from_extension(name) {
+            Some(fmt) => match image::load_from_memory_with_format(&data, fmt) {
+                Ok(i) => Some(i.to_rgba8()),
+                Err(e) => {
+                    tracing::warn!("Failed to decode texture {name}: {e}");
+                    None
+                }
+            },
+            None => {
+                tracing::warn!("Failed to decode texture {name}: unknown format");
+                None
+            }
+        },
+    }
+}
+
+fn apply_magenta_transparency(img: &mut image::RgbaImage) {
+    nostalre_formats::apply_magenta_transparency(img.as_mut());
+}
+
+fn quantize_5bit(c: u8) -> u8 {
+    let q = c >> 3;
+    (q << 3) | (q >> 2)
+}
+
+/// Some effect bitmaps carry a leftover one-pixel frame in their outer texel row.
+const BORDER_KEY_MAX: u8 = 40;
+
+pub fn key_effect_texture(img: &mut image::RgbaImage, opaque_source: bool) {
+    nostalre_formats::apply_magenta_transparency(img.as_mut());
+    let (w, h) = img.dimensions();
+    for (x, y, px) in img.enumerate_pixels_mut() {
+        if !opaque_source {
+            if px[0] == 0 && px[1] == 0 && px[2] == 0 {
+                px[3] = 0;
+            }
+            continue;
+        }
+        px[0] = quantize_5bit(px[0]);
+        px[1] = quantize_5bit(px[1]);
+        px[2] = quantize_5bit(px[2]);
+        let limit = if x == 0 || y == 0 || x + 1 == w || y + 1 == h {
+            BORDER_KEY_MAX
+        } else {
+            0
+        };
+        if px[0] <= limit && px[1] <= limit && px[2] <= limit {
+            px[3] = 0;
+        }
+    }
+}
+
+#[cfg(test)]
+mod key_effect_texture_tests {
+    use super::key_effect_texture;
+
+    fn image(w: u32, h: u32, px: &[[u8; 3]]) -> image::RgbaImage {
+        let raw = px
+            .iter()
+            .flat_map(|c| [c[0], c[1], c[2], 255])
+            .collect::<Vec<u8>>();
+        image::RgbaImage::from_raw(w, h, raw).unwrap()
+    }
+
+    #[test]
+    #[rustfmt::skip]
+    fn opaque_source_quantizes_and_clears_the_guide_frame_but_keeps_lit_border_texels() {
+        let mut img = image(
+            4,
+            4,
+            &[
+                [255, 0, 255], [15, 15, 15], [12, 17, 64], [255, 255, 255],
+                [15, 15, 15], [15, 15, 15], [20, 20, 20], [15, 15, 15],
+                [0, 0, 0],    [0, 0, 0],    [0, 0, 0],    [255, 255, 255],
+                [15, 15, 15], [15, 15, 15], [15, 15, 15], [15, 15, 15],
+            ],
+        );
+
+        key_effect_texture(&mut img, true);
+
+        assert_eq!(img.get_pixel(0, 0).0, [0, 0, 0, 0]);
+        assert_eq!(img.get_pixel(1, 0).0, [8, 8, 8, 0]);
+        assert_eq!(img.get_pixel(2, 0).0, [8, 16, 66, 255]);
+        assert_eq!(img.get_pixel(3, 0).0, [255, 255, 255, 255]);
+        assert_eq!(img.get_pixel(0, 1).0, [8, 8, 8, 0]);
+        assert_eq!(img.get_pixel(1, 1).0, [8, 8, 8, 255]);
+        assert_eq!(img.get_pixel(2, 1).0, [16, 16, 16, 255]);
+        assert_eq!(img.get_pixel(3, 2).0, [255, 255, 255, 255]);
+        assert_eq!(img.get_pixel(1, 3).0, [8, 8, 8, 0]);
+    }
+
+    #[test]
+    #[rustfmt::skip]
+    fn source_with_alpha_is_left_unquantized_and_only_pure_black_is_keyed() {
+        let mut img = image(
+            3,
+            3,
+            &[
+                [15, 15, 15], [15, 15, 15], [15, 15, 15],
+                [15, 15, 15], [0, 0, 0],    [15, 15, 15],
+                [15, 15, 15], [15, 15, 15], [15, 15, 15],
+            ],
+        );
+
+        key_effect_texture(&mut img, false);
+
+        assert_eq!(img.get_pixel(0, 0).0, [15, 15, 15, 255]);
+        assert_eq!(img.get_pixel(1, 1).0, [0, 0, 0, 0]);
+    }
+}
+
+pub fn create_texture_bind_group(
+    device: &wgpu::Device,
+    queue: &wgpu::Queue,
+    img: &image::RgbaImage,
+    layout: &wgpu::BindGroupLayout,
+    label: &str,
+) -> wgpu::BindGroup {
+    create_texture_bind_group_filtered(
+        device,
+        queue,
+        img,
+        layout,
+        label,
+        wgpu::FilterMode::Linear,
+        wgpu::AddressMode::Repeat,
+    )
+}
+
+/// The `0.81` cut-off the ground and model shaders discard below.
+const ALPHA_DISCARD: f32 = 0.81 * 255.0;
+
+fn scaled_alpha(alpha: u8, scale: f32) -> u8 {
+    (alpha as f32 * scale).min(255.0).round() as u8
+}
+
+/// Fraction of texels that would survive the discard test with alpha scaled.
+fn alpha_coverage(img: &image::RgbaImage, scale: f32) -> f32 {
+    let passing = img
+        .pixels()
+        .filter(|p| scaled_alpha(p.0[3], scale) as f32 >= ALPHA_DISCARD)
+        .count();
+    passing as f32 / (img.width() * img.height()).max(1) as f32
+}
+
+/// Alpha scale that brings this level's coverage back to the full-size one.
+/// Box filtering alone shrinks a cut-out at every level until thin features -
+/// a cobweb strand, a leaf edge - fail the discard test and the face vanishes
+/// once a coarse level is sampled; decimating instead just breaks them into
+/// dots. Holding coverage keeps them whole, blurrier but there.
+///
+/// Note that in original game cobweb in orcsdun01 are barely visible, below code is a divergence from OG
+fn scale_for_coverage(img: &image::RgbaImage, target: f32) -> f32 {
+    let (mut lo, mut hi) = (1.0f32, 64.0f32);
+    if alpha_coverage(img, hi) < target {
+        return hi;
+    }
+    for _ in 0..16 {
+        let mid = 0.5 * (lo + hi);
+        if alpha_coverage(img, mid) < target {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+    }
+    hi
+}
+
+fn halve(img: &image::RgbaImage) -> image::RgbaImage {
+    let (w, h) = img.dimensions();
+    image::imageops::resize(
+        img,
+        (w / 2).max(1),
+        (h / 2).max(1),
+        image::imageops::FilterType::Triangle,
+    )
+}
+
+fn rescale_alpha(img: &image::RgbaImage, scale: f32) -> image::RgbaImage {
+    let mut out = img.clone();
+    for px in out.pixels_mut() {
+        px.0[3] = scaled_alpha(px.0[3], scale);
+    }
+    out
+}
+
+pub fn create_world_texture_bind_group(
+    device: &wgpu::Device,
+    queue: &wgpu::Queue,
+    img: &image::RgbaImage,
+    layout: &wgpu::BindGroupLayout,
+    label: &str,
+    address_mode: wgpu::AddressMode,
+) -> wgpu::BindGroup {
+    let (width, height) = img.dimensions();
+    let mip_level_count = width.max(height).max(1).ilog2() + 1;
+
+    let texture = device.create_texture(&wgpu::TextureDescriptor {
+        label: Some(label),
+        size: wgpu::Extent3d {
+            width,
+            height,
+            depth_or_array_layers: 1,
+        },
+        mip_level_count,
+        sample_count: 1,
+        dimension: wgpu::TextureDimension::D2,
+        format: wgpu::TextureFormat::Rgba8UnormSrgb,
+        usage: wgpu::TextureUsages::TEXTURE_BINDING | wgpu::TextureUsages::COPY_DST,
+        view_formats: &[],
+    });
+
+    let target_coverage = alpha_coverage(img, 1.0);
+    let mut raw = std::borrow::Cow::Borrowed(img);
+    for mip in 0..mip_level_count {
+        if mip > 0 {
+            raw = std::borrow::Cow::Owned(halve(raw.as_ref()));
+        }
+        let level = if mip == 0 || target_coverage <= 0.0 {
+            std::borrow::Cow::Borrowed(raw.as_ref())
+        } else {
+            std::borrow::Cow::Owned(rescale_alpha(
+                raw.as_ref(),
+                scale_for_coverage(raw.as_ref(), target_coverage),
+            ))
+        };
+        let (w, h) = level.dimensions();
+        queue.write_texture(
+            wgpu::TexelCopyTextureInfo {
+                texture: &texture,
+                mip_level: mip,
+                origin: wgpu::Origin3d::ZERO,
+                aspect: wgpu::TextureAspect::All,
+            },
+            level.as_raw(),
+            wgpu::TexelCopyBufferLayout {
+                offset: 0,
+                bytes_per_row: Some(4 * w),
+                rows_per_image: Some(h),
+            },
+            wgpu::Extent3d {
+                width: w,
+                height: h,
+                depth_or_array_layers: 1,
+            },
+        );
+    }
+
+    let view = texture.create_view(&Default::default());
+    let sampler = device.create_sampler(&wgpu::SamplerDescriptor {
+        address_mode_u: address_mode,
+        address_mode_v: address_mode,
+        mag_filter: wgpu::FilterMode::Linear,
+        min_filter: wgpu::FilterMode::Linear,
+        mipmap_filter: wgpu::MipmapFilterMode::Linear,
+        ..Default::default()
+    });
+
+    device.create_bind_group(&wgpu::BindGroupDescriptor {
+        label: Some(label),
+        layout,
+        entries: &[
+            wgpu::BindGroupEntry {
+                binding: 0,
+                resource: wgpu::BindingResource::TextureView(&view),
+            },
+            wgpu::BindGroupEntry {
+                binding: 1,
+                resource: wgpu::BindingResource::Sampler(&sampler),
+            },
+        ],
+    })
+}
+
+pub fn create_font_atlas_bind_group(
+    device: &wgpu::Device,
+    queue: &wgpu::Queue,
+    img: &image::RgbaImage,
+    layout: &wgpu::BindGroupLayout,
+    label: &str,
+) -> wgpu::BindGroup {
+    create_texture_bind_group_from_rgba(
+        device,
+        queue,
+        img.as_raw(),
+        img.width(),
+        img.height(),
+        layout,
+        label,
+        wgpu::FilterMode::Linear,
+        wgpu::TextureFormat::Rgba8Unorm,
+        wgpu::AddressMode::ClampToEdge,
+    )
+}
+
+pub fn create_texture_bind_group_from_rgba(
+    device: &wgpu::Device,
+    queue: &wgpu::Queue,
+    rgba_data: &[u8],
+    width: u32,
+    height: u32,
+    layout: &wgpu::BindGroupLayout,
+    label: &str,
+    filter: wgpu::FilterMode,
+    format: wgpu::TextureFormat,
+    address_mode: wgpu::AddressMode,
+) -> wgpu::BindGroup {
+    let size = wgpu::Extent3d {
+        width,
+        height,
+        depth_or_array_layers: 1,
+    };
+
+    let texture = device.create_texture(&wgpu::TextureDescriptor {
+        label: Some(label),
+        size,
+        mip_level_count: 1,
+        sample_count: 1,
+        dimension: wgpu::TextureDimension::D2,
+        format,
+        usage: wgpu::TextureUsages::TEXTURE_BINDING | wgpu::TextureUsages::COPY_DST,
+        view_formats: &[],
+    });
+
+    queue.write_texture(
+        wgpu::TexelCopyTextureInfo {
+            texture: &texture,
+            mip_level: 0,
+            origin: wgpu::Origin3d::ZERO,
+            aspect: wgpu::TextureAspect::All,
+        },
+        rgba_data,
+        wgpu::TexelCopyBufferLayout {
+            offset: 0,
+            bytes_per_row: Some(4 * width),
+            rows_per_image: Some(height),
+        },
+        size,
+    );
+
+    let view = texture.create_view(&Default::default());
+    let sampler = device.create_sampler(&wgpu::SamplerDescriptor {
+        address_mode_u: address_mode,
+        address_mode_v: address_mode,
+        mag_filter: filter,
+        min_filter: filter,
+        mipmap_filter: wgpu::MipmapFilterMode::Nearest,
+        ..Default::default()
+    });
+
+    device.create_bind_group(&wgpu::BindGroupDescriptor {
+        label: Some(label),
+        layout,
+        entries: &[
+            wgpu::BindGroupEntry {
+                binding: 0,
+                resource: wgpu::BindingResource::TextureView(&view),
+            },
+            wgpu::BindGroupEntry {
+                binding: 1,
+                resource: wgpu::BindingResource::Sampler(&sampler),
+            },
+        ],
+    })
+}
+
+fn create_texture_bind_group_filtered(
+    device: &wgpu::Device,
+    queue: &wgpu::Queue,
+    img: &image::RgbaImage,
+    layout: &wgpu::BindGroupLayout,
+    label: &str,
+    filter: wgpu::FilterMode,
+    address_mode: wgpu::AddressMode,
+) -> wgpu::BindGroup {
+    create_texture_bind_group_from_rgba(
+        device,
+        queue,
+        img.as_raw(),
+        img.width(),
+        img.height(),
+        layout,
+        label,
+        filter,
+        wgpu::TextureFormat::Rgba8UnormSrgb,
+        address_mode,
+    )
+}
+
+#[cfg(test)]
+mod map_lifetime_tests {
+    use super::*;
+
+    #[test]
+    fn map_release_drops_world_art_but_preserves_ui_and_effects() {
+        let (device, _) = crate::test_support::device();
+        let mut cache = TextureCache::new(&device);
+        let group = crate::test_support::bind_groups()[0].clone();
+        for name in ["ui.bmp", "effect.tga", "world.bmp"] {
+            cache.insert(name, group.clone(), 32, 32);
+        }
+        cache.world_textures.push("world.bmp".into());
+        cache.ground.insert("ground.bmp".into(), group);
+        cache.sizes.insert("ground.bmp".into(), (64, 64));
+        cache.clear_map_textures();
+        cache.clear_map_textures();
+        assert!(cache.get("world.bmp").is_none());
+        assert!(cache.get_ground("ground.bmp").is_none());
+        assert!(cache.texture_size("world.bmp").is_none());
+        assert!(cache.texture_size("ground.bmp").is_none());
+        assert!(cache.get("ui.bmp").is_some());
+        assert!(cache.get("effect.tga").is_some());
+        assert_eq!(cache.texture_size("ui.bmp"), Some((32, 32)));
+    }
+}

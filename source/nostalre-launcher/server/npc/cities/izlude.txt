@@ -1,0 +1,516 @@
+//===== rAthena Script =======================================
+//= Izlude Town
+//===== By: ==================================================
+//= kobra_k88
+//= L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.9a
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Izlude town NPCs
+//===== Additional Comments: =================================
+//= Fully working
+//= 1.1 fixed 2 zeny bugs/checks [Lupus]
+//= 1.2 Fixed a lot of typos [Nexon]
+//= 1.3 Removed callfunc Is_####_Class in favor of baseClass [Silentdragon]
+//= 1.4 Added a Jawaii related npc. 1.4a Fixed a small bug to
+//=     the Jawaii warper, thanks to reddozen and Silent [MasterOfMuppets]
+//= 1.5 Replaced iz_move_alberta with MISC_QUEST & 16 [Lupus]
+//= 1.6 Removed Duplicates [Silent]
+//= 1.7 Split quest to quests/quests_izlude.txt [Evera]
+//= 1.71 Optimized. Also thanks to CAHTEXHuK [Lupus]
+//= 1.72 Small bugfix [Paradox924X]
+//= 1.8 Rescripted to Aegis 10.3 standard. [L0ne_W0lf]
+//=     Removed Honeymoon Helper, as she is a Jawaii NPC.
+//=     Moved Signs to the msg_boards file.
+//= 1.8a Made Red/Cebalis as a single NPC + duplicate [Lupus]
+//= 1.9 Fixed a small problem with Dega. (Ne default case) [L0ne_W0lf]
+//=     Re-added NPC dialog for Cebalis. The dialog differs
+//=     (even if slightly,) after the five or so lines.
+//= 1.9a A part of Kylick's dialogue is Pre-Renewal only. [Euphy]
+//============================================================
+
+// Izlude
+//============================================================
+-	script	::Sailor_izlude	-1,{
+	mes "[Marinheiro]";
+	mes "Olá pessoal!";
+	mes "Atenção, atenção!";
+	mes "Venha e monte o vento";
+	mes "em um navio fascinante!";
+	mes "Depressa, depressa!";
+	next;
+	switch(select("Ilha Byalan -> 150 Zeny.:Marina de Alberta -> 500 Zeny.:Cancelar.")) {
+	case 1:
+		if (Zeny < 150) {
+			mes "[Marinheiro]";
+			mes "150 Zeny!";
+			mes "Apenas 150 Zeny para andar!";
+			close;
+		}
+		set Zeny, Zeny - 150;
+		warp "izlu2dun",107,50;
+		end;
+	case 2:
+		if (Zeny < 500) {
+			mes "[Marinheiro]";
+			mes "500 Zeny!";
+			mes "Apenas 500 Zeny para andar!";
+			close;
+		}
+		set Zeny, Zeny - 500;
+		warp "alberta",188,169;
+		end;
+	case 3:
+		close;
+	}
+}
+
+-	script	::Bonne_izlude	-1,{
+	mes "[Bonne]";
+	mes "Saudações!";
+	mes "Izlude lhe dá as boas-vindas.";
+	next;
+	mes "[Bonne]";
+	mes "Izlude é a cidade satélite de Prontera, capital do reino de Rune-Midgarts.";
+	next;
+	mes "[Bonne]";
+	mes "Izlude é a chave para o nosso reino por causa da Associação de Espadachins localizada aqui, bem como pelo fato de Izlude ser responsável por proteger a costa de Rune-Midgarts.";
+	next;
+	mes "[Bonne]";
+	mes "Eu sei, esta ponte pode parecer fraca e frágil, mas na verdade é de última geração, construída com a tecnologia mais sofisticada.";
+	next;
+	mes "[Bonne]";
+	mes "Não importa quão fortes sejam as tempestades, ou quantas pessoas possam permanecer nela, esta ponte NEEEEVER entrará em colapso.";
+	next;
+	mes "[Bonne]";
+	mes "Por favor, aproveite";
+	mes "sua visita";
+	mes "aqui em Izlude.";
+	close;
+}
+
+-	script	::Charfri_izlude	-1,{
+	mes "[Charfri]";
+	switch(rand(2)) {
+	case 1:
+		mes "Algumas pessoas podem pensar que Izlude é apenas uma cidade satélite de Prontera, e não tão importante assim...";
+		next;
+		mes "[Charfri]";
+		mes "Mas Izlude é uma bela cidade bem próxima ao oceano, assim como a bela Ilha Byalan.";
+		next;
+		mes "[Charfri]";
+		mes "Você terá que embarcar em um navio no porto para chegar à Ilha Byalan. Existem masmorras perigosas naquela ilha, então não fique bisbilhotando em qualquer lugar.";
+		close;
+	default:
+		mes "Embora seja muito bonita, a Ilha Byalan tem uma masmorra misteriosa que se estende nas profundezas do mar.";
+		next;
+		mes "[Charfri]";
+		mes "Pessoas que realmente estiveram lá disseram que se você for fundo o suficiente, a masmorra realmente desce debaixo d'água.";
+		next;
+		mes "[Charfri]";
+		mes "Surpreendentemente, uma vez debaixo d'água, você pode respirar como um peixe. Talvez algum tipo de força sobrenatural esteja em ação.";
+		next;
+		mes "[Charfri]";
+		mes "Ah...";
+		mes "As pessoas que viram a vista subaquática dizem que é tão fantástica que continuam sonhando com ela desde então.";
+		next;
+		mes "[Charfri]";
+		mes "Mas, infelizmente, os monstros são fortes demais para que as pessoas comuns simplesmente passem por lá. Mesmo assim, só uma vez, eu gostaria de ir até lá...";
+		close;
+	}
+}
+
+-	script	::Cuskoal_izlude	-1,{
+	mes "[Cuskoal]";
+	switch(rand(2)) {
+	case 1:
+		mes "A Arena aqui é O lugar para jovens capazes de todo o Reino de Rune-Midgarts se desafiarem e testarem suas habilidades.";
+		next;
+		mes "[Cuskoal]";
+		mes "Você pode lutar contra monstros de diferentes níveis. Portanto, o número de estágios aos quais você sobrevive será uma prova de sua habilidade em batalha.";
+		next;
+		mes "[Cuskoal]";
+		mes "Então, o que você diz?";
+		close;
+	default:
+		mes "Os pubs de Prontera estão sempre cheios de gente local e de fora da cidade. Pode ficar muito ocupado.";
+		next;
+		mes "[Cuskoal]";
+		mes "É um bom lugar para obter informações gerais e ouvir rumores.";
+		next;
+		mes "[Cuskoal]";
+		mes "Portanto, se você ouvir com atenção, poderá ter sorte e aprender algumas informações muito úteis para si mesmo.";
+		close;
+	}
+}
+
+-	script	::Dega_izlude	-1,{
+	mes "[Dega]";
+	switch(rand(3)) {
+	case 1:
+		mes "O Monte Mjornir, localizado ao norte de Prontera, é um local difícil";
+		mes "e subida íngreme.";
+		next;
+		mes "[Dega]";
+		mes "Além dos perigos da própria montanha, insetos extremamente cruéis também vivem lá. Quero dizer, eles simplesmente atacarão você sem motivo.";
+		next;
+		mes "[Dega]";
+		mes "Se você quiser visitar algum lugar além do Monte. Mjolnir, prepare-se para o desafio.  Ou você pode andar por aí.";
+		close;
+	case 2:
+		mes "Alguns monstros no mundo têm a habilidade única de sentir energia mística e podem detectar feitiços mágicos antes de serem lançados.";
+		next;
+		mes "[Dega]";
+		mes "Golem do deserto é um deles. Não o subestime devido à sua lentidão...";
+		next;
+		mes "[Dega]";
+		mes "Se você tentar lançar magia perto dele, ele notará e se aproximará para esmagá-lo. Então é melhor você tomar cuidado com Golem.";
+		close;
+	default:
+		mes "Há um lugar muito agradável onde você pode encontrar todos";
+		mes "tipo de Poring.";
+		next;
+		mes "[Dega]";
+		mes "Fica em algum lugar perto da ponte que liga a floresta ao deserto, no caminho para a cidade de Payon, que fica a sudeste daqui.";
+		next;
+		mes "[Dega]";
+		mes "Não existem apenas Porings rosa, mas também Drops, que podem ser encontrados no deserto, e o Poporing verde.";
+		next;
+		mes "[Dega]";
+		mes "Mas tenha cuidado, antes que você perceba, você pode ficar cara a cara com Ghostring, um Poring mortal que flutua no ar como um fantasma.";
+		next;
+		mes "[Dega]";
+		mes "Bem, claro, eles são todos muito fofos, mas Ghostring é uma EXCEÇÃO. É muito perigoso.";
+		next;
+		mes "[Dega]";
+		mes "Se você tiver sorte, poderá até encontrar Angeling, o Poring com asas de anjo.";
+		next;
+		while(1) {
+			switch(select("Anel Fantasma?:Anjo?:Encerrar conversa.")) {
+			case 1:
+				mes "[Dega]";
+				mes "Ghostring é um Poring acinzentado que flutua no ar como um fantasma. Assim como outros fantasmas, os ataques físicos não podem causar nenhum dano a ele.";
+				next;
+				mes "[Dega]";
+				mes "Aqueles cujos principais métodos de ataque são físicos, como Swordman e Archer, podem ter que correr para salvar suas vidas ao enfrentar Ghostrings.";
+				next;
+				mes "[Dega]";
+				mes "Mas não vá embora ainda~! Há ótimas notícias para as pessoas com esses empregos. Fazer uma arma com alguma propriedade elementar é a chave.";
+				next;
+				mes "[Dega]";
+				mes "Dessa forma, até mesmo um Espadachim ou um Arqueiro pode infligir danos, da mesma forma que o Magic, em Ghostrings.";
+				next;
+				break;
+			case 2:
+				mes "[Dega]";
+				mes "Angelings são imunes a ataques mágicos. Se pessoas que só podem atacar com Magia enfrentarem um Angeling, então é hora de";
+				mes "eles correrem.";
+				next;
+				mes "[Dega]";
+				mes "Se você tiver uma faca ou espada extra, você pode tentar. Mas será muito difícil sozinho, não acha?";
+				next;
+				break;
+			case 3:
+				mes "[Dega]";
+				mes "Boa sorte ~";
+				close;
+			}
+		}
+	}
+}
+
+-	script	::Kylick_izlude	-1,{
+	if (!checkre(0) && rand(2)) {
+		mes "[Kylick]";
+		mes "Eu estava pensando, embora o povo de Izlude viva tão perto do oceano...";
+		next;
+		mes "[Kylick]";
+		mes "Existem outras culturas que se desenvolveram completamente vivendo do mar. Claro, estou falando de Amatsu.";
+		next;
+		mes "[Kylick]";
+		mes "Ouvi dizer que a culinária de lá é muito boa! Embora a ideia de comer peixe cru seja nova para mim, adoraria ir lá e experimentar apenas uma vez!";
+		close;
+	} else {
+		mes "[Kylick]";
+		mes "Você não acha que binóculos";
+		mes "são realmente legais?! Você pode";
+		mes "ver todos os tipos de lugares...!";
+		next;
+		mes "[Kylick]";
+		mes "Aqui em Izlude, somos responsáveis por manter a paz não só em terra, mas também no mar. É por isso que esta cidade tem um enorme telescópio.";
+		next;
+		mes "[Kylick]";
+		mes "Este telescópio vigia constantemente o mar, para que possamos evitar que qualquer problema sério aconteça. Você sabe...";
+		next;
+		mes "[Kylick]";
+		mes "Uma onça de";
+		mes "vale a pena prevenir";
+		mes "meio quilo de cura";
+		mes "afinal, certo?";
+		close;
+	}
+}
+
+-	script	::Red_izlude	-1,{
+	mes "[Red]";
+	mes "A única habilidade necessária para um Espadachim é ^FF2400Bash^000000! Bash, Bash e SOMENTE ^FF2400Bash^000000! Não há necessidade de perder tempo e esforço com habilidades menores! Todo o resto é para covardes e covardes!";
+	next;
+	mes "[Cebalis]";
+	mes "Do que você está falando!? O Espadachim ideal permanece sozinho, cercado por inúmeros inimigos e esmagando todos eles com um ataque incrível.";
+	next;
+	mes "[Cebalis]";
+	mes "^EE0000QUEBRA MAGNUM!^000000";
+	mes "Isso mesmo, Magnum Break";
+	mes "é a habilidade que faz";
+	mes "o trabalho certo~!!";
+	next;
+	mes "[Cebalis]";
+	mes "Bem... Às vezes, o dano explosivo pode acidentalmente atingir alguns monstros errantes, e esses caras acabam vindo atrás de você, mas esse é um risco que um Espadachim deveria estar disposto a correr!!";
+	next;
+	mes "[Red]";
+	mes "É exatamente por isso que você é burro, seu idiota! E o que é isso sobre 'o Espadachim ideal?' Ainda me lembro da última vez que você usou Magnum Break...";
+	next;
+	mes "[Red]";
+	mes "Você acabou fugindo de todos aqueles monstros que acertou com aquela habilidade estúpida! Fraco! Todos aqueles Porings ao seu redor foram atingidos e todos tentaram matá-lo. ";
+	next;
+	mes "[Cebalis]";
+	mes "Hmpf. Pelo que me lembro, você também estava fugindo, aparentemente ocupado demais para usar seu precioso Bash. De qualquer forma, Magnum Break é A habilidade para um Espadachim~!!";
+	next;
+	mes "[Cebalis]";
+	mes "Algo simplista como Bash";
+	mes "é apenas um dos pequenos passos em direção ao Magnum Break.";
+	next;
+	mes "[Red]";
+	mes "Ah cara ~";
+	mes "Ei, eu sei que você acabou de";
+	mes "ouvi tudo.";
+	mes "Então, o que você acha?";
+	next;
+	mes "[Red]";
+	mes "Qual você acha que é melhor? A habilidade de dano crítico, ^FF2400Bash^000000, ou a habilidade de dano inicial, ^EE0000Quebra magnum^000000?";
+	next;
+	if (select("Bash:Quebra magnum") == 1)  {
+		if (BaseClass == Job_Swordman) {
+			mes "[Red]";
+			mes "Hahahaha!!! Eu sabia que você veria as coisas do meu jeito!! Você é um cara legal!! Sem dúvida, apenas ^FF2400Bash^000000 combina com um Espadachim. Por favor, diga isso para esse BONEHEAD aqui ~ Hahaha!";
+			next;
+			mes "[Red]";
+			mes "Hmm, deixe-me dar um conselho. Depois de atingir o nível 5 'Bash', a quantidade de SP consumida pela habilidade aumenta bastante, então tome cuidado com seu SP.";
+			close;
+		}
+		mes "[Red]";
+		mes "Hahahaha!! Ver!? Alguém que busca um trabalho diferente concorda comigo ~! Você realmente é um cara legal! Hahaha!! Sem dúvida, apenas ^FF2400Bash^000000 combina com um Espadachim. Por favor, diga isso para esse NIMROD aqui~ Hahaha!";
+		close;
+	}
+	if (BaseClass == Job_Swordman) {
+		mes "[Cebalis]";
+		mes "Tudo bem!! ^EE0000Quebra magnum^000000 é o MELHOR!! Agora você está falando~!! Você sabe tudo ~ HaHaHa!";
+		next;
+		mes "[Cebalis]";
+		mes "Quer saber algumas informações úteis? Ok, ok, deixe-me te contar! Magnum Break tem propriedade de fogo.";
+		next;
+		mes "[Cebalis]";
+		mes "Portanto, não será muito eficaz contra monstros com propriedade Água, mas esta é A habilidade para usar contra monstros de propriedade Mortos-Vivos e Terra!";
+		next;
+		mes "[Cebalis]";
+		mes "E o mais importante, olhe ao redor antes de usá-lo. Caso contrário você estará em grandes apuros ~ ";
+		close;
+	}
+	mes "[Cebalis]";
+	mes "Certo?! ^EE0000Quebra magnum^000000 é O MELHOR!!! Você sabe do que está falando, né? Não sei por que esse idiota está sendo tão teimoso.";
+	close;
+}
+
+-	script	::Cebalis_izlude	-1,{
+	mes "[Red]";
+	mes "A única habilidade necessária para um Espadachim é ^FF2400Bash^000000! Bash, Bash e SOMENTE ^FF2400Bash^000000! Não há necessidade de perder tempo e esforço com habilidades menores ~~ Todo o resto é para covardes e covardes!";
+	next;
+	mes "[Cebalis]";
+	mes "Do que você está falando!? O Espadachim ideal permanece resolutamente sozinho, cercado por incontáveis inimigos, esmagando todos eles com um ataque incrível...";
+	next;
+	mes "[Cebalis]";
+	mes "^EE0000QUEBRA MAGNUM!^000000";
+	mes "Isso mesmo, Magnum Break";
+	mes "é o perfeito";
+	mes "Habilidade de espadachim.";
+	next;
+	mes "[Cebalis]";
+	mes "Bem...";
+	mes "Às vezes, a explosão atinge acidentalmente alguns monstros que estão vagando.";
+	next;
+	mes "[Cebalis]";
+	mes "Então todos eles acabam vindo atrás de você, mas esse é um risco que um verdadeiro Espadachim deveria estar disposto a correr.";
+	next;
+	mes "[Red]";
+	mes "É exatamente por isso que você é burro, seu idiota! E o que foi isso do 'Espadachim ideal'? Você se lembra da última vez que usou Magnum Break?!";
+	next;
+	mes "[Red]";
+	mes "Você teve que fugir de todos aqueles Porings atingidos por aquela habilidade estúpida! Seu fraco! Todos aqueles Porings que você atingiu tentaram te matar! ";
+	next;
+	mes "[Cebalis]";
+	mes "Ah, cale a boca. E esses eram Poporings. Pelo que me lembro, você também estava fugindo, aparentemente ocupado demais para usar seu precioso Bash.";
+	next;
+	mes "[Cebalis]";
+	mes "De qualquer forma, Magnum Break é A habilidade para um Espadachim~!! Algo simplista como Bash é apenas um daqueles pequenos passos em direção ao Magnum Break.";
+	next;
+	mes "[Red]";
+	mes "Ah cara ~";
+	mes "Ei, eu conheço você";
+	mes "ouvi tudo.";
+	mes "Então, o que você acha?";
+	next;
+	mes "[Red]";
+	mes "Qual você acha que é melhor? A habilidade de dano crítico, ^FF2400Bash^000000, ou a habilidade de dano inicial, ^EE0000Quebra magnum^000000?";
+	next;
+	if (select("Bash:Quebra magnum") == 1) {
+		if (BaseClass == Job_Swordman) {
+			mes "[Red]";
+			mes "Hahahaha!!! Eu sabia que você veria as coisas do meu jeito!! Você é um cara legal!! Sem dúvida, apenas ^FF2400Bash^000000 combina com um Espadachim. Por favor, diga isso para o FUNBOY aqui!! Hahaha.";
+			next;
+			mes "[Red]";
+			mes "Hmm, deixe-me dar um conselho. Depois de atingir o nível 5 Bash, a quantidade de SP consumida pela habilidade aumenta bastante, então tome cuidado com seu SP.";
+			close;
+		}
+		mes "[Red]";
+		mes "Hahahaha!!";
+		mes "Viu!? Alguém que busca um trabalho diferente concorda comigo ~! Você realmente é um cara legal! Hahaha!!";
+		next;
+		mes "[Red]";
+		mes "Sem dúvida, apenas ^FF2400Bash^000000 combina com um Espadachim. Por favor, diga isso para esse IDIOTA aqui!! Hahaha~";
+		close;
+	}
+	if (BaseClass == Job_Swordman) {
+		mes "[Cebalis]";
+		mes " Tudo bem!! ^EE0000Quebra magnum^000000 é o MELHOR!! Agora você está falando~!! Você conhece suas coisas, garoto. HaHaHa~!";
+		next;
+		mes "[Cebalis]";
+		mes "Quer saber algumas informações úteis? Ok, ok, deixe-me te contar! A explosão de 'Magnum Break' tem a propriedade Fogo.";
+		next;
+		mes "[Cebalis]";
+		mes "Portanto, não será muito eficaz contra monstros de propriedade Água, mas esta é A habilidade para usar contra monstros de propriedade Mortos-Vivos e Terra.!";
+		next;
+		mes "[Cebalis]";
+		mes "E o mais importante, olhe ao redor antes de usá-lo. Caso contrário você estará em grandes apuros ~ ";
+		close;
+	}
+	mes "[Cebalis]";
+	mes "Estou certo, não estou?! ^EE0000Quebra magnum^000000 é O MELHOR!!! Você sabe do que está falando, né? Não sei porque esse LARDFACE é tão teimoso.";
+	close;
+}
+
+-	script	::Soldier_izlude	-1,{
+	mes "[Soldado]";
+	mes "HeHeHeHe..HaHaHaHa ";
+	mes "Hein? Por que estou tão feliz?";
+	mes "Você quer saber?";
+	next;
+	if (select("Claro, por quê?:Na verdade não, eu não me importo.") == 1) {
+		mes "[Soldado]";
+		mes "Ah~~ Não há muito para fazermos hoje em dia. Veja bem, os comerciantes compram itens derrubados por monstros. Mas você sabia disso, certo? ";
+		next;
+		if (select("Claro:Eh? Realmente?") == 1) {
+			mes "[Soldado]";
+			mes "HaHa ~ Na verdade, isso fazia parte do nosso trabalho. Mas havia cada vez mais caçadores que vinham até nós para serem pagos e isso se tornou difícil de lidar.";
+			next;
+			mes "[Soldado]";
+			mes "Tínhamos que fazer horas extras todos os dias. Ah, foi um pesadelo...! De qualquer forma, o governo acabou por tomar uma decisão sábia ao criar o Sistema de Registo.";
+			next;
+			mes "[Soldado]";
+			mes "O Gabinete de Compensação de Prémios apenas paga quem tem a Inscrição. Claro, você teria que ser um comerciante e ficar no mesmo lugar o dia todo.";
+			next;
+			mes "[Soldado]";
+			mes "O Escritório cede o registro a qualquer comerciante que atenda a esses requisitos. Assim, hoje em dia, os caçadores vendem os seus produtos aos comerciantes registados.";
+			next;
+			mes "[Soldado]";
+			mes "Assim, hoje em dia, os caçadores vendem os seus produtos aos comerciantes registados.  Já não são muitas as pessoas que nos procuram por isso.";
+			next;
+			mes "[Soldado]";
+			mes "Quer dizer, ainda estamos ocupados, mas isso não é nada comparado ao que era antes. Pessoas que sofreram sofrimento sabem apreciar até o menor conforto.";
+			close;
+		}
+		mes "[Soldado]";
+		mes "O que?! Como assim você não sabia?! Bem, você sabe que pode obter itens matando monstros. Se você trouxer e vender isso para um comerciante, poderá ganhar algum dinheiro. ";
+		next;
+		mes "[Soldado]";
+		mes "HaHa, na verdade, isso fazia parte do nosso trabalho. Mas havia cada vez mais caçadores que vinham para receber pagamento, então tornou-se difícil lidar com isso.";
+		next;
+		mes "[Soldado]";
+		mes "Tínhamos que fazer horas extras todos os dias. Ah, foi um pesadelo...! De qualquer forma, o governo acabou por tomar uma decisão sábia ao criar o Sistema de Registo.";
+		next;
+		mes "[Soldado]";
+		mes "O Gabinete de Compensação de Prémios apenas paga quem tem a Inscrição. Claro, você teria que ser um comerciante e ficar no mesmo lugar o dia todo.";
+		next;
+		mes "[Soldado]";
+		mes "O Escritório cede o registro a qualquer comerciante que atenda a esses requisitos. Assim, hoje em dia, os caçadores vendem os seus produtos aos comerciantes registados.";
+		next;
+		mes "[Soldado]";
+		mes "Assim, hoje em dia, os caçadores vendem os seus produtos aos comerciantes registados.  Já não são muitas as pessoas que nos procuram por isso.";
+		next;
+		mes "[Soldado]";
+		mes "Quer dizer, ainda estamos ocupados, mas isso não é nada comparado ao que era antes. Pessoas que sofreram sofrimento sabem apreciar até o menor conforto.";
+		close;
+	}
+	mes "[Soldado]";
+	mes "Ok, adeus ~~";
+	close;
+}
+
+// Inside Izlude
+//============================================================
+izlude_in,125,164,2	script	Aaron#izlude	65,{
+	mes "[Aaron]";
+	mes "Você não acha que o VIT forte e o treinamento em um método respiratório único que permite a recuperação rápida do HP são as maiores vantagens para um Espadachim?";
+	next;
+	mes "[Aaron]";
+	mes "Se você treinar muito suas habilidades, poderá até ver seu HP se recuperando. A quantidade";
+	mes "recuperado depende";
+	mes "vitalidade ou VIT.";
+	next;
+	mes "[Aaron]";
+	mes "Portanto, se você investir mais de suas estatísticas em VIT, recuperará mais HP geral ao descansar.";
+	next;
+	mes "[Aaron]";
+	mes "Mas é claro que seria bom ter um Attack alto, não seria? Você pode adquirir uma boa arma ou aumentar seu STR para apoiá-lo no ataque.";
+	next;
+	mes "[Aaron]";
+	mes "De qualquer forma, você sabe que precisará de um pouco de força para manejar boas armas com facilidade.";
+	next;
+	mes "[Aaron]";
+	mes "Outra coisa importante é a precisão com que você consegue acertar seus oponentes. DEX é a chave aqui. Se você treinar DEX, a diferença entre o dano MIN e MAX também diminuirá.";
+	next;
+	mes "[Aaron]";
+	mes "Hm...";
+	mes "Você está entediado com toda essa conversa? Ou você quer que eu continue?";
+	next;
+	if (select("Conte-me mais, por favor.:Encerrar conversa.") == 1) {
+		mes "[Aaron]";
+		mes "Hum...";
+		mes "Nesse caso, explicarei brevemente sobre os outros atributos. Para atacar e fugir rapidamente, você precisa prestar atenção ao AGI. ";
+		next;
+		mes "[Aaron]";
+		mes "Caso você queira fazer mais acertos críticos, é uma boa ideia investir no LUK. A INT também aumenta o SP máximo, que é necessário para usar várias habilidades... Mas isso depende de você.";
+		close;
+	}
+	mes "[Aaron]";
+	mes "Ok então,";
+	mes "treine duro ~~";
+	close;
+}
+
+// Izlude Dungeon
+//============================================================
+izlu2dun,108,27,0	script	Sailor#2izlude	100,{
+	mes "[Marinheiro]";
+	mes "Quero";
+	mes "voltar?";
+	next;
+	if (select("Sim, estou cansado de morrer.:Não, eu amo esse lugar!") == 1) {
+		// Ragnarok Solo: the client data only has the renewal Izlude
+		warp "izlude",197,210;
+		end;
+	}
+	close;
+}

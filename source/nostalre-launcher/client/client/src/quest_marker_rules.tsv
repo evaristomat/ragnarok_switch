@@ -1,0 +1,4 @@
+// Independent classic training markers, not Renewal academy quests.
+Shion#nv1	Class == Job_Novice && nov_1st_cos < 3
+Receptionist#nv1	Class == Job_Novice
+Test Examiner#nv1::NovKeyman	Class == Job_Novice

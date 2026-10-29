@@ -1,6 +1,6 @@
 # Estado atual — 0.1.0-pre12
 
-Atualização: 2026-10-28. Edição experimental em teste manual.
+Atualização: 2026-10-29. Edição experimental em teste manual, com NRO disponibilizado como pre-release.
 
 ## Integrado
 
@@ -15,7 +15,7 @@ Atualização: 2026-10-28. Edição experimental em teste manual.
 
 Testes focados de cliente, carregamento de scripts sem erros no cenário final da pre12 e testes gráficos curtos no PC. Há evidências locais não distribuídas; elas não são substituídas por afirmações de certificação na documentação pública.
 
-A pre12 foi compilada, mas não instalada no console durante a preparação deste repositório. A última instalação física verificada é pre8. Não confunda versão compilada com versão instalada.
+A pre12 foi compilada e instalada no Switch do mantenedor em 2026-10-28, com leitura integral e SHA256 conferidos após a transferência. Isso confirma a instalação do arquivo, não a abertura, a fluidez ou a campanha completa no hardware. O mesmo NRO é distribuído na [pre-release](https://github.com/evaristomat/ragnarok_switch/releases/tag/v0.1.0-pre12).
 
 ## Pendências conhecidas
 

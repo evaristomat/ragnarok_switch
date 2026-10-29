@@ -6,9 +6,13 @@ Os fontes e os arquivos comerciais necessários para executar o jogo são distri
 
 O cliente original usa dados compatíveis com o protocolo 20250716. Para os formatos e organização herdados, veja também source/nostalre-launcher/game-data/README.md. A edição Switch possui configuração própria e espera recursos em sdmc:/switch/ragswitch-pre/game-data.
 
+As referências de obtenção usadas pelo projeto de origem são [WARP0716 / Getting the Client](https://github.com/CrazyBebop/WARP0716#getting-the-client) para o cliente kRO 2025-07-16 e [ROenglishRE / custom officials](https://llchrisll.github.io/ROTPDocs/misc/custom_officials/) para `official_data.grf`. Consulte as instruções e condições dos respectivos projetos. Preserve também as pastas de recursos `System/`, `SystemEN/` e `data/` do cliente compatível. A pasta `BGM/` é opcional e fornece música. Os executáveis Windows e o APK Android não são necessários para executar o NRO no Switch.
+
 O ambiente local atual utiliza data.grf, official_data.grf e um ragswitch-assets.grf produzido localmente, com substituições de mapas e textos para esta edição. **Copiar apenas um data.grf moderno pode causar divergência de terreno com o servidor clássico**, inclusive em Izlude. Não retire as substituições clássicas sem conferir a colisão.
 
 A exportação inclui um manifesto de nomes/hashes dos mapas esperados em config/classic-map-resources.json. Ele identifica arquivos; não fornece autorização para redistribuí-los nem realiza download automático. A preparação pública integral dos overlays PT-BR ainda precisa de um fluxo de importação a partir dos arquivos que cada usuário tem direito de usar. Essa limitação está registrada em STATUS.md.
+
+**O `ragswitch-assets.grf` não está disponível como download nesta release.** O executável padrão exige esse terceiro GRF. Quem ainda não tem um overlay compatível não consegue concluir uma instalação nova apenas com os downloads dos projetos de origem. Não há um pacote público completo pronto para jogar nesta etapa, e não há substituto validado por simples renomeação de arquivos ou remoção da entrada no `config.json`.
 
 ## Banco inicial
 

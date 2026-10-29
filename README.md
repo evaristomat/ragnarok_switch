@@ -4,7 +4,31 @@
 
 An offline Ragnarok project for Nintendo Switch, with an embedded local server, bots, and a controller-focused interface. This edition has its own source tree, saves, and maintenance, independent of the Renewal edition.
 
-**Status: 0.1.0-pre12 — experimental, undergoing manual playtesting.** The full campaign and performance on Nintendo Switch have not yet been validated. This repository provides source code; players must supply their own game assets under the applicable permissions.
+**Status: 0.1.0-pre12 — experimental, undergoing manual playtesting.** The full campaign and performance on Nintendo Switch have not yet been validated. A prebuilt Switch executable is available below; players must supply their own compatible game assets under the applicable permissions.
+
+## Download and play on Nintendo Switch
+
+**[Download 0.1.0-pre12 (.nro and SHA256)](https://github.com/evaristomat/ragnarok_switch/releases/tag/v0.1.0-pre12)** · **[Guia de instalação em português](docs/INSTALLATION.md)**
+
+The `.nro` is the executable, not a complete game-data bundle. You do not need to compile it, run a PC server, install the Android APK, or download a personal save. You need a Nintendo Switch already configured to run homebrew through [hbmenu](https://github.com/switchbrew/nx-hbmenu), a microSD card, and the following files:
+
+| File or folder | Where to obtain it | Approximate size / purpose |
+| --- | --- | --- |
+| `ragswitch-pre.nro` | This project's release above | 149 MB; includes the offline server and initial database |
+| `game-data/data.grf` | Your compatible kRO **2025-07-16** client; see the upstream [WARP0716 client instructions](https://github.com/CrazyBebop/WARP0716#getting-the-client) | 3.66 GB in the maintainer's setup; base game resources |
+| `game-data/official_data.grf` | ROenglishRE's [custom officials instructions](https://llchrisll.github.io/ROTPDocs/misc/custom_officials/) | 783 MB in the maintainer's setup; additional models and sprites |
+| `game-data/ragswitch-assets.grf` | A compatible Pre-Renewal/PT-BR overlay prepared from your permitted resources; see [asset requirements](docs/ASSETS.md) | 21 MB locally; required classic maps and edition overrides |
+| `game-data/System/`, `SystemEN/`, `data/` | Preserve these folders from the compatible client/data preparation | Supporting tables and loose resources |
+| `game-data/BGM/` | Your compatible client's music folder | Optional music |
+
+**Current limitation:** `ragswitch-assets.grf` is not attached to this release, and the public importer for its classic maps/PT-BR resources is still pending. If you do not already have a compatible overlay, downloading this NRO and the two other GRFs is insufficient. The default configuration checks for all three GRFs. Arbitrary modern or private-server clients are not a verified substitute.
+
+1. Download `ragswitch-pre.nro` from the release's **Assets** section, not the automatic **Source code** ZIP. Allow at least 6 GB free on the SD for the base files, plus space for music, extracted server data and saves.
+2. Put the executable at `/switch/ragswitch-pre/ragswitch-pre.nro` and the resources above inside `/switch/ragswitch-pre/game-data/`. Keep those folder names; the executable uses this fixed location.
+3. Open hbmenu in **application mode**: hold **R** while launching an installed game, then select RagSWITCH Pre-Renewal. Album/applet mode may have insufficient memory.
+4. Let the first start extract the embedded server and create your own save. Play offline; no external server account is needed.
+
+For updates, close the game, back up the edition folder, and preserve `ragnarok.db`, its auxiliary files, and `config.json`. See the [full installation and troubleshooting guide](docs/INSTALLATION.md). This release is experimental; installation was verified on the maintainer's Switch, but full hardware gameplay and campaign validation remain pending.
 
 ## Personal, unofficial project
 

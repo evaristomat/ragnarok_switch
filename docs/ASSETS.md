@@ -1,6 +1,6 @@
 # Assets e dados locais
 
-Os fontes e os arquivos comerciais necessários para executar o jogo são distribuídos separadamente. A exportação pública exclui GRFs, mapas de vendor/classic-maps, pacotes de tradução sem licença confirmada, bancos binários e dados pessoais.
+Os fontes e os arquivos necessários para executar o jogo são distribuídos separadamente. A exportação dos fontes exclui GRFs, mapas de vendor/classic-maps, pacotes locais de tradução, bancos binários e dados pessoais. A release da pre12 fornece separadamente o overlay `ragswitch-assets.grf`; os arquivos base `data.grf` e `official_data.grf` continuam externos ao projeto.
 
 ## Recursos esperados
 
@@ -10,9 +10,9 @@ As referências de obtenção usadas pelo projeto de origem são [WARP0716 / Get
 
 O ambiente local atual utiliza data.grf, official_data.grf e um ragswitch-assets.grf produzido localmente, com substituições de mapas e textos para esta edição. **Copiar apenas um data.grf moderno pode causar divergência de terreno com o servidor clássico**, inclusive em Izlude. Não retire as substituições clássicas sem conferir a colisão.
 
-A exportação inclui um manifesto de nomes/hashes dos mapas esperados em config/classic-map-resources.json. Ele identifica arquivos; não fornece autorização para redistribuí-los nem realiza download automático. A preparação pública integral dos overlays PT-BR ainda precisa de um fluxo de importação a partir dos arquivos que cada usuário tem direito de usar. Essa limitação está registrada em STATUS.md.
+A exportação inclui um manifesto de nomes/hashes dos mapas esperados em config/classic-map-resources.json. Ele identifica arquivos; não fornece autorização para redistribuí-los nem realiza download automático. Um importador público para reconstruir o overlay a partir de dados do usuário ainda está pendente; para instalar a pre12, use o overlay já preparado na release.
 
-**O `ragswitch-assets.grf` não está disponível como download nesta release.** O executável padrão exige esse terceiro GRF. Quem ainda não tem um overlay compatível não consegue concluir uma instalação nova apenas com os downloads dos projetos de origem. Não há um pacote público completo pronto para jogar nesta etapa, e não há substituto validado por simples renomeação de arquivos ou remoção da entrada no `config.json`.
+**[Baixar `ragswitch-assets.grf` da pre12](https://github.com/evaristomat/ragnarok_switch/releases/download/v0.1.0-pre12/ragswitch-assets.grf).** Copie para `/switch/ragswitch-pre/game-data/ragswitch-assets.grf`. São 21.016.768 bytes e 932 recursos; SHA256 `5fa11aa9056afed4df523264aae86d765a1b6d4b6388ab8a80d79ac964a1619a`, também registrado em `SHA256SUMS.txt` na release. Esse arquivo complementa os dois GRFs base, não os substitui. Não renomeie outro GRF nem remova sua entrada no `config.json`.
 
 ## Banco inicial
 

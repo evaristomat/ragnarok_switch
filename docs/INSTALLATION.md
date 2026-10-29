@@ -7,7 +7,7 @@ Esta edição é experimental. Faça backup da pasta do jogo no SD antes de atua
 1. **Executável:** na [release 0.1.0-pre12](https://github.com/evaristomat/ragnarok_switch/releases/tag/v0.1.0-pre12), baixe `ragswitch-pre.nro` e, para conferir a transferência, `SHA256SUMS.txt`. O arquivo **Source code** é para desenvolvimento e não contém o executável. O NRO tem 149.062.785 bytes, aproximadamente 149 MB.
 2. **Cliente compatível:** utilize os arquivos do kRO **2025-07-16**. As instruções de obtenção do cliente estão no projeto de origem [WARP0716, Getting the Client](https://github.com/CrazyBebop/WARP0716#getting-the-client), que descreve o WARPGATE. Preserve `data.grf`, `System/`, `SystemEN/` e `data/`, quando presentes. Os executáveis Windows `.exe`/`.dll` não são necessários no Switch.
 3. **Recursos adicionais:** siga as instruções de [custom officials do ROenglishRE](https://llchrisll.github.io/ROTPDocs/misc/custom_officials/) para obter `official_data.grf`. A página é mantida pelo projeto de origem; versões e disponibilidade podem mudar.
-4. **Overlay desta edição:** é necessário um `ragswitch-assets.grf` compatível, contendo as substituições clássicas e os ajustes PT-BR. Leia [ASSETS.md](ASSETS.md). **Esse arquivo não acompanha a release e ainda não existe um importador público completo. Sem ele, uma instalação nova com a configuração padrão para na verificação de arquivo ausente.** Não renomeie outro GRF para fingir que é esse overlay.
+4. **Overlay desta edição:** baixe [ragswitch-assets.grf](https://github.com/evaristomat/ragnarok_switch/releases/download/v0.1.0-pre12/ragswitch-assets.grf) na mesma release. Ele contém as substituições clássicas e os ajustes PT-BR, tem 21.016.768 bytes (aproximadamente 21 MB) e deve ficar em `/switch/ragswitch-pre/game-data/ragswitch-assets.grf`. Não é necessário gerar esse arquivo para instalar a pre12. Leia [ASSETS.md](ASSETS.md).
 5. **Música opcional:** copie a pasta `BGM/` do cliente compatível se quiser música.
 
 Tenha um Nintendo Switch já configurado para executar homebrew pelo [hbmenu](https://github.com/switchbrew/nx-hbmenu), um microSD e um PC/leitor de cartão ou transferência DBI/MTP. Este guia começa com o ambiente homebrew funcionando; não configura o desbloqueio do console. Reserve pelo menos 6 GB para os dados base, mais espaço para música, servidor extraído e saves. Os três GRFs locais somam aproximadamente 4,46 GB; os tamanhos podem variar conforme o pacote de origem.
@@ -29,7 +29,7 @@ Não é necessário compilar o projeto, instalar o APK Android, executar servido
     BGM/                  opcional
 ~~~
 
-O pacote local completo preparado pelo mantenedor não é incluído no Git público. A release fornece o NRO; prepare seus próprios recursos conforme [ASSETS.md](ASSETS.md). A pasta `ragswitch-pre` deve ficar diretamente dentro de `switch`, sem uma segunda pasta intermediária criada pela extração de um ZIP.
+O pacote local completo preparado pelo mantenedor não é incluído no Git público. A release fornece o NRO e `ragswitch-assets.grf`; obtenha os demais recursos conforme [ASSETS.md](ASSETS.md). A pasta `ragswitch-pre` deve ficar diretamente dentro de `switch`, sem uma segunda pasta intermediária criada pela extração de um ZIP.
 
 ## Copiar e abrir
 
@@ -47,12 +47,19 @@ No PowerShell, dentro da pasta em que baixou o NRO:
 
 ~~~powershell
 Get-FileHash .\ragswitch-pre.nro -Algorithm SHA256
+Get-FileHash .\ragswitch-assets.grf -Algorithm SHA256
 ~~~
 
 Compare com `SHA256SUMS.txt` da release. Para esta pre12, o SHA256 esperado é:
 
 ~~~text
 d496a0461e94326f07edb9d524982fb4bcf7058ed527dc2b33d77724ebed1c22
+~~~
+
+Para `ragswitch-assets.grf`, o SHA256 esperado é:
+
+~~~text
+5fa11aa9056afed4df523264aae86d765a1b6d4b6388ab8a80d79ac964a1619a
 ~~~
 
 Se houver diferença, baixe ou copie novamente antes de substituir um executável funcional.
@@ -69,7 +76,7 @@ Os instaladores DBI antigos são ferramentas do ambiente do mantenedor, não faz
 
 | Sintoma | O que conferir |
 | --- | --- |
-| `Arquivo de jogo ausente` | Confira o caminho exibido, os três GRFs e a pasta fixa. Sem o overlay, a preparação pública atual está incompleta. |
+| `Arquivo de jogo ausente` | Confira o caminho exibido, os três GRFs e a pasta fixa. Baixe o overlay na release e copie-o dentro de `game-data/`, não ao lado do NRO. |
 | NRO não aparece no hbmenu | Confira `/switch/ragswitch-pre/ragswitch-pre.nro` e se o arquivo baixado é o NRO da release. |
 | Falta de memória ou falha ao abrir pelo Álbum | Abra em modo aplicativo, segurando R ao iniciar um jogo instalado. |
 | Personagens/monstros invisíveis ou recursos faltando | Confira `official_data.grf`, a versão do cliente e os demais recursos compatíveis. |

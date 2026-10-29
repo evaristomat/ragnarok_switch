@@ -17,13 +17,13 @@ O `.nro` contém o executável, o servidor offline e o banco inicial. Não preci
 | `ragswitch-pre.nro` | Release deste projeto, acima | 149 MB; executável e servidor |
 | `game-data/data.grf` | Seu cliente kRO **2025-07-16** compatível; consulte [WARP0716](https://github.com/CrazyBebop/WARP0716#getting-the-client) | 3,66 GB no ambiente do mantenedor; recursos base |
 | `game-data/official_data.grf` | Instruções de [custom officials do ROenglishRE](https://llchrisll.github.io/ROTPDocs/misc/custom_officials/) | 783 MB no ambiente do mantenedor; modelos e sprites adicionais |
-| `game-data/ragswitch-assets.grf` | Overlay Pre-Renewal/PT-BR compatível, preparado com recursos que você pode utilizar; veja [ASSETS.md](ASSETS.md) | 21 MB localmente; mapas clássicos e ajustes desta edição |
+| `game-data/ragswitch-assets.grf` | [Baixar nesta release](https://github.com/evaristomat/ragnarok_switch/releases/download/v0.1.0-pre12/ragswitch-assets.grf) | 21 MB; mapas clássicos e ajustes desta edição |
 | `game-data/System/`, `SystemEN/`, `data/` | Preserve essas pastas do cliente/preparação de dados compatível | Tabelas e recursos auxiliares |
 | `game-data/BGM/` | Pasta de músicas do cliente compatível | Opcional, para música |
 
-**Limitação atual:** o `ragswitch-assets.grf` não acompanha a release e o importador público dos mapas clássicos/textos PT-BR ainda está pendente. Sem um overlay compatível, baixar o NRO e os outros dois GRFs não basta. A configuração padrão exige os três GRFs; um cliente moderno ou de servidor privado qualquer não é uma substituição validada.
+**Baixe os dois arquivos do projeto:** a release inclui `ragswitch-pre.nro` e `ragswitch-assets.grf`. Você ainda precisa obter separadamente `data.grf`, `official_data.grf` e as pastas auxiliares do cliente compatível. A configuração padrão exige os três GRFs; um cliente moderno ou de servidor privado qualquer não é uma substituição validada. Veja [ASSETS.md](ASSETS.md).
 
-1. Na seção **Assets** da release, baixe `ragswitch-pre.nro`; o ZIP automático **Source code** contém os fontes. Reserve pelo menos 6 GB no SD para os arquivos base, mais espaço para músicas, servidor extraído e saves.
+1. Na seção **Assets** da release, baixe `ragswitch-pre.nro`, `ragswitch-assets.grf` e `SHA256SUMS.txt`; o ZIP automático **Source code** contém os fontes. Reserve pelo menos 6 GB no SD para os arquivos base, mais espaço para músicas, servidor extraído e saves.
 2. Copie o executável para `/switch/ragswitch-pre/ragswitch-pre.nro` e os dados para `/switch/ragswitch-pre/game-data/`. Mantenha esses nomes de pastas.
 3. Segure **R** ao iniciar um jogo instalado para abrir o hbmenu em **modo aplicativo** e selecione RagSWITCH Pre-Renewal. O modo applet/Álbum pode não ter memória suficiente.
 4. Aguarde a extração do servidor e criação do seu save no primeiro início. O jogo é offline e não exige conta de servidor externo.

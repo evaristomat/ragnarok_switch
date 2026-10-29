@@ -23,7 +23,7 @@ A pre12 foi compilada e instalada no Switch do mantenedor em 2026-10-28, com lei
 - Confirmar no Switch a fluidez e a resolução dos travamentos relatados em Comodo; a causa original ainda não foi confirmada por log do aparelho.
 - Revisar demais diálogos antigos; a tradução não foi integralmente revisada por uma pessoa.
 - Validar compilação integral em máquina limpa. As receitas de preparação foram organizadas; a imagem devkitPro e alguns pacotes não estão congelados por digest.
-- Completar um importador público de overlays clássicos/PT-BR a partir de dados próprios do usuário. O clone não fornece o pacote comercial nem promete funcionamento com apenas um GRF moderno.
+- Completar um importador público para reconstruir overlays clássicos/PT-BR a partir de dados próprios do usuário. A pre-release já fornece `ragswitch-assets.grf` pronto para instalação; os dois GRFs base e demais dados compatíveis precisam ser obtidos separadamente. O clone dos fontes não contém os GRFs.
 - Resolver a questão de permissão dos defaults AzzyAI antes da publicação pública.
 
 ## Identificação do binário local
